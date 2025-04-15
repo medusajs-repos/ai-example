@@ -1,6 +1,7 @@
-import { loadEnv, defineConfig } from '@medusajs/framework/utils'
+import { defineConfig, loadEnv } from "@medusajs/framework/utils";
+import { PRODUCT_REVIEW_MODULE } from "./src/modules/product-review"; // Added import
 
-loadEnv(process.env.NODE_ENV || 'development', process.cwd())
+loadEnv(process.env.NODE_ENV || "development", process.cwd());
 
 module.exports = defineConfig({
   projectConfig: {
@@ -11,6 +12,12 @@ module.exports = defineConfig({
       authCors: process.env.AUTH_CORS!,
       jwtSecret: process.env.JWT_SECRET || "supersecret",
       cookieSecret: process.env.COOKIE_SECRET || "supersecret",
-    }
-  }
-})
+    },
+  },
+  modules: [
+    {
+      key: PRODUCT_REVIEW_MODULE,
+      resolve: "./src/modules/product-review",
+    },
+  ],
+});

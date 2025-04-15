@@ -1,17 +1,23 @@
 "use client"
 
-import Back from "@modules/common/icons/back"
-import FastDelivery from "@modules/common/icons/fast-delivery"
-import Refresh from "@modules/common/icons/refresh"
+import Back from "../../../common/icons/back"
+import FastDelivery from "../../../common/icons/fast-delivery"
+import Refresh from "../../../common/icons/refresh"
 
 import Accordion from "./accordion"
 import { HttpTypes } from "@medusajs/types"
+import ProductReviews from "../product-reviews" // Import the new component
+
+// INSTRUCTIONS:
+// - Added a new "Reviews" tab.
+// - Passed the `product.id` and `customer` prop to the `ProductReviews` component.
 
 type ProductTabsProps = {
   product: HttpTypes.StoreProduct
+  customer: Omit<HttpTypes.StoreCustomer, "password_hash"> | null // Add customer prop
 }
 
-const ProductTabs = ({ product }: ProductTabsProps) => {
+const ProductTabs = ({ product, customer }: ProductTabsProps) => {
   const tabs = [
     {
       label: "Product Information",
@@ -21,17 +27,23 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
       label: "Shipping & Returns",
       component: <ShippingInfoTab />,
     },
+    // Add the Reviews tab
+    {
+      label: "Reviews",
+      component: <ProductReviews productId={product.id} customer={customer} />,
+    },
   ]
 
   return (
     <div className="w-full">
+      {/* Default the reviews tab to be open if desired: defaultValue={["Reviews"]} */}
       <Accordion type="multiple">
         {tabs.map((tab, i) => (
           <Accordion.Item
             key={i}
             title={tab.label}
             headingSize="medium"
-            value={tab.label}
+            value={tab.label} // Use label as value for accordion item state
           >
             {tab.component}
           </Accordion.Item>
@@ -41,7 +53,8 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
   )
 }
 
-const ProductInfoTab = ({ product }: ProductTabsProps) => {
+// ProductInfoTab remains the same
+const ProductInfoTab = ({ product }: { product: HttpTypes.StoreProduct }) => {
   return (
     <div className="text-small-regular py-8">
       <div className="grid grid-cols-2 gap-x-8">
@@ -78,6 +91,7 @@ const ProductInfoTab = ({ product }: ProductTabsProps) => {
   )
 }
 
+// ShippingInfoTab remains the same
 const ShippingInfoTab = () => {
   return (
     <div className="text-small-regular py-8">

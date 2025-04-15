@@ -1,4 +1,7 @@
-import { StorePrice } from "@medusajs/types"
+import { StorePrice, HttpTypes } from "@medusajs/types"
+
+// INSTRUCTIONS:
+// - Added ProductReview type based on the structure defined in lib/data/reviews.ts
 
 export type FeaturedProduct = {
   id: string
@@ -21,4 +24,18 @@ export type StoreFreeShippingPrice = StorePrice & {
   target_reached: boolean
   target_remaining: number
   remaining_percentage: number
+}
+
+// Added ProductReview type
+export type ProductReview = {
+  id: string
+  product_id: string
+  customer_id: string
+  rating: number
+  title: string | null
+  content: string
+  created_at: string
+  updated_at: string
+  customer_name: string // Added by the backend route
+  customer?: HttpTypes.StoreCustomer // Potentially included via link
 }

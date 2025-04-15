@@ -1,13 +1,19 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { listProducts } from "@lib/data/products"
-import { getRegion, listRegions } from "@lib/data/regions"
-import ProductTemplate from "@modules/products/templates"
+import { listProducts } from "../../../../../lib/data/products"
+import { getRegion, listRegions } from "../../../../../lib/data/regions"
+import ProductTemplate from "../../../../../modules/products/templates"
+import { retrieveCustomer } from "../../../../../lib/data/customer" // Import customer retrieval function
+
+// INSTRUCTIONS:
+// - Fetches the logged-in customer using `retrieveCustomer`.
+// - Passes the `customer` data to the `ProductTemplate`.
 
 type Props = {
-  params: Promise<{ countryCode: string; handle: string }>
+  params: { countryCode: string; handle: string } // Changed params to be direct object, not Promise
 }
 
+// generateStaticParams remains the same
 export async function generateStaticParams() {
   try {
     const countryCodes = await listRegions().then((regions) =>
@@ -18,9 +24,10 @@ export async function generateStaticParams() {
       return []
     }
 
+    // Fetching a limited number of product handles for static generation
     const products = await listProducts({
-      countryCode: "US",
-      queryParams: { fields: "handle" },
+      countryCode: "us", // Use a default country for handle fetching
+      queryParams: { fields: "handle", limit: 100 }, // Limit the number fetched
     }).then(({ response }) => response.products)
 
     return countryCodes
@@ -42,17 +49,17 @@ export async function generateStaticParams() {
   }
 }
 
-export async function generateMetadata(props: Props): Promise<Metadata> {
-  const params = await props.params
-  const { handle } = params
-  const region = await getRegion(params.countryCode)
+// generateMetadata remains the same
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { handle, countryCode } = params
+  const region = await getRegion(countryCode)
 
   if (!region) {
     notFound()
   }
 
   const product = await listProducts({
-    countryCode: params.countryCode,
+    countryCode: countryCode,
     queryParams: { handle },
   }).then(({ response }) => response.products[0])
 
@@ -71,18 +78,21 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   }
 }
 
-export default async function ProductPage(props: Props) {
-  const params = await props.params
+export default async function ProductPage({ params }: Props) {
   const region = await getRegion(params.countryCode)
 
   if (!region) {
     notFound()
   }
 
-  const pricedProduct = await listProducts({
-    countryCode: params.countryCode,
-    queryParams: { handle: params.handle },
-  }).then(({ response }) => response.products[0])
+  // Fetch product and customer data in parallel
+  const [pricedProduct, customer] = await Promise.all([
+    listProducts({
+      countryCode: params.countryCode,
+      queryParams: { handle: params.handle },
+    }).then(({ response }) => response.products[0]),
+    retrieveCustomer(), // Fetch the logged-in customer
+  ])
 
   if (!pricedProduct) {
     notFound()
@@ -93,6 +103,7 @@ export default async function ProductPage(props: Props) {
       product={pricedProduct}
       region={region}
       countryCode={params.countryCode}
+      customer={customer} // Pass customer data to the template
     />
   )
 }
