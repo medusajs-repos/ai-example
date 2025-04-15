@@ -8,6 +8,7 @@ import {
   UseQueryOptions,
 } from "@tanstack/react-query";
 import {
+  AdminCreateProductReview,
   AdminProductReviewResponse,
   AdminProductReviewsResponse,
   AdminUpdateProductReview,
@@ -72,6 +73,30 @@ export const useAdminReview = (
   });
 
   return { ...data, ...rest };
+};
+
+export const useAdminCreateReview = (
+  options?: UseMutationOptions<
+    AdminProductReviewResponse,
+    FetchError,
+    AdminCreateProductReview
+  >
+) => {
+  const queryClient = useQueryClient();
+  const createReview = async (body: AdminCreateProductReview) =>
+    sdk.client.fetch<AdminProductReviewResponse>(`/admin/reviews`, {
+      body,
+      method: "POST",
+    });
+
+  return useMutation({
+    mutationFn: (body: AdminCreateProductReview) => createReview(body),
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: reviewQueryKey.lists() });
+      options?.onSuccess?.(data, variables, context);
+    },
+    ...options,
+  });
 };
 
 export const useAdminUpdateReview = (

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { AdminProductReviewResponse } from "../../../../../../types";
 import { useAdminUpdateReview } from "../../../../../hooks/api/reviews";
+
 export const ReviewEditSchema = z.object({
   title: z.string().optional().nullable(),
   content: z.string().optional().nullable(),
@@ -29,10 +30,10 @@ export const ReviewEditForm = ({ review }: ReviewEditFormProps) => {
     resolver: zodResolver(ReviewEditSchema),
   });
 
-  const { mutateAsync, isPending } = useAdminUpdateReview(review.id);
+  const { mutateAsync: updateReview } = useAdminUpdateReview(review.id);
 
   const handleSubmit = form.handleSubmit(async (data) => {
-    await mutateAsync(data, {
+    await updateReview(data, {
       onSuccess: () => {
         toast.success("Review updated");
         setOpen(false);

@@ -1,4 +1,5 @@
-import { DataTable, Heading, useDataTable } from "@medusajs/ui";
+import { Button, DataTable, Heading, useDataTable } from "@medusajs/ui";
+import { Link } from "react-router-dom";
 import { useAdminReviews } from "../../../../admin/hooks/api/reviews"; // Corrected import path
 import { useReviewsTableColumns } from "./table/columns";
 
@@ -24,6 +25,10 @@ export const ReviewsTable = () => {
       <DataTable instance={table}>
         <DataTable.Toolbar className="flex flex-col items-start justify-between gap-2 md:flex-row md:items-center">
           <Heading>Product Reviews</Heading>
+
+          <Button variant="secondary" size="small" asChild>
+            <Link to="create">Create Review</Link>
+          </Button>
         </DataTable.Toolbar>
 
         <DataTable.Table />

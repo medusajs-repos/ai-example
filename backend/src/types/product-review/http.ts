@@ -1,7 +1,6 @@
-
-import { FindParams, PaginatedResponse } from "@medusajs/types"
-import { QueryProductReview } from "./query"
-import { ModuleProductReviewFilters } from "./service"
+import { FindParams, PaginatedResponse } from "@medusajs/types";
+import { QueryProductReview } from "./query";
+import { ModuleProductReviewFilters } from "./service";
 
 /* Filters */
 
@@ -11,31 +10,39 @@ export interface ProductReviewFilterParams
 
 /* Admin */
 export type AdminProductReviewResponse = {
-  review: QueryProductReview
-}
+  review: QueryProductReview;
+};
 
 export type AdminProductReviewsResponse = PaginatedResponse<{
-  reviews: QueryProductReview[]
-}>
+  reviews: QueryProductReview[];
+}>;
 
 export type AdminUpdateProductReview = {
-  rating?: number
-  title?: string | null
-  content?: string | null
-}
+  rating?: number;
+  title?: string | null;
+  content?: string | null;
+};
+
+export type AdminCreateProductReview = {
+  product_id: string;
+  customer_id: string;
+  rating: number;
+  title?: string | null;
+  content: string;
+};
 
 /* Store */
 
 export type StoreProductReviewResponse = {
-  review: QueryProductReview
-}
+  review: QueryProductReview;
+};
 
 export type StoreProductReviewsResponse = PaginatedResponse<{
-  reviews: QueryProductReview[]
-}>
+  reviews: QueryProductReview[];
+}>;
 
 export type StoreCreateProductReview = {
-  rating: number
-  title?: string | null
-  content: string
-}
+  rating: number;
+  title?: string | null;
+  content: string;
+};
