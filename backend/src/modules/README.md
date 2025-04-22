@@ -23,6 +23,70 @@ const Post = model.define("post", {
 export default Post;
 ```
 
+Here is an example of a model with all the possible properties:
+
+```ts
+import { model } from "@medusajs/framework/utils";
+import RelatedModel from "./related-model"; // Assuming this exists for relationship examples
+
+const ComprehensiveModel = model
+  .define("comprehensive_model", {
+    // Primary key
+    id: model.id().primaryKey(),
+
+    // Text properties
+    title: model.text().searchable(),
+    slug: model.text().unique(),
+    description: model.text().nullable(),
+
+    // Number properties
+    count: model.number().default(0),
+    rating: model.number().nullable(),
+
+    // Big Number property
+    price: model.bigNumber(),
+
+    // Boolean properties
+    isActive: model.boolean().default(true),
+    isFeatured: model.boolean().default(false),
+
+    // Enum property
+    status: model.enum(["draft", "published", "archived"]).default("draft"),
+
+    // DateTime properties
+    createdAt: model.dateTime(),
+    updatedAt: model.dateTime().nullable(),
+
+    // JSON property
+    metadata: model.json(),
+
+    // Array property
+    tags: model.array(),
+
+    // Relationships
+    relatedItems: model.hasMany(() => RelatedModel),
+    parent: model.belongsTo(() => ComprehensiveModel, {
+      nullable: true,
+    }),
+  })
+  .indexes([
+    // Composite index example
+    {
+      on: ["title", "status"],
+      where: {
+        isActive: true,
+      },
+    },
+    // Unique composite index
+    {
+      on: ["slug", "status"],
+      unique: true,
+    },
+  ]);
+
+export default ComprehensiveModel;
+```
+
 ## 2. Create a Service
 
 A module must define a service. A service is a TypeScript or JavaScript class holding methods related to a business logic or commerce functionality.

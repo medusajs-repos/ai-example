@@ -20,6 +20,7 @@ export const createProductReviewWorkflow = createWorkflow(
       },
     }).config({ name: "product-query" });
 
+    // Validate customer exists by fetching customer id and passing throwIfKeyNotFound: true
     useQueryGraphStep({
       entity: "customer",
       fields: ["id"],

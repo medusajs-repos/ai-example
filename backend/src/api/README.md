@@ -1,135 +1,204 @@
-# Custom API Routes
+# API Structure Best Practices
 
-An API Route is a REST API endpoint.
+This document outlines the best practices and patterns used in our API implementation that can be replicated in similar projects.
 
-An API Route is created in a TypeScript or JavaScript file under the `/src/api` directory of your Medusa application. The file’s name must be `route.ts` or `route.js`.
+## Directory Structure
 
-> Learn more about API Routes in [this documentation](https://docs.medusajs.com/learn/fundamentals/api-routes)
-
-For example, to create a `GET` API Route at `/store/hello-world`, create the file `src/api/store/hello-world/route.ts` with the following content:
-
-```ts
-import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http";
-
-export async function GET(req: MedusaRequest, res: MedusaResponse) {
-  res.json({
-    message: "Hello world!",
-  });
-}
+```
+api/
+├── middlewares.ts                   # Root middleware aggregator
+├── admin/                           # Admin-facing API endpoints
+│   ├── middlewares.ts               # Admin middleware aggregator
+│   └── [feature]/                   # Feature-specific admin endpoints
+│       ├── middlewares.ts           # Feature-specific middleware definitions
+│       ├── validators.ts            # Request validation schemas
+│       └── query-config.ts          # Query field configurations
+├── store/                           # Customer-facing API endpoints
+│   ├── middlewares.ts               # Store middleware aggregator
+│   └── [feature]/                   # Feature-specific store endpoints
+│       ├── middlewares.ts           # Feature-specific middleware definitions
+│       ├── validators.ts            # Request validation schemas
+│       └── query-config.ts          # Query field configurations
+│   └── [resource]/                  # Resource directories (e.g., products)
+│       └── [id]/                    # Dynamic route segments
+│           └── [sub-resource]/      # Nested resources (e.g., reviews)
+│               └── route.ts         # HTTP method handlers (GET, POST, etc.)
 ```
 
-## Supported HTTP methods
+## Key Best Practices
 
-The file based routing supports the following HTTP methods:
+1. **Clear Separation of Concerns**
 
-- GET
-- POST
-- PUT
-- PATCH
-- DELETE
-- OPTIONS
-- HEAD
+   - Admin and store APIs are cleanly separated
+   - Each feature has its own directory with specialized files
+   - Route handlers, validators, and query configurations are kept in separate files
 
-You can define a handler for each of these methods by exporting a function with the name of the method in the paths `route.ts` file.
+2. **Middleware Pattern**
 
-For example:
+   - All routes are defined as middleware configurations
+   - Middlewares are aggregated upward (feature → admin/store → root)
+   - Authentication and validation are applied through middleware
 
-```ts
-import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http";
+3. **Strongly Typed Requests**
 
-export async function GET(req: MedusaRequest, res: MedusaResponse) {
-  // Handle GET requests
-}
+   - Zod schema validation for all inputs
+   - TypeScript types derived from validation schemas
+   - Proper typing for request objects
 
-export async function POST(req: MedusaRequest, res: MedusaResponse) {
-  // Handle POST requests
-}
+4. **REST API Best Practices**
 
-export async function PUT(req: MedusaRequest, res: MedusaResponse) {
-  // Handle PUT requests
-}
+   - Resource-based URL structure (/store/products/:id/reviews)
+   - HTTP methods map to CRUD operations (GET, POST, etc.)
+   - Consistent response format with metadata
+
+5. **Query Configuration**
+
+   - Defined field selections to control response shape
+   - Default field configurations
+   - Support for pagination and filtering
+
+6. **Validation Strategy**
+
+   - Input validation before processing requests
+   - Parameter validation for query parameters
+   - Body validation for POST/PUT requests
+   - Type coercion where appropriate
+
+7. **Authentication Integration**
+
+   - Route-specific authentication requirements
+   - Support for multiple auth strategies (session, bearer)
+   - Role-based auth (customer, user)
+
+8. **Workflow Pattern**
+   - Business logic isolated in workflow modules
+   - Clean separation between route handlers and business logic
+   - Dependency injection via container scope
+
+## Implementation Examples
+
+### Middleware Definition
+
+```typescript
+export const storeReviewsMiddlewares: MiddlewareRoute[] = [
+  {
+    method: ["GET"],
+    matcher: "/store/products/:id/reviews",
+    middlewares: [
+      validateAndTransformQuery(
+        StoreGetProductReviewsParams,
+        listStoreReviewsTransformQueryConfig
+      ),
+    ],
+  },
+  {
+    method: ["POST"],
+    matcher: "/store/products/:id/reviews",
+    middlewares: [
+      authenticate("customer", ["session", "bearer"]),
+      validateAndTransformBody(StoreCreateProductReview),
+      validateAndTransformQuery(
+        StoreGetProductReviewsParams,
+        retrieveStoreReviewsTransformQueryConfig
+      ),
+    ],
+  },
+];
 ```
 
-## Parameters
+### Route Handler
 
-To create an API route that accepts a path parameter, create a directory within the route's path whose name is of the format `[param]`.
-
-For example, if you want to define a route that takes a `productId` parameter, you can do so by creating a file called `/api/products/[productId]/route.ts`:
-
-```ts
-import type {
-  MedusaRequest,
-  MedusaResponse,
-} from "@medusajs/framework/http"
-
-export async function GET(req: MedusaRequest, res: MedusaResponse) {
-  const { productId } = req.params;
-
-  res.json({
-    message: `You're looking for product ${productId}`
-  })
-}
-```
-
-To create an API route that accepts multiple path parameters, create within the file's path multiple directories whose names are of the format `[param]`.
-
-For example, if you want to define a route that takes both a `productId` and a `variantId` parameter, you can do so by creating a file called `/api/products/[productId]/variants/[variantId]/route.ts`.
-
-## Using the container
-
-The Medusa container is available on `req.scope`. Use it to access modules' main services and other registered resources:
-
-```ts
-import type {
-  MedusaRequest,
-  MedusaResponse,
-} from "@medusajs/framework/http"
-
+```typescript
 export const GET = async (
-  req: MedusaRequest,
+  req: MedusaRequest<StoreGetProductReviewsParamsType>,
   res: MedusaResponse
 ) => {
-  const productModuleService = req.scope.resolve("product")
+  const { id } = req.params;
+  const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
 
-  const [, count] = await productModuleService.listAndCount()
+  const { data: reviews, metadata } = await query.graph({
+    entity: "product_review",
+    fields: req.queryConfig.fields,
+    filters: { ...req.filterableFields, product_id: id },
+    pagination: req.queryConfig.pagination,
+  });
 
   res.json({
-    count,
-  })
-}
+    reviews,
+    count: metadata?.count ?? 0,
+    offset: metadata?.skip ?? 0,
+    limit: metadata?.take ?? 0,
+  });
+};
 ```
 
-## Middleware
+### Workflow Route Examples
 
-You can apply middleware to your routes by creating a file called `/api/middlewares.ts`. This file must export a configuration object with what middleware you want to apply to which routes.
+#### POST with Workflow
 
-For example, if you want to apply a custom middleware function to the `/store/custom` route, you can do so by adding the following to your `/api/middlewares.ts` file:
+```typescript
+export const POST = async (
+  req: AuthenticatedMedusaRequest<AdminCreateProductType>,
+  res: MedusaResponse
+) => {
+  // Extract data from request
+  const data = req.validatedBody;
+  const adminUserId = req.auth_context.actor_id;
 
-```ts
-import { defineMiddlewares } from "@medusajs/framework/http"
-import type {
-  MedusaRequest,
-  MedusaResponse,
-  MedusaNextFunction,
-} from "@medusajs/framework/http";
+  // Initialize the workflow
+  const workflow = createProductWorkflow(req.scope);
 
-async function logger(
-  req: MedusaRequest,
-  res: MedusaResponse,
-  next: MedusaNextFunction
-) {
-  console.log("Request received");
-  next();
-}
-
-export default defineMiddlewares({
-  routes: [
-    {
-      matcher: "/store/custom",
-      middlewares: [logger],
+  // Run the workflow with input data
+  const { result } = await workflow.run({
+    input: {
+      ...data,
+      created_by: adminUserId,
     },
-  ],
-})
+  });
+
+  // Return created resource
+  res.status(201).json({ product: result });
+};
 ```
 
-The `matcher` property can be either a string or a regular expression. The `middlewares` property accepts an array of middleware functions.
+#### DELETE with Workflow
+
+```typescript
+export const DELETE = async (
+  req: AuthenticatedMedusaRequest,
+  res: MedusaResponse
+) => {
+  // Extract parameters
+  const { id } = req.params;
+  const adminUserId = req.auth_context.actor_id;
+
+  // Initialize the deletion workflow
+  const workflow = deleteProductWorkflow(req.scope);
+
+  // Execute the workflow
+  await workflow.run({
+    input: {
+      product_id: id,
+      deleted_by: adminUserId,
+    },
+  });
+
+  // Return success with no content
+  res.status(204).send();
+};
+```
+
+### Validation Schema
+
+```typescript
+export const StoreGetProductReviewsParams = createFindParams({
+  limit: 10,
+  offset: 0,
+}).merge(
+  z.object({
+    rating: z.coerce.number().min(1).max(5).optional(),
+    created_at: z.date().optional(),
+    q: z.string().optional(),
+  })
+);
+```

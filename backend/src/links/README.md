@@ -1,56 +1,71 @@
-# Links
+# Module Links Guide
 
-## Readonly Links
+## Link Types
 
-Readonly links allow you to establish a relationship between two entities where modifications can only be made through the primary entity. This is useful when you want to prevent direct manipulation of the relationship from the secondary entity.
+### Readonly Links
 
-For example:
+Readonly links create a relationship where modifications can only be made through the primary entity. The relationship uses a foreign key field on one entity that references the other.
+
+**Pattern:**
 
 ```ts
 import { defineLink } from "@medusajs/framework/utils";
-import ProductModule from "@medusajs/medusa/product";
-import ProductReviewModule from "../modules/product-review";
+import PrimaryModule from "@path/to/primary/module";
+import SecondaryModule from "@path/to/secondary/module";
 
 export default defineLink(
   {
-    linkable: ProductReviewModule.linkable.productReview, // Link to the ProductReview entity
-    field: "product_id", // The foreign key field on ProductReview
-    isList: false, // A review belongs to one product
+    linkable: SecondaryModule.linkable.entityName, // The entity with the foreign key
+    field: "primary_entity_id", // The foreign key field name
+    isList: false, // Whether one entity links to many (true) or one (false)
   },
-  ProductModule.linkable.product, // Link to the core Product entity
+  PrimaryModule.linkable.entityName, // The entity being referenced
   {
-    readOnly: true, // Creates a readonly link
+    readOnly: true, // Makes this a readonly link
   }
 );
 ```
 
-In this example, the link between a product review and a product is readonly, meaning the relationship can only be modified through the product review entity, not through the product entity.
+When `readOnly: true` is specified, Medusa uses the ID stored in your foreign key field to retrieve the linked record without creating a separate link table.
 
-The `readOnly: true` configuration means Medusa won't create a separate link table in the database. Instead, it uses the ID stored in your specified field (e.g., `product_id` or `customer_id`) to retrieve the linked record [Read-Only Module Link](https://docs.medusajs.com/learn/fundamentals/module-links/read-only).
+### Standard Module Links
 
-## Module Links
+Standard module links create a many-to-many relationship between two data models of different modules.
 
-A module link forms an association between two data models of different modules, while maintaining module isolation.
-
-> Learn more about links in [this documentation](https://docs.medusajs.com/learn/fundamentals/module-links)
-
-For example:
+**Pattern:**
 
 ```ts
-import BlogModule from "../modules/blog";
-import ProductModule from "@medusajs/medusa/product";
 import { defineLink } from "@medusajs/framework/utils";
+import FirstModule from "@path/to/first/module";
+import SecondModule from "@path/to/second/module";
 
 export default defineLink(
-  ProductModule.linkable.product,
-  BlogModule.linkable.post
+  FirstModule.linkable.entityName,
+  SecondModule.linkable.entityName
 );
 ```
 
-This defines a link between the Product Module's `product` data model and the Blog Module (custom module)'s `post` data model.
+This creates a bidirectional relationship with a join table in the database.
 
-Then, in the Medusa application, run the following command to sync the links to the database:
+## Implementation Steps
 
-```bash
-npx medusa db:migrate
-```
+1. Create a link file in your `links` directory using one of the patterns above
+2. Sync the link to your database:
+   ```bash
+   npx medusa db:migrate
+   ```
+
+## Common Module Imports
+
+- Core Product: `import ProductModule from "@medusajs/medusa/product";`
+- Core Customer: `import CustomerModule from "@medusajs/medusa/customer";`
+- Core Order: `import OrderModule from "@medusajs/medusa/order";`
+- Custom modules: `import CustomModule from "../modules/custom-module";`
+- Ask Kapa AI for more Core Modules
+
+## Usage Notes
+
+- Use readonly links when one entity should "own" the relationship
+- Use standard links for many-to-many relationships or one-to-many relationships between modules with a pivot table
+- Always specify the correct `isList` value based on cardinality
+- Ensure the `field` name matches the actual foreign key in your entity
