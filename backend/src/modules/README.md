@@ -8,6 +8,8 @@ To create a module:
 
 A data model represents a table in the database. You create a data model in a TypeScript or JavaScript file under the `models` directory of a module.
 
+All models have by default the fields `created_at`, `updated_at` and `deleted_at`.
+
 For example, create the file `src/modules/blog/models/post.ts` with the following content:
 
 ```ts
@@ -21,16 +23,22 @@ const Post = model.define("post", {
 export default Post;
 ```
 
-Here is an example of a model with all the possible properties:
+Here is an example of a model with all the possible properties, nothing else is supported:
 
 ```ts
 import { model } from "@medusajs/framework/utils";
-import RelatedModel from "./related-model"; // Assuming this exists for relationship examples
+import RelatedModel from "./related-model";
 
 const ComprehensiveModel = model
   .define("comprehensive_model", {
     // Primary key
-    id: model.id().primaryKey(),
+    id: model.id({ prefix: "cm" }).primaryKey(),
+
+    // ulid id field without prefix
+    extra_id: model.id(),
+
+    // Autoincrement
+    ordering: model.autoincrement(),
 
     // Text properties
     title: model.text().searchable(),
