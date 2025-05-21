@@ -34,6 +34,7 @@ A subscriber receives an object having the following properties:
 
 ```ts
 import type { SubscriberArgs, SubscriberConfig } from "@medusajs/framework";
+import { Modules } from "@medusajs/framework/utils";
 
 export default async function productCreateHandler({
   event: { data },
@@ -41,7 +42,7 @@ export default async function productCreateHandler({
 }: SubscriberArgs<{ id: string }>) {
   const productId = data.id;
 
-  const productModuleService = container.resolve("product");
+  const productModuleService = container.resolve(Modules.PRODUCT);
 
   const product = await productModuleService.retrieveProduct(productId);
 
