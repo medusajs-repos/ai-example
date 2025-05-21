@@ -30,7 +30,7 @@ When `readOnly: true` is specified, Medusa uses the ID stored in your foreign ke
 
 ### Standard Module Links
 
-Standard module links create a many-to-many relationship between two data models of different modules.
+Standard module links create a one-to-one, one-to-many, many-to-one or many-to-many relationships between two data models of different modules.
 
 **Pattern:**
 
@@ -39,9 +39,37 @@ import { defineLink } from "@medusajs/framework/utils";
 import FirstModule from "@path/to/first/module";
 import SecondModule from "@path/to/second/module";
 
+// One-to-one relationship
 export default defineLink(
   FirstModule.linkable.entityName,
   SecondModule.linkable.entityName
+);
+
+// One-to-many relationship
+export default defineLink(FirstModule.linkable.entityName, {
+  likable: SecondModule.linkable.entityName,
+  isList: true,
+});
+
+// Many-to-one relationship
+export default defineLink(
+  {
+    likable: FirstModule.linkable.entityName,
+    isList: true,
+  },
+  SecondModule.linkable.entityName
+);
+
+// Many-to-many relationship
+export default defineLink(
+  {
+    linkable: FirstModule.linkable.entityName,
+    isList: true,
+  },
+  {
+    likable: SecondModule.linkable.entityName,
+    isList: true,
+  }
 );
 ```
 

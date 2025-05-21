@@ -2,8 +2,6 @@
 
 A custom CLI script is a function to execute through Medusa's CLI tool. This is useful when creating custom Medusa tooling to run as a CLI tool.
 
-> Learn more about custom CLI scripts in [this documentation](https://docs.medusajs.com/learn/fundamentals/custom-cli-scripts).
-
 ## How to Create a Custom CLI Script?
 
 To create a custom CLI script, create a TypeScript or JavaScript file under the `src/scripts` directory. The file must default export a function.
@@ -11,18 +9,15 @@ To create a custom CLI script, create a TypeScript or JavaScript file under the 
 For example, create the file `src/scripts/my-script.ts` with the following content:
 
 ```ts title="src/scripts/my-script.ts"
-import { 
-  ExecArgs,
-} from "@medusajs/framework/types"
+import { ExecArgs } from "@medusajs/framework/types";
+import { Modules } from "@medusajs/framework/utils";
 
-export default async function myScript ({
-  container
-}: ExecArgs) {
-  const productModuleService = container.resolve("product")
+export default async function myScript({ container }: ExecArgs) {
+  const productModuleService = container.resolve(Modules.PRODUCT);
 
-  const [, count] = await productModuleService.listAndCountProducts()
+  const [, count] = await productModuleService.listAndCountProducts();
 
-  console.log(`You have ${count} product(s)`)
+  console.log(`You have ${count} product(s)`);
 }
 ```
 
@@ -47,12 +42,10 @@ Your script can accept arguments from the command line. Arguments are passed to 
 For example:
 
 ```ts
-import { ExecArgs } from "@medusajs/framework/types"
+import { ExecArgs } from "@medusajs/framework/types";
 
-export default async function myScript ({
-  args
-}: ExecArgs) {
-  console.log(`The arguments you passed: ${args}`)
+export default async function myScript({ args }: ExecArgs) {
+  console.log(`The arguments you passed: ${args}`);
 }
 ```
 

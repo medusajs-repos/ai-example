@@ -57,7 +57,7 @@ When services are needed, resolve them from the container:
 
 ```typescript
 const myStep = createStep("my-step", async (input, { container }) => {
-  const myService = container.resolve("service-name");
+  const myService = container.resolve("module-name");
   const result = await myService.someMethod();
   return new StepResponse(result);
 });

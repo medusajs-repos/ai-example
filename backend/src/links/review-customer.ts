@@ -4,12 +4,12 @@ import ProductReviewModule from "../modules/product-review";
 
 export default defineLink(
   {
-    linkable: ProductReviewModule.linkable.productReview, // Link to the ProductReview entity
-    field: "customer_id", // The foreign key field on ProductReview
-    isList: false, // A review belongs to one customer
+    linkable: ProductReviewModule.linkable.productReview,
+    field: "customer_id",
+    isList: false,
   },
-  CustomerModule.linkable.customer, // Link to the core Customer entity
+  CustomerModule.linkable.customer,
   {
-    readOnly: true, // Creates a readonly link
+    readOnly: true,
   }
 );

@@ -1,8 +1,6 @@
 # Custom Module
 
-A module is a package of reusable functionalities. It can be integrated into your Medusa application without affecting the overall system. You can create a module as part of a plugin.
-
-> Learn more about modules in [this documentation](https://docs.medusajs.com/learn/fundamentals/modules).
+A module is a package of reusable functionalities. It can be integrated into your Medusa application without affecting the overall system.
 
 To create a module:
 

@@ -2,8 +2,6 @@
 
 Subscribers handle events emitted in the Medusa application.
 
-> Learn more about Subscribers in [this documentation](https://docs.medusajs.com/learn/fundamentals/events-and-subscribers).
-
 The subscriber is created in a TypeScript or JavaScript file under the `src/subscribers` directory.
 
 For example, create the file `src/subscribers/product-created.ts` with the following content:
@@ -36,6 +34,7 @@ A subscriber receives an object having the following properties:
 
 ```ts
 import type { SubscriberArgs, SubscriberConfig } from "@medusajs/framework";
+import { Modules } from "@medusajs/framework/utils";
 
 export default async function productCreateHandler({
   event: { data },
@@ -43,7 +42,7 @@ export default async function productCreateHandler({
 }: SubscriberArgs<{ id: string }>) {
   const productId = data.id;
 
-  const productModuleService = container.resolve("product");
+  const productModuleService = container.resolve(Modules.PRODUCT);
 
   const product = await productModuleService.retrieveProduct(productId);
 
