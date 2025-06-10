@@ -10,7 +10,7 @@ class ProductReviewModuleService extends MedusaService({
    * @returns The average rating or 0 if no reviews exist.
    */
   async getAverageRating(productId: string): Promise<number> {
-    const reviews = await this.listProductReviews({ product_id: productId });
+    const reviews = await super.listProductReviews({ product_id: productId });
 
     if (reviews.length === 0) {
       return 0;
