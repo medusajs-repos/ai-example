@@ -5,7 +5,7 @@ import {
   StepResponse,
 } from "@medusajs/framework/workflows-sdk";
 
-const step1 = createStep("get-product-categories", async (input, context) => {
+const step1 = createStep("get-product-categories", async (input: any, context) => {
   const productModule = context.container.resolve(Modules.PRODUCT);
 
   return new StepResponse({
@@ -14,7 +14,7 @@ const step1 = createStep("get-product-categories", async (input, context) => {
   });
 });
 
-const myWorkflow = createWorkflow("custom-workflows", function (input) {
+const myWorkflow = createWorkflow("custom-workflows", function (input: any) {
   step1(input);
 });
 
