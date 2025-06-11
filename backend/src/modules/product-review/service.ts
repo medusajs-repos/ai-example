@@ -1,4 +1,4 @@
-import { InjectTransactionManager, MedusaContext, MedusaService } from "@medusajs/framework/utils";
+import { InjectTransactionManager, MedusaContext, MedusaError, MedusaService } from "@medusajs/framework/utils";
 import ProductReview from "./models/product-review";
 import { Context, DAL, InternalModuleDeclaration } from "@medusajs/framework/types";
 
@@ -43,8 +43,18 @@ class ProductReviewModuleService extends MedusaService({
   @InjectTransactionManager()
   async approveReview(reviewId: string, @MedusaContext() sharedContext: Context) {
     const review = await super.retrieveProductReview(reviewId, {}, sharedContext);
-    review.approved_at = new Date();
-    const updatedReview = await super.updateProductReviews({ id: reviewId, approved_at: review.approved_at }, sharedContext);
+    if (!review) {
+      throw new MedusaError(MedusaError.Types.NOT_FOUND, `Review with id ${reviewId} not found`);
+    }
+    if (review.approved_at) {
+      return await this.baseRepository_.serialize(review);
+    }
+
+    const [updatedReview] = await super.updateProductReviews([{
+      id: reviewId,
+      approved_at: new Date(),
+      rejected_at: null
+    }], sharedContext);
     return await this.baseRepository_.serialize(updatedReview);
   }
 
@@ -54,8 +64,18 @@ class ProductReviewModuleService extends MedusaService({
   @InjectTransactionManager()
   async rejectReview(reviewId: string, @MedusaContext() sharedContext: Context) {
     const review = await super.retrieveProductReview(reviewId, {}, sharedContext);
-    review.rejected_at = new Date();
-    const updatedReview = await super.updateProductReviews({ id: reviewId, rejected_at: review.rejected_at }, sharedContext);
+    if (!review) {
+      throw new MedusaError(MedusaError.Types.NOT_FOUND, `Review with id ${reviewId} not found`);
+    }
+    if (review.rejected_at) {
+      return await this.baseRepository_.serialize(review);
+    }
+
+    const [updatedReview] = await super.updateProductReviews([{
+      id: reviewId,
+      rejected_at: new Date(),
+      approved_at: null
+    }], sharedContext);
     return await this.baseRepository_.serialize(updatedReview);
   }
 }
