@@ -76,4 +76,8 @@ export interface IProductReviewModuleService extends IModuleService {
   ): Promise<Record<TReturnableLinkableKeys, string[]> | void>;
 
   getAverageRating(productId: string): Promise<number>;
+
+  approveProductReview(reviewId: string, sharedContext?: Context): Promise<ModuleProductReview>;
+
+  rejectProductReview(reviewId: string, sharedContext?: Context): Promise<ModuleProductReview>;
 }

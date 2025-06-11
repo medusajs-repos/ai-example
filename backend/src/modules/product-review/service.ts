@@ -41,7 +41,7 @@ class ProductReviewModuleService extends MedusaService({
    * Write operations are always decorated with @InjectTransactionManager() and the last argument is always the shared context (decorated with @MedusaContext()) to be passed to all subsequent calls to the service(s)
    */
   @InjectTransactionManager()
-  async approveReview(reviewId: string, @MedusaContext() sharedContext: Context) {
+  async approveProductReview(reviewId: string, @MedusaContext() sharedContext: Context) {
     const review = await super.retrieveProductReview(reviewId, {}, sharedContext);
     if (!review) {
       throw new MedusaError(MedusaError.Types.NOT_FOUND, `Review with id ${reviewId} not found`);
@@ -62,7 +62,7 @@ class ProductReviewModuleService extends MedusaService({
    * Write operations are always decorated with @InjectTransactionManager() and the last argument is always the shared context (decorated with @MedusaContext()) to be passed to all subsequent calls to the service(s)
    */
   @InjectTransactionManager()
-  async rejectReview(reviewId: string, @MedusaContext() sharedContext: Context) {
+  async rejectProductReview(reviewId: string, @MedusaContext() sharedContext: Context) {
     const review = await super.retrieveProductReview(reviewId, {}, sharedContext);
     if (!review) {
       throw new MedusaError(MedusaError.Types.NOT_FOUND, `Review with id ${reviewId} not found`);
