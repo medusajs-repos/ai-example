@@ -37,6 +37,9 @@ class ProductReviewModuleService extends MedusaService({
     return totalRating / reviews.length;
   }
 
+  /**
+   * Write operations are always decorated with @InjectTransactionManager() and the last argument is always the shared context (decorated with @MedusaContext()) to be passed to all subsequent calls to the service(s)
+   */
   @InjectTransactionManager()
   async approveReview(reviewId: string, @MedusaContext() sharedContext: Context) {
     const review = await super.retrieveProductReview(reviewId, {}, sharedContext);
@@ -45,6 +48,9 @@ class ProductReviewModuleService extends MedusaService({
     return await this.baseRepository_.serialize(updatedReview);
   }
 
+  /**
+   * Write operations are always decorated with @InjectTransactionManager() and the last argument is always the shared context (decorated with @MedusaContext()) to be passed to all subsequent calls to the service(s)
+   */
   @InjectTransactionManager()
   async rejectReview(reviewId: string, @MedusaContext() sharedContext: Context) {
     const review = await super.retrieveProductReview(reviewId, {}, sharedContext);
