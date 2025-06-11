@@ -1,4 +1,5 @@
 import { LoaderOptions } from "@medusajs/framework/types";
+import { asValue } from "awilix";
 
 export default async function customLoader({ container }: LoaderOptions) {
   // connection to and external database
@@ -8,5 +9,5 @@ export default async function customLoader({ container }: LoaderOptions) {
     },
   };
 
-  container.register("customDataStorage", apiClient);
+  container.register("customDataStorage", asValue(apiClient));
 }
