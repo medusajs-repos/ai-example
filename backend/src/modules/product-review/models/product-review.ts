@@ -7,6 +7,8 @@ const ProductReview = model.define("product_review", {
   rating: model.number(),
   title: model.text().nullable(),
   content: model.text(),
+  approved_at: model.dateTime().nullable(),
+  rejected_at: model.dateTime().nullable(),
 });
 
 export default ProductReview;
