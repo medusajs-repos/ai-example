@@ -26,10 +26,9 @@ export const approveProductReviewStep = createStep(
       PRODUCT_REVIEW_MODULE
     )
 
-    // Compensation: How to un-approve? Maybe set status to 'pending'?
-    // For now, let's assume there is a 'reject' action that can be used for compensation.
-    // Or perhaps a more generic update status.
-    // Let's assume a reject method exists for compensation.
-    await reviewModuleService.rejectProductReview(reviewId)
+    await reviewModuleService.updateProductReviews({
+      id: reviewId,
+      approved_at: null
+    })
   }
 ) 

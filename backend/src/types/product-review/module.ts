@@ -8,6 +8,8 @@ export type ModuleProductReview = {
   rating: number
   title: string | null
   content: string
+  approved_at: Date | null
+  rejected_at: Date | null
   created_at: Date
   updated_at: Date
 }

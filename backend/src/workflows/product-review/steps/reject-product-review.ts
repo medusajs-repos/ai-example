@@ -26,6 +26,9 @@ export const rejectProductReviewStep = createStep(
       PRODUCT_REVIEW_MODULE
     )
 
-    await reviewModuleService.approveProductReview(reviewId)
+    await reviewModuleService.updateProductReviews({
+      id: reviewId,
+      rejected_at: null
+    })
   }
 ) 
