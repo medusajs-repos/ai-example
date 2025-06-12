@@ -27,6 +27,11 @@ const myStep = createStep(
 );
 ```
 
+#### Guidelines for steps
+
+- Do not use other workflow steps within a step
+- use graph.query or module service methods to query for data
+
 ### 2. Workflow Creation
 
 When creating workflows, follow this structure:
@@ -50,6 +55,10 @@ const myWorkflow = createWorkflow(
 
 export default myWorkflow;
 ```
+
+#### Guidelines for workflows
+
+-
 
 ### 3. Service Access
 
@@ -76,7 +85,7 @@ const transformedData = transform(
   },
   (data) => {
     return {
-      transformedValue: `Hello ${data.input.name}`,
+      transformed_value: `Hello ${data.input.name}`,
     };
   }
 );
@@ -102,13 +111,13 @@ const inactiveResult = when(input, (input) => !input.is_active).then(() => {
 For complex conditionals, provide a unique name:
 
 ```typescript
-const { isActive } = when(
+const { is_active } = when(
   "check-is-active",
   input,
   (input) => input.is_active
 ).then(() => {
-  const isActive = someStep();
-  return { isActive };
+  const is_active = someStep();
+  return { is_active };
 });
 ```
 
@@ -150,5 +159,6 @@ const result = otherWorkflow.runAsStep({
 5. Structure TypeScript types for inputs and outputs
 6. Use compensation functions for rollback mechanisms
 7. Resolve services from the container when needed
+8. Input and output of steps should always be camelcased!
 
 Follow these patterns to generate correct, maintainable Medusa workflows that ensure data consistency.

@@ -53,3 +53,8 @@ export const config: SubscriberConfig = {
   event: "product.created",
 };
 ```
+
+# Guidelines
+
+- Follow the subscription documentation strictly
+- Ask kapaTool for more information if necessary.

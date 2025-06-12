@@ -202,3 +202,12 @@ export const StoreGetProductReviewsParams = createFindParams({
   })
 );
 ```
+
+# Important Guidelines
+
+- Always have a middlewares.ts file on every feature folder
+- Make sure to spread the middlewares in the root middleware folder.
+- Always ensure that middlewares are scoped and categorised neatly and imported accurately.
+- Never call a module service directly within the API route
+  - Always use workflows to create, update or delete models or entities
+  - Always use query.graph to query entities

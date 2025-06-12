@@ -1,6 +1,10 @@
 # Medusa.js Backend
 
-This is the backend service for the Medusa.js e-commerce platform.
+This is the backend for the Medusa.js e-commerce platform.
+
+## Important
+
+This repository is only to be used as reference to learn how to build Medusa features. Use this repository and all of its \*_/_.md files as a guide to help you build features.
 
 ## Project Documentation
 
@@ -58,3 +62,10 @@ backend/
    ```
 
 For more information about Medusa.js, visit the [official documentation](https://docs.medusajs.com/).
+
+## General guidelines
+
+- Always use fetch when querying an API.
+- Always add types to a types folder
+  - Learn from existing repository to see how they are structured and follow them
+- When generating code, avoid unnecessary comments to the code.

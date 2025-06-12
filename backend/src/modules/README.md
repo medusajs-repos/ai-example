@@ -159,3 +159,11 @@ Then, to run migrations, run the following command:
 ```bash
 npx medusa db:migrate
 ```
+
+# Important Guidelines
+
+- Models should always be a part of a module
+- Never import models from another module or another package
+- A module is an isolated set of logic
+- A module service should only work with models within the module
+- A module model is joined with other module models through workflows or links.
