@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "dev": "next dev --turbopack -p 8000",
+    "dev:tee": "next dev --turbopack -p 8000 2>&1 | tee -a ../storefront.log",
     "build": "next build",
     "start": "next start -p 8000",
     "lint": "next lint",
