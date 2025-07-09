@@ -4,6 +4,15 @@ import { PRODUCT_REVIEW_MODULE } from "./src/modules/product-review"; // Added i
 loadEnv(process.env.NODE_ENV || "development", process.cwd());
 
 module.exports = defineConfig({
+  admin: {
+    vite: () => {
+      return {
+        server: {
+          allowedHosts: true,
+        },
+      }
+    },
+  },
   projectConfig: {
     databaseUrl: process.env.DATABASE_URL,
     http: {
