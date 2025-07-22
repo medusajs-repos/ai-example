@@ -9,8 +9,11 @@ module.exports = defineConfig({
       return {
         server: {
           allowedHosts: true,
+          hmr: {
+            timeout: 60000,
+          },
         },
-      }
+      };
     },
   },
   projectConfig: {
