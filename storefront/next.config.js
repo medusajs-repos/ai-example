@@ -6,7 +6,7 @@ checkEnvVariables()
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   logging: {
     fetches: {
       fullUrl: true,
@@ -37,6 +37,18 @@ const nextConfig = {
         hostname: "medusa-server-testing.s3.us-east-1.amazonaws.com",
       },
     ],
+  },
+  productionBrowserSourceMaps: false,
+  experimental: {
+    serverSourceMaps: false,
+    preloadEntriesOnStart: false,
+  },
+  webpack: (config, {}) => {
+    config.cache = Object.freeze({
+      type: "memory",
+    })
+
+    return config
   },
 }
 
