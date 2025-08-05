@@ -42,6 +42,9 @@ const nextConfig = {
   experimental: {
     serverSourceMaps: false,
     preloadEntriesOnStart: false,
+    browserDebugInfoInTerminal: {
+      showSourceLocation: true,
+    },
   },
   webpack: (config, {}) => {
     config.cache = Object.freeze({
