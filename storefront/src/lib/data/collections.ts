@@ -1,8 +1,8 @@
 "use server"
 
 import { sdk } from "@lib/config"
+import { getCacheOptions } from "@lib/data/cookies"
 import { HttpTypes } from "@medusajs/types"
-import { getCacheOptions } from "./cookies"
 
 export const retrieveCollection = async (id: string) => {
   const next = {

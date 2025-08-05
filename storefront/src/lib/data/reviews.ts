@@ -1,10 +1,10 @@
 "use server"
 
-import { sdk } from "../config"
-import { getAuthHeaders, getCacheOptions, getCacheTag } from "./cookies"
-import { revalidateTag } from "next/cache"
-import medusaError from "../util/medusa-error"
+import { sdk } from "@lib/config"
+import { getAuthHeaders, getCacheOptions, getCacheTag } from "@lib/data/cookies"
+import medusaError from "@lib/util/medusa-error"
 import { HttpTypes } from "@medusajs/types"
+import { revalidateTag } from "next/cache"
 
 // INSTRUCTIONS:
 // - Provides functions to fetch product reviews and submit new reviews.
@@ -82,7 +82,11 @@ export const getProductReviews = async ({
 export async function submitProductReviewAction(
   currentState: unknown,
   formData: FormData
-): Promise<{ success: boolean; error: string | null; review?: StoreProductReview }> {
+): Promise<{
+  success: boolean
+  error: string | null
+  review?: StoreProductReview
+}> {
   const productId = formData.get("product_id") as string
   const title = formData.get("title") as string | undefined
   const content = formData.get("content") as string
@@ -97,7 +101,10 @@ export async function submitProductReviewAction(
   }
 
   if (!headers["authorization"] && !headers["cookie"]) {
-     return { success: false, error: "You must be logged in to submit a review." }
+    return {
+      success: false,
+      error: "You must be logged in to submit a review.",
+    }
   }
 
   const body = {

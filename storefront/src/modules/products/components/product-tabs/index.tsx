@@ -1,12 +1,11 @@
 "use client"
 
-import Back from "../../../common/icons/back"
-import FastDelivery from "../../../common/icons/fast-delivery"
-import Refresh from "../../../common/icons/refresh"
-
-import Accordion from "./accordion"
 import { HttpTypes } from "@medusajs/types"
-import ProductReviews from "../product-reviews" // Import the new component
+import Back from "@modules/common/icons/back"
+import FastDelivery from "@modules/common/icons/fast-delivery"
+import Refresh from "@modules/common/icons/refresh"
+import ProductReviews from "@modules/products/components/product-reviews"
+import Accordion from "@modules/products/components/product-tabs/accordion"
 
 // INSTRUCTIONS:
 // - Added a new "Reviews" tab.

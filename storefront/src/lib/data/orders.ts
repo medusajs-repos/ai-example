@@ -1,8 +1,8 @@
 "use server"
 
 import { sdk } from "@lib/config"
+import { getAuthHeaders, getCacheOptions } from "@lib/data/cookies"
 import medusaError from "@lib/util/medusa-error"
-import { getAuthHeaders, getCacheOptions } from "./cookies"
 import { HttpTypes } from "@medusajs/types"
 
 export const retrieveOrder = async (id: string) => {

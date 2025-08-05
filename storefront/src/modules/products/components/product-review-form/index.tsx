@@ -1,11 +1,11 @@
 "use client"
 
-import React, { useState, useEffect, useRef } from "react"
-import { useFormState } from "react-dom"
-import { Input, Button, Textarea, Label, clx } from "@medusajs/ui"
+import { submitProductReviewAction } from "@lib/data/reviews"
 import { Star } from "@medusajs/icons"
-import { submitProductReviewAction } from "../../../../lib/data/reviews"
-import { SubmitButton } from "../../../checkout/components/submit-button"
+import { Input, Label, Textarea, clx } from "@medusajs/ui"
+import { SubmitButton } from "@modules/checkout/components/submit-button"
+import { useEffect, useRef, useState } from "react"
+import { useFormState } from "react-dom"
 
 // INSTRUCTIONS:
 // - A form for submitting product reviews.
@@ -18,7 +18,10 @@ type ProductReviewFormProps = {
   onReviewSubmitted?: () => void // Optional callback after successful submission
 }
 
-const ProductReviewForm = ({ productId, onReviewSubmitted }: ProductReviewFormProps) => {
+const ProductReviewForm = ({
+  productId,
+  onReviewSubmitted,
+}: ProductReviewFormProps) => {
   const [rating, setRating] = useState(0)
   const [hoverRating, setHoverRating] = useState(0)
   const formRef = useRef<HTMLFormElement>(null)
@@ -45,7 +48,9 @@ const ProductReviewForm = ({ productId, onReviewSubmitted }: ProductReviewFormPr
       <input type="hidden" name="product_id" value={productId} />
 
       <div>
-        <Label className="mb-2 block">Rating<span className="text-rose-500">*</span></Label>
+        <Label className="mb-2 block">
+          Rating<span className="text-rose-500">*</span>
+        </Label>
         <div className="flex items-center gap-x-1 mb-2">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
@@ -55,7 +60,7 @@ const ProductReviewForm = ({ productId, onReviewSubmitted }: ProductReviewFormPr
               onMouseLeave={() => setHoverRating(0)}
               onClick={() => setRating(star)}
               className="p-0 bg-transparent border-none cursor-pointer"
-              aria-label={`Rate ${star} star${star > 1 ? 's' : ''}`}
+              aria-label={`Rate ${star} star${star > 1 ? "s" : ""}`}
             >
               <Star
                 className={clx("transition-colors duration-150", {
@@ -68,16 +73,12 @@ const ProductReviewForm = ({ productId, onReviewSubmitted }: ProductReviewFormPr
             </button>
           ))}
         </div>
-        {/* Hidden input to submit the actual rating value */} 
+        {/* Hidden input to submit the actual rating value */}
         <input type="hidden" name="rating" value={rating} />
-        {/* Display validation error for rating if needed, though button click ensures a value > 0 */} 
+        {/* Display validation error for rating if needed, though button click ensures a value > 0 */}
       </div>
 
-      <Input
-        label="Review Title (Optional)"
-        name="title"
-        autoComplete="off"
-      />
+      <Input label="Review Title (Optional)" name="title" autoComplete="off" />
 
       <Textarea
         label="Review Content"
@@ -98,7 +99,9 @@ const ProductReviewForm = ({ productId, onReviewSubmitted }: ProductReviewFormPr
         </div>
       )}
 
-      <SubmitButton data-testid="submit-review-button" disabled={rating === 0}>Submit Review</SubmitButton>
+      <SubmitButton data-testid="submit-review-button" disabled={rating === 0}>
+        Submit Review
+      </SubmitButton>
     </form>
   )
 }

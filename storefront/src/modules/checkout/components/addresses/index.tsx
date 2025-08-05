@@ -5,14 +5,14 @@ import compareAddresses from "@lib/util/compare-addresses"
 import { CheckCircleSolid } from "@medusajs/icons"
 import { HttpTypes } from "@medusajs/types"
 import { Heading, Text, useToggleState } from "@medusajs/ui"
+import BillingAddress from "@modules/checkout/components/billing_address"
+import ErrorMessage from "@modules/checkout/components/error-message"
+import ShippingAddress from "@modules/checkout/components/shipping-address"
+import { SubmitButton } from "@modules/checkout/components/submit-button"
 import Divider from "@modules/common/components/divider"
 import Spinner from "@modules/common/icons/spinner"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useActionState } from "react"
-import BillingAddress from "../billing_address"
-import ErrorMessage from "../error-message"
-import ShippingAddress from "../shipping-address"
-import { SubmitButton } from "../submit-button"
 
 const Addresses = ({
   cart,

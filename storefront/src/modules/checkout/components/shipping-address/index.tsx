@@ -1,11 +1,11 @@
 import { HttpTypes } from "@medusajs/types"
 import { Container } from "@medusajs/ui"
+import AddressSelect from "@modules/checkout/components/address-select"
+import CountrySelect from "@modules/checkout/components/country-select"
 import Checkbox from "@modules/common/components/checkbox"
 import Input from "@modules/common/components/input"
 import { mapKeys } from "lodash"
 import React, { useEffect, useMemo, useState } from "react"
-import AddressSelect from "../address-select"
-import CountrySelect from "../country-select"
 
 const ShippingAddress = ({
   customer,

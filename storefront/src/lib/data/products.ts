@@ -1,11 +1,11 @@
 "use server"
 
 import { sdk } from "@lib/config"
+import { getAuthHeaders, getCacheOptions } from "@lib/data/cookies"
+import { getRegion, retrieveRegion } from "@lib/data/regions"
 import { sortProducts } from "@lib/util/sort-products"
 import { HttpTypes } from "@medusajs/types"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
-import { getAuthHeaders, getCacheOptions } from "./cookies"
-import { getRegion, retrieveRegion } from "./regions"
 
 export const listProducts = async ({
   pageParam = 1,
@@ -28,7 +28,7 @@ export const listProducts = async ({
 
   const limit = queryParams?.limit || 12
   const _pageParam = Math.max(pageParam, 1)
-  const offset = (_pageParam === 1) ? 0 : (_pageParam - 1) * limit;
+  const offset = _pageParam === 1 ? 0 : (_pageParam - 1) * limit
 
   let region: HttpTypes.StoreRegion | undefined | null
 

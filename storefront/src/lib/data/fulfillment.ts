@@ -1,8 +1,8 @@
 "use server"
 
 import { sdk } from "@lib/config"
+import { getAuthHeaders, getCacheOptions } from "@lib/data/cookies"
 import { HttpTypes } from "@medusajs/types"
-import { getAuthHeaders, getCacheOptions } from "./cookies"
 
 export const listCartShippingMethods = async (cartId: string) => {
   const headers = {

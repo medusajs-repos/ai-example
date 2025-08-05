@@ -1,17 +1,13 @@
 "use client"
 
-import React, { useState, useEffect, useCallback } from "react"
-import { Button, Heading, Text } from "@medusajs/ui"
-import {
-  getProductReviews,
-  ProductReviewsResponse,
-  StoreProductReview,
-} from "../../../../lib/data/reviews"
-import StarRating from "../star-rating"
-import ProductReviewForm from "../product-review-form"
+import { getProductReviews, ProductReviewsResponse } from "@lib/data/reviews"
 import { HttpTypes } from "@medusajs/types"
-import Divider from "../../../common/components/divider"
-import Spinner from "../../../common/icons/spinner"
+import { Button, Heading, Text } from "@medusajs/ui"
+import Divider from "@modules/common/components/divider"
+import Spinner from "@modules/common/icons/spinner"
+import ProductReviewForm from "@modules/products/components/product-review-form"
+import StarRating from "@modules/products/components/star-rating"
+import { useCallback, useEffect, useState } from "react"
 
 // INSTRUCTIONS:
 // - Fetches and displays product reviews.
@@ -38,7 +34,11 @@ const ProductReviews = ({ productId, customer }: ProductReviewsProps) => {
       setIsLoading(true)
       setError(null)
       try {
-        const data = await getProductReviews({ productId, limit, offset: currentOffset })
+        const data = await getProductReviews({
+          productId,
+          limit,
+          offset: currentOffset,
+        })
         if (data) {
           setReviewsData((prevData) => {
             if (append && prevData) {
@@ -53,7 +53,13 @@ const ProductReviews = ({ productId, customer }: ProductReviewsProps) => {
             }
           })
         } else {
-           setReviewsData({ reviews: [], average_rating: 0, count: 0, limit, offset: 0 }) // Set empty state
+          setReviewsData({
+            reviews: [],
+            average_rating: 0,
+            count: 0,
+            limit,
+            offset: 0,
+          }) // Set empty state
         }
       } catch (err) {
         setError("Failed to load reviews. Please try again later.")
@@ -82,7 +88,9 @@ const ProductReviews = ({ productId, customer }: ProductReviewsProps) => {
     fetchReviews(0, false) // Fetch first page again
   }
 
-  const hasMoreReviews = reviewsData ? reviewsData.reviews.length < reviewsData.count : false
+  const hasMoreReviews = reviewsData
+    ? reviewsData.reviews.length < reviewsData.count
+    : false
 
   return (
     <div className="flex flex-col gap-y-6 py-8">
@@ -113,13 +121,22 @@ const ProductReviews = ({ productId, customer }: ProductReviewsProps) => {
             productId={productId}
             onReviewSubmitted={handleReviewSubmitted}
           />
-           <Divider />
+          <Divider />
         </div>
       )}
       {!customer && (
-         <div className="mb-6 p-4 border rounded-md bg-ui-bg-subtle">
-            <Text>You must be <a href="/account" className="text-ui-fg-interactive hover:underline">logged in</a> to write a review.</Text>
-         </div>
+        <div className="mb-6 p-4 border rounded-md bg-ui-bg-subtle">
+          <Text>
+            You must be{" "}
+            <a
+              href="/account"
+              className="text-ui-fg-interactive hover:underline"
+            >
+              logged in
+            </a>{" "}
+            to write a review.
+          </Text>
+        </div>
       )}
 
       {/* Reviews List */}
@@ -128,9 +145,7 @@ const ProductReviews = ({ productId, customer }: ProductReviewsProps) => {
           <Spinner size={24} />
         </div>
       )}
-      {error && !isLoading && (
-        <Text className="text-rose-500">{error}</Text>
-      )}
+      {error && !isLoading && <Text className="text-rose-500">{error}</Text>}
       {!isLoading && !error && reviewsData?.reviews.length === 0 && (
         <Text>No reviews yet. Be the first to write one!</Text>
       )}

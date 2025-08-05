@@ -1,9 +1,9 @@
+import { retrieveCustomer } from "@lib/data/customer" // Import customer retrieval function
+import { listProducts } from "@lib/data/products"
+import { getRegion, listRegions } from "@lib/data/regions"
+import ProductTemplate from "@modules/products/templates"
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { listProducts } from "../../../../../lib/data/products"
-import { getRegion, listRegions } from "../../../../../lib/data/regions"
-import ProductTemplate from "../../../../../modules/products/templates"
-import { retrieveCustomer } from "../../../../../lib/data/customer" // Import customer retrieval function
 
 // INSTRUCTIONS:
 // - Fetches the logged-in customer using `retrieveCustomer`.

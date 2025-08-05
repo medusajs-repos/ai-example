@@ -1,6 +1,6 @@
 import { sdk } from "@lib/config"
+import { getCacheOptions } from "@lib/data/cookies"
 import { HttpTypes } from "@medusajs/types"
-import { getCacheOptions } from "./cookies"
 
 export const listCategories = async (query?: Record<string, any>) => {
   const next = {

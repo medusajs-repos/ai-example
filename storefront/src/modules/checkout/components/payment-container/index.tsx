@@ -5,11 +5,11 @@ import React, { useContext, useMemo, type JSX } from "react"
 import Radio from "@modules/common/components/radio"
 
 import { isManual } from "@lib/constants"
+import PaymentTest from "@modules/checkout/components/payment-test"
+import { StripeContext } from "@modules/checkout/components/payment-wrapper/stripe-wrapper"
 import SkeletonCardDetails from "@modules/skeletons/components/skeleton-card-details"
 import { CardElement } from "@stripe/react-stripe-js"
 import { StripeCardElementOptions } from "@stripe/stripe-js"
-import PaymentTest from "../payment-test"
-import { StripeContext } from "../payment-wrapper/stripe-wrapper"
 
 type PaymentContainerProps = {
   paymentProviderId: string
