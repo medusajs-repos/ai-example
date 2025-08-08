@@ -1,15 +1,11 @@
 "use client"
 
-import { HttpTypes } from "@medusajs/types"
-import Back from "@modules/common/icons/back"
-import FastDelivery from "@modules/common/icons/fast-delivery"
-import Refresh from "@modules/common/icons/refresh"
-import ProductReviews from "@modules/products/components/product-reviews"
-import Accordion from "@modules/products/components/product-tabs/accordion"
+import Back from "../../../common/icons/back"
+import FastDelivery from "../../../common/icons/fast-delivery"
+import Refresh from "../../../common/icons/refresh"
 
-// INSTRUCTIONS:
-// - Added a new "Reviews" tab.
-// - Passed the `product.id` and `customer` prop to the `ProductReviews` component.
+import { HttpTypes } from "@medusajs/types"
+import Accordion from "./accordion"
 
 type ProductTabsProps = {
   product: HttpTypes.StoreProduct
@@ -25,11 +21,6 @@ const ProductTabs = ({ product, customer }: ProductTabsProps) => {
     {
       label: "Shipping & Returns",
       component: <ShippingInfoTab />,
-    },
-    // Add the Reviews tab
-    {
-      label: "Reviews",
-      component: <ProductReviews productId={product.id} customer={customer} />,
     },
   ]
 

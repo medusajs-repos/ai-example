@@ -1,5 +1,4 @@
 import { defineConfig, loadEnv } from "@medusajs/framework/utils";
-import { PRODUCT_REVIEW_MODULE } from "./src/modules/product-review"; // Added import
 
 loadEnv(process.env.NODE_ENV || "development", process.cwd());
 
@@ -30,10 +29,5 @@ module.exports = defineConfig({
       secure: true,
     },
   },
-  modules: [
-    {
-      key: PRODUCT_REVIEW_MODULE,
-      resolve: "./src/modules/product-review",
-    },
-  ],
+  modules: [],
 });
