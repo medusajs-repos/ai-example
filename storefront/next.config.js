@@ -53,6 +53,23 @@ const nextConfig = {
 
     return config
   },
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "X-Frame-Options",
+            value: "ALLOWALL", // Allow any origin to embed
+          },
+          {
+            key: "Content-Security-Policy",
+            value: "frame-ancestors *;", // Allow all origins
+          },
+        ],
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig

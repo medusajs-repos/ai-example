@@ -108,6 +108,9 @@ export async function middleware(request: NextRequest) {
 
   let response = NextResponse.redirect(redirectUrl, 307)
 
+  response.headers.set("X-Frame-Options", "ALLOWALL")
+  response.headers.set("Content-Security-Policy", "frame-ancestors *;")
+
   let cacheIdCookie = request.cookies.get("_medusa_cache_id")
 
   let cacheId = cacheIdCookie?.value || crypto.randomUUID()
