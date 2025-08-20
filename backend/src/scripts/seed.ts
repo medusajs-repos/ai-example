@@ -1,6 +1,11 @@
+import { ExecArgs } from "@medusajs/framework/types";
+import {
+  ContainerRegistrationKeys,
+  Modules,
+  ProductStatus,
+} from "@medusajs/framework/utils";
 import {
   createApiKeysWorkflow,
-  createInventoryLevelsWorkflow,
   createProductCategoriesWorkflow,
   createProductsWorkflow,
   createRegionsWorkflow,
@@ -13,17 +18,10 @@ import {
   linkSalesChannelsToStockLocationWorkflow,
   updateStoresWorkflow,
 } from "@medusajs/medusa/core-flows";
-import { CreateInventoryLevelInput, ExecArgs } from "@medusajs/framework/types";
-import {
-  ContainerRegistrationKeys,
-  Modules,
-  ProductStatus,
-} from "@medusajs/framework/utils";
 
 export default async function seedDemoData({ container }: ExecArgs) {
   const logger = container.resolve(ContainerRegistrationKeys.LOGGER);
   const link = container.resolve(ContainerRegistrationKeys.LINK);
-  const query = container.resolve(ContainerRegistrationKeys.QUERY);
   const fulfillmentModuleService = container.resolve(Modules.FULFILLMENT);
   const salesChannelModuleService = container.resolve(Modules.SALES_CHANNEL);
   const storeModuleService = container.resolve(Modules.STORE);
@@ -123,22 +121,22 @@ export default async function seedDemoData({ container }: ExecArgs) {
 
   logger.info("Seeding fulfillment data...");
   const shippingProfiles = await fulfillmentModuleService.listShippingProfiles({
-    type: "default"
-  })
-  let shippingProfile = shippingProfiles.length ? shippingProfiles[0] : null
+    type: "default",
+  });
+  let shippingProfile = shippingProfiles.length ? shippingProfiles[0] : null;
 
   if (!shippingProfile) {
     const { result: shippingProfileResult } =
-    await createShippingProfilesWorkflow(container).run({
-      input: {
-        data: [
-          {
-            name: "Default Shipping Profile",
-            type: "default",
-          },
-        ],
-      },
-    });
+      await createShippingProfilesWorkflow(container).run({
+        input: {
+          data: [
+            {
+              name: "Default Shipping Profile",
+              type: "default",
+            },
+          ],
+        },
+      });
     shippingProfile = shippingProfileResult[0];
   }
 
@@ -312,20 +310,200 @@ export default async function seedDemoData({ container }: ExecArgs) {
   ).run({
     input: {
       product_categories: [
-        {
-          name: "Shirts",
-          is_active: true,
-        },
+        // Parent categories
         {
           name: "Sweatshirts",
+          handle: "sweatshirts",
           is_active: true,
         },
         {
           name: "Pants",
+          handle: "pants",
+          is_active: true,
+        },
+        {
+          name: "Shirts",
+          handle: "shirts",
           is_active: true,
         },
         {
           name: "Merch",
+          handle: "merch",
+          is_active: true,
+        },
+      ],
+    },
+  });
+
+  // Create child categories
+  await createProductCategoriesWorkflow(container).run({
+    input: {
+      product_categories: [
+        // Sweatshirts children
+        {
+          name: "Hoodies",
+          handle: "hoodies",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Sweatshirts"
+          )!.id,
+          is_active: true,
+        },
+        {
+          name: "Crewnecks",
+          handle: "crewnecks",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Sweatshirts"
+          )!.id,
+          is_active: true,
+        },
+        {
+          name: "Zip-ups",
+          handle: "zip-ups",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Sweatshirts"
+          )!.id,
+          is_active: true,
+        },
+        {
+          name: "Oversized",
+          handle: "oversized",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Sweatshirts"
+          )!.id,
+          is_active: true,
+        },
+        {
+          name: "Vintage",
+          handle: "vintage-sweatshirts",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Sweatshirts"
+          )!.id,
+          is_active: true,
+        },
+        {
+          name: "Graphic",
+          handle: "graphic-sweatshirts",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Sweatshirts"
+          )!.id,
+          is_active: true,
+        },
+
+        // Pants children
+        {
+          name: "Jeans",
+          handle: "jeans",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Pants"
+          )!.id,
+          is_active: true,
+        },
+        {
+          name: "Sweatpants",
+          handle: "sweatpants",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Pants"
+          )!.id,
+          is_active: true,
+        },
+        {
+          name: "Shorts",
+          handle: "shorts",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Pants"
+          )!.id,
+          is_active: true,
+        },
+        {
+          name: "Cargo Pants",
+          handle: "cargo-pants",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Pants"
+          )!.id,
+          is_active: true,
+        },
+        {
+          name: "Track Pants",
+          handle: "track-pants",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Pants"
+          )!.id,
+          is_active: true,
+        },
+
+        // Shirts children
+        {
+          name: "T-Shirts",
+          handle: "t-shirts",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Shirts"
+          )!.id,
+          is_active: true,
+        },
+        {
+          name: "Button-Up",
+          handle: "button-up",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Shirts"
+          )!.id,
+          is_active: true,
+        },
+        {
+          name: "Tank Tops",
+          handle: "tank-tops",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Shirts"
+          )!.id,
+          is_active: true,
+        },
+        {
+          name: "Long Sleeve",
+          handle: "long-sleeve",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Shirts"
+          )!.id,
+          is_active: true,
+        },
+        {
+          name: "Polo",
+          handle: "polo",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Shirts"
+          )!.id,
+          is_active: true,
+        },
+        {
+          name: "Graphic Tees",
+          handle: "graphic-tees",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Shirts"
+          )!.id,
+          is_active: true,
+        },
+
+        // Merch children
+        {
+          name: "Stickers",
+          handle: "stickers",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Merch"
+          )!.id,
+          is_active: true,
+        },
+        {
+          name: "Mugs",
+          handle: "mugs",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Merch"
+          )!.id,
+          is_active: true,
+        },
+        {
+          name: "Keychains",
+          handle: "keychains",
+          parent_category_id: categoryResult.find(
+            (cat) => cat.name === "Merch"
+          )!.id,
           is_active: true,
         },
       ],
@@ -378,6 +556,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
                 Size: "S",
                 Color: "Black",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -396,6 +575,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
                 Size: "S",
                 Color: "White",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -414,6 +594,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
                 Size: "M",
                 Color: "Black",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -432,6 +613,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
                 Size: "M",
                 Color: "White",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -450,6 +632,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
                 Size: "L",
                 Color: "Black",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -468,6 +651,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
                 Size: "L",
                 Color: "White",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -486,6 +670,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
                 Size: "XL",
                 Color: "Black",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -504,6 +689,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
                 Size: "XL",
                 Color: "White",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -554,6 +740,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
               options: {
                 Size: "S",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -571,6 +758,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
               options: {
                 Size: "M",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -588,6 +776,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
               options: {
                 Size: "L",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -605,6 +794,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
               options: {
                 Size: "XL",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -655,6 +845,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
               options: {
                 Size: "S",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -672,6 +863,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
               options: {
                 Size: "M",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -689,6 +881,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
               options: {
                 Size: "L",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -706,6 +899,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
               options: {
                 Size: "XL",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -756,6 +950,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
               options: {
                 Size: "S",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -773,6 +968,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
               options: {
                 Size: "M",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -790,6 +986,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
               options: {
                 Size: "L",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -807,6 +1004,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
               options: {
                 Size: "XL",
               },
+              manage_inventory: false,
               prices: [
                 {
                   amount: 10,
@@ -828,30 +1026,6 @@ export default async function seedDemoData({ container }: ExecArgs) {
       ],
     },
   });
+
   logger.info("Finished seeding product data.");
-
-  logger.info("Seeding inventory levels.");
-
-  const { data: inventoryItems } = await query.graph({
-    entity: "inventory_item",
-    fields: ["id"],
-  });
-
-  const inventoryLevels: CreateInventoryLevelInput[] = [];
-  for (const inventoryItem of inventoryItems) {
-    const inventoryLevel = {
-      location_id: stockLocation.id,
-      stocked_quantity: 1000000,
-      inventory_item_id: inventoryItem.id,
-    };
-    inventoryLevels.push(inventoryLevel);
-  }
-
-  await createInventoryLevelsWorkflow(container).run({
-    input: {
-      inventory_levels: inventoryLevels,
-    },
-  });
-
-  logger.info("Finished seeding inventory levels data.");
 }
