@@ -103,11 +103,8 @@ export async function createServer(
 if (!isTest) {
   const port = process.env.PORT || 9902;
 
-  console.log("process.env.PORT - ", process.env.PORT);
-  console.log("port - ", port);
-
   createServer().then(async ({ app }) =>
-    app.listen(port, '0.0.0.0', () => {
+    app.listen(port, "0.0.0.0", () => {
       console.info(`Server is ready on port: ${port}`);
     })
   );

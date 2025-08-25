@@ -57,6 +57,12 @@ export default defineConfig((configEnv) => {
     ssr: {
       noExternal: ["@medusajs/js-sdk", "@medusajs/types", "@medusajs/ui"],
     },
+    server: {
+      allowedHosts: true,
+      hmr: {
+        timeout: 60000,
+      },
+    },
     build: {
       ...(configEnv.isSsrBuild ? ssrBuildConfig : clientBuildConfig),
       sourcemap: false,
