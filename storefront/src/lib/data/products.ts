@@ -1,136 +1,110 @@
-"use server"
+import { sdk } from "@lib/config";
+import { HttpTypes } from "@medusajs/types";
 
-import { sdk } from "@lib/config"
-import { getAuthHeaders, getCacheOptions } from "@lib/data/cookies"
-import { getRegion, retrieveRegion } from "@lib/data/regions"
-import { sortProducts } from "@lib/util/sort-products"
-import { HttpTypes } from "@medusajs/types"
-import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+export type SortOptions =
+  | "price_asc"
+  | "price_desc"
+  | "title_asc"
+  | "title_desc"
+  | "created_at";
 
 export const listProducts = async ({
   pageParam = 1,
   queryParams,
-  countryCode,
   regionId,
 }: {
-  pageParam?: number
-  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
-  countryCode?: string
-  regionId?: string
+  pageParam?: number;
+  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams;
+  regionId?: string;
 }): Promise<{
-  response: { products: HttpTypes.StoreProduct[]; count: number }
-  nextPage: number | null
-  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
+  products: HttpTypes.StoreProduct[];
+  count: number;
+  nextPage: number | null;
 }> => {
-  if (!countryCode && !regionId) {
-    throw new Error("Country code or region ID is required")
-  }
+  const limit = queryParams?.limit || 12;
+  const _pageParam = Math.max(pageParam, 1);
+  const offset = _pageParam === 1 ? 0 : (_pageParam - 1) * limit;
 
-  const limit = queryParams?.limit || 12
-  const _pageParam = Math.max(pageParam, 1)
-  const offset = _pageParam === 1 ? 0 : (_pageParam - 1) * limit
+  try {
+    const searchParams = new URLSearchParams({
+      limit: String(limit),
+      offset: String(offset),
+      ...(regionId && { region_id: regionId }),
+      ...Object.entries(queryParams || {}).reduce((acc, [key, value]) => {
+        if (value !== undefined && value !== null) {
+          acc[key] = String(value);
+        }
+        return acc;
+      }, {} as Record<string, string>),
+    });
 
-  let region: HttpTypes.StoreRegion | undefined | null
+    const response = await sdk.client.fetch<{
+      products: HttpTypes.StoreProduct[];
+      count: number;
+    }>(`/store/products?${searchParams}`, {
+      method: "GET",
+    });
 
-  if (countryCode) {
-    region = await getRegion(countryCode)
-  } else {
-    region = await retrieveRegion(regionId!)
-  }
+    const nextPage = offset + limit < response.count ? _pageParam + 1 : null;
 
-  if (!region) {
     return {
-      response: { products: [], count: 0 },
-      nextPage: null,
+      products: response.products,
+      count: response.count,
+      nextPage,
+    };
+  } catch (error) {
+    console.error("Failed to fetch products:", error);
+    throw error;
+  }
+};
+
+export const retrieveProduct = async (
+  handle: string,
+  regionId?: string
+): Promise<HttpTypes.StoreProduct> => {
+  try {
+    const { products } = await sdk.store.product.list({
+      handle: handle,
+      region_id: regionId,
+      fields:
+        "*variants, +variants.inventory_quantity, +variants.manage_inventory, +variants.allow_backorder, *images, *options, *options.values, *collection, *tags",
+    });
+
+    if (!products || products.length === 0) {
+      throw new Error(`Product with handle ${handle} not found`);
     }
+
+    const product = products[0];
+
+    return product;
+  } catch (error) {
+    console.error(`Failed to fetch product ${handle}:`, error);
+    throw error;
   }
+};
 
-  const headers = {
-    ...(await getAuthHeaders()),
-  }
-
-  const next = {
-    ...(await getCacheOptions("products")),
-  }
-
-  return sdk.client
-    .fetch<{ products: HttpTypes.StoreProduct[]; count: number }>(
-      `/store/products`,
-      {
-        method: "GET",
-        query: {
-          limit,
-          offset,
-          region_id: region?.id,
-          fields:
-            "*variants.calculated_price,+variants.inventory_quantity,+metadata,+tags",
-          ...queryParams,
-        },
-        headers,
-        next,
-        cache: "force-cache",
-      }
-    )
-    .then(({ products, count }) => {
-      const nextPage = count > offset + limit ? pageParam + 1 : null
-
-      return {
-        response: {
-          products,
-          count,
-        },
-        nextPage: nextPage,
-        queryParams,
-      }
-    })
-}
-
-/**
- * This will fetch 100 products to the Next.js cache and sort them based on the sortBy parameter.
- * It will then return the paginated products based on the page and limit parameters.
- */
-export const listProductsWithSort = async ({
-  page = 0,
-  queryParams,
-  sortBy = "created_at",
-  countryCode,
+export const getProductsById = async ({
+  ids,
+  regionId,
 }: {
-  page?: number
-  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
-  sortBy?: SortOptions
-  countryCode: string
-}): Promise<{
-  response: { products: HttpTypes.StoreProduct[]; count: number }
-  nextPage: number | null
-  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
-}> => {
-  const limit = queryParams?.limit || 12
+  ids: string[];
+  regionId?: string;
+}): Promise<HttpTypes.StoreProduct[]> => {
+  try {
+    const searchParams = new URLSearchParams({
+      id: ids,
+      ...(regionId && { region_id: regionId }),
+    } as any);
 
-  const {
-    response: { products, count },
-  } = await listProducts({
-    pageParam: 0,
-    queryParams: {
-      ...queryParams,
-      limit: 100,
-    },
-    countryCode,
-  })
+    const response = await sdk.client.fetch<{
+      products: HttpTypes.StoreProduct[];
+    }>(`/store/products?${searchParams}`, {
+      method: "GET",
+    });
 
-  const sortedProducts = sortProducts(products, sortBy)
-
-  const pageParam = (page - 1) * limit
-
-  const nextPage = count > pageParam + limit ? pageParam + limit : null
-
-  const paginatedProducts = sortedProducts.slice(pageParam, pageParam + limit)
-
-  return {
-    response: {
-      products: paginatedProducts,
-      count,
-    },
-    nextPage,
-    queryParams,
+    return response.products;
+  } catch (error) {
+    console.error("Failed to fetch products by IDs:", error);
+    throw error;
   }
-}
+};

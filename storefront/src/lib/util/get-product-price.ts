@@ -30,9 +30,11 @@ export const getPricesForVariant = (variant: any) => {
 export function getProductPrice({
   product,
   variantId,
+  region,
 }: {
   product: HttpTypes.StoreProduct
   variantId?: string
+  region?: HttpTypes.StoreRegion
 }) {
   if (!product || !product.id) {
     throw new Error("No product provided")

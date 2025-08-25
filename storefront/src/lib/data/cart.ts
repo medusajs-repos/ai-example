@@ -1,470 +1,381 @@
-"use server"
+import { sdk } from "@lib/config";
+import { getRegion } from "@lib/data/regions";
+import { getCartId, removeCartId, setCartId } from "@lib/util/cookies";
+import { HttpTypes } from "@medusajs/types";
 
-import { sdk } from "@lib/config"
-import {
-  getAuthHeaders,
-  getCacheOptions,
-  getCacheTag,
-  getCartId,
-  removeCartId,
-  setCartId,
-} from "@lib/data/cookies"
-import { getRegion } from "@lib/data/regions"
-import medusaError from "@lib/util/medusa-error"
-import { HttpTypes } from "@medusajs/types"
-import { revalidateTag } from "next/cache"
-import { redirect } from "next/navigation"
-
-/**
- * Retrieves a cart by its ID. If no ID is provided, it will use the cart ID from the cookies.
- * @param cartId - optional - The ID of the cart to retrieve.
- * @returns The cart object if found, or null if not found.
- */
-export async function retrieveCart(cartId?: string) {
-  const id = cartId || (await getCartId())
+export const retrieveCart = async (
+  cartId?: string
+): Promise<HttpTypes.StoreCart | null> => {
+  const id = cartId || getCartId();
 
   if (!id) {
-    return null
+    return null;
   }
 
-  const headers = {
-    ...(await getAuthHeaders()),
+  try {
+    const { cart } = await sdk.store.cart.retrieve(id, {
+      fields:
+        "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name",
+    });
+
+    return cart;
+  } catch (error) {
+    if (!cartId) {
+      removeCartId();
+    }
+
+    return null;
   }
+};
 
-  const next = {
-    ...(await getCacheOptions("carts")),
-  }
-
-  return await sdk.client
-    .fetch<HttpTypes.StoreCartResponse>(`/store/carts/${id}`, {
-      method: "GET",
-      query: {
-        fields:
-          "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name",
-      },
-      headers,
-      next,
-      cache: "force-cache",
-    })
-    .then(({ cart }) => cart)
-    .catch(() => null)
-}
-
-export async function getOrSetCart(countryCode: string) {
-  const region = await getRegion(countryCode)
+export const getOrSetCart = async (
+  countryCode: string
+): Promise<HttpTypes.StoreCart> => {
+  const region = await getRegion(countryCode);
 
   if (!region) {
-    throw new Error(`Region not found for country code: ${countryCode}`)
+    throw new Error(`Region not found for country code: ${countryCode}`);
   }
 
-  let cart = await retrieveCart()
-
-  const headers = {
-    ...(await getAuthHeaders()),
-  }
+  let cart = await retrieveCart();
 
   if (!cart) {
-    const cartResp = await sdk.store.cart.create(
-      { region_id: region.id },
-      {},
-      headers
-    )
-    cart = cartResp.cart
-
-    await setCartId(cart.id)
-
-    const cartCacheTag = await getCacheTag("carts")
-    revalidateTag(cartCacheTag)
+    // Create new cart
+    const cartResp = await sdk.store.cart.create({ region_id: region.id }, {});
+    cart = cartResp.cart;
+    setCartId(cart.id);
   }
 
-  if (cart && cart?.region_id !== region.id) {
-    await sdk.store.cart.update(cart.id, { region_id: region.id }, {}, headers)
-    const cartCacheTag = await getCacheTag("carts")
-    revalidateTag(cartCacheTag)
+  // Update cart region if different
+  if (cart && cart.region_id !== region.id) {
+    await sdk.store.cart.update(cart.id, { region_id: region.id }, {});
   }
 
-  return cart
-}
+  return cart;
+};
 
-export async function updateCart(data: HttpTypes.StoreUpdateCart) {
-  const cartId = await getCartId()
-
-  if (!cartId) {
-    throw new Error("No existing cart found, please create one before updating")
+export const createCart = async (
+  regionId: string
+): Promise<HttpTypes.StoreCart> => {
+  try {
+    const { cart } = await sdk.store.cart.create({ region_id: regionId }, {});
+    setCartId(cart.id);
+    return cart;
+  } catch (error) {
+    throw error;
   }
+};
 
-  const headers = {
-    ...(await getAuthHeaders()),
-  }
-
-  return sdk.store.cart
-    .update(cartId, data, {}, headers)
-    .then(async ({ cart }) => {
-      const cartCacheTag = await getCacheTag("carts")
-      revalidateTag(cartCacheTag)
-
-      const fulfillmentCacheTag = await getCacheTag("fulfillment")
-      revalidateTag(fulfillmentCacheTag)
-
-      return cart
-    })
-    .catch(medusaError)
-}
-
-export async function addToCart({
+export const addToCart = async ({
   variantId,
   quantity,
   countryCode,
 }: {
-  variantId: string
-  quantity: number
-  countryCode: string
-}) {
+  variantId: string;
+  quantity: number;
+  countryCode: string;
+}): Promise<HttpTypes.StoreCart> => {
   if (!variantId) {
-    throw new Error("Missing variant ID when adding to cart")
+    throw new Error("Missing variant ID when adding to cart");
   }
 
-  const cart = await getOrSetCart(countryCode)
+  const cart = await getOrSetCart(countryCode);
 
   if (!cart) {
-    throw new Error("Error retrieving or creating cart")
+    throw new Error("Error retrieving or creating cart");
   }
 
-  const headers = {
-    ...(await getAuthHeaders()),
-  }
+  const response = await sdk.store.cart.createLineItem(
+    cart.id,
+    {
+      variant_id: variantId,
+      quantity,
+    },
+    {}
+  );
 
-  await sdk.store.cart
-    .createLineItem(
-      cart.id,
-      {
-        variant_id: variantId,
-        quantity,
-      },
-      {},
-      headers
-    )
-    .then(async () => {
-      const cartCacheTag = await getCacheTag("carts")
-      revalidateTag(cartCacheTag)
+  return response.cart;
+};
 
-      const fulfillmentCacheTag = await getCacheTag("fulfillment")
-      revalidateTag(fulfillmentCacheTag)
-    })
-    .catch(medusaError)
-}
-
-export async function updateLineItem({
+export const updateLineItem = async ({
   lineId,
   quantity,
 }: {
-  lineId: string
-  quantity: number
-}) {
-  if (!lineId) {
-    throw new Error("Missing lineItem ID when updating line item")
-  }
-
-  const cartId = await getCartId()
+  lineId: string;
+  quantity: number;
+}): Promise<HttpTypes.StoreCart> => {
+  const cartId = getCartId();
 
   if (!cartId) {
-    throw new Error("Missing cart ID when updating line item")
+    throw new Error("No cart found");
   }
 
-  const headers = {
-    ...(await getAuthHeaders()),
-  }
+  const { cart } = await sdk.store.cart.updateLineItem(
+    cartId,
+    lineId,
+    { quantity },
+    {}
+  );
+  return cart;
+};
 
-  await sdk.store.cart
-    .updateLineItem(cartId, lineId, { quantity }, {}, headers)
-    .then(async () => {
-      const cartCacheTag = await getCacheTag("carts")
-      revalidateTag(cartCacheTag)
-
-      const fulfillmentCacheTag = await getCacheTag("fulfillment")
-      revalidateTag(fulfillmentCacheTag)
-    })
-    .catch(medusaError)
-}
-
-export async function deleteLineItem(lineId: string) {
-  if (!lineId) {
-    throw new Error("Missing lineItem ID when deleting line item")
-  }
-
-  const cartId = await getCartId()
+export const deleteLineItem = async (lineId: string): Promise<void> => {
+  const cartId = getCartId();
 
   if (!cartId) {
-    throw new Error("Missing cart ID when deleting line item")
+    throw new Error("No cart found");
   }
 
-  const headers = {
-    ...(await getAuthHeaders()),
-  }
+  await sdk.store.cart.deleteLineItem(cartId, lineId);
+};
 
-  await sdk.store.cart
-    .deleteLineItem(cartId, lineId, headers)
-    .then(async () => {
-      const cartCacheTag = await getCacheTag("carts")
-      revalidateTag(cartCacheTag)
-
-      const fulfillmentCacheTag = await getCacheTag("fulfillment")
-      revalidateTag(fulfillmentCacheTag)
-    })
-    .catch(medusaError)
-}
-
-export async function setShippingMethod({
-  cartId,
-  shippingMethodId,
-}: {
-  cartId: string
-  shippingMethodId: string
-}) {
-  const headers = {
-    ...(await getAuthHeaders()),
-  }
-
-  return sdk.store.cart
-    .addShippingMethod(cartId, { option_id: shippingMethodId }, {}, headers)
-    .then(async () => {
-      const cartCacheTag = await getCacheTag("carts")
-      revalidateTag(cartCacheTag)
-    })
-    .catch(medusaError)
-}
-
-export async function initiatePaymentSession(
-  cart: HttpTypes.StoreCart,
-  data: HttpTypes.StoreInitializePaymentSession
-) {
-  const headers = {
-    ...(await getAuthHeaders()),
-  }
-
-  return sdk.store.payment
-    .initiatePaymentSession(cart, data, {}, headers)
-    .then(async (resp) => {
-      const cartCacheTag = await getCacheTag("carts")
-      revalidateTag(cartCacheTag)
-      return resp
-    })
-    .catch(medusaError)
-}
-
-export async function applyPromotions(codes: string[]) {
-  const cartId = await getCartId()
-
-  if (!cartId) {
-    throw new Error("No existing cart found")
-  }
-
-  const headers = {
-    ...(await getAuthHeaders()),
-  }
-
-  return sdk.store.cart
-    .update(cartId, { promo_codes: codes }, {}, headers)
-    .then(async () => {
-      const cartCacheTag = await getCacheTag("carts")
-      revalidateTag(cartCacheTag)
-
-      const fulfillmentCacheTag = await getCacheTag("fulfillment")
-      revalidateTag(fulfillmentCacheTag)
-    })
-    .catch(medusaError)
-}
-
-export async function applyGiftCard(code: string) {
-  //   const cartId = getCartId()
-  //   if (!cartId) return "No cartId cookie found"
-  //   try {
-  //     await updateCart(cartId, { gift_cards: [{ code }] }).then(() => {
-  //       revalidateTag("cart")
-  //     })
-  //   } catch (error: any) {
-  //     throw error
-  //   }
-}
-
-export async function removeDiscount(code: string) {
-  // const cartId = getCartId()
-  // if (!cartId) return "No cartId cookie found"
-  // try {
-  //   await deleteDiscount(cartId, code)
-  //   revalidateTag("cart")
-  // } catch (error: any) {
-  //   throw error
-  // }
-}
-
-export async function removeGiftCard(
-  codeToRemove: string,
-  giftCards: any[]
-  // giftCards: GiftCard[]
-) {
-  //   const cartId = getCartId()
-  //   if (!cartId) return "No cartId cookie found"
-  //   try {
-  //     await updateCart(cartId, {
-  //       gift_cards: [...giftCards]
-  //         .filter((gc) => gc.code !== codeToRemove)
-  //         .map((gc) => ({ code: gc.code })),
-  //     }).then(() => {
-  //       revalidateTag("cart")
-  //     })
-  //   } catch (error: any) {
-  //     throw error
-  //   }
-}
-
-export async function submitPromotionForm(
-  currentState: unknown,
+export const setAddresses = async (
+  prevState: any,
   formData: FormData
-) {
-  const code = formData.get("code") as string
-  try {
-    await applyPromotions([code])
-  } catch (e: any) {
-    return e.message
+): Promise<HttpTypes.StoreCart | null> => {
+  const cartId = getCartId();
+
+  if (!cartId) {
+    throw new Error("No cart found");
   }
-}
 
-// TODO: Pass a POJO instead of a form entity here
-export async function setAddresses(currentState: unknown, formData: FormData) {
+  const data = Object.fromEntries(formData.entries());
+
+  const shippingAddress = {
+    first_name: data["shipping_address.first_name"] as string,
+    last_name: data["shipping_address.last_name"] as string,
+    address_1: data["shipping_address.address_1"] as string,
+    address_2: (data["shipping_address.address_2"] as string) || "",
+    company: (data["shipping_address.company"] as string) || "",
+    postal_code: data["shipping_address.postal_code"] as string,
+    city: data["shipping_address.city"] as string,
+    country_code: data["shipping_address.country_code"] as string,
+    province: (data["shipping_address.province"] as string) || "",
+    phone: (data["shipping_address.phone"] as string) || "",
+  };
+
+  const billingAddress =
+    data["same_as_billing"] === "on"
+      ? shippingAddress
+      : {
+          first_name: data["billing_address.first_name"] as string,
+          last_name: data["billing_address.last_name"] as string,
+          address_1: data["billing_address.address_1"] as string,
+          address_2: (data["billing_address.address_2"] as string) || "",
+          company: (data["billing_address.company"] as string) || "",
+          postal_code: data["billing_address.postal_code"] as string,
+          city: data["billing_address.city"] as string,
+          country_code: data["billing_address.country_code"] as string,
+          province: (data["billing_address.province"] as string) || "",
+          phone: (data["billing_address.phone"] as string) || "",
+        };
+
+  const email = data.email as string;
+
   try {
-    if (!formData) {
-      throw new Error("No form data found when setting addresses")
-    }
-    const cartId = getCartId()
-    if (!cartId) {
-      throw new Error("No existing cart found when setting addresses")
-    }
-
-    const data = {
-      shipping_address: {
-        first_name: formData.get("shipping_address.first_name"),
-        last_name: formData.get("shipping_address.last_name"),
-        address_1: formData.get("shipping_address.address_1"),
-        address_2: "",
-        company: formData.get("shipping_address.company"),
-        postal_code: formData.get("shipping_address.postal_code"),
-        city: formData.get("shipping_address.city"),
-        country_code: formData.get("shipping_address.country_code"),
-        province: formData.get("shipping_address.province"),
-        phone: formData.get("shipping_address.phone"),
+    const { cart } = await sdk.store.cart.update(
+      cartId,
+      {
+        shipping_address: shippingAddress,
+        billing_address: billingAddress,
+        email,
       },
-      email: formData.get("email"),
-    } as any
+      {}
+    );
+    return cart;
+  } catch (error) {
+    console.error("Failed to set addresses:", error);
+    throw error;
+  }
+};
 
-    const sameAsBilling = formData.get("same_as_billing")
-    if (sameAsBilling === "on") data.billing_address = data.shipping_address
+export const setShippingMethod = async (
+  shippingOptionId: string
+): Promise<HttpTypes.StoreCart> => {
+  const cartId = getCartId();
 
-    if (sameAsBilling !== "on")
-      data.billing_address = {
-        first_name: formData.get("billing_address.first_name"),
-        last_name: formData.get("billing_address.last_name"),
-        address_1: formData.get("billing_address.address_1"),
-        address_2: "",
-        company: formData.get("billing_address.company"),
-        postal_code: formData.get("billing_address.postal_code"),
-        city: formData.get("billing_address.city"),
-        country_code: formData.get("billing_address.country_code"),
-        province: formData.get("billing_address.province"),
-        phone: formData.get("billing_address.phone"),
+  if (!cartId) {
+    throw new Error("No cart found");
+  }
+
+  try {
+    const { cart } = await sdk.store.cart.addShippingMethod(
+      cartId,
+      { option_id: shippingOptionId },
+      {}
+    );
+    return cart;
+  } catch (error) {
+    console.error("Failed to set shipping method:", error);
+    throw error;
+  }
+};
+
+export const initiatePaymentSession = async (
+  providerId: string
+): Promise<any> => {
+  const cartId = getCartId();
+
+  if (!cartId) {
+    throw new Error("No cart found");
+  }
+
+  // First retrieve the cart to pass to the payment API
+  const cart = await retrieveCart(cartId);
+  if (!cart) {
+    throw new Error("Cart not found");
+  }
+
+  try {
+    const response = await sdk.store.payment.initiatePaymentSession(
+      cart,
+      { provider_id: providerId },
+      {}
+    );
+    return response;
+  } catch (error) {
+    console.error("Failed to initiate payment session:", error);
+    throw error;
+  }
+};
+
+export const setPaymentMethod = async (providerId: string): Promise<any> => {
+  const cartId = getCartId();
+
+  if (!cartId) {
+    throw new Error("No cart found");
+  }
+
+  // First retrieve the cart to pass to the payment API
+  const cart = await retrieveCart(cartId);
+  if (!cart) {
+    throw new Error("Cart not found");
+  }
+
+  try {
+    const response = await sdk.store.payment.setPaymentSession(
+      cart,
+      { provider_id: providerId },
+      {}
+    );
+    return response;
+  } catch (error) {
+    console.error("Failed to set payment method:", error);
+    throw error;
+  }
+};
+
+export const completeCart = async (): Promise<HttpTypes.StoreOrder> => {
+  const cartId = getCartId();
+
+  if (!cartId) {
+    throw new Error("No cart found");
+  }
+
+  try {
+    const cartRes = await sdk.store.cart.complete(cartId, {});
+
+    if (cartRes?.type === "order") {
+      // Clear the cart from storage after successful completion
+      removeCartId();
+      return cartRes.order;
+    }
+
+    // If not an order, something went wrong
+    throw new Error("Order creation failed");
+  } catch (error) {
+    console.error("Failed to complete cart:", error);
+    throw error;
+  }
+};
+
+export const clearAllCartCache = (queryClient: any, regionId?: string) => {
+  // Immediately set cart data to null to clear the UI
+  queryClient.setQueryData(["cart"], null);
+
+  // Remove all cart-related queries from cache
+  queryClient.removeQueries({ queryKey: ["cart"] });
+
+  // Clear payment methods cache
+  if (regionId) {
+    queryClient.removeQueries({ queryKey: ["payment-methods", regionId] });
+  }
+  queryClient.removeQueries({ queryKey: ["payment-methods"] });
+
+  // Clear shipping options cache
+  queryClient.removeQueries({ queryKey: ["shipping-options"] });
+
+  // Clear any other cart-related caches
+  queryClient.removeQueries({
+    predicate: (query) => {
+      const queryKey = query.queryKey as string[];
+      return (
+        queryKey &&
+        (queryKey.includes("cart") ||
+          queryKey.includes("payment") ||
+          queryKey.includes("shipping") ||
+          queryKey.includes("checkout"))
+      );
+    },
+  });
+
+  // Invalidate cart queries to trigger a fresh fetch with no cart ID
+  queryClient.invalidateQueries({ queryKey: ["cart"] });
+};
+
+export const clearAllStorageData = () => {
+  // Clear all cart-related cookies
+  removeCartId();
+
+  // Clear all cart-related localStorage items
+  if (typeof localStorage !== "undefined") {
+    const keysToRemove = [];
+
+    // Collect all cart-related localStorage keys
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (
+        key &&
+        (key.includes("cart") ||
+          key.includes("checkout") ||
+          key.includes("payment") ||
+          key.includes("shipping") ||
+          key.startsWith("medusa_cart") ||
+          key.startsWith("_medusa_cart"))
+      ) {
+        keysToRemove.push(key);
       }
-    await updateCart(data)
-  } catch (e: any) {
-    return e.message
+    }
+
+    // Remove collected keys
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+    });
   }
 
-  redirect(
-    `/${formData.get("shipping_address.country_code")}/checkout?step=delivery`
-  )
-}
+  // Clear all cart-related sessionStorage items
+  if (typeof sessionStorage !== "undefined") {
+    const keysToRemove = [];
 
-/**
- * Places an order for a cart. If no cart ID is provided, it will use the cart ID from the cookies.
- * @param cartId - optional - The ID of the cart to place an order for.
- * @returns The cart object if the order was successful, or null if not.
- */
-export async function placeOrder(cartId?: string) {
-  const id = cartId || (await getCartId())
+    // Collect all cart-related sessionStorage keys
+    for (let i = 0; i < sessionStorage.length; i++) {
+      const key = sessionStorage.key(i);
+      if (
+        key &&
+        (key.includes("cart") ||
+          key.includes("checkout") ||
+          key.includes("payment") ||
+          key.includes("shipping") ||
+          key.startsWith("medusa_cart") ||
+          key.startsWith("_medusa_cart"))
+      ) {
+        keysToRemove.push(key);
+      }
+    }
 
-  if (!id) {
-    throw new Error("No existing cart found when placing an order")
+    // Remove collected keys
+    keysToRemove.forEach((key) => {
+      sessionStorage.removeItem(key);
+    });
   }
-
-  const headers = {
-    ...(await getAuthHeaders()),
-  }
-
-  const cartRes = await sdk.store.cart
-    .complete(id, {}, headers)
-    .then(async (cartRes) => {
-      const cartCacheTag = await getCacheTag("carts")
-      revalidateTag(cartCacheTag)
-      return cartRes
-    })
-    .catch(medusaError)
-
-  if (cartRes?.type === "order") {
-    const countryCode =
-      cartRes.order.shipping_address?.country_code?.toLowerCase()
-
-    const orderCacheTag = await getCacheTag("orders")
-    revalidateTag(orderCacheTag)
-
-    removeCartId()
-    redirect(`/${countryCode}/order/${cartRes?.order.id}/confirmed`)
-  }
-
-  return cartRes.cart
-}
-
-/**
- * Updates the countrycode param and revalidates the regions cache
- * @param regionId
- * @param countryCode
- */
-export async function updateRegion(countryCode: string, currentPath: string) {
-  const cartId = await getCartId()
-  const region = await getRegion(countryCode)
-
-  if (!region) {
-    throw new Error(`Region not found for country code: ${countryCode}`)
-  }
-
-  if (cartId) {
-    await updateCart({ region_id: region.id })
-    const cartCacheTag = await getCacheTag("carts")
-    revalidateTag(cartCacheTag)
-  }
-
-  const regionCacheTag = await getCacheTag("regions")
-  revalidateTag(regionCacheTag)
-
-  const productsCacheTag = await getCacheTag("products")
-  revalidateTag(productsCacheTag)
-
-  redirect(`/${countryCode}${currentPath}`)
-}
-
-export async function listCartOptions() {
-  const cartId = await getCartId()
-  const headers = {
-    ...(await getAuthHeaders()),
-  }
-  const next = {
-    ...(await getCacheOptions("shippingOptions")),
-  }
-
-  return await sdk.client.fetch<{
-    shipping_options: HttpTypes.StoreCartShippingOption[]
-  }>("/store/shipping-options", {
-    query: { cart_id: cartId },
-    next,
-    headers,
-    cache: "force-cache",
-  })
-}
+};
