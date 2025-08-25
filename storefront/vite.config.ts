@@ -5,6 +5,7 @@ import path from "node:path";
 import url from "node:url";
 import type { BuildEnvironmentOptions } from "vite";
 import { defineConfig } from "vite";
+import Terminal from "vite-plugin-terminal";
 import viteTsConfigPaths from "vite-tsconfig-paths";
 
 const __filename = url.fileURLToPath(import.meta.url);
@@ -47,6 +48,7 @@ const clientBuildConfig: BuildEnvironmentOptions = {
 export default defineConfig((configEnv) => {
   return {
     plugins: [
+      Terminal({ console: "terminal" }),
       viteTsConfigPaths({
         projects: ["./tsconfig.json"],
       }),

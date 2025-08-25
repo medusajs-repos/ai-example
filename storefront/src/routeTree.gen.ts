@@ -21,6 +21,7 @@ import { Route as CountryCodeCheckoutRouteImport } from './routes/$countryCode/c
 import { Route as CountryCodeCartRouteImport } from './routes/$countryCode/cart'
 import { Route as CountryCodeAccountIndexRouteImport } from './routes/$countryCode/account/index'
 import { Route as CountryCodeProductsHandleRouteImport } from './routes/$countryCode/products/$handle'
+import { Route as CountryCodeCategoriesHandleRouteImport } from './routes/$countryCode/categories/$handle'
 import { Route as CountryCodeAccountProfileRouteImport } from './routes/$countryCode/account/profile'
 import { Route as CountryCodeAccountAddressesRouteImport } from './routes/$countryCode/account/addresses'
 import { Route as CountryCodeAccountOrdersIndexRouteImport } from './routes/$countryCode/account/orders/index'
@@ -88,6 +89,12 @@ const CountryCodeProductsHandleRoute =
     path: '/$countryCode/products/$handle',
     getParentRoute: () => rootRouteImport,
   } as any)
+const CountryCodeCategoriesHandleRoute =
+  CountryCodeCategoriesHandleRouteImport.update({
+    id: '/$countryCode/categories/$handle',
+    path: '/$countryCode/categories/$handle',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const CountryCodeAccountProfileRoute =
   CountryCodeAccountProfileRouteImport.update({
     id: '/$countryCode/account/profile',
@@ -132,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/posts/': typeof PostsIndexRoute
   '/$countryCode/account/addresses': typeof CountryCodeAccountAddressesRoute
   '/$countryCode/account/profile': typeof CountryCodeAccountProfileRoute
+  '/$countryCode/categories/$handle': typeof CountryCodeCategoriesHandleRoute
   '/$countryCode/products/$handle': typeof CountryCodeProductsHandleRoute
   '/$countryCode/account': typeof CountryCodeAccountIndexRoute
   '/$countryCode/order/$orderId/confirmed': typeof CountryCodeOrderOrderIdConfirmedRoute
@@ -150,6 +158,7 @@ export interface FileRoutesByTo {
   '/posts': typeof PostsIndexRoute
   '/$countryCode/account/addresses': typeof CountryCodeAccountAddressesRoute
   '/$countryCode/account/profile': typeof CountryCodeAccountProfileRoute
+  '/$countryCode/categories/$handle': typeof CountryCodeCategoriesHandleRoute
   '/$countryCode/products/$handle': typeof CountryCodeProductsHandleRoute
   '/$countryCode/account': typeof CountryCodeAccountIndexRoute
   '/$countryCode/order/$orderId/confirmed': typeof CountryCodeOrderOrderIdConfirmedRoute
@@ -170,6 +179,7 @@ export interface FileRoutesById {
   '/posts/': typeof PostsIndexRoute
   '/$countryCode/account/addresses': typeof CountryCodeAccountAddressesRoute
   '/$countryCode/account/profile': typeof CountryCodeAccountProfileRoute
+  '/$countryCode/categories/$handle': typeof CountryCodeCategoriesHandleRoute
   '/$countryCode/products/$handle': typeof CountryCodeProductsHandleRoute
   '/$countryCode/account/': typeof CountryCodeAccountIndexRoute
   '/$countryCode/order/$orderId/confirmed': typeof CountryCodeOrderOrderIdConfirmedRoute
@@ -191,6 +201,7 @@ export interface FileRouteTypes {
     | '/posts/'
     | '/$countryCode/account/addresses'
     | '/$countryCode/account/profile'
+    | '/$countryCode/categories/$handle'
     | '/$countryCode/products/$handle'
     | '/$countryCode/account'
     | '/$countryCode/order/$orderId/confirmed'
@@ -209,6 +220,7 @@ export interface FileRouteTypes {
     | '/posts'
     | '/$countryCode/account/addresses'
     | '/$countryCode/account/profile'
+    | '/$countryCode/categories/$handle'
     | '/$countryCode/products/$handle'
     | '/$countryCode/account'
     | '/$countryCode/order/$orderId/confirmed'
@@ -228,6 +240,7 @@ export interface FileRouteTypes {
     | '/posts/'
     | '/$countryCode/account/addresses'
     | '/$countryCode/account/profile'
+    | '/$countryCode/categories/$handle'
     | '/$countryCode/products/$handle'
     | '/$countryCode/account/'
     | '/$countryCode/order/$orderId/confirmed'
@@ -246,6 +259,7 @@ export interface RootRouteChildren {
   CountryCodeIndexRoute: typeof CountryCodeIndexRoute
   CountryCodeAccountAddressesRoute: typeof CountryCodeAccountAddressesRoute
   CountryCodeAccountProfileRoute: typeof CountryCodeAccountProfileRoute
+  CountryCodeCategoriesHandleRoute: typeof CountryCodeCategoriesHandleRoute
   CountryCodeProductsHandleRoute: typeof CountryCodeProductsHandleRoute
   CountryCodeAccountIndexRoute: typeof CountryCodeAccountIndexRoute
   CountryCodeOrderOrderIdConfirmedRoute: typeof CountryCodeOrderOrderIdConfirmedRoute
@@ -339,6 +353,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CountryCodeProductsHandleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$countryCode/categories/$handle': {
+      id: '/$countryCode/categories/$handle'
+      path: '/$countryCode/categories/$handle'
+      fullPath: '/$countryCode/categories/$handle'
+      preLoaderRoute: typeof CountryCodeCategoriesHandleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$countryCode/account/profile': {
       id: '/$countryCode/account/profile'
       path: '/$countryCode/account/profile'
@@ -402,6 +423,7 @@ const rootRouteChildren: RootRouteChildren = {
   CountryCodeIndexRoute: CountryCodeIndexRoute,
   CountryCodeAccountAddressesRoute: CountryCodeAccountAddressesRoute,
   CountryCodeAccountProfileRoute: CountryCodeAccountProfileRoute,
+  CountryCodeCategoriesHandleRoute: CountryCodeCategoriesHandleRoute,
   CountryCodeProductsHandleRoute: CountryCodeProductsHandleRoute,
   CountryCodeAccountIndexRoute: CountryCodeAccountIndexRoute,
   CountryCodeOrderOrderIdConfirmedRoute: CountryCodeOrderOrderIdConfirmedRoute,

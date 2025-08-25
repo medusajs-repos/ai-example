@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import path from "node:path";
 import * as zlib from "node:zlib";
+
 dotenv.config();
 
 const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD;
@@ -88,7 +89,6 @@ export async function createServer(
         }
       })();
 
-      console.info("Rendering: ", url, "...");
       entry.render({ req, res, head: viteHead });
     } catch (e) {
       !isProd && vite.ssrFixStacktrace(e);

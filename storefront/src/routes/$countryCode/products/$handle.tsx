@@ -4,28 +4,10 @@ import { listRegions } from "../../../lib/data/regions";
 import { getRegionByCountryCode } from "../../../lib/util/regions";
 import ProductDetails from "../../../pages/ProductDetails";
 
-// Temporary minimal test component
-const TestComponent = () => {
-  console.log("🎯 TEST COMPONENT IS RENDERING!");
-  return (
-    <div
-      style={{ padding: "40px", background: "yellow", border: "5px solid red" }}
-    >
-      <h1>🚀 TEST COMPONENT WORKS!</h1>
-      <p>
-        If you see this, the route is working but there's an issue with
-        ProductDetails
-      </p>
-    </div>
-  );
-};
-
 export const Route = createFileRoute("/$countryCode/products/$handle")({
   loader: async ({ params, context }) => {
     const { countryCode, handle } = params;
     const { queryClient } = context;
-
-    console.log("🚀 Route loader running for:", { countryCode, handle });
 
     // Pre-fetch region data
     const regionPromise = queryClient.ensureQueryData({
@@ -66,12 +48,6 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
       regions,
       product,
     };
-
-    console.log("✅ Route loader completed with data:", {
-      hasProduct: !!product,
-      hasRegion: !!defaultRegion,
-      productTitle: product?.title,
-    });
 
     return loaderResult;
   },

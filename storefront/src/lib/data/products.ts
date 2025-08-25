@@ -26,16 +26,24 @@ export const listProducts = async ({
   const offset = _pageParam === 1 ? 0 : (_pageParam - 1) * limit;
 
   try {
-    const searchParams = new URLSearchParams({
-      limit: String(limit),
-      offset: String(offset),
-      ...(regionId && { region_id: regionId }),
-      ...Object.entries(queryParams || {}).reduce((acc, [key, value]) => {
-        if (value !== undefined && value !== null) {
-          acc[key] = String(value);
+    const searchParams = new URLSearchParams();
+    searchParams.set("limit", String(limit));
+    searchParams.set("offset", String(offset));
+
+    if (regionId) {
+      searchParams.set("region_id", regionId);
+    }
+
+    Object.entries(queryParams || {}).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        if (Array.isArray(value)) {
+          value.forEach((item) => {
+            searchParams.append(`${key}[]`, String(item));
+          });
+        } else {
+          searchParams.set(key, String(value));
         }
-        return acc;
-      }, {} as Record<string, string>),
+      }
     });
 
     const response = await sdk.client.fetch<{

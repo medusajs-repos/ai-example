@@ -10,10 +10,6 @@ const FeaturedProducts = () => {
 
   const { region, countryCode, latestProducts } = loaderData || {};
 
-  console.log("Debug - Region:", region);
-  console.log("Debug - Country code:", countryCode);
-  console.log("Debug - Latest products:", latestProducts);
-
   // Use the pre-fetched data with useQuery for client-side updates
   const { data: productsData } = useQuery({
     queryKey: ["latest-products", 4, region?.id],
