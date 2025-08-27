@@ -50,7 +50,10 @@ export default defineConfig((configEnv) => {
 
   return {
     plugins: [
-      Terminal({ console: "terminal" }),
+      Terminal({
+        console: "terminal",
+        output: ["terminal"],
+      }),
       viteTsConfigPaths({
         projects: ["./tsconfig.json"],
       }),

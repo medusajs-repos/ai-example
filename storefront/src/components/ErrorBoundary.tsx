@@ -1,4 +1,5 @@
 import { Component, ErrorInfo, ReactNode } from "react";
+import { terminal } from "virtual:terminal";
 import ErrorFallback from "./ErrorFallback";
 
 interface Props {
@@ -30,6 +31,12 @@ export class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError && this.state.error) {
+      terminal.log("ErrorBoundary caught an error:", {
+        ...this.state.error,
+        errorMessage: this.state.error.message,
+        errorStackTrace: this.state.error.stack,
+      });
+
       if (this.props.fallback) {
         return this.props.fallback;
       }
