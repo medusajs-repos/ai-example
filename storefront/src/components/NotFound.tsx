@@ -1,0 +1,44 @@
+import { Button, Heading } from "@medusajs/ui";
+import { Link, useLocation } from "@tanstack/react-router";
+
+const NotFound = () => {
+  const location = useLocation();
+
+  return (
+    <div className="content-container py-12">
+      <div className="min-h-[50vh] flex flex-col items-center justify-center text-center">
+        <div className="max-w-md space-y-6">
+          {/* Large 404 */}
+          <h1 className="text-8xl font-light text-gray-300">404</h1>
+          
+          {/* Main message */}
+          <div className="space-y-2">
+            <Heading
+              level="h1"
+              className="text-3xl font-bold text-gray-900"
+            >
+              Page not found
+            </Heading>
+            <p className="text-gray-600">
+              The page you're looking for doesn't exist or has been moved.
+            </p>
+          </div>
+
+          {/* Current path */}
+          <div className="px-4 py-2 bg-gray-100 rounded-md font-mono text-sm text-gray-500">
+            {location.pathname}
+          </div>
+
+          {/* Action button */}
+          <Link to="/">
+            <Button className="px-6 py-3">
+              Go home
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default NotFound;

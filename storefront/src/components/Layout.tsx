@@ -4,6 +4,8 @@ import { getCountryCodeFromPath } from "@lib/util/regions";
 import { Link, Outlet, useLocation } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import CartDropdown from "./CartDropdown";
+import ErrorBoundary from "./ErrorBoundary";
+import ErrorFallback from "./ErrorFallback";
 import Footer from "./Footer";
 import SideMenu from "./SideMenu";
 
@@ -103,7 +105,9 @@ const Layout = () => {
       </div>
 
       <main className="relative">
-        <Outlet />
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
       </main>
 
       <Footer />

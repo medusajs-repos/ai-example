@@ -46,6 +46,8 @@ const clientBuildConfig: BuildEnvironmentOptions = {
 
 // https://vitejs.dev/config/
 export default defineConfig((configEnv) => {
+  const hmrPort = parseInt(process.env.VITE_HMR_PORT ?? "24677");
+
   return {
     plugins: [
       Terminal({ console: "terminal" }),
@@ -63,6 +65,8 @@ export default defineConfig((configEnv) => {
       allowedHosts: true,
       hmr: {
         timeout: 60000,
+        port: hmrPort,
+        overlay: true,
       },
     },
     build: {

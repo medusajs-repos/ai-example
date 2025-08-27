@@ -10,11 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ErrorRouteImport } from './routes/error'
-import { Route as PostsRouteRouteImport } from './routes/posts/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as PostsIndexRouteImport } from './routes/posts/index'
 import { Route as CountryCodeIndexRouteImport } from './routes/$countryCode/index'
-import { Route as PostsPostIdRouteImport } from './routes/posts/$postId'
 import { Route as CountryCodeStoreRouteImport } from './routes/$countryCode/store'
 import { Route as CountryCodeLoginRouteImport } from './routes/$countryCode/login'
 import { Route as CountryCodeCheckoutRouteImport } from './routes/$countryCode/checkout'
@@ -33,30 +30,15 @@ const ErrorRoute = ErrorRouteImport.update({
   path: '/error',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PostsRouteRoute = PostsRouteRouteImport.update({
-  id: '/posts',
-  path: '/posts',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PostsIndexRoute = PostsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PostsRouteRoute,
-} as any)
 const CountryCodeIndexRoute = CountryCodeIndexRouteImport.update({
   id: '/$countryCode/',
   path: '/$countryCode/',
   getParentRoute: () => rootRouteImport,
-} as any)
-const PostsPostIdRoute = PostsPostIdRouteImport.update({
-  id: '/$postId',
-  path: '/$postId',
-  getParentRoute: () => PostsRouteRoute,
 } as any)
 const CountryCodeStoreRoute = CountryCodeStoreRouteImport.update({
   id: '/$countryCode/store',
@@ -128,15 +110,12 @@ const CountryCodeAccountOrdersDetailsIdRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/posts': typeof PostsRouteRouteWithChildren
   '/error': typeof ErrorRoute
   '/$countryCode/cart': typeof CountryCodeCartRoute
   '/$countryCode/checkout': typeof CountryCodeCheckoutRoute
   '/$countryCode/login': typeof CountryCodeLoginRoute
   '/$countryCode/store': typeof CountryCodeStoreRoute
-  '/posts/$postId': typeof PostsPostIdRoute
   '/$countryCode': typeof CountryCodeIndexRoute
-  '/posts/': typeof PostsIndexRoute
   '/$countryCode/account/addresses': typeof CountryCodeAccountAddressesRoute
   '/$countryCode/account/profile': typeof CountryCodeAccountProfileRoute
   '/$countryCode/categories/$handle': typeof CountryCodeCategoriesHandleRoute
@@ -153,9 +132,7 @@ export interface FileRoutesByTo {
   '/$countryCode/checkout': typeof CountryCodeCheckoutRoute
   '/$countryCode/login': typeof CountryCodeLoginRoute
   '/$countryCode/store': typeof CountryCodeStoreRoute
-  '/posts/$postId': typeof PostsPostIdRoute
   '/$countryCode': typeof CountryCodeIndexRoute
-  '/posts': typeof PostsIndexRoute
   '/$countryCode/account/addresses': typeof CountryCodeAccountAddressesRoute
   '/$countryCode/account/profile': typeof CountryCodeAccountProfileRoute
   '/$countryCode/categories/$handle': typeof CountryCodeCategoriesHandleRoute
@@ -168,15 +145,12 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/posts': typeof PostsRouteRouteWithChildren
   '/error': typeof ErrorRoute
   '/$countryCode/cart': typeof CountryCodeCartRoute
   '/$countryCode/checkout': typeof CountryCodeCheckoutRoute
   '/$countryCode/login': typeof CountryCodeLoginRoute
   '/$countryCode/store': typeof CountryCodeStoreRoute
-  '/posts/$postId': typeof PostsPostIdRoute
   '/$countryCode/': typeof CountryCodeIndexRoute
-  '/posts/': typeof PostsIndexRoute
   '/$countryCode/account/addresses': typeof CountryCodeAccountAddressesRoute
   '/$countryCode/account/profile': typeof CountryCodeAccountProfileRoute
   '/$countryCode/categories/$handle': typeof CountryCodeCategoriesHandleRoute
@@ -190,15 +164,12 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/posts'
     | '/error'
     | '/$countryCode/cart'
     | '/$countryCode/checkout'
     | '/$countryCode/login'
     | '/$countryCode/store'
-    | '/posts/$postId'
     | '/$countryCode'
-    | '/posts/'
     | '/$countryCode/account/addresses'
     | '/$countryCode/account/profile'
     | '/$countryCode/categories/$handle'
@@ -215,9 +186,7 @@ export interface FileRouteTypes {
     | '/$countryCode/checkout'
     | '/$countryCode/login'
     | '/$countryCode/store'
-    | '/posts/$postId'
     | '/$countryCode'
-    | '/posts'
     | '/$countryCode/account/addresses'
     | '/$countryCode/account/profile'
     | '/$countryCode/categories/$handle'
@@ -229,15 +198,12 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/posts'
     | '/error'
     | '/$countryCode/cart'
     | '/$countryCode/checkout'
     | '/$countryCode/login'
     | '/$countryCode/store'
-    | '/posts/$postId'
     | '/$countryCode/'
-    | '/posts/'
     | '/$countryCode/account/addresses'
     | '/$countryCode/account/profile'
     | '/$countryCode/categories/$handle'
@@ -250,7 +216,6 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  PostsRouteRoute: typeof PostsRouteRouteWithChildren
   ErrorRoute: typeof ErrorRoute
   CountryCodeCartRoute: typeof CountryCodeCartRoute
   CountryCodeCheckoutRoute: typeof CountryCodeCheckoutRoute
@@ -276,13 +241,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ErrorRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/posts': {
-      id: '/posts'
-      path: '/posts'
-      fullPath: '/posts'
-      preLoaderRoute: typeof PostsRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -290,26 +248,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/posts/': {
-      id: '/posts/'
-      path: '/'
-      fullPath: '/posts/'
-      preLoaderRoute: typeof PostsIndexRouteImport
-      parentRoute: typeof PostsRouteRoute
-    }
     '/$countryCode/': {
       id: '/$countryCode/'
       path: '/$countryCode'
       fullPath: '/$countryCode'
       preLoaderRoute: typeof CountryCodeIndexRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/posts/$postId': {
-      id: '/posts/$postId'
-      path: '/$postId'
-      fullPath: '/posts/$postId'
-      preLoaderRoute: typeof PostsPostIdRouteImport
-      parentRoute: typeof PostsRouteRoute
     }
     '/$countryCode/store': {
       id: '/$countryCode/store'
@@ -398,23 +342,8 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface PostsRouteRouteChildren {
-  PostsPostIdRoute: typeof PostsPostIdRoute
-  PostsIndexRoute: typeof PostsIndexRoute
-}
-
-const PostsRouteRouteChildren: PostsRouteRouteChildren = {
-  PostsPostIdRoute: PostsPostIdRoute,
-  PostsIndexRoute: PostsIndexRoute,
-}
-
-const PostsRouteRouteWithChildren = PostsRouteRoute._addFileChildren(
-  PostsRouteRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  PostsRouteRoute: PostsRouteRouteWithChildren,
   ErrorRoute: ErrorRoute,
   CountryCodeCartRoute: CountryCodeCartRoute,
   CountryCodeCheckoutRoute: CountryCodeCheckoutRoute,

@@ -101,7 +101,7 @@ export async function createServer(
 }
 
 if (!isTest) {
-  const port = process.env.PORT || 9902;
+  const port = process.env.VITE_PORT || 9902;
 
   createServer().then(async ({ app }) =>
     app.listen(port, "0.0.0.0", () => {

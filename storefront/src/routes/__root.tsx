@@ -1,4 +1,6 @@
+import ErrorFallback from "@/components/ErrorFallback";
 import Layout from "@/components/Layout";
+import NotFound from "@/components/NotFound";
 import RegionRedirect from "@/components/RegionRedirect";
 import {
   HeadContent,
@@ -54,6 +56,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       },
     ],
   }),
+  notFoundComponent: NotFound,
   component: RootComponent,
 });
 

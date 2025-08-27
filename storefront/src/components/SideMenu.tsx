@@ -1,28 +1,33 @@
-"use client"
+"use client";
 
-import { Popover, PopoverPanel, Transition } from "@headlessui/react"
-import { ArrowRightMini, XMark } from "@medusajs/icons"
-import { Text, clx } from "@medusajs/ui"
-import { Fragment } from "react"
-import { Link, useLocation } from "@tanstack/react-router"
+import {
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  Transition,
+} from "@headlessui/react";
+import { ArrowRightMini, XMark } from "@medusajs/icons";
+import { Text, clx } from "@medusajs/ui";
+import { Link, useLocation } from "@tanstack/react-router";
+import { Fragment } from "react";
 
-import { HttpTypes } from "@medusajs/types"
-import CountrySelect from "./CountrySelect"
-import useToggleState from "@lib/hooks/useToggleState"
-import { getCountryCodeFromPath } from "@lib/util/regions"
+import useToggleState from "@lib/hooks/useToggleState";
+import { getCountryCodeFromPath } from "@lib/util/regions";
+import { HttpTypes } from "@medusajs/types";
+import CountrySelect from "./CountrySelect";
 
 const SideMenuItems = {
   Home: "/",
   Store: "/store",
   Account: "/account",
   Cart: "/cart",
-}
+};
 
 const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
-  const toggleState = useToggleState()
-  const location = useLocation()
-  const countryCode = getCountryCodeFromPath(location.pathname)
-  const baseHref = countryCode ? `/${countryCode}` : ''
+  const toggleState = useToggleState();
+  const location = useLocation();
+  const countryCode = getCountryCodeFromPath(location.pathname);
+  const baseHref = countryCode ? `/${countryCode}` : "";
 
   return (
     <div className="h-full">
@@ -31,12 +36,12 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
           {({ open, close }) => (
             <>
               <div className="relative flex h-full">
-                <Popover.Button
+                <PopoverButton
                   data-testid="nav-menu-button"
-                  className="relative h-full flex items-center transition-all ease-out duration-200 focus:outline-none hover:text-gray-900"
+                  className="relative h-full flex items-center transition-all ease-out duration-200 focus:outline-none hover:text-gray-900 hover:cursor-pointer"
                 >
                   Menu
-                </Popover.Button>
+                </PopoverButton>
               </div>
 
               <Transition
@@ -61,7 +66,8 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                     </div>
                     <ul className="flex flex-col gap-6 items-start justify-start">
                       {Object.entries(SideMenuItems).map(([name, href]) => {
-                        const linkHref = href === '/' ? baseHref || '/' : `${baseHref}${href}`
+                        const linkHref =
+                          href === "/" ? baseHref || "/" : `${baseHref}${href}`;
                         return (
                           <li key={name}>
                             <Link
@@ -73,7 +79,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                               {name}
                             </Link>
                           </li>
-                        )
+                        );
                       })}
                     </ul>
                     <div className="flex flex-col gap-y-6">
@@ -108,7 +114,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
         </Popover>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SideMenu
+export default SideMenu;
