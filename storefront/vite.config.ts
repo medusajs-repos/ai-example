@@ -3,44 +3,13 @@ import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import path from "node:path";
 import url from "node:url";
-import type { BuildEnvironmentOptions, Plugin } from "vite";
+import type { BuildEnvironmentOptions } from "vite";
 import { defineConfig } from "vite";
 import Terminal from "vite-plugin-terminal";
 import viteTsConfigPaths from "vite-tsconfig-paths";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-// Custom SVG plugin to add ID prefixes
-const svgPrefixPlugin = (): Plugin => {
-  return {
-    name: 'svg-prefix',
-    transform(code, id) {
-      if (id.endsWith('.svg')) {
-        // Extract filename without extension for prefix
-        const filename = path.basename(id, '.svg');
-        const prefix = `svg-${filename}`;
-        
-        // Replace all ID attributes and their references
-        let modifiedCode = code;
-        
-        // Replace id="..." with id="prefix-..."
-        modifiedCode = modifiedCode.replace(/id="([^"]*)"/g, `id="${prefix}-$1"`);
-        
-        // Replace url(#...) with url(#prefix-...)
-        modifiedCode = modifiedCode.replace(/url\(#([^)]*)\)/g, `url(#${prefix}-$1)`);
-        
-        // Replace href="#..." with href="#prefix-..."
-        modifiedCode = modifiedCode.replace(/href="#([^"]*)"/g, `href="#${prefix}-$1"`);
-        
-        return {
-          code: modifiedCode,
-          map: null
-        };
-      }
-    }
-  };
-};
 
 // SSR configuration
 const ssrBuildConfig: BuildEnvironmentOptions = {
@@ -91,7 +60,6 @@ export default defineConfig((configEnv) => {
       tailwindcss(),
       tanstackRouter({ target: "react", autoCodeSplitting: true }),
       react(),
-      svgPrefixPlugin(),
     ],
     ssr: {
       noExternal: ["@medusajs/js-sdk", "@medusajs/types", "@medusajs/ui"],
