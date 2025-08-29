@@ -1,11 +1,13 @@
 import {
   addToCart,
+  applyPromoCode,
   clearAllCartCache,
   clearAllStorageData,
   completeCart,
   createCart,
   deleteLineItem,
   getOrSetCart,
+  removePromoCode,
   retrieveCart,
   setAddresses,
   updateLineItem,
@@ -143,6 +145,46 @@ export const useCompleteOrder = () => {
     },
     onError: (error) => {
       console.error("Complete order error:", error);
+    },
+  });
+};
+
+export const useApplyPromoCode = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: applyPromoCode,
+    onSuccess: async (cart) => {
+      // Update the cache immediately with the returned cart data
+      if (cart) {
+        queryClient.setQueryData(["cart"], cart);
+      }
+
+      // Also invalidate to ensure fresh data on next fetch
+      await queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
+    onError: (error) => {
+      console.error("Apply promo code mutation error:", error);
+    },
+  });
+};
+
+export const useRemovePromoCode = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: removePromoCode,
+    onSuccess: async (cart) => {
+      // Update the cache immediately with the returned cart data
+      if (cart) {
+        queryClient.setQueryData(["cart"], cart);
+      }
+
+      // Also invalidate to ensure fresh data on next fetch
+      await queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
+    onError: (error) => {
+      console.error("Remove promo code mutation error:", error);
     },
   });
 };

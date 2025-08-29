@@ -379,3 +379,47 @@ export const clearAllStorageData = () => {
     });
   }
 };
+
+export const applyPromoCode = async (code: string): Promise<HttpTypes.StoreCart> => {
+  const cartId = getCartId();
+
+  if (!cartId) {
+    throw new Error("No cart found");
+  }
+
+  try {
+    const { cart } = await sdk.client.fetch<{ cart: HttpTypes.StoreCart }>(`/store/carts/${cartId}/promotions`, {
+      method: "POST",
+      body: {
+        promo_codes: [code],
+      },
+    });
+
+    return cart;
+  } catch (error) {
+    console.error("Failed to apply promo code:", error);
+    throw error;
+  }
+};
+
+export const removePromoCode = async (code: string): Promise<HttpTypes.StoreCart> => {
+  const cartId = getCartId();
+
+  if (!cartId) {
+    throw new Error("No cart found");
+  }
+
+  try {
+    const { cart } = await sdk.client.fetch<{ cart: HttpTypes.StoreCart }>(`/store/carts/${cartId}/promotions`, {
+      method: "DELETE",
+      body: {
+        promo_codes: [code],
+      },
+    });
+
+    return cart;
+  } catch (error) {
+    console.error("Failed to remove promo code:", error);
+    throw error;
+  }
+};
