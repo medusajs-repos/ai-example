@@ -8,8 +8,9 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createServerRootRoute } from '@tanstack/react-start/server'
+
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ErrorRouteImport } from './routes/error'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CountryCodeIndexRouteImport } from './routes/$countryCode/index'
 import { Route as CountryCodeStoreRouteImport } from './routes/$countryCode/store'
@@ -24,12 +25,10 @@ import { Route as CountryCodeAccountAddressesRouteImport } from './routes/$count
 import { Route as CountryCodeAccountOrdersIndexRouteImport } from './routes/$countryCode/account/orders/index'
 import { Route as CountryCodeOrderOrderIdConfirmedRouteImport } from './routes/$countryCode/order/$orderId/confirmed'
 import { Route as CountryCodeAccountOrdersDetailsIdRouteImport } from './routes/$countryCode/account/orders/details/$id'
+import { ServerRoute as HealthServerRouteImport } from './routes/health'
 
-const ErrorRoute = ErrorRouteImport.update({
-  id: '/error',
-  path: '/error',
-  getParentRoute: () => rootRouteImport,
-} as any)
+const rootServerRouteImport = createServerRootRoute()
+
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -107,10 +106,14 @@ const CountryCodeAccountOrdersDetailsIdRoute =
     path: '/$countryCode/account/orders/details/$id',
     getParentRoute: () => rootRouteImport,
   } as any)
+const HealthServerRoute = HealthServerRouteImport.update({
+  id: '/health',
+  path: '/health',
+  getParentRoute: () => rootServerRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/error': typeof ErrorRoute
   '/$countryCode/cart': typeof CountryCodeCartRoute
   '/$countryCode/checkout': typeof CountryCodeCheckoutRoute
   '/$countryCode/login': typeof CountryCodeLoginRoute
@@ -127,7 +130,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/error': typeof ErrorRoute
   '/$countryCode/cart': typeof CountryCodeCartRoute
   '/$countryCode/checkout': typeof CountryCodeCheckoutRoute
   '/$countryCode/login': typeof CountryCodeLoginRoute
@@ -145,7 +147,6 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/error': typeof ErrorRoute
   '/$countryCode/cart': typeof CountryCodeCartRoute
   '/$countryCode/checkout': typeof CountryCodeCheckoutRoute
   '/$countryCode/login': typeof CountryCodeLoginRoute
@@ -164,7 +165,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/error'
     | '/$countryCode/cart'
     | '/$countryCode/checkout'
     | '/$countryCode/login'
@@ -181,7 +181,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/error'
     | '/$countryCode/cart'
     | '/$countryCode/checkout'
     | '/$countryCode/login'
@@ -198,7 +197,6 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/error'
     | '/$countryCode/cart'
     | '/$countryCode/checkout'
     | '/$countryCode/login'
@@ -216,7 +214,6 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ErrorRoute: typeof ErrorRoute
   CountryCodeCartRoute: typeof CountryCodeCartRoute
   CountryCodeCheckoutRoute: typeof CountryCodeCheckoutRoute
   CountryCodeLoginRoute: typeof CountryCodeLoginRoute
@@ -231,16 +228,30 @@ export interface RootRouteChildren {
   CountryCodeAccountOrdersIndexRoute: typeof CountryCodeAccountOrdersIndexRoute
   CountryCodeAccountOrdersDetailsIdRoute: typeof CountryCodeAccountOrdersDetailsIdRoute
 }
+export interface FileServerRoutesByFullPath {
+  '/health': typeof HealthServerRoute
+}
+export interface FileServerRoutesByTo {
+  '/health': typeof HealthServerRoute
+}
+export interface FileServerRoutesById {
+  __root__: typeof rootServerRouteImport
+  '/health': typeof HealthServerRoute
+}
+export interface FileServerRouteTypes {
+  fileServerRoutesByFullPath: FileServerRoutesByFullPath
+  fullPaths: '/health'
+  fileServerRoutesByTo: FileServerRoutesByTo
+  to: '/health'
+  id: '__root__' | '/health'
+  fileServerRoutesById: FileServerRoutesById
+}
+export interface RootServerRouteChildren {
+  HealthServerRoute: typeof HealthServerRoute
+}
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/error': {
-      id: '/error'
-      path: '/error'
-      fullPath: '/error'
-      preLoaderRoute: typeof ErrorRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -341,10 +352,20 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+declare module '@tanstack/react-start/server' {
+  interface ServerFileRoutesByPath {
+    '/health': {
+      id: '/health'
+      path: '/health'
+      fullPath: '/health'
+      preLoaderRoute: typeof HealthServerRouteImport
+      parentRoute: typeof rootServerRouteImport
+    }
+  }
+}
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ErrorRoute: ErrorRoute,
   CountryCodeCartRoute: CountryCodeCartRoute,
   CountryCodeCheckoutRoute: CountryCodeCheckoutRoute,
   CountryCodeLoginRoute: CountryCodeLoginRoute,
@@ -363,3 +384,9 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+const rootServerRouteChildren: RootServerRouteChildren = {
+  HealthServerRoute: HealthServerRoute,
+}
+export const serverRouteTree = rootServerRouteImport
+  ._addFileChildren(rootServerRouteChildren)
+  ._addFileTypes<FileServerRouteTypes>()

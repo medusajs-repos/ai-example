@@ -1,80 +1,56 @@
 import tailwindcss from "@tailwindcss/vite";
-import { tanstackRouter } from "@tanstack/router-plugin/vite";
-import react from "@vitejs/plugin-react";
-import path from "node:path";
-import url from "node:url";
-import type { BuildEnvironmentOptions } from "vite";
-import { defineConfig } from "vite";
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import { defineConfig, HmrOptions } from "vite";
 import Terminal from "vite-plugin-terminal";
 import viteTsConfigPaths from "vite-tsconfig-paths";
 
-const __filename = url.fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+function getHmrConfig(hmrPort: number): HmrOptions {
+  const options: HmrOptions = {
+    port: hmrPort,
+    timeout: 60000,
+  };
 
-// SSR configuration
-const ssrBuildConfig: BuildEnvironmentOptions = {
-  ssr: true,
-  outDir: "dist/server",
-  ssrEmitAssets: true,
-  copyPublicDir: false,
-  emptyOutDir: true,
-  rollupOptions: {
-    input: path.resolve(__dirname, "src/entry-server.tsx"),
-    output: {
-      entryFileNames: "[name].js",
-      chunkFileNames: "assets/[name]-[hash].js",
-      assetFileNames: "assets/[name]-[hash][extname]",
-    },
-  },
-};
+  if (process.env.VITE_HMR_PROTOCOL) {
+    options.protocol = process.env.VITE_HMR_PROTOCOL;
+  }
+  if (process.env.VITE_HMR_HOST) {
+    options.host = process.env.HMR_HOST;
+  }
+  if (process.env.VITE_HMR_CLIENT_PORT) {
+    options.clientPort = parseInt(process.env.VITE_HMR_CLIENT_PORT);
+  }
 
-// Client-specific configuration
-const clientBuildConfig: BuildEnvironmentOptions = {
-  outDir: "dist/client",
-  emitAssets: true,
-  copyPublicDir: true,
-  emptyOutDir: true,
-  rollupOptions: {
-    input: path.resolve(__dirname, "src/entry-client.tsx"),
-    output: {
-      entryFileNames: "static/[name].js",
-      chunkFileNames: "static/assets/[name]-[hash].js",
-      assetFileNames: "static/assets/[name]-[hash][extname]",
-    },
-  },
-};
+  return options;
+}
 
-// https://vitejs.dev/config/
-export default defineConfig((configEnv) => {
+export default defineConfig(() => {
+  const port = parseInt(process.env.VITE_PORT ?? "5173");
   const hmrPort = parseInt(process.env.VITE_HMR_PORT ?? "24677");
+  const hmrConfig = getHmrConfig(hmrPort);
+  const deploymentTarget = process.env.VITE_DEPLOYMENT_TARGET ?? "vercel";
 
   return {
     plugins: [
-      Terminal({
-        console: "terminal",
-        output: ["terminal"],
-      }),
-      viteTsConfigPaths({
-        projects: ["./tsconfig.json"],
-      }),
+      Terminal({ console: "terminal", output: ["terminal"] }),
+      viteTsConfigPaths({ projects: ["./tsconfig.json"] }),
       tailwindcss(),
-      tanstackRouter({ target: "react", autoCodeSplitting: true }),
-      react(),
+      tanstackStart({ target: deploymentTarget, customViteReactPlugin: true }),
     ],
     ssr: {
-      noExternal: ["@medusajs/js-sdk", "@medusajs/types", "@medusajs/ui"],
-    },
-    server: {
-      allowedHosts: true,
-      hmr: {
-        timeout: 60000,
-        port: hmrPort,
-        overlay: true,
+      noExternal: [
+        "@medusajs/js-sdk",
+        "@medusajs/types",
+        "@medusajs/ui",
+        "@medusajs/ui-preset",
+      ],
+      optimizeDeps: {
+        include: ["@medusajs/js-sdk"],
       },
     },
-    build: {
-      ...(configEnv.isSsrBuild ? ssrBuildConfig : clientBuildConfig),
-      sourcemap: false,
+    server: {
+      port,
+      allowedHosts: true as const,
+      hmr: hmrConfig,
     },
   };
 });
