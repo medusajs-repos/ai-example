@@ -253,7 +253,7 @@ export const setPaymentMethod = async (providerId: string): Promise<any> => {
   }
 
   try {
-    const response = await sdk.store.payment.setPaymentSession(
+    const response = await sdk.store.payment.initiatePaymentSession(
       cart,
       { provider_id: providerId },
       {}
@@ -307,8 +307,8 @@ export const clearAllCartCache = (queryClient: any, regionId?: string) => {
 
   // Clear any other cart-related caches
   queryClient.removeQueries({
-    predicate: (query) => {
-      const queryKey = query.queryKey as string[];
+    predicate: (query: { queryKey: string[] }) => {
+      const queryKey = query.queryKey;
       return (
         queryKey &&
         (queryKey.includes("cart") ||
