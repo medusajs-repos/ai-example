@@ -24,10 +24,10 @@ export default function ProductActionsClient(props: ProductActionsClientProps) {
   if (!isClient || !ProductActions) {
     return (
       <div className="flex flex-col gap-y-4">
-        <div className="h-8 bg-bg-subtle rounded animate-pulse"></div>
-        <div className="h-10 bg-bg-subtle rounded animate-pulse"></div>
-        <div className="h-12 bg-bg-subtle rounded animate-pulse"></div>
-        <div className="txt-xsmall text-fg-subtle text-center">Loading...</div>
+        <div className="h-8 bg-ui-bg-subtle rounded animate-pulse"></div>
+        <div className="h-10 bg-ui-bg-subtle rounded animate-pulse"></div>
+        <div className="h-12 bg-ui-bg-subtle rounded animate-pulse"></div>
+        <div className="txt-xsmall text-ui-fg-subtle text-center">Loading...</div>
       </div>
     );
   }

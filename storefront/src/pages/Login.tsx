@@ -17,10 +17,10 @@ const Login = () => {
     <div className="content-container py-8">
       <div className="max-w-md mx-auto">
         <div className="text-center mb-8">
-          <h1 className="txt-xlarge-plus text-fg-base mb-2">
+          <h1 className="txt-xlarge-plus text-ui-fg-base mb-2">
             {isLogin ? "Sign In" : "Create Account"}
           </h1>
-          <p className="text-fg-subtle">
+          <p className="text-ui-fg-subtle">
             {isLogin
               ? "Welcome back! Please sign in to your account."
               : "Create a new account to get started."}

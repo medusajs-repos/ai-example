@@ -18,132 +18,150 @@ export default {
         padding: "padding-top padding-right padding-bottom padding-left",
       },
       colors: {        
-        // Medusa UI Color Variables
-        // Background colors
-        bg: {
-          base: "var(--bg-base)",
-          "base-hover": "var(--bg-base-hover)",
-          "base-pressed": "var(--bg-base-pressed)",
-          component: "var(--bg-component)",
-          "component-hover": "var(--bg-component-hover)",
-          "component-pressed": "var(--bg-component-pressed)",
-          subtle: "var(--bg-subtle)",
-          "subtle-hover": "var(--bg-subtle-hover)",
-          "subtle-pressed": "var(--bg-subtle-pressed)",
-          field: "var(--bg-field)",
-          "field-hover": "var(--bg-field-hover)",
-          "field-component": "var(--bg-field-component)",
-          "field-component-hover": "var(--bg-field-component-hover)",
-          interactive: "var(--bg-interactive)",
-          highlight: "var(--bg-highlight)",
-          "highlight-hover": "var(--bg-highlight-hover)",
-          disabled: "var(--bg-disabled)",
-          overlay: "var(--bg-overlay)",
-          "switch-off": "var(--bg-switch-off)",
-          "switch-off-hover": "var(--bg-switch-off-hover)",
+        // Medusa UI Color Variables - Reorganized with traditional color names
+        // Gray colors (backgrounds)
+        gray: {
+          50: "var(--bg-base)",
+          100: "var(--bg-base-hover)",
+          200: "var(--bg-base-pressed)",
+          300: "var(--bg-component)",
+          400: "var(--bg-component-hover)",
+          500: "var(--bg-component-pressed)",
+          600: "var(--bg-subtle)",
+          700: "var(--bg-subtle-hover)",
+          800: "var(--bg-subtle-pressed)",
+          900: "var(--bg-field)",
+          950: "var(--bg-field-hover)",
         },
         
-        // Foreground colors
-        fg: {
-          base: "var(--fg-base)",
-          subtle: "var(--fg-subtle)",
-          muted: "var(--fg-muted)",
-          disabled: "var(--fg-disabled)",
-          "on-color": "var(--fg-on-color)",
-          "on-inverted": "var(--fg-on-inverted)",
-          interactive: "var(--fg-interactive)",
-          "interactive-hover": "var(--fg-interactive-hover)",
-          error: "var(--fg-error)",
+        // White colors (field components)
+        white: {
+          DEFAULT: "var(--bg-field-component)",
+          hover: "var(--bg-field-component-hover)",
+        },
+        
+        // Blue colors (interactive elements)
+        blue: {
+          50: "var(--bg-interactive)",
+          100: "var(--bg-highlight)",
+          200: "var(--bg-highlight-hover)",
+          300: "var(--bg-disabled)",
+          400: "var(--bg-overlay)",
+          500: "var(--bg-switch-off)",
+          600: "var(--bg-switch-off-hover)",
+        },
+        
+        // Text colors (foreground)
+        slate: {
+          50: "var(--fg-base)",
+          100: "var(--fg-subtle)",
+          200: "var(--fg-muted)",
+          300: "var(--fg-disabled)",
+          400: "var(--fg-on-color)",
+          500: "var(--fg-on-inverted)",
+          600: "var(--fg-interactive)",
+          700: "var(--fg-interactive-hover)",
+          800: "var(--fg-error)",
         },
         
         // Border colors
-        border: {
-          base: "var(--border-base)",
-          strong: "var(--border-strong)",
-          interactive: "var(--border-interactive)",
-          error: "var(--border-error)",
-          danger: "var(--border-danger)",
-          transparent: "var(--border-transparent)",
-          "menu-top": "var(--border-menu-top)",
-          "menu-bot": "var(--border-menu-bot)",
+        zinc: {
+          50: "var(--border-base)",
+          100: "var(--border-strong)",
+          200: "var(--border-interactive)",
+          300: "var(--border-error)",
+          400: "var(--border-danger)",
+          500: "var(--border-transparent)",
+          600: "var(--border-menu-top)",
+          700: "var(--border-menu-bot)",
         },
         
         // Button colors
-        button: {
-          neutral: "var(--button-neutral)",
-          "neutral-hover": "var(--button-neutral-hover)",
-          "neutral-pressed": "var(--button-neutral-pressed)",
-          inverted: "var(--button-inverted)",
-          "inverted-hover": "var(--button-inverted-hover)",
-          "inverted-pressed": "var(--button-inverted-pressed)",
-          danger: "var(--button-danger)",
-          "danger-hover": "var(--button-danger-hover)",
-          "danger-pressed": "var(--button-danger-pressed)",
-          transparent: "var(--button-transparent)",
-          "transparent-hover": "var(--button-transparent-hover)",
-          "transparent-pressed": "var(--button-transparent-pressed)",
+        neutral: {
+          50: "var(--button-neutral)",
+          100: "var(--button-neutral-hover)",
+          200: "var(--button-neutral-pressed)",
+          300: "var(--button-inverted)",
+          400: "var(--button-inverted-hover)",
+          500: "var(--button-inverted-pressed)",
+          600: "var(--button-danger)",
+          700: "var(--button-danger-hover)",
+          800: "var(--button-danger-pressed)",
+          900: "var(--button-transparent)",
+          950: "var(--button-transparent-hover)",
         },
         
         // Tag colors
-        tag: {
-          // Neutral tags
-          "neutral-bg": "var(--tag-neutral-bg)",
-          "neutral-bg-hover": "var(--tag-neutral-bg-hover)",
-          "neutral-text": "var(--tag-neutral-text)",
-          "neutral-border": "var(--tag-neutral-border)",
-          "neutral-icon": "var(--tag-neutral-icon)",
-          
-          // Blue tags
-          "blue-bg": "var(--tag-blue-bg)",
-          "blue-bg-hover": "var(--tag-blue-bg-hover)",
-          "blue-text": "var(--tag-blue-text)",
-          "blue-border": "var(--tag-blue-border)",
-          "blue-icon": "var(--tag-blue-icon)",
-          
-          // Green tags
-          "green-bg": "var(--tag-green-bg)",
-          "green-bg-hover": "var(--tag-green-bg-hover)",
-          "green-text": "var(--tag-green-text)",
-          "green-border": "var(--tag-green-border)",
-          "green-icon": "var(--tag-green-icon)",
-          
-          // Red tags
-          "red-bg": "var(--tag-red-bg)",
-          "red-bg-hover": "var(--tag-red-bg-hover)",
-          "red-text": "var(--tag-red-text)",
-          "red-border": "var(--tag-red-border)",
-          "red-icon": "var(--tag-red-icon)",
-          
-          // Orange tags
-          "orange-bg": "var(--tag-orange-bg)",
-          "orange-bg-hover": "var(--tag-orange-bg-hover)",
-          "orange-text": "var(--tag-orange-text)",
-          "orange-border": "var(--tag-orange-border)",
-          "orange-icon": "var(--tag-orange-icon)",
-          
-          // Purple tags
-          "purple-bg": "var(--tag-purple-bg)",
-          "purple-bg-hover": "var(--tag-purple-bg-hover)",
-          "purple-text": "var(--tag-purple-text)",
-          "purple-border": "var(--tag-purple-border)",
-          "purple-icon": "var(--tag-purple-icon)",
+        // Neutral tags
+        stone: {
+          50: "var(--tag-neutral-bg)",
+          100: "var(--tag-neutral-bg-hover)",
+          200: "var(--tag-neutral-text)",
+          300: "var(--tag-neutral-border)",
+          400: "var(--tag-neutral-icon)",
+        },
+        
+        // Blue tags
+        sky: {
+          50: "var(--tag-blue-bg)",
+          100: "var(--tag-blue-bg-hover)",
+          200: "var(--tag-blue-text)",
+          300: "var(--tag-blue-border)",
+          400: "var(--tag-blue-icon)",
+        },
+        
+        // Green tags
+        green: {
+          50: "var(--tag-green-bg)",
+          100: "var(--tag-green-bg-hover)",
+          200: "var(--tag-green-text)",
+          300: "var(--tag-green-border)",
+          400: "var(--tag-green-icon)",
+        },
+        
+        // Red tags
+        red: {
+          50: "var(--tag-red-bg)",
+          100: "var(--tag-red-bg-hover)",
+          200: "var(--tag-red-text)",
+          300: "var(--tag-red-border)",
+          400: "var(--tag-red-icon)",
+        },
+        
+        // Orange tags
+        orange: {
+          50: "var(--tag-orange-bg)",
+          100: "var(--tag-orange-bg-hover)",
+          200: "var(--tag-orange-text)",
+          300: "var(--tag-orange-border)",
+          400: "var(--tag-orange-icon)",
+        },
+        
+        // Purple tags
+        purple: {
+          50: "var(--tag-purple-bg)",
+          100: "var(--tag-purple-bg-hover)",
+          200: "var(--tag-purple-text)",
+          300: "var(--tag-purple-border)",
+          400: "var(--tag-purple-icon)",
         },
         
         // Contrast colors
-        contrast: {
-          "bg-base": "var(--contrast-bg-base)",
-          "bg-base-hover": "var(--contrast-bg-base-hover)",
-          "bg-base-pressed": "var(--contrast-bg-base-pressed)",
-          "bg-subtle": "var(--contrast-bg-subtle)",
-          "fg-primary": "var(--contrast-fg-primary)",
-          "fg-secondary": "var(--contrast-fg-secondary)",
-          "border-base": "var(--contrast-border-base)",
-          "border-top": "var(--contrast-border-top)",
-          "border-bot": "var(--contrast-border-bot)",
+        amber: {
+          50: "var(--contrast-bg-base)",
+          100: "var(--contrast-bg-base-hover)",
+          200: "var(--contrast-bg-base-pressed)",
+          300: "var(--contrast-bg-subtle)",
+          400: "var(--contrast-fg-primary)",
+          500: "var(--contrast-fg-secondary)",
+          600: "var(--contrast-border-base)",
+          700: "var(--contrast-border-top)",
+          800: "var(--contrast-border-bot)",
         },
         
         // Alpha colors
-        alpha: {
+        transparent: {
+          DEFAULT: "transparent",
           250: "var(--alpha-250)",
           400: "var(--alpha-400)",
         },

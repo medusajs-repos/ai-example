@@ -125,7 +125,7 @@ const CountrySelect = ({ toggleState, regions }: CountrySelectProps) => {
                   <ListboxOption
                     key={index}
                     value={o}
-                    className="py-2 hover:bg-bg-subtle px-3 cursor-pointer flex items-center gap-x-2"
+                    className="py-2 hover:bg-ui-bg-subtle px-3 cursor-pointer flex items-center gap-x-2"
                   >
                     <ReactCountryFlag
                       svg

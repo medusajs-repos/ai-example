@@ -119,10 +119,10 @@ const Store = () => {
         </div>
         {productsLoading && allProducts.length === 0 ? (
           <div className="flex items-center justify-center h-64">
-            <div className="text-lg text-fg-subtle">Loading products...</div>
+            <div className="text-lg text-ui-fg-subtle">Loading products...</div>
           </div>
         ) : allProducts.length === 0 ? (
-          <div className="text-center text-fg-subtle py-16">
+          <div className="text-center text-ui-fg-subtle py-16">
             <p className="txt-xlarge mb-4">No products available</p>
             <p>Make sure your Medusa backend is running and has products.</p>
           </div>

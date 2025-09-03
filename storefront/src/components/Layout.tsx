@@ -58,7 +58,7 @@ const Layout = () => {
             <div className="flex items-center h-full">
               <Link
                 to={baseHref || "/"}
-                className="txt-xlarge font-semibold hover:text-fg-subtle uppercase"
+                className="txt-xlarge font-semibold hover:text-ui-fg-subtle uppercase"
                 data-testid="nav-store-link"
               >
                 Medusa Store
@@ -68,7 +68,7 @@ const Layout = () => {
             <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
               <div className="hidden small:flex items-center gap-x-6 h-full">
                 <Link
-                  className="hover:text-fg-subtle"
+                  className="hover:text-ui-fg-subtle"
                   to={`${baseHref}/account`}
                   data-testid="nav-account-link"
                 >
@@ -82,7 +82,7 @@ const Layout = () => {
                 onMouseLeave={handleMouseLeave}
               >
                 <Link
-                  className="hover:text-fg-subtle flex gap-2"
+                  className="hover:text-ui-fg-subtle flex gap-2"
                   to={`${baseHref}/cart`}
                   data-testid="nav-cart-link"
                 >

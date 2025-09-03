@@ -20,7 +20,7 @@ const Cart = () => {
     return (
       <div className="content-container py-8">
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg text-fg-subtle">Loading cart...</div>
+          <div className="text-lg text-ui-fg-subtle">Loading cart...</div>
         </div>
       </div>
     );
@@ -40,13 +40,13 @@ const Cart = () => {
     return (
       <div className="content-container py-8">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-fg-base mb-4">
+          <h1 className="text-3xl font-bold text-ui-fg-base mb-4">
             Shopping Cart
           </h1>
-          <p className="text-fg-subtle mb-6">Unable to load cart</p>
+          <p className="text-ui-fg-subtle mb-6">Unable to load cart</p>
           <Link
             to="/store"
-            className="bg-black text-white px-6 py-3 rounded-lg hover:bg-bg-subtle"
+            className="bg-black text-white px-6 py-3 rounded-lg hover:bg-ui-bg-subtle"
           >
             Continue Shopping
           </Link>

@@ -46,7 +46,7 @@ const Checkout = () => {
     return (
       <div className="content-container py-8">
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg text-fg-subtle">Loading checkout...</div>
+          <div className="text-lg text-ui-fg-subtle">Loading checkout...</div>
         </div>
       </div>
     )

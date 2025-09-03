@@ -51,7 +51,7 @@ const LoginForm = ({ onSuccess, onSwitchToRegister }: LoginFormProps) => {
         <div>
           <label
             htmlFor="email"
-            className="block txt-small font-medium text-fg-subtle mb-2"
+            className="block txt-small font-medium text-ui-fg-subtle mb-2"
           >
             Email
           </label>
@@ -60,7 +60,7 @@ const LoginForm = ({ onSuccess, onSwitchToRegister }: LoginFormProps) => {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-3 py-2 border border-border-base rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+            className="w-full px-3 py-2 border border-ui-border-base rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
             required
           />
         </div>
@@ -68,7 +68,7 @@ const LoginForm = ({ onSuccess, onSwitchToRegister }: LoginFormProps) => {
         <div>
           <label
             htmlFor="password"
-            className="block txt-small font-medium text-fg-subtle mb-2"
+            className="block txt-small font-medium text-ui-fg-subtle mb-2"
           >
             Password
           </label>
@@ -77,7 +77,7 @@ const LoginForm = ({ onSuccess, onSwitchToRegister }: LoginFormProps) => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-3 py-2 border border-border-base rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+            className="w-full px-3 py-2 border border-ui-border-base rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
             required
           />
         </div>
@@ -87,13 +87,13 @@ const LoginForm = ({ onSuccess, onSwitchToRegister }: LoginFormProps) => {
         <button
           type="submit"
           disabled={login.isPending}
-          className="w-full bg-black text-white py-2 rounded-md hover:bg-bg-subtle disabled:opacity-50"
+          className="w-full bg-black text-white py-2 rounded-md hover:bg-ui-bg-subtle disabled:opacity-50"
         >
           {login.isPending ? "Signing in..." : "Sign In"}
         </button>
 
         {onSwitchToRegister && (
-          <p className="text-center txt-small text-fg-subtle">
+          <p className="text-center txt-small text-ui-fg-subtle">
             Don't have an account?{" "}
             <button
               type="button"
