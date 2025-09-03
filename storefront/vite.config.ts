@@ -9,6 +9,7 @@ import viteTsConfigPaths from "vite-tsconfig-paths";
 
 function getHmrConfig(hmrPort: number, mode: string): HmrOptions {
   const env = loadEnv(mode, process.cwd());
+  console.log("env", env);
 
   const options: HmrOptions = {
     port: hmrPort,
@@ -28,10 +29,23 @@ function getHmrConfig(hmrPort: number, mode: string): HmrOptions {
   return options;
 }
 
+function validateEnv(env: Record<string, string>) {
+  if (!env.VITE_PORT) {
+    throw new Error("VITE_PORT is not set");
+  }
+
+  if (!env.VITE_HMR_PORT) {
+    throw new Error("VITE_HMR_PORT is not set");
+  }
+}
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
-  const port = parseInt(env.VITE_PORT ?? "5173");
-  const hmrPort = parseInt(env.VITE_HMR_PORT ?? "24677");
+
+  validateEnv(env);
+
+  const port = parseInt(env.VITE_PORT);
+  const hmrPort = parseInt(env.VITE_HMR_PORT);
   const hmrConfig = getHmrConfig(hmrPort, mode);
   const deploymentTarget = env.VITE_DEPLOYMENT_TARGET ?? "vercel";
 
