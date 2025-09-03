@@ -8,7 +8,7 @@ const Hero = () => {
         <div>
           <Heading
             level="h1"
-            className="text-4xl sm:text-5xl font-semibold text-fg-subtle mb-4"
+            className="text-4xl sm:text-5xl font-semibold text-fg-base mb-4"
           >
             Ecommerce Starter Template
           </Heading>
