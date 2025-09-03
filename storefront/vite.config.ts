@@ -34,6 +34,9 @@ export default defineConfig(({ mode }) => {
   const hmrConfig = getHmrConfig(hmrPort, mode);
   const deploymentTarget = env.VITE_DEPLOYMENT_TARGET ?? "vercel";
 
+  console.log("hmrConfig", hmrConfig);
+  console.log("env", env);
+
   return {
     plugins: [
       Terminal({ console: "terminal", output: ["terminal"] }),
