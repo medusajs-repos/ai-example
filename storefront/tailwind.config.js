@@ -18,152 +18,152 @@ export default {
         padding: "padding-top padding-right padding-bottom padding-left",
       },
       colors: {        
-        // Medusa UI Color Variables - Reorganized with traditional color names
-        // Gray colors (backgrounds)
-        gray: {
-          50: "var(--bg-base)",
-          100: "var(--bg-base-hover)",
-          200: "var(--bg-base-pressed)",
-          300: "var(--bg-component)",
-          400: "var(--bg-component-hover)",
-          500: "var(--bg-component-pressed)",
-          600: "var(--bg-subtle)",
-          700: "var(--bg-subtle-hover)",
-          800: "var(--bg-subtle-pressed)",
-          900: "var(--bg-field)",
-          950: "var(--bg-field-hover)",
+        // Medusa UI Color Variables - Reorganized based on actual color values
+        // White and light grays (backgrounds)
+        white: {
+          DEFAULT: "var(--bg-base)", // rgba(255, 255, 255, 1)
+          hover: "var(--bg-field-component-hover)", // rgba(250, 250, 250, 1)
         },
         
-        // White colors (field components)
-        white: {
-          DEFAULT: "var(--bg-field-component)",
-          hover: "var(--bg-field-component-hover)",
+        gray: {
+          50: "var(--bg-subtle)", // rgba(250, 250, 250, 1)
+          100: "var(--bg-field-component)", // rgba(255, 255, 255, 1)
+          200: "var(--bg-component)", // rgba(250, 250, 250, 1)
+          300: "var(--bg-disabled)", // rgba(244, 244, 245, 1)
+          400: "var(--bg-base-hover)", // rgba(244, 244, 245, 1)
+          500: "var(--bg-component-hover)", // rgba(244, 244, 245, 1)
+          600: "var(--bg-field-hover)", // rgba(244, 244, 245, 1)
+          700: "var(--bg-subtle-hover)", // rgba(244, 244, 245, 1)
+          800: "var(--bg-base-pressed)", // rgba(228, 228, 231, 1)
+          900: "var(--bg-component-pressed)", // rgba(228, 228, 231, 1)
+          950: "var(--bg-subtle-pressed)", // rgba(228, 228, 231, 1)
         },
         
         // Blue colors (interactive elements)
         blue: {
-          50: "var(--bg-interactive)",
-          100: "var(--bg-highlight)",
-          200: "var(--bg-highlight-hover)",
-          300: "var(--bg-disabled)",
-          400: "var(--bg-overlay)",
-          500: "var(--bg-switch-off)",
-          600: "var(--bg-switch-off-hover)",
+          50: "var(--bg-highlight)", // rgba(239, 246, 255, 1)
+          100: "var(--bg-highlight-hover)", // rgba(219, 234, 254, 1)
+          200: "var(--bg-interactive)", // rgba(59, 130, 246, 1)
+          300: "var(--border-interactive)", // rgba(59, 130, 246, 1)
+          400: "var(--fg-interactive)", // rgba(59, 130, 246, 1)
+          500: "var(--fg-interactive-hover)", // rgba(37, 99, 235, 1)
+          600: "var(--tag-blue-text)", // rgba(30, 64, 175, 1)
+          700: "var(--tag-blue-icon)", // rgba(96, 165, 250, 1)
+          800: "var(--tag-blue-bg)", // rgba(219, 234, 254, 1)
+          900: "var(--tag-blue-bg-hover)", // rgba(191, 219, 254, 1)
+          950: "var(--tag-blue-border)", // rgba(191, 219, 254, 1)
         },
         
-        // Text colors (foreground)
+        // Dark colors (text and foreground)
         slate: {
-          50: "var(--fg-base)",
-          100: "var(--fg-subtle)",
-          200: "var(--fg-muted)",
-          300: "var(--fg-disabled)",
-          400: "var(--fg-on-color)",
-          500: "var(--fg-on-inverted)",
-          600: "var(--fg-interactive)",
-          700: "var(--fg-interactive-hover)",
-          800: "var(--fg-error)",
+          50: "var(--fg-base)", // rgba(24, 24, 27, 1)
+          100: "var(--contrast-bg-base)", // rgba(24, 24, 27, 1)
+          200: "var(--contrast-border-top)", // rgba(24, 24, 27, 1)
+          300: "var(--fg-subtle)", // rgba(82, 82, 91, 1)
+          400: "var(--button-inverted-pressed)", // rgba(82, 82, 91, 1)
+          500: "var(--tag-neutral-text)", // rgba(82, 82, 91, 1)
+          600: "var(--fg-muted)", // rgba(113, 113, 122, 1)
+          700: "var(--fg-disabled)", // rgba(161, 161, 170, 1)
+          800: "var(--tag-neutral-icon)", // rgba(161, 161, 170, 1)
+          900: "var(--contrast-bg-base-hover)", // rgba(39, 39, 42, 1)
+          950: "var(--button-inverted-hover)", // rgba(63, 63, 70, 1)
         },
         
-        // Border colors
+        // Zinc colors (borders and neutral elements)
         zinc: {
-          50: "var(--border-base)",
-          100: "var(--border-strong)",
-          200: "var(--border-interactive)",
-          300: "var(--border-error)",
-          400: "var(--border-danger)",
-          500: "var(--border-transparent)",
-          600: "var(--border-menu-top)",
-          700: "var(--border-menu-bot)",
+          50: "var(--border-base)", // rgba(228, 228, 231, 1)
+          100: "var(--border-menu-top)", // rgba(228, 228, 231, 1)
+          200: "var(--bg-switch-off)", // rgba(228, 228, 231, 1)
+          300: "var(--border-strong)", // rgba(212, 212, 216, 1)
+          400: "var(--bg-switch-off-hover)", // rgba(212, 212, 216, 1)
+          500: "var(--tag-neutral-border)", // rgba(228, 228, 231, 1)
+          600: "var(--tag-neutral-bg-hover)", // rgba(228, 228, 231, 1)
+          700: "var(--border-menu-bot)", // rgba(255, 255, 255, 1)
+          800: "var(--border-transparent)", // rgba(255, 255, 255, 0)
+          900: "var(--contrast-border-base)", // rgba(255, 255, 255, 0.15)
+          950: "var(--contrast-border-bot)", // rgba(255, 255, 255, 0.1)
         },
         
-        // Button colors
+        // Neutral colors (buttons and UI elements)
         neutral: {
-          50: "var(--button-neutral)",
-          100: "var(--button-neutral-hover)",
-          200: "var(--button-neutral-pressed)",
-          300: "var(--button-inverted)",
-          400: "var(--button-inverted-hover)",
-          500: "var(--button-inverted-pressed)",
-          600: "var(--button-danger)",
-          700: "var(--button-danger-hover)",
-          800: "var(--button-danger-pressed)",
-          900: "var(--button-transparent)",
-          950: "var(--button-transparent-hover)",
+          50: "var(--button-neutral)", // rgba(255, 255, 255, 1)
+          100: "var(--button-neutral-hover)", // rgba(244, 244, 245, 1)
+          200: "var(--button-neutral-pressed)", // rgba(228, 228, 231, 1)
+          300: "var(--button-transparent-hover)", // rgba(244, 244, 245, 1)
+          400: "var(--button-transparent-pressed)", // rgba(228, 228, 231, 1)
+          500: "var(--button-inverted)", // rgba(39, 39, 42, 1)
+          600: "var(--contrast-bg-subtle)", // rgba(39, 39, 42, 1)
+          700: "var(--contrast-bg-base-pressed)", // rgba(63, 63, 70, 1)
+          800: "var(--button-transparent)", // rgba(255, 255, 255, 0)
+          900: "var(--alpha-250)", // rgba(24, 24, 27, 0.1)
+          950: "var(--alpha-400)", // rgba(24, 24, 27, 0.24)
         },
         
-        // Tag colors
-        // Neutral tags
-        stone: {
-          50: "var(--tag-neutral-bg)",
-          100: "var(--tag-neutral-bg-hover)",
-          200: "var(--tag-neutral-text)",
-          300: "var(--tag-neutral-border)",
-          400: "var(--tag-neutral-icon)",
-        },
-        
-        // Blue tags
-        sky: {
-          50: "var(--tag-blue-bg)",
-          100: "var(--tag-blue-bg-hover)",
-          200: "var(--tag-blue-text)",
-          300: "var(--tag-blue-border)",
-          400: "var(--tag-blue-icon)",
-        },
-        
-        // Green tags
-        green: {
-          50: "var(--tag-green-bg)",
-          100: "var(--tag-green-bg-hover)",
-          200: "var(--tag-green-text)",
-          300: "var(--tag-green-border)",
-          400: "var(--tag-green-icon)",
-        },
-        
-        // Red tags
+        // Red colors (errors and danger)
         red: {
-          50: "var(--tag-red-bg)",
-          100: "var(--tag-red-bg-hover)",
-          200: "var(--tag-red-text)",
-          300: "var(--tag-red-border)",
-          400: "var(--tag-red-icon)",
+          50: "var(--tag-red-bg)", // rgba(255, 228, 230, 1)
+          100: "var(--tag-red-bg-hover)", // rgba(254, 205, 211, 1)
+          200: "var(--tag-red-border)", // rgba(254, 205, 211, 1)
+          300: "var(--tag-red-icon)", // rgba(244, 63, 94, 1)
+          400: "var(--tag-red-text)", // rgba(159, 18, 57, 1)
+          500: "var(--border-error)", // rgba(225, 29, 72, 1)
+          600: "var(--button-danger)", // rgba(225, 29, 72, 1)
+          700: "var(--fg-error)", // rgba(225, 29, 72, 1)
+          800: "var(--border-danger)", // rgba(190, 18, 60, 1)
+          900: "var(--button-danger-hover)", // rgba(190, 18, 60, 1)
+          950: "var(--button-danger-pressed)", // rgba(159, 18, 57, 1)
         },
         
-        // Orange tags
+        // Green colors
+        green: {
+          50: "var(--tag-green-bg)", // rgba(209, 250, 229, 1)
+          100: "var(--tag-green-bg-hover)", // rgba(167, 243, 208, 1)
+          200: "var(--tag-green-border)", // rgba(167, 243, 208, 1)
+          300: "var(--tag-green-icon)", // rgba(16, 185, 129, 1)
+          400: "var(--tag-green-text)", // rgba(6, 95, 70, 1)
+        },
+        
+        // Orange colors
         orange: {
-          50: "var(--tag-orange-bg)",
-          100: "var(--tag-orange-bg-hover)",
-          200: "var(--tag-orange-text)",
-          300: "var(--tag-orange-border)",
-          400: "var(--tag-orange-icon)",
+          50: "var(--tag-orange-bg)", // rgba(255, 237, 213, 1)
+          100: "var(--tag-orange-bg-hover)", // rgba(254, 215, 170, 1)
+          200: "var(--tag-orange-border)", // rgba(254, 215, 170, 1)
+          300: "var(--tag-orange-icon)", // rgba(249, 115, 22, 1)
+          400: "var(--tag-orange-text)", // rgba(154, 52, 18, 1)
         },
         
-        // Purple tags
+        // Purple colors
         purple: {
-          50: "var(--tag-purple-bg)",
-          100: "var(--tag-purple-bg-hover)",
-          200: "var(--tag-purple-text)",
-          300: "var(--tag-purple-border)",
-          400: "var(--tag-purple-icon)",
+          50: "var(--tag-purple-bg)", // rgba(237, 233, 254, 1)
+          100: "var(--tag-purple-bg-hover)", // rgba(221, 214, 254, 1)
+          200: "var(--tag-purple-border)", // rgba(221, 214, 254, 1)
+          300: "var(--tag-purple-icon)", // rgba(167, 139, 250, 1)
+          400: "var(--tag-purple-text)", // rgba(91, 33, 182, 1)
         },
         
-        // Contrast colors
+        // Stone colors (neutral tags)
+        stone: {
+          50: "var(--tag-neutral-bg)", // rgba(244, 244, 245, 1)
+          100: "var(--tag-neutral-bg-hover)", // rgba(228, 228, 231, 1)
+          200: "var(--tag-neutral-text)", // rgba(82, 82, 91, 1)
+          300: "var(--tag-neutral-border)", // rgba(228, 228, 231, 1)
+          400: "var(--tag-neutral-icon)", // rgba(161, 161, 170, 1)
+        },
+        
+        // Amber colors (contrast elements)
         amber: {
-          50: "var(--contrast-bg-base)",
-          100: "var(--contrast-bg-base-hover)",
-          200: "var(--contrast-bg-base-pressed)",
-          300: "var(--contrast-bg-subtle)",
-          400: "var(--contrast-fg-primary)",
-          500: "var(--contrast-fg-secondary)",
-          600: "var(--contrast-border-base)",
-          700: "var(--contrast-border-top)",
-          800: "var(--contrast-border-bot)",
+          50: "var(--contrast-fg-primary)", // rgba(255, 255, 255, 0.88)
+          100: "var(--fg-on-color)", // rgba(255, 255, 255, 1)
+          200: "var(--fg-on-inverted)", // rgba(255, 255, 255, 1)
+          300: "var(--contrast-fg-secondary)", // rgba(255, 255, 255, 0.56)
+          400: "var(--bg-overlay)", // rgba(24, 24, 27, 0.4)
         },
         
-        // Alpha colors
+        // Transparent colors
         transparent: {
           DEFAULT: "transparent",
-          250: "var(--alpha-250)",
-          400: "var(--alpha-400)",
+          250: "var(--alpha-250)", // rgba(24, 24, 27, 0.1)
+          400: "var(--alpha-400)", // rgba(24, 24, 27, 0.24)
         },
       },
       borderRadius: {
