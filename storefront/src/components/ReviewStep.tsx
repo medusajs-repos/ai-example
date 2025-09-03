@@ -53,7 +53,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
       <div className="flex flex-row items-center justify-between mb-6">
         <Heading
           level="h2"
-          className="flex flex-row text-3xl-regular gap-x-2 items-baseline"
+          className="flex flex-row txt-xlarge-plus-regular gap-x-2 items-baseline"
         >
           Review Order
           <CheckCircleSolid className="text-green-500" />
@@ -78,18 +78,18 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
                     />
                   ) : (
                     <div className="w-full h-full bg-ui-bg-subtle rounded flex items-center justify-center">
-                      <span className="text-xs text-ui-fg-muted">No image</span>
+                      <span className="txt-xsmall text-ui-fg-muted">No image</span>
                     </div>
                   )}
                 </div>
                 <div className="flex-1">
                   <Text className="font-medium text-ui-fg-base">{item.title}</Text>
                   {item.variant && item.variant.title !== "Default" && (
-                    <Text className="text-sm text-ui-fg-subtle">
+                    <Text className="txt-small text-ui-fg-subtle">
                       {item.variant.title}
                     </Text>
                   )}
-                  <Text className="text-sm text-ui-fg-subtle">
+                  <Text className="txt-small text-ui-fg-subtle">
                     Quantity: {item.quantity}
                   </Text>
                 </div>
@@ -122,7 +122,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <Text className="font-medium text-ui-fg-base mb-2">Shipping Address</Text>
-                <div className="text-sm text-ui-fg-subtle">
+                <div className="txt-small text-ui-fg-subtle">
                   <div>{cart.shipping_address.first_name} {cart.shipping_address.last_name}</div>
                   <div>{cart.shipping_address.address_1} {cart.shipping_address.address_2}</div>
                   <div>{cart.shipping_address.postal_code}, {cart.shipping_address.city}</div>
@@ -133,7 +133,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
               {cart.shipping_methods?.[0] && (
                 <div>
                   <Text className="font-medium text-ui-fg-base mb-2">Shipping Method</Text>
-                  <div className="text-sm text-ui-fg-subtle">
+                  <div className="txt-small text-ui-fg-subtle">
                     <div>{cart.shipping_methods[0].name}</div>
                     <div>
                       {cart.shipping_methods[0].amount ? (
@@ -160,7 +160,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <Text className="font-medium text-ui-fg-base mb-2">Payment Method</Text>
-              <div className="text-sm text-ui-fg-subtle">
+              <div className="txt-small text-ui-fg-subtle">
                 {cart.payment_sessions?.[0] && (
                   <div className="flex items-center gap-2">
                     <span>{paymentInfoMap[cart.payment_sessions[0].provider_id]?.title || cart.payment_sessions[0].provider_id}</span>
@@ -173,7 +173,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
             
             <div>
               <Text className="font-medium text-ui-fg-base mb-2">Billing Address</Text>
-              <div className="text-sm text-ui-fg-subtle">
+              <div className="txt-small text-ui-fg-subtle">
                 {cart.billing_address ? (
                   <>
                     <div>{cart.billing_address.first_name} {cart.billing_address.last_name}</div>
@@ -192,7 +192,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
         {/* Order Totals */}
         <div className="border-t border-ui-border-base pt-6">
           <div className="space-y-2">
-            <div className="flex justify-between text-sm">
+            <div className="flex justify-between txt-small">
               <span className="text-ui-fg-subtle">Subtotal</span>
               <span>
                 {convertToLocale({
@@ -203,7 +203,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
             </div>
             
             {(cart.discount_total || 0) > 0 && (
-              <div className="flex justify-between text-sm">
+              <div className="flex justify-between txt-small">
                 <span className="text-ui-fg-subtle">Discount</span>
                 <span className="text-red-500">
                   -{convertToLocale({
@@ -215,7 +215,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
             )}
             
             {(cart.shipping_total || 0) > 0 && (
-              <div className="flex justify-between text-sm">
+              <div className="flex justify-between txt-small">
                 <span className="text-ui-fg-subtle">Shipping</span>
                 <span>
                   {convertToLocale({
@@ -227,7 +227,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
             )}
             
             {(cart.tax_total || 0) > 0 && (
-              <div className="flex justify-between text-sm">
+              <div className="flex justify-between txt-small">
                 <span className="text-ui-fg-subtle">Taxes</span>
                 <span>
                   {convertToLocale({
@@ -254,7 +254,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
 
         {/* Terms and Conditions */}
         <div className="bg-ui-bg-subtle p-4 rounded border">
-          <Text className="text-sm text-ui-fg-base">
+          <Text className="txt-small text-ui-fg-base">
             By clicking "Place Order" below, you confirm that you have read, understand and accept our{" "}
             <span className="text-ui-fg-interactive hover:underline cursor-pointer">Terms of Use</span>,{" "}
             <span className="text-ui-fg-interactive hover:underline cursor-pointer">Terms of Sale</span> and{" "}

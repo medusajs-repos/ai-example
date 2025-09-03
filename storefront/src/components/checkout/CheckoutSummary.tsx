@@ -13,7 +13,7 @@ const CheckoutSummary = ({ cart }: CheckoutSummaryProps) => {
         <div className="border-b border-ui-border-base my-6 small:hidden" />
         <Heading
           level="h2"
-          className="flex flex-row text-3xl-regular items-baseline"
+          className="flex flex-row txt-xlarge-plus-regular items-baseline"
         >
           In your Cart
         </Heading>
@@ -35,24 +35,24 @@ const CheckoutSummary = ({ cart }: CheckoutSummaryProps) => {
                   />
                 ) : (
                   <div className="w-full h-full bg-ui-bg-subtle rounded flex items-center justify-center">
-                    <span className="text-xs text-ui-fg-muted">No image</span>
+                    <span className="txt-xsmall text-ui-fg-muted">No image</span>
                   </div>
                 )}
-                <span className="absolute -top-2 -right-2 bg-ui-fg-base text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-ui-fg-base text-white txt-xsmall rounded-full w-5 h-5 flex items-center justify-center">
                   {item.quantity}
                 </span>
               </div>
               <div className="flex-1">
-                <h3 className="text-base-regular text-ui-fg-base">
+                <h3 className="txt-medium-regular text-ui-fg-base">
                   {item.title}
                 </h3>
                 {item.variant && (
-                  <p className="text-small-regular text-ui-fg-subtle">
+                  <p className="txt-smallall-regular text-ui-fg-subtle">
                     {item.variant.title !== "Default" ? item.variant.title : ""}
                   </p>
                 )}
               </div>
-              <div className="text-base-regular text-ui-fg-base">
+              <div className="txt-medium-regular text-ui-fg-base">
                 {item.total
                   ? `$${item.total.toFixed(2)}`
                   : `$${(
@@ -67,7 +67,7 @@ const CheckoutSummary = ({ cart }: CheckoutSummaryProps) => {
         {/* Discount Code Section - Placeholder for now */}
         <div className="my-6">
           <div className="flex flex-col gap-2">
-            <label className="text-small-regular text-ui-fg-base">
+            <label className="txt-smallall-regular text-ui-fg-base">
               Discount code
             </label>
             <div className="flex gap-2">

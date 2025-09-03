@@ -51,7 +51,7 @@ const AccountInfo = ({
         </div>
         <Button
           variant="transparent"
-          className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover text-sm font-medium px-0 h-auto"
+          className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-small font-medium px-0 h-auto"
           onClick={handleEdit}
           type={isEditing ? "reset" : "button"}
         >
@@ -63,12 +63,12 @@ const AccountInfo = ({
       {(isSuccess || isError) && (
         <div className="mb-4">
           {isSuccess && successMessage && (
-            <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg text-sm">
+            <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg txt-small">
               {successMessage}
             </div>
           )}
           {isError && errorMessage && (
-            <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg text-sm">
+            <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg txt-small">
               {errorMessage}
             </div>
           )}

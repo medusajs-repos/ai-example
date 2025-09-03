@@ -17,19 +17,135 @@ export default {
         visibility: "visibility",
         padding: "padding-top padding-right padding-bottom padding-left",
       },
-      colors: {
-        grey: {
-          0: "#FFFFFF",
-          5: "#F9FAFB",
-          10: "#F3F4F6",
-          20: "#E5E7EB",
-          30: "#D1D5DB",
-          40: "#9CA3AF",
-          50: "#6B7280",
-          60: "#4B5563",
-          70: "#374151",
-          80: "#1F2937",
-          90: "#111827",
+      colors: {        
+        // Medusa UI Color Variables
+        // Background colors
+        bg: {
+          base: "var(--bg-base)",
+          "base-hover": "var(--bg-base-hover)",
+          "base-pressed": "var(--bg-base-pressed)",
+          component: "var(--bg-component)",
+          "component-hover": "var(--bg-component-hover)",
+          "component-pressed": "var(--bg-component-pressed)",
+          subtle: "var(--bg-subtle)",
+          "subtle-hover": "var(--bg-subtle-hover)",
+          "subtle-pressed": "var(--bg-subtle-pressed)",
+          field: "var(--bg-field)",
+          "field-hover": "var(--bg-field-hover)",
+          "field-component": "var(--bg-field-component)",
+          "field-component-hover": "var(--bg-field-component-hover)",
+          interactive: "var(--bg-interactive)",
+          highlight: "var(--bg-highlight)",
+          "highlight-hover": "var(--bg-highlight-hover)",
+          disabled: "var(--bg-disabled)",
+          overlay: "var(--bg-overlay)",
+          "switch-off": "var(--bg-switch-off)",
+          "switch-off-hover": "var(--bg-switch-off-hover)",
+        },
+        
+        // Foreground colors
+        fg: {
+          base: "var(--fg-base)",
+          subtle: "var(--fg-subtle)",
+          muted: "var(--fg-muted)",
+          disabled: "var(--fg-disabled)",
+          "on-color": "var(--fg-on-color)",
+          "on-inverted": "var(--fg-on-inverted)",
+          interactive: "var(--fg-interactive)",
+          "interactive-hover": "var(--fg-interactive-hover)",
+          error: "var(--fg-error)",
+        },
+        
+        // Border colors
+        border: {
+          base: "var(--border-base)",
+          strong: "var(--border-strong)",
+          interactive: "var(--border-interactive)",
+          error: "var(--border-error)",
+          danger: "var(--border-danger)",
+          transparent: "var(--border-transparent)",
+          "menu-top": "var(--border-menu-top)",
+          "menu-bot": "var(--border-menu-bot)",
+        },
+        
+        // Button colors
+        button: {
+          neutral: "var(--button-neutral)",
+          "neutral-hover": "var(--button-neutral-hover)",
+          "neutral-pressed": "var(--button-neutral-pressed)",
+          inverted: "var(--button-inverted)",
+          "inverted-hover": "var(--button-inverted-hover)",
+          "inverted-pressed": "var(--button-inverted-pressed)",
+          danger: "var(--button-danger)",
+          "danger-hover": "var(--button-danger-hover)",
+          "danger-pressed": "var(--button-danger-pressed)",
+          transparent: "var(--button-transparent)",
+          "transparent-hover": "var(--button-transparent-hover)",
+          "transparent-pressed": "var(--button-transparent-pressed)",
+        },
+        
+        // Tag colors
+        tag: {
+          // Neutral tags
+          "neutral-bg": "var(--tag-neutral-bg)",
+          "neutral-bg-hover": "var(--tag-neutral-bg-hover)",
+          "neutral-text": "var(--tag-neutral-text)",
+          "neutral-border": "var(--tag-neutral-border)",
+          "neutral-icon": "var(--tag-neutral-icon)",
+          
+          // Blue tags
+          "blue-bg": "var(--tag-blue-bg)",
+          "blue-bg-hover": "var(--tag-blue-bg-hover)",
+          "blue-text": "var(--tag-blue-text)",
+          "blue-border": "var(--tag-blue-border)",
+          "blue-icon": "var(--tag-blue-icon)",
+          
+          // Green tags
+          "green-bg": "var(--tag-green-bg)",
+          "green-bg-hover": "var(--tag-green-bg-hover)",
+          "green-text": "var(--tag-green-text)",
+          "green-border": "var(--tag-green-border)",
+          "green-icon": "var(--tag-green-icon)",
+          
+          // Red tags
+          "red-bg": "var(--tag-red-bg)",
+          "red-bg-hover": "var(--tag-red-bg-hover)",
+          "red-text": "var(--tag-red-text)",
+          "red-border": "var(--tag-red-border)",
+          "red-icon": "var(--tag-red-icon)",
+          
+          // Orange tags
+          "orange-bg": "var(--tag-orange-bg)",
+          "orange-bg-hover": "var(--tag-orange-bg-hover)",
+          "orange-text": "var(--tag-orange-text)",
+          "orange-border": "var(--tag-orange-border)",
+          "orange-icon": "var(--tag-orange-icon)",
+          
+          // Purple tags
+          "purple-bg": "var(--tag-purple-bg)",
+          "purple-bg-hover": "var(--tag-purple-bg-hover)",
+          "purple-text": "var(--tag-purple-text)",
+          "purple-border": "var(--tag-purple-border)",
+          "purple-icon": "var(--tag-purple-icon)",
+        },
+        
+        // Contrast colors
+        contrast: {
+          "bg-base": "var(--contrast-bg-base)",
+          "bg-base-hover": "var(--contrast-bg-base-hover)",
+          "bg-base-pressed": "var(--contrast-bg-base-pressed)",
+          "bg-subtle": "var(--contrast-bg-subtle)",
+          "fg-primary": "var(--contrast-fg-primary)",
+          "fg-secondary": "var(--contrast-fg-secondary)",
+          "border-base": "var(--contrast-border-base)",
+          "border-top": "var(--contrast-border-top)",
+          "border-bot": "var(--contrast-border-bot)",
+        },
+        
+        // Alpha colors
+        alpha: {
+          250: "var(--alpha-250)",
+          400: "var(--alpha-400)",
         },
       },
       borderRadius: {

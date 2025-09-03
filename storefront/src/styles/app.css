@@ -13,43 +13,43 @@
 @layer components {
   /* Medusa UI Typography Classes */
   .txt-compact-small {
-    @apply text-xs leading-5 font-normal;
+    @apply txt-xsmall leading-5 font-normal;
   }
 
   .txt-compact-small-plus {
-    @apply text-xs leading-5 font-medium;
+    @apply txt-xsmall leading-5 font-medium;
   }
 
   .txt-compact-medium {
-    @apply text-sm leading-6 font-normal;
+    @apply txt-small leading-6 font-normal;
   }
 
   .txt-compact-medium-plus {
-    @apply text-sm leading-6 font-medium;
+    @apply txt-small leading-6 font-medium;
   }
 
   .txt-compact-large {
-    @apply text-base leading-6 font-normal;
+    @apply txt-medium leading-6 font-normal;
   }
 
   .txt-compact-large-plus {
-    @apply text-base leading-6 font-medium;
+    @apply txt-medium leading-6 font-medium;
   }
 
   .txt-compact-xlarge-plus {
-    @apply text-xl leading-7 font-medium;
+    @apply txt-xlarge leading-7 font-medium;
   }
 
   .txt-xsmall-plus {
-    @apply text-xs leading-4 font-medium;
+    @apply txt-xsmall leading-4 font-medium;
   }
 
   .txt-medium {
-    @apply text-sm leading-6 font-normal;
+    @apply txt-small leading-6 font-normal;
   }
 
   .txt-medium-plus {
-    @apply text-sm leading-6 font-medium;
+    @apply txt-small leading-6 font-medium;
   }
 
   /* Content container */

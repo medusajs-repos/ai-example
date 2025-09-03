@@ -25,7 +25,7 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
 
   return (
     <div
-      className={`flex flex-col gap-y-2 text-small-regular cursor-pointer py-4 border rounded px-8 mb-2 hover:border-ui-border-strong transition-colors ${
+      className={`flex flex-col gap-y-2 txt-smallall-regular cursor-pointer py-4 border rounded px-8 mb-2 hover:border-ui-border-strong transition-colors ${
         isSelected
           ? "border-ui-fg-interactive bg-ui-bg-subtle"
           : "border-ui-border-base"
@@ -35,11 +35,11 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-x-4">
           <Radio checked={isSelected} readOnly />
-          <Text className="text-base-regular">
+          <Text className="txt-medium-regular">
             {paymentInfoMap[paymentProviderId]?.title || paymentProviderId}
           </Text>
           {isManual(paymentProviderId) && isDevelopment && (
-            <span className="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded hidden small:block">
+            <span className="txt-xsmall bg-orange-100 text-orange-800 px-2 py-1 rounded hidden small:block">
               Test Mode
             </span>
           )}
@@ -49,7 +49,7 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
         </span>
       </div>
       {isManual(paymentProviderId) && isDevelopment && (
-        <span className="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded small:hidden">
+        <span className="txt-xsmall bg-orange-100 text-orange-800 px-2 py-1 rounded small:hidden">
           Test Mode
         </span>
       )}

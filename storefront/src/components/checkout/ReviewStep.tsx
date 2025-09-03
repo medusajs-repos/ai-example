@@ -52,7 +52,7 @@ const ReviewStep = ({ cart, isActive, countryCode }: ReviewStepProps) => {
       <div className="flex flex-row items-center justify-between mb-6">
         <Heading
           level="h2"
-          className="flex flex-row text-3xl-regular gap-x-2 items-baseline"
+          className="flex flex-row txt-xlarge-plus-regular gap-x-2 items-baseline"
         >
           Review
           {isActive && canCompleteOrder && <CheckCircleSolid />}
@@ -63,29 +63,29 @@ const ReviewStep = ({ cart, isActive, countryCode }: ReviewStepProps) => {
         <div>
           {!canCompleteOrder ? (
             <div className="pb-8">
-              <div className="text-ui-fg-subtle text-small-regular">
+              <div className="text-ui-fg-subtle txt-smallall-regular">
                 Please complete all previous steps to review your order.
               </div>
 
               {/* Show what's missing */}
               <div className="mt-4 space-y-2">
                 {!cart.shipping_address && (
-                  <div className="text-red-500 text-small-regular">
+                  <div className="text-red-500 txt-smallall-regular">
                     • Shipping address required
                   </div>
                 )}
                 {!cart.shipping_methods?.length && (
-                  <div className="text-red-500 text-small-regular">
+                  <div className="text-red-500 txt-smallall-regular">
                     • Delivery method required
                   </div>
                 )}
                 {!cart.payment_sessions?.length && (
-                  <div className="text-red-500 text-small-regular">
+                  <div className="text-red-500 txt-smallall-regular">
                     • Payment method required
                   </div>
                 )}
                 {!cart.items?.length && (
-                  <div className="text-red-500 text-small-regular">
+                  <div className="text-red-500 txt-smallall-regular">
                     • Cart is empty
                   </div>
                 )}
@@ -93,7 +93,7 @@ const ReviewStep = ({ cart, isActive, countryCode }: ReviewStepProps) => {
             </div>
           ) : (
             <div className="pb-8">
-              <div className="text-small-regular text-ui-fg-subtle mb-6">
+              <div className="txt-smallall-regular text-ui-fg-subtle mb-6">
                 By clicking "Complete order" you agree to our terms and
                 conditions.
               </div>
@@ -102,7 +102,7 @@ const ReviewStep = ({ cart, isActive, countryCode }: ReviewStepProps) => {
               <div className="space-y-6">
                 {/* Items */}
                 <div>
-                  <h3 className="text-base-semi text-ui-fg-base mb-4">Items</h3>
+                  <h3 className="txt-medium-semi text-ui-fg-base mb-4">Items</h3>
                   <div className="space-y-3">
                     {cart.items?.map((item) => (
                       <div key={item.id} className="flex items-center gap-4">
@@ -120,26 +120,26 @@ const ReviewStep = ({ cart, isActive, countryCode }: ReviewStepProps) => {
                             />
                           ) : (
                             <div className="w-full h-full bg-ui-bg-subtle rounded flex items-center justify-center">
-                              <span className="text-xs text-ui-fg-muted">
+                              <span className="txt-xsmall text-ui-fg-muted">
                                 No image
                               </span>
                             </div>
                           )}
                         </div>
                         <div className="flex-1">
-                          <div className="text-base-regular text-ui-fg-base">
+                          <div className="txt-medium-regular text-ui-fg-base">
                             {item.title}
                           </div>
                           {item.variant && item.variant.title !== "Default" && (
-                            <div className="text-small-regular text-ui-fg-subtle">
+                            <div className="txt-smallall-regular text-ui-fg-subtle">
                               {item.variant.title}
                             </div>
                           )}
-                          <div className="text-small-regular text-ui-fg-subtle">
+                          <div className="txt-smallall-regular text-ui-fg-subtle">
                             Quantity: {item.quantity}
                           </div>
                         </div>
-                        <div className="text-base-regular text-ui-fg-base">
+                        <div className="txt-medium-regular text-ui-fg-base">
                           {item.total
                             ? `$${item.total.toFixed(2)}`
                             : `$${(
@@ -154,10 +154,10 @@ const ReviewStep = ({ cart, isActive, countryCode }: ReviewStepProps) => {
                 {/* Delivery */}
                 {cart.shipping_address && (
                   <div>
-                    <h3 className="text-base-semi text-ui-fg-base mb-4">
+                    <h3 className="txt-medium-semi text-ui-fg-base mb-4">
                       Delivery
                     </h3>
-                    <div className="text-small-regular text-ui-fg-base">
+                    <div className="txt-smallall-regular text-ui-fg-base">
                       <div>
                         {cart.shipping_address.first_name}{" "}
                         {cart.shipping_address.last_name}
@@ -185,10 +185,10 @@ const ReviewStep = ({ cart, isActive, countryCode }: ReviewStepProps) => {
                 {/* Payment */}
                 {cart.payment_sessions?.length && (
                   <div>
-                    <h3 className="text-base-semi text-ui-fg-base mb-4">
+                    <h3 className="txt-medium-semi text-ui-fg-base mb-4">
                       Payment
                     </h3>
-                    <div className="text-small-regular text-ui-fg-base">
+                    <div className="txt-smallall-regular text-ui-fg-base">
                       {cart.payment_sessions[0].provider_id === "stripe"
                         ? "Credit Card"
                         : cart.payment_sessions[0].provider_id}
@@ -201,7 +201,7 @@ const ReviewStep = ({ cart, isActive, countryCode }: ReviewStepProps) => {
                 <button
                   onClick={handleCompleteOrder}
                   disabled={completeOrder.isPending}
-                  className="bg-ui-bg-interactive text-white px-8 py-3 text-base-regular hover:bg-ui-bg-interactive-hover disabled:opacity-50"
+                  className="bg-ui-bg-interactive text-white px-8 py-3 txt-medium-regular hover:bg-ui-bg-interactive-hover disabled:opacity-50"
                   data-testid="complete-order-button"
                 >
                   {completeOrder.isPending ? "Processing..." : "Complete order"}
@@ -210,7 +210,7 @@ const ReviewStep = ({ cart, isActive, countryCode }: ReviewStepProps) => {
 
               {error && (
                 <div
-                  className="text-red-500 text-sm mt-4"
+                  className="text-red-500 txt-small mt-4"
                   data-testid="review-error-message"
                 >
                   {error}

@@ -35,7 +35,7 @@ const CartDropdown = () => {
               <path d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.293 2.293a1 1 0 00.293 1.707H19M7 13v6a2 2 0 002 2h6a2 2 0 002-2v-6m-8 0V9a2 2 0 012-2h4a2 2 0 012 2v4" />
             </svg>
           </div>
-          <span className="text-small-regular text-ui-fg-subtle">
+          <span className="txt-smallall-regular text-ui-fg-subtle">
             Your cart is empty
           </span>
           <div className="mt-4">
@@ -54,10 +54,10 @@ const CartDropdown = () => {
     <div className="bg-white shadow-elevation-flyout rounded-rounded border border-ui-border-base w-[420px] max-h-[402px] overflow-hidden">
       <div className="p-4 border-b border-ui-border-base">
         <div className="flex items-center justify-between">
-          <h3 className="text-large-semi">Cart ({itemCount})</h3>
+          <h3 className="txt-large-semi">Cart ({itemCount})</h3>
           <Link
             to={`${baseHref}/cart`}
-            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover text-small-regular"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-smallall-regular"
           >
             Edit cart
           </Link>
@@ -72,8 +72,8 @@ const CartDropdown = () => {
 
       <div className="p-4 border-t border-ui-border-base">
         <div className="flex items-center justify-between mb-4">
-          <span className="text-base-regular text-ui-fg-subtle">Subtotal</span>
-          <span className="text-base-semi">
+          <span className="txt-medium-regular text-ui-fg-subtle">Subtotal</span>
+          <span className="txt-medium-semi">
             {new Intl.NumberFormat("en-US", {
               style: "currency",
               currency: cart.currency_code,
@@ -142,7 +142,7 @@ const CartItem = ({
             className="w-full h-full object-cover"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-ui-fg-subtle text-xs">
+          <div className="w-full h-full flex items-center justify-center text-ui-fg-subtle txt-xsmall">
             No image
           </div>
         )}
@@ -150,10 +150,10 @@ const CartItem = ({
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <h4 className="text-base-semi line-clamp-1">
+            <h4 className="txt-medium-semi line-clamp-1">
               {item.product?.title}
             </h4>
-            <div className="text-small-regular text-ui-fg-subtle">
+            <div className="txt-smallall-regular text-ui-fg-subtle">
               {item.variant?.title &&
                 item.variant.title !== "Default Title" && (
                   <span>{item.variant.title}</span>
@@ -180,7 +180,7 @@ const CartItem = ({
             >
               <Minus />
             </button>
-            <span className="text-small-regular text-ui-fg-base min-w-[1.5rem] text-center">
+            <span className="txt-smallall-regular text-ui-fg-base min-w-[1.5rem] text-center">
               {item.quantity}
             </span>
             <button
@@ -192,7 +192,7 @@ const CartItem = ({
               <Plus />
             </button>
           </div>
-          <span className="text-small-semi">
+          <span className="txt-smallall-semi">
             {new Intl.NumberFormat("en-US", {
               style: "currency",
               currency: cart.currency_code,

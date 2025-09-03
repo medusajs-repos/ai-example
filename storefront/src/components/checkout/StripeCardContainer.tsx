@@ -115,7 +115,7 @@ const StripeCardContainer: React.FC<StripeCardContainerProps> = ({
               placeholder="John Doe"
             />
           </div>
-          <div className="mt-3 text-xs text-ui-fg-subtle">
+          <div className="mt-3 txt-xsmall text-ui-fg-subtle">
             This is a demo form. In production, use Stripe Elements for secure card input.
           </div>
         </div>

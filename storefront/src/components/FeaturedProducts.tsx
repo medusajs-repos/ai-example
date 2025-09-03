@@ -45,7 +45,7 @@ const FeaturedProducts = () => {
       <section className="py-20 bg-gradient-to-b from-gray-50 to-white mb-16">
         <div className="content-container">
           <div className="text-center text-yellow-600">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight">
+            <h2 className="text-4xl font-bold text-fg-subtle mb-4 tracking-tight">
               Latest Products
             </h2>
             <p>No products available at the moment.</p>
@@ -59,10 +59,10 @@ const FeaturedProducts = () => {
     <section className="py-20 bg-gradient-to-b from-gray-50 to-white mb-16">
       <div className="content-container">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-tight">
+          <h2 className="text-4xl font-bold text-fg-subtle mb-4 tracking-tight">
             Latest Products
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-fg-subtle max-w-2xl mx-auto">
             Discover our newest arrivals, carefully curated just for you
           </p>
         </div>
@@ -80,7 +80,7 @@ const FeaturedProducts = () => {
         <div className="text-center mt-12">
           <Link
             to={`/${countryCode}/store`}
-            className="inline-flex items-center px-8 py-3 bg-black text-white font-semibold rounded-full hover:bg-gray-800 transition-colors duration-200 group"
+            className="inline-flex items-center px-8 py-3 bg-black text-white font-semibold rounded-full hover:bg-bg-subtle transition-colors duration-200 group"
           >
             View All Products
             <svg

@@ -85,7 +85,7 @@ const AddressForm = ({ address, onSubmit, onCancel, isLoading }: AddressFormProp
             required
           />
           {errors.first_name && (
-            <div className="text-red-500 text-sm mt-1">{errors.first_name}</div>
+            <div className="text-red-500 txt-small mt-1">{errors.first_name}</div>
           )}
         </div>
         <div>
@@ -100,7 +100,7 @@ const AddressForm = ({ address, onSubmit, onCancel, isLoading }: AddressFormProp
             required
           />
           {errors.last_name && (
-            <div className="text-red-500 text-sm mt-1">{errors.last_name}</div>
+            <div className="text-red-500 txt-small mt-1">{errors.last_name}</div>
           )}
         </div>
       </div>
@@ -131,7 +131,7 @@ const AddressForm = ({ address, onSubmit, onCancel, isLoading }: AddressFormProp
           required
         />
         {errors.address_1 && (
-          <div className="text-red-500 text-sm mt-1">{errors.address_1}</div>
+          <div className="text-red-500 txt-small mt-1">{errors.address_1}</div>
         )}
       </div>
 
@@ -160,7 +160,7 @@ const AddressForm = ({ address, onSubmit, onCancel, isLoading }: AddressFormProp
             required
           />
           {errors.city && (
-            <div className="text-red-500 text-sm mt-1">{errors.city}</div>
+            <div className="text-red-500 txt-small mt-1">{errors.city}</div>
           )}
         </div>
         <div>
@@ -186,14 +186,14 @@ const AddressForm = ({ address, onSubmit, onCancel, isLoading }: AddressFormProp
             required
           />
           {errors.postal_code && (
-            <div className="text-red-500 text-sm mt-1">{errors.postal_code}</div>
+            <div className="text-red-500 txt-small mt-1">{errors.postal_code}</div>
           )}
         </div>
       </div>
 
       {/* Country */}
       <div>
-        <label className="block text-sm font-medium text-ui-fg-base mb-2">
+        <label className="block txt-small font-medium text-ui-fg-base mb-2">
           Country
         </label>
         <select
@@ -211,7 +211,7 @@ const AddressForm = ({ address, onSubmit, onCancel, isLoading }: AddressFormProp
           ))}
         </select>
         {errors.country_code && (
-          <div className="text-red-500 text-sm mt-1">{errors.country_code}</div>
+          <div className="text-red-500 txt-small mt-1">{errors.country_code}</div>
         )}
       </div>
 

@@ -10,14 +10,14 @@ export default function PreviewPrice({ price }: { price: VariantPrice }) {
     <>
       {price.price_type === "sale" && (
         <Text
-          className="line-through text-gray-500"
+          className="line-through text-fg-subtle"
           data-testid="original-price"
         >
           {price.original_price}
         </Text>
       )}
       <Text
-        className={clx("text-gray-600", {
+        className={clx("text-fg-subtle", {
           "text-red-600": price.price_type === "sale",
         })}
         data-testid="price"

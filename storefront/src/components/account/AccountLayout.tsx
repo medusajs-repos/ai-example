@@ -23,8 +23,8 @@ const AccountLayout = ({ children, customer }: AccountLayoutProps) => {
         {/* Customer Service Footer */}
         <div className="flex flex-col small:flex-row items-end justify-between small:border-t border-ui-border-base py-12 gap-8">
           <div>
-            <h3 className="text-xl-semi mb-4">Got questions?</h3>
-            <p className="text-base-regular">
+            <h3 className="txt-xlarge-semi mb-4">Got questions?</h3>
+            <p className="txt-medium-regular">
               You can find frequently asked questions and answers on our customer service page.
             </p>
           </div>

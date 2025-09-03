@@ -16,7 +16,7 @@ const ProductDetails = () => {
     return (
       <div className="content-container py-8">
         <div className="text-center text-red-600">
-          <p className="text-xl mb-4">Invalid product URL</p>
+          <p className="txt-xlarge mb-4">Invalid product URL</p>
           <a href="/store" className="text-blue-600 hover:underline">
             Return to store
           </a>
@@ -29,7 +29,7 @@ const ProductDetails = () => {
     return (
       <div className="content-container py-8">
         <div className="text-center text-red-600">
-          <p className="text-xl mb-4">Product not found</p>
+          <p className="txt-xlarge mb-4">Product not found</p>
           <a href="/store" className="text-blue-600 hover:underline">
             Return to store
           </a>

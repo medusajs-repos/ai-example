@@ -21,7 +21,7 @@ const OrderConfirmation = () => {
           </div>
           <Heading
             level="h1"
-            className="text-3xl font-bold text-ui-fg-base mb-4"
+            className="text-3xl text-ui-fg-base mb-4"
           >
             Order Confirmed!
           </Heading>

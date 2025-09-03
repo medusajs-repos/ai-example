@@ -37,7 +37,7 @@ export default function RelatedProducts({
     return (
       <div className="product-page-constraint">
         <div className="flex flex-col items-center text-center mb-16">
-          <span className="text-base-regular text-ui-fg-muted mb-6">
+          <span className="txt-medium-regular text-ui-fg-muted mb-6">
             Related products
           </span>
           <p className="text-2xl-regular text-ui-fg-base max-w-lg">
@@ -60,7 +60,7 @@ export default function RelatedProducts({
   return (
     <div className="product-page-constraint">
       <div className="flex flex-col items-center text-center mb-16">
-        <span className="text-base-regular text-ui-fg-muted mb-6">
+        <span className="txt-medium-regular text-ui-fg-muted mb-6">
           Related products
         </span>
         <p className="text-2xl-regular text-ui-fg-base max-w-lg">

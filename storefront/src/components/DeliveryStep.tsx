@@ -188,7 +188,7 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
           <Text className="text-ui-fg-subtle mb-4">
             No shipping options available for your location.
           </Text>
-          <Text className="text-sm text-ui-fg-muted">
+          <Text className="txt-small text-ui-fg-muted">
             Please check your shipping address or contact support.
           </Text>
         </div>
@@ -267,11 +267,11 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
                         </Badge>
                       )}
                     </div>
-                    <Text className="text-sm text-ui-fg-subtle">
+                    <Text className="txt-small text-ui-fg-subtle">
                       {getDeliveryTime(option)}
                     </Text>
                     {option.data?.description && (
-                      <Text className="text-xs text-ui-fg-muted mt-1">
+                      <Text className="txt-xsmall text-ui-fg-muted mt-1">
                         {option.data.description}
                       </Text>
                     )}
@@ -294,11 +294,11 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
         <div className="mb-8 p-4 bg-ui-bg-subtle rounded-lg">
           <div className="flex items-center gap-2 mb-2">
             <MapPin className="w-4 h-4 text-ui-fg-subtle" />
-            <Text className="text-sm font-medium text-ui-fg-base">
+            <Text className="txt-small font-medium text-ui-fg-base">
               Delivering to:
             </Text>
           </div>
-          <Text className="text-sm text-ui-fg-subtle">
+          <Text className="txt-small text-ui-fg-subtle">
             {cart.shipping_address.first_name} {cart.shipping_address.last_name}
             <br />
             {cart.shipping_address.address_1}

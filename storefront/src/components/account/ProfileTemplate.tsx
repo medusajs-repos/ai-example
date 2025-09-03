@@ -215,7 +215,7 @@ const ProfilePhone = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
             data-testid="phone-input"
             className="w-full"
           />
-          <p className="text-sm text-ui-fg-subtle leading-relaxed">
+          <p className="txt-small text-ui-fg-subtle leading-relaxed">
             We'll use this number to contact you about your orders if needed.
           </p>
         </div>

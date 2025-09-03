@@ -39,7 +39,7 @@ const CartItem = ({ item, cart }: CartItemProps) => {
           />
         ) : (
           <div className="w-20 h-20 bg-ui-bg-subtle rounded flex items-center justify-center">
-            <span className="text-xs text-ui-fg-muted">No image</span>
+            <span className="txt-xsmall text-ui-fg-muted">No image</span>
           </div>
         )}
       </div>
@@ -47,7 +47,7 @@ const CartItem = ({ item, cart }: CartItemProps) => {
       <div className="flex-1 min-w-0">
         <h3 className="font-medium text-ui-fg-base">{item.title}</h3>
         {item.variant?.title && item.variant.title !== "Default Variant" && (
-          <p className="text-sm text-ui-fg-muted mt-1">{item.variant.title}</p>
+          <p className="txt-small text-ui-fg-muted mt-1">{item.variant.title}</p>
         )}
       </div>
 
@@ -60,7 +60,7 @@ const CartItem = ({ item, cart }: CartItemProps) => {
           >
             −
           </button>
-          <span className="w-12 text-center text-sm font-medium">
+          <span className="w-12 text-center txt-small font-medium">
             {item.quantity}
           </span>
           <button
@@ -83,7 +83,7 @@ const CartItem = ({ item, cart }: CartItemProps) => {
         <button
           onClick={() => deleteLineItem.mutate(item.id)}
           disabled={deleteLineItem.isPending}
-          className="text-ui-fg-muted hover:text-ui-fg-base text-sm underline disabled:opacity-50 transition-colors"
+          className="text-ui-fg-muted hover:text-ui-fg-base txt-small underline disabled:opacity-50 transition-colors"
         >
           {deleteLineItem.isPending ? "Removing..." : "Remove"}
         </button>

@@ -56,7 +56,7 @@ const ShippingStep = ({ cart, isActive, onComplete }: ShippingStepProps) => {
       <div className="flex flex-row items-center justify-between mb-6">
         <Heading
           level="h2"
-          className="flex flex-row text-3xl-regular gap-x-2 items-baseline"
+          className="flex flex-row txt-xlarge-plus-regular gap-x-2 items-baseline"
         >
           Delivery
           {isCompleted && <CheckCircleSolid />}
@@ -108,17 +108,17 @@ const ShippingStep = ({ cart, isActive, onComplete }: ShippingStepProps) => {
                           className="text-ui-fg-interactive"
                         />
                         <div>
-                          <div className="text-base-regular text-ui-fg-base">
+                          <div className="txt-medium-regular text-ui-fg-base">
                             {option.name}
                           </div>
                           {option.data?.description && (
-                            <div className="text-small-regular text-ui-fg-subtle">
+                            <div className="txt-smallall-regular text-ui-fg-subtle">
                               {option.data.description}
                             </div>
                           )}
                         </div>
                       </div>
-                      <div className="text-base-regular text-ui-fg-base">
+                      <div className="txt-medium-regular text-ui-fg-base">
                         {option.amount
                           ? `$${option.amount.toFixed(2)}`
                           : "Free"}
@@ -131,7 +131,7 @@ const ShippingStep = ({ cart, isActive, onComplete }: ShippingStepProps) => {
                   <button
                     type="submit"
                     disabled={isSubmitting || !selectedOption}
-                    className="bg-ui-bg-interactive text-white px-8 py-3 text-base-regular hover:bg-ui-bg-interactive-hover disabled:opacity-50"
+                    className="bg-ui-bg-interactive text-white px-8 py-3 txt-medium-regular hover:bg-ui-bg-interactive-hover disabled:opacity-50"
                     data-testid="submit-delivery-button"
                   >
                     {isSubmitting ? "Processing..." : "Continue to payment"}
@@ -140,7 +140,7 @@ const ShippingStep = ({ cart, isActive, onComplete }: ShippingStepProps) => {
 
                 {error && (
                   <div
-                    className="text-red-500 text-sm mt-4"
+                    className="text-red-500 txt-small mt-4"
                     data-testid="delivery-error-message"
                   >
                     {error}
@@ -152,7 +152,7 @@ const ShippingStep = ({ cart, isActive, onComplete }: ShippingStepProps) => {
         </div>
       ) : (
         <div>
-          <div className="text-small-regular">
+          <div className="txt-smallall-regular">
             {cart && cart.shipping_methods?.length ? (
               <div className="flex flex-col gap-y-2">
                 {cart.shipping_methods.map((method) => (

@@ -55,7 +55,7 @@ const AddressesStep = ({ cart, customer, isActive, onComplete }: AddressesStepPr
       <div className="flex flex-row items-center justify-between mb-6">
         <Heading
           level="h2"
-          className="flex flex-row text-3xl-regular gap-x-2 items-baseline"
+          className="flex flex-row txt-xlarge-plus-regular gap-x-2 items-baseline"
         >
           Shipping Address
           {isCompleted && <CheckCircleSolid />}
@@ -87,7 +87,7 @@ const AddressesStep = ({ cart, customer, isActive, onComplete }: AddressesStepPr
               <div>
                 <Heading
                   level="h2"
-                  className="text-3xl-regular gap-x-4 pb-6 pt-8"
+                  className="txt-xlarge-plus-regular gap-x-4 pb-6 pt-8"
                 >
                   Billing address
                 </Heading>
@@ -99,7 +99,7 @@ const AddressesStep = ({ cart, customer, isActive, onComplete }: AddressesStepPr
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="bg-ui-bg-interactive text-white px-8 py-3 text-base-regular hover:bg-ui-bg-interactive-hover disabled:opacity-50"
+                className="bg-ui-bg-interactive text-white px-8 py-3 txt-medium-regular hover:bg-ui-bg-interactive-hover disabled:opacity-50"
                 data-testid="submit-address-button"
               >
                 {isSubmitting ? "Processing..." : "Continue to delivery"}
@@ -107,7 +107,7 @@ const AddressesStep = ({ cart, customer, isActive, onComplete }: AddressesStepPr
             </div>
             
             {error && (
-              <div className="text-red-500 text-sm mt-4" data-testid="address-error-message">
+              <div className="text-red-500 txt-small mt-4" data-testid="address-error-message">
                 {error}
               </div>
             )}
@@ -115,7 +115,7 @@ const AddressesStep = ({ cart, customer, isActive, onComplete }: AddressesStepPr
         </form>
       ) : (
         <div>
-          <div className="text-small-regular">
+          <div className="txt-smallall-regular">
             {cart && cart.shipping_address ? (
               <div className="flex items-start gap-x-8">
                 <div className="flex items-start gap-x-1 w-full">

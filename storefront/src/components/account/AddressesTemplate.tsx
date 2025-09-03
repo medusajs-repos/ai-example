@@ -20,7 +20,7 @@ const AddressesTemplate = ({ customer }: AddressesTemplateProps) => {
       description="View and update your addresses, you can add as many as you like. Saving your addresses will make them available during checkout."
     >
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-medium text-ui-fg-base">Address book</h2>
+        <h2 className="txt-xlarge font-medium text-ui-fg-base">Address book</h2>
         <Button
           size="small"
           onClick={() => setIsAdding(!isAdding)}
@@ -109,14 +109,14 @@ const AddressCard = ({ address, customer }: AddressCardProps) => {
                   setIsEditing(true)
                   setShowMenu(false)
                 }}
-                className="w-full text-left px-3 py-2 text-small-regular text-ui-fg-base hover:bg-ui-bg-subtle first:rounded-t-rounded"
+                className="w-full text-left px-3 py-2 txt-smallall-regular text-ui-fg-base hover:bg-ui-bg-subtle first:rounded-t-rounded"
               >
                 Edit
               </button>
               <button
                 onClick={handleDelete}
                 disabled={deleteAddress.isPending}
-                className="w-full text-left px-3 py-2 text-small-regular text-red-500 hover:bg-ui-bg-subtle last:rounded-b-rounded disabled:opacity-50"
+                className="w-full text-left px-3 py-2 txt-smallall-regular text-red-500 hover:bg-ui-bg-subtle last:rounded-b-rounded disabled:opacity-50"
               >
                 {deleteAddress.isPending ? 'Deleting...' : 'Delete'}
               </button>
@@ -149,12 +149,12 @@ const AddressCard = ({ address, customer }: AddressCardProps) => {
           )}
           <div className="flex gap-x-3 mt-4">
             {isDefaultBilling && (
-              <div className="px-3 py-1.5 bg-ui-bg-base border border-ui-border-base text-ui-fg-subtle text-sm rounded-md font-medium">
+              <div className="px-3 py-1.5 bg-ui-bg-base border border-ui-border-base text-ui-fg-subtle txt-small rounded-md font-medium">
                 Default billing
               </div>
             )}
             {isDefaultShipping && (
-              <div className="px-3 py-1.5 bg-ui-bg-base border border-ui-border-base text-ui-fg-subtle text-sm rounded-md font-medium">
+              <div className="px-3 py-1.5 bg-ui-bg-base border border-ui-border-base text-ui-fg-subtle txt-small rounded-md font-medium">
                 Default shipping
               </div>
             )}

@@ -118,7 +118,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Email */}
         <div>
-          <Label htmlFor="email" className="block text-sm font-medium mb-2">
+          <Label htmlFor="email" className="block txt-small font-medium mb-2">
             Email Address *
           </Label>
           <Input
@@ -140,7 +140,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="shipping_first_name" className="block text-sm font-medium mb-2">
+              <Label htmlFor="shipping_first_name" className="block txt-small font-medium mb-2">
                 First Name *
               </Label>
               <Input
@@ -153,7 +153,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
             </div>
             
             <div>
-              <Label htmlFor="shipping_last_name" className="block text-sm font-medium mb-2">
+              <Label htmlFor="shipping_last_name" className="block txt-small font-medium mb-2">
                 Last Name *
               </Label>
               <Input
@@ -167,7 +167,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
           </div>
 
           <div>
-            <Label htmlFor="shipping_company" className="block text-sm font-medium mb-2">
+            <Label htmlFor="shipping_company" className="block txt-small font-medium mb-2">
               Company (Optional)
             </Label>
             <Input
@@ -179,7 +179,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
           </div>
 
           <div>
-            <Label htmlFor="shipping_address_1" className="block text-sm font-medium mb-2">
+            <Label htmlFor="shipping_address_1" className="block txt-small font-medium mb-2">
               Address Line 1 *
             </Label>
             <Input
@@ -192,7 +192,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
           </div>
 
           <div>
-            <Label htmlFor="shipping_address_2" className="block text-sm font-medium mb-2">
+            <Label htmlFor="shipping_address_2" className="block txt-small font-medium mb-2">
               Address Line 2 (Optional)
             </Label>
             <Input
@@ -205,7 +205,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <Label htmlFor="shipping_city" className="block text-sm font-medium mb-2">
+              <Label htmlFor="shipping_city" className="block txt-small font-medium mb-2">
                 City *
               </Label>
               <Input
@@ -218,7 +218,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
             </div>
             
             <div>
-              <Label htmlFor="shipping_province" className="block text-sm font-medium mb-2">
+              <Label htmlFor="shipping_province" className="block txt-small font-medium mb-2">
                 State/Province
               </Label>
               <Input
@@ -230,7 +230,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
             </div>
             
             <div>
-              <Label htmlFor="shipping_postal_code" className="block text-sm font-medium mb-2">
+              <Label htmlFor="shipping_postal_code" className="block txt-small font-medium mb-2">
                 Postal Code *
               </Label>
               <Input
@@ -245,7 +245,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="shipping_country" className="block text-sm font-medium mb-2">
+              <Label htmlFor="shipping_country" className="block txt-small font-medium mb-2">
                 Country *
               </Label>
               <select
@@ -264,7 +264,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
             </div>
             
             <div>
-              <Label htmlFor="shipping_phone" className="block text-sm font-medium mb-2">
+              <Label htmlFor="shipping_phone" className="block txt-small font-medium mb-2">
                 Phone
               </Label>
               <Input
@@ -285,7 +285,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
             checked={sameAsBilling}
             onCheckedChange={(checked) => setSameAsBilling(!!checked)}
           />
-          <Label htmlFor="same_as_billing" className="text-sm">
+          <Label htmlFor="same_as_billing" className="txt-small">
             Billing address is the same as shipping address
           </Label>
         </div>
@@ -299,7 +299,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="billing_first_name" className="block text-sm font-medium mb-2">
+                <Label htmlFor="billing_first_name" className="block txt-small font-medium mb-2">
                   First Name *
                 </Label>
                 <Input
@@ -312,7 +312,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
               </div>
               
               <div>
-                <Label htmlFor="billing_last_name" className="block text-sm font-medium mb-2">
+                <Label htmlFor="billing_last_name" className="block txt-small font-medium mb-2">
                   Last Name *
                 </Label>
                 <Input
@@ -326,7 +326,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
             </div>
 
             <div>
-              <Label htmlFor="billing_company" className="block text-sm font-medium mb-2">
+              <Label htmlFor="billing_company" className="block txt-small font-medium mb-2">
                 Company (Optional)
               </Label>
               <Input
@@ -338,7 +338,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
             </div>
 
             <div>
-              <Label htmlFor="billing_address_1" className="block text-sm font-medium mb-2">
+              <Label htmlFor="billing_address_1" className="block txt-small font-medium mb-2">
                 Address Line 1 *
               </Label>
               <Input
@@ -351,7 +351,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
             </div>
 
             <div>
-              <Label htmlFor="billing_address_2" className="block text-sm font-medium mb-2">
+              <Label htmlFor="billing_address_2" className="block txt-small font-medium mb-2">
                 Address Line 2 (Optional)
               </Label>
               <Input
@@ -364,7 +364,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <Label htmlFor="billing_city" className="block text-sm font-medium mb-2">
+                <Label htmlFor="billing_city" className="block txt-small font-medium mb-2">
                   City *
                 </Label>
                 <Input
@@ -377,7 +377,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
               </div>
               
               <div>
-                <Label htmlFor="billing_province" className="block text-sm font-medium mb-2">
+                <Label htmlFor="billing_province" className="block txt-small font-medium mb-2">
                   State/Province
                 </Label>
                 <Input
@@ -389,7 +389,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
               </div>
               
               <div>
-                <Label htmlFor="billing_postal_code" className="block text-sm font-medium mb-2">
+                <Label htmlFor="billing_postal_code" className="block txt-small font-medium mb-2">
                   Postal Code *
                 </Label>
                 <Input
@@ -404,7 +404,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="billing_country" className="block text-sm font-medium mb-2">
+                <Label htmlFor="billing_country" className="block txt-small font-medium mb-2">
                   Country *
                 </Label>
                 <select
@@ -423,7 +423,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
               </div>
               
               <div>
-                <Label htmlFor="billing_phone" className="block text-sm font-medium mb-2">
+                <Label htmlFor="billing_phone" className="block txt-small font-medium mb-2">
                   Phone
                 </Label>
                 <Input

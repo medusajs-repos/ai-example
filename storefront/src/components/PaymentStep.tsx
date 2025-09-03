@@ -202,7 +202,7 @@ const PaymentStep = ({ cart, onNext, onBack }: PaymentStepProps) => {
       <div className="flex flex-row items-center justify-between mb-6">
         <Heading
           level="h2"
-          className="flex flex-row text-3xl-regular gap-x-2 items-baseline"
+          className="flex flex-row txt-xlarge-plus-regular gap-x-2 items-baseline"
         >
           Payment
           {isCompleted && <CheckCircleSolid />}
@@ -270,7 +270,7 @@ const PaymentStep = ({ cart, onNext, onBack }: PaymentStepProps) => {
 
         {error && (
           <div
-            className="text-red-500 text-sm mb-4"
+            className="text-red-500 txt-small mb-4"
             data-testid="payment-method-error-message"
           >
             {error}

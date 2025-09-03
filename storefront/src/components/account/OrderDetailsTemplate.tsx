@@ -38,17 +38,17 @@ const OrderDetailsTemplate = ({ order }: OrderDetailsTemplateProps) => {
         <div className="flex items-center gap-x-4">
           <Badge
             variant={orderStatus.variant}
-            className="text-sm font-medium px-3 py-1"
+            className="txt-small font-medium px-3 py-1"
           >
             {orderStatus.label}
           </Badge>
         </div>
 
         <div className="flex gap-x-3">
-          <Button variant="secondary" size="small" className="text-sm">
+          <Button variant="secondary" size="small" className="txt-small">
             Download Invoice
           </Button>
-          <Button variant="secondary" size="small" className="text-sm">
+          <Button variant="secondary" size="small" className="txt-small">
             Reorder Items
           </Button>
         </div>
@@ -94,7 +94,7 @@ const OrderDetailsTemplate = ({ order }: OrderDetailsTemplateProps) => {
       <div className="space-y-12">
         {/* Order Items */}
         <div className="bg-white border border-ui-border-base rounded-lg p-8">
-          <h2 className="text-xl font-medium mb-8 text-ui-fg-base">
+          <h2 className="txt-xlarge font-medium mb-8 text-ui-fg-base">
             Items ({order.items?.length || 0})
           </h2>
           <div className="space-y-6">
@@ -108,7 +108,7 @@ const OrderDetailsTemplate = ({ order }: OrderDetailsTemplateProps) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Payment Summary */}
           <div className="bg-white border border-ui-border-base rounded-lg p-8">
-            <h2 className="text-xl font-medium mb-8 text-ui-fg-base">
+            <h2 className="txt-xlarge font-medium mb-8 text-ui-fg-base">
               Payment
             </h2>
             <div className="space-y-6">
@@ -137,10 +137,10 @@ const OrderDetailsTemplate = ({ order }: OrderDetailsTemplateProps) => {
                 </span>
               </div>
               <div className="border-t-2 border-ui-border-base pt-6 flex items-center justify-between">
-                <span className="text-xl font-medium text-ui-fg-base">
+                <span className="txt-xlarge font-medium text-ui-fg-base">
                   Total
                 </span>
-                <span className="text-xl font-medium text-ui-fg-base">
+                <span className="txt-xlarge font-medium text-ui-fg-base">
                   {order.currency_code?.toUpperCase()}{" "}
                   {(order.total || 0).toFixed(2)}
                 </span>
@@ -169,10 +169,10 @@ const OrderDetailsTemplate = ({ order }: OrderDetailsTemplateProps) => {
                   </svg>
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-ui-fg-base capitalize">
+                  <div className="txt-small font-medium text-ui-fg-base capitalize">
                     {order.payments?.[0]?.provider_id || "Card"}
                   </div>
-                  <div className="text-xs text-ui-fg-subtle">
+                  <div className="txt-xsmall text-ui-fg-subtle">
                     •••• {order.payments?.[0]?.data?.last4 || "****"}
                   </div>
                 </div>
@@ -182,7 +182,7 @@ const OrderDetailsTemplate = ({ order }: OrderDetailsTemplateProps) => {
 
           {/* Shipping & Delivery */}
           <div className="bg-white border border-ui-border-base rounded-lg p-8">
-            <h2 className="text-xl font-medium mb-8 text-ui-fg-base">
+            <h2 className="txt-xlarge font-medium mb-8 text-ui-fg-base">
               Delivery
             </h2>
 
@@ -192,7 +192,7 @@ const OrderDetailsTemplate = ({ order }: OrderDetailsTemplateProps) => {
                   <h3 className="text-lg font-medium text-ui-fg-base mb-6">
                     Shipping Address
                   </h3>
-                  <div className="bg-ui-bg-subtle/50 rounded-lg p-4 space-y-1 text-sm">
+                  <div className="bg-ui-bg-subtle/50 rounded-lg p-4 space-y-1 txt-small">
                     <div className="font-medium text-ui-fg-base">
                       {order.shipping_address.first_name}{" "}
                       {order.shipping_address.last_name}
@@ -223,10 +223,10 @@ const OrderDetailsTemplate = ({ order }: OrderDetailsTemplateProps) => {
                       Shipping Method
                     </h3>
                     <div className="flex items-center justify-between py-2 px-4 bg-ui-bg-subtle/50 rounded-lg">
-                      <span className="text-sm text-ui-fg-base">
+                      <span className="txt-small text-ui-fg-base">
                         {order.shipping_methods[0].name}
                       </span>
-                      <span className="text-sm font-medium text-ui-fg-base">
+                      <span className="txt-small font-medium text-ui-fg-base">
                         {(order.shipping_total || 0) === 0
                           ? "Free"
                           : `${order.currency_code?.toUpperCase()} ${(
@@ -261,7 +261,7 @@ const OrderItem = ({ item }: { item: HttpTypes.StoreOrderLineItem }) => {
             className="absolute inset-0 object-cover object-center"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-ui-fg-muted text-xs">
+          <div className="w-full h-full flex items-center justify-center text-ui-fg-muted txt-xsmall">
             N/A
           </div>
         )}
@@ -272,11 +272,11 @@ const OrderItem = ({ item }: { item: HttpTypes.StoreOrderLineItem }) => {
         </h3>
         <div className="flex items-center gap-x-4 mt-1">
           {item.variant && item.variant.title !== "Default" && (
-            <span className="text-sm text-ui-fg-subtle">
+            <span className="txt-small text-ui-fg-subtle">
               {item.variant.title}
             </span>
           )}
-          <span className="text-sm text-ui-fg-subtle">
+          <span className="txt-small text-ui-fg-subtle">
             Qty: {item.quantity}
           </span>
         </div>
@@ -285,7 +285,7 @@ const OrderItem = ({ item }: { item: HttpTypes.StoreOrderLineItem }) => {
         <div className="font-medium text-ui-fg-base">
           {item.currency_code?.toUpperCase()} {(item.total || 0).toFixed(2)}
         </div>
-        <div className="text-sm text-ui-fg-subtle">
+        <div className="txt-small text-ui-fg-subtle">
           {item.currency_code?.toUpperCase()}{" "}
           {(item.unit_price || 0).toFixed(2)} each
         </div>
@@ -352,7 +352,7 @@ const OrderTimelineItem = ({
         >
           {status}
         </div>
-        <div className="text-sm text-ui-fg-subtle">
+        <div className="txt-small text-ui-fg-subtle">
           {new Date(date).toLocaleDateString("en-US", {
             month: "short",
             day: "numeric",

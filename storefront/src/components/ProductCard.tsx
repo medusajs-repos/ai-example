@@ -34,7 +34,7 @@ const ProductCard = ({ product, region }: ProductCardProps) => {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-ui-fg-subtle">
-            <span className="text-small-regular">No image</span>
+            <span className="txt-smallall-regular">No image</span>
           </div>
         )}
       </div>

@@ -46,7 +46,7 @@ const Checkout = () => {
     return (
       <div className="content-container py-8">
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg text-gray-600">Loading checkout...</div>
+          <div className="text-lg text-fg-subtle">Loading checkout...</div>
         </div>
       </div>
     )
@@ -107,7 +107,7 @@ const Checkout = () => {
                 <div key={step.key} className="flex items-center">
                   <button
                     onClick={() => setCurrentStep(step.key)}
-                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors cursor-pointer ${
+                    className={`w-8 h-8 rounded-full flex items-center justify-center txt-small font-medium transition-colors cursor-pointer ${
                       index <= currentStepIndex
                         ? "bg-ui-fg-interactive text-white hover:bg-ui-fg-interactive-hover"
                         : step.completed
@@ -119,7 +119,7 @@ const Checkout = () => {
                   </button>
                   <button
                     onClick={() => setCurrentStep(step.key)}
-                    className="ml-2 text-sm font-medium hover:text-ui-fg-interactive transition-colors"
+                    className="ml-2 txt-small font-medium hover:text-ui-fg-interactive transition-colors"
                   >
                     {step.title}
                   </button>
@@ -184,7 +184,7 @@ const Checkout = () => {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-ui-fg-subtle text-xs">
+                    <div className="w-full h-full flex items-center justify-center text-ui-fg-subtle txt-xsmall">
                       No image
                     </div>
                   )}
@@ -193,7 +193,7 @@ const Checkout = () => {
                   <Text className="font-medium">
                     {item.product?.title}
                   </Text>
-                  <Text className="text-ui-fg-subtle text-sm">
+                  <Text className="text-ui-fg-subtle txt-small">
                     Qty: {item.quantity}
                   </Text>
                 </div>

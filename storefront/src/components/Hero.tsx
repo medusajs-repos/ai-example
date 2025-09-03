@@ -3,18 +3,18 @@ import { Button, Heading } from "@medusajs/ui";
 
 const Hero = () => {
   return (
-    <div className="h-[75vh] w-full border-b border-gray-200 relative bg-white">
+    <div className="h-[75vh] w-full border-b border-border-base relative bg-white">
       <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center small:p-32 gap-8">
         <div>
           <Heading
             level="h1"
-            className="text-4xl sm:text-5xl font-semibold text-gray-900 mb-4"
+            className="text-4xl sm:text-5xl font-semibold text-fg-subtle mb-4"
           >
             Ecommerce Starter Template
           </Heading>
           <Heading
             level="h2"
-            className="text-xl sm:text-2xl text-gray-600 font-normal"
+            className="txt-xlarge sm:text-2xl text-fg-subtle font-normal"
           >
             Powered by Medusa and TanStack
           </Heading>

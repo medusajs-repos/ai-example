@@ -83,7 +83,7 @@ const ErrorFallback = ({ error, reset }: ErrorFallbackProps) => {
             <div className="border-t border-ui-border-base pt-6">
               <button
                 onClick={() => setShowDetails(!showDetails)}
-                className="flex items-center justify-center w-full text-sm text-ui-fg-muted hover:text-ui-fg-base transition-colors"
+                className="flex items-center justify-center w-full txt-small text-ui-fg-muted hover:text-ui-fg-base transition-colors"
               >
                 <svg
                   className={`w-4 h-4 mr-2 transition-transform ${
@@ -107,20 +107,20 @@ const ErrorFallback = ({ error, reset }: ErrorFallbackProps) => {
                 <div className="mt-4 p-4 bg-ui-bg-subtle rounded-md">
                   <div className="text-left space-y-3">
                     <div>
-                      <p className="text-xs font-medium text-ui-fg-base uppercase tracking-wide mb-1">
+                      <p className="txt-xsmall font-medium text-ui-fg-base uppercase tracking-wide mb-1">
                         Error Message
                       </p>
-                      <code className="text-sm text-red-600 break-all">
+                      <code className="txt-small text-red-600 break-all">
                         {error.message}
                       </code>
                     </div>
 
                     {error.stack && (
                       <div>
-                        <p className="text-xs font-medium text-ui-fg-base uppercase tracking-wide mb-1">
+                        <p className="txt-xsmall font-medium text-ui-fg-base uppercase tracking-wide mb-1">
                           Stack Trace
                         </p>
-                        <pre className="text-xs text-ui-fg-muted bg-white border border-ui-border-base rounded p-3 overflow-auto max-h-40">
+                        <pre className="txt-xsmall text-ui-fg-muted bg-white border border-ui-border-base rounded p-3 overflow-auto max-h-40">
                           {error.stack}
                         </pre>
                       </div>

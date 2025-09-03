@@ -34,9 +34,9 @@ const OrderDetails = () => {
         <div className="flex items-center justify-center h-64">
           <div className="flex flex-col items-center gap-2">
             <div className="text-lg text-ui-fg-muted">Order not found</div>
-            <div className="text-sm text-ui-fg-subtle">Order ID: {orderId}</div>
+            <div className="txt-small text-ui-fg-subtle">Order ID: {orderId}</div>
             {error && (
-              <div className="text-sm text-red-500">Error: {String(error)}</div>
+              <div className="txt-small text-red-500">Error: {String(error)}</div>
             )}
           </div>
         </div>

@@ -58,7 +58,7 @@ const PaymentStep = ({ cart, isActive, onComplete }: PaymentStepProps) => {
       <div className="flex flex-row items-center justify-between mb-6">
         <Heading
           level="h2"
-          className="flex flex-row text-3xl-regular gap-x-2 items-baseline"
+          className="flex flex-row txt-xlarge-plus-regular gap-x-2 items-baseline"
         >
           Payment
           {isCompleted && <CheckCircleSolid />}
@@ -100,17 +100,17 @@ const PaymentStep = ({ cart, isActive, onComplete }: PaymentStepProps) => {
                         className="text-ui-fg-interactive"
                       />
                       <div>
-                        <div className="text-base-regular text-ui-fg-base">
+                        <div className="txt-medium-regular text-ui-fg-base">
                           Credit Card
                         </div>
-                        <div className="text-small-regular text-ui-fg-subtle">
+                        <div className="txt-smallall-regular text-ui-fg-subtle">
                           Pay with credit or debit card
                         </div>
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      <span className="text-xs bg-ui-bg-subtle px-2 py-1 rounded">VISA</span>
-                      <span className="text-xs bg-ui-bg-subtle px-2 py-1 rounded">MC</span>
+                      <span className="txt-xsmall bg-ui-bg-subtle px-2 py-1 rounded">VISA</span>
+                      <span className="txt-xsmall bg-ui-bg-subtle px-2 py-1 rounded">MC</span>
                     </div>
                   </label>
 
@@ -125,22 +125,22 @@ const PaymentStep = ({ cart, isActive, onComplete }: PaymentStepProps) => {
                         className="text-ui-fg-interactive"
                       />
                       <div>
-                        <div className="text-base-regular text-ui-fg-base">
+                        <div className="txt-medium-regular text-ui-fg-base">
                           PayPal
                         </div>
-                        <div className="text-small-regular text-ui-fg-subtle">
+                        <div className="txt-smallall-regular text-ui-fg-subtle">
                           Coming soon
                         </div>
                       </div>
                     </div>
-                    <span className="text-xs bg-ui-bg-subtle px-2 py-1 rounded">PayPal</span>
+                    <span className="txt-xsmall bg-ui-bg-subtle px-2 py-1 rounded">PayPal</span>
                   </label>
                 </div>
 
                 {/* Payment Form - For now just a placeholder */}
                 {selectedProvider === "stripe" && (
                   <div className="mt-6 p-4 border border-ui-border-base rounded">
-                    <div className="text-small-regular text-ui-fg-subtle mb-4">
+                    <div className="txt-smallall-regular text-ui-fg-subtle mb-4">
                       Payment details will be collected securely on the next step.
                     </div>
                     
@@ -159,7 +159,7 @@ const PaymentStep = ({ cart, isActive, onComplete }: PaymentStepProps) => {
                   <button
                     type="submit"
                     disabled={isSubmitting || !selectedProvider}
-                    className="bg-ui-bg-interactive text-white px-8 py-3 text-base-regular hover:bg-ui-bg-interactive-hover disabled:opacity-50"
+                    className="bg-ui-bg-interactive text-white px-8 py-3 txt-medium-regular hover:bg-ui-bg-interactive-hover disabled:opacity-50"
                     data-testid="submit-payment-button"
                   >
                     {isSubmitting ? "Processing..." : "Continue to review"}
@@ -167,7 +167,7 @@ const PaymentStep = ({ cart, isActive, onComplete }: PaymentStepProps) => {
                 </div>
 
                 {error && (
-                  <div className="text-red-500 text-sm mt-4" data-testid="payment-error-message">
+                  <div className="text-red-500 txt-small mt-4" data-testid="payment-error-message">
                     {error}
                   </div>
                 )}
@@ -177,7 +177,7 @@ const PaymentStep = ({ cart, isActive, onComplete }: PaymentStepProps) => {
         </div>
       ) : (
         <div>
-          <div className="text-small-regular">
+          <div className="txt-smallall-regular">
             {cart && cart.payment_sessions?.length ? (
               <div className="flex flex-col gap-y-2">
                 {cart.payment_sessions.map((session) => (

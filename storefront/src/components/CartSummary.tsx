@@ -37,20 +37,20 @@ const CartSummary = ({ cart, region }: CartSummaryProps) => {
     <div className="max-w-sm ml-auto">
       <div className="space-y-4">
         <div className="space-y-2">
-          <div className="flex justify-between text-sm">
+          <div className="flex justify-between txt-small">
             <span className="text-ui-fg-muted">Subtotal</span>
             <span className="text-ui-fg-base">{subtotal}</span>
           </div>
           
           {(cart.shipping_total || 0) > 0 && (
-            <div className="flex justify-between text-sm">
+            <div className="flex justify-between txt-small">
               <span className="text-ui-fg-muted">Shipping</span>
               <span className="text-ui-fg-base">{shippingTotal}</span>
             </div>
           )}
           
           {(cart.tax_total || 0) > 0 && (
-            <div className="flex justify-between text-sm">
+            <div className="flex justify-between txt-small">
               <span className="text-ui-fg-muted">Tax</span>
               <span className="text-ui-fg-base">{taxTotal}</span>
             </div>
@@ -66,7 +66,7 @@ const CartSummary = ({ cart, region }: CartSummaryProps) => {
         
         <Link
           to={`${baseHref}/checkout` as any}
-          className="w-full bg-ui-fg-base text-ui-fg-on-color py-3 rounded text-sm font-medium hover:bg-ui-fg-subtle transition-colors disabled:opacity-50 block text-center"
+          className="w-full bg-ui-fg-base text-ui-fg-on-color py-3 rounded txt-small font-medium hover:bg-ui-fg-subtle transition-colors disabled:opacity-50 block text-center"
           style={{ 
             pointerEvents: !cart.items?.length ? 'none' : 'auto',
             opacity: !cart.items?.length ? 0.5 : 1

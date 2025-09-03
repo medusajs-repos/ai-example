@@ -32,7 +32,7 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
           <button
             key={tab.id}
             className={clx(
-              "px-4 py-3 text-sm font-medium transition-colors relative",
+              "px-4 py-3 txt-small font-medium transition-colors relative",
               {
                 "text-ui-fg-base": activeTab === tab.id,
                 "text-ui-fg-muted hover:text-ui-fg-subtle": activeTab !== tab.id,
@@ -72,7 +72,7 @@ const ProductInfoTab = ({ product }: { product: HttpTypes.StoreProduct }) => {
 
   if (details.length === 0) {
     return (
-      <div className="text-ui-fg-subtle text-sm">
+      <div className="text-ui-fg-subtle txt-small">
         No additional product details available.
       </div>
     )
@@ -82,8 +82,8 @@ const ProductInfoTab = ({ product }: { product: HttpTypes.StoreProduct }) => {
     <div className="space-y-3">
       {details.map((detail, index) => (
         <div key={index} className="flex justify-between items-center py-1">
-          <span className="text-ui-fg-muted text-sm">{detail.label}</span>
-          <span className="text-ui-fg-base text-sm font-medium">{detail.value}</span>
+          <span className="text-ui-fg-muted txt-small">{detail.label}</span>
+          <span className="text-ui-fg-base txt-small font-medium">{detail.value}</span>
         </div>
       ))}
     </div>
@@ -101,13 +101,13 @@ const ShippingInfoTab = () => {
     <div className="space-y-3">
       {policies.map((policy, index) => (
         <div key={index} className="flex justify-between items-center py-1">
-          <span className="text-ui-fg-muted text-sm">{policy.label}</span>
-          <span className="text-ui-fg-base text-sm font-medium">{policy.value}</span>
+          <span className="text-ui-fg-muted txt-small">{policy.label}</span>
+          <span className="text-ui-fg-base txt-small font-medium">{policy.value}</span>
         </div>
       ))}
       
       <div className="pt-4 mt-6 border-t border-ui-border-base">
-        <p className="text-ui-fg-subtle text-sm">
+        <p className="text-ui-fg-subtle txt-small">
           Questions about shipping or returns? <a href="/contact" className="text-ui-fg-interactive hover:underline">Contact us</a>
         </p>
       </div>

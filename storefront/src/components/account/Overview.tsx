@@ -31,19 +31,19 @@ const Overview = ({ customer }: OverviewProps) => {
           <div className="bg-ui-bg-subtle/50 rounded-lg p-6 border border-ui-border-base">
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="text-sm font-medium text-ui-fg-subtle mb-1">
+                <h4 className="txt-small font-medium text-ui-fg-subtle mb-1">
                   Profile Completion
                 </h4>
                 <div className="flex items-baseline gap-x-2">
                   <span className="text-2xl font-light text-ui-fg-base">
                     {profileCompletion}%
                   </span>
-                  <span className="text-sm text-ui-fg-subtle">Complete</span>
+                  <span className="txt-small text-ui-fg-subtle">Complete</span>
                 </div>
               </div>
               <Link
                 to={`${baseHref}/account/profile`}
-                className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover text-sm font-medium"
+                className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-small font-medium"
               >
                 Edit profile
               </Link>
@@ -53,21 +53,21 @@ const Overview = ({ customer }: OverviewProps) => {
           <div className="bg-ui-bg-subtle/50 rounded-lg p-6 border border-ui-border-base">
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="text-sm font-medium text-ui-fg-subtle mb-1">
+                <h4 className="txt-small font-medium text-ui-fg-subtle mb-1">
                   Saved Addresses
                 </h4>
                 <div className="flex items-baseline gap-x-2">
                   <span className="text-2xl font-light text-ui-fg-base">
                     {addressCount}
                   </span>
-                  <span className="text-sm text-ui-fg-subtle">
+                  <span className="txt-small text-ui-fg-subtle">
                     {addressCount === 1 ? "Address" : "Addresses"}
                   </span>
                 </div>
               </div>
               <Link
                 to={`${baseHref}/account/addresses`}
-                className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover text-sm font-medium"
+                className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-small font-medium"
               >
                 Manage
               </Link>
@@ -82,7 +82,7 @@ const Overview = ({ customer }: OverviewProps) => {
           <h3 className="text-lg font-medium text-ui-fg-base">Recent Orders</h3>
           <Link
             to={`${baseHref}/account/orders`}
-            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover text-sm font-medium"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-small font-medium"
           >
             View all orders
           </Link>
@@ -115,10 +115,10 @@ const Overview = ({ customer }: OverviewProps) => {
                 />
               </svg>
             </div>
-            <p className="text-ui-fg-subtle text-sm mb-4">No orders yet</p>
+            <p className="text-ui-fg-subtle txt-small mb-4">No orders yet</p>
             <Link
               to={`${baseHref}/store`}
-              className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover text-sm font-medium"
+              className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-small font-medium"
             >
               Start shopping
             </Link>
@@ -189,16 +189,16 @@ const RecentOrderItem = ({
           <span className="font-medium text-ui-fg-base">
             Order #{order.display_id}
           </span>
-          <span className={`text-xs font-medium ${status.color}`}>
+          <span className={`txt-xsmall font-medium ${status.color}`}>
             {status.label}
           </span>
         </div>
-        <span className="text-ui-fg-interactive group-hover:text-ui-fg-interactive-hover text-sm font-medium">
+        <span className="text-ui-fg-interactive group-hover:text-ui-fg-interactive-hover txt-small font-medium">
           View details →
         </span>
       </div>
 
-      <div className="flex items-center justify-between text-sm text-ui-fg-subtle">
+      <div className="flex items-center justify-between txt-small text-ui-fg-subtle">
         <span>
           {new Date(order.created_at!).toLocaleDateString("en-US", {
             month: "short",

@@ -57,7 +57,7 @@ const AccountNav = ({ customer }: AccountNavProps) => {
       <div className="small:hidden">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-x-2 text-small-regular py-2"
+          className="flex items-center gap-x-2 txt-smallall-regular py-2"
         >
           <User />
           <span>Account</span>
@@ -67,10 +67,10 @@ const AccountNav = ({ customer }: AccountNavProps) => {
       {/* Navigation */}
       <div className={clx("small:block", { hidden: !isOpen })}>
         <div className="pb-12 small:pb-0">
-          <h3 className="text-base-semi text-ui-fg-base mb-4 small:mb-8">
+          <h3 className="txt-medium-semi text-ui-fg-base mb-4 small:mb-8">
             Account
           </h3>
-          <div className="text-base-regular">
+          <div className="txt-medium-regular">
             <ul className="mb-8 gap-y-4 flex flex-col">
               {navigation.map((item) => (
                 <li key={item.name}>
@@ -91,7 +91,7 @@ const AccountNav = ({ customer }: AccountNavProps) => {
                 </li>
               ))}
             </ul>
-            <div className="text-small-regular">
+            <div className="txt-smallall-regular">
               <button
                 type="button"
                 className="flex items-center justify-between py-2 border-l pl-8 border-transparent text-ui-fg-subtle hover:text-ui-fg-base"

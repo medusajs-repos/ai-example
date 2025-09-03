@@ -31,7 +31,7 @@ const Pagination = ({
       <button
         onClick={() => onPageChange(page - 1)}
         disabled={page <= 1}
-        className="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-3 py-2 txt-small font-medium text-fg-subtle bg-white border border-border-base rounded-md hover:bg-bg-subtledisabled:opacity-50 disabled:cursor-not-allowed"
       >
         Previous
       </button>
@@ -42,11 +42,11 @@ const Pagination = ({
           <>
             <button
               onClick={() => onPageChange(1)}
-              className="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+              className="px-3 py-2 txt-small font-medium text-fg-subtle bg-white border border-border-base rounded-md hover:bg-bg-subtle"
             >
               1
             </button>
-            {page > 4 && <span className="px-2 py-2 text-sm text-gray-500">...</span>}
+            {page > 4 && <span className="px-2 py-2 txt-small text-fg-subtle">...</span>}
           </>
         )}
 
@@ -54,10 +54,10 @@ const Pagination = ({
           <button
             key={pageNum}
             onClick={() => onPageChange(pageNum)}
-            className={`px-3 py-2 text-sm font-medium rounded-md border ${
+            className={`px-3 py-2 txt-small font-medium rounded-md border ${
               pageNum === page
                 ? 'bg-black text-white border-black'
-                : 'text-gray-700 bg-white border-gray-300 hover:bg-gray-50'
+                : 'text-fg-subtle bg-white border-border-base hover:bg-bg-subtle'
             }`}
           >
             {pageNum}
@@ -66,10 +66,10 @@ const Pagination = ({
 
         {page < totalPages - 2 && (
           <>
-            {page < totalPages - 3 && <span className="px-2 py-2 text-sm text-gray-500">...</span>}
+            {page < totalPages - 3 && <span className="px-2 py-2 txt-small text-fg-subtle">...</span>}
             <button
               onClick={() => onPageChange(totalPages)}
-              className="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+              className="px-3 py-2 txt-small font-medium text-fg-subtle bg-white border border-border-base rounded-md hover:bg-bg-subtle"
             >
               {totalPages}
             </button>
@@ -81,7 +81,7 @@ const Pagination = ({
       <button
         onClick={() => onPageChange(page + 1)}
         disabled={page >= totalPages}
-        className="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-3 py-2 txt-small font-medium text-fg-subtle bg-white border border-border-base rounded-md hover:bg-bg-subtledisabled:opacity-50 disabled:cursor-not-allowed"
       >
         Next
       </button>

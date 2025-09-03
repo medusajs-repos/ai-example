@@ -22,7 +22,7 @@ const AccountContainer = ({
         {backLink && (
           <a
             href={backLink.href}
-            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover text-sm inline-flex items-center gap-x-2 w-fit group"
+            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-small inline-flex items-center gap-x-2 w-fit group"
           >
             <svg
               className="w-4 h-4 transition-transform group-hover:-translate-x-0.5"
@@ -41,7 +41,7 @@ const AccountContainer = ({
           </a>
         )}
 
-        <h1 className="text-3xl font-light text-ui-fg-base">{title}</h1>
+        <h1 className="txt-xlarge-plus font-light text-ui-fg-base">{title}</h1>
         <p className="text-lg text-ui-fg-subtle max-w-2xl leading-relaxed">
           {description}
         </p>

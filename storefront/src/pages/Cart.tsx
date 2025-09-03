@@ -20,7 +20,7 @@ const Cart = () => {
     return (
       <div className="content-container py-8">
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg text-gray-600">Loading cart...</div>
+          <div className="text-lg text-fg-subtle">Loading cart...</div>
         </div>
       </div>
     );
@@ -40,13 +40,13 @@ const Cart = () => {
     return (
       <div className="content-container py-8">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+          <h1 className="text-3xl font-bold text-fg-subtle mb-4">
             Shopping Cart
           </h1>
-          <p className="text-gray-600 mb-6">Unable to load cart</p>
+          <p className="text-fg-subtle mb-6">Unable to load cart</p>
           <Link
             to="/store"
-            className="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800"
+            className="bg-black text-white px-6 py-3 rounded-lg hover:bg-bg-subtle"
           >
             Continue Shopping
           </Link>
@@ -63,7 +63,7 @@ const Cart = () => {
         <h1 className="text-2xl font-medium text-ui-fg-base">Cart</h1>
         <Link
           to="/store"
-          className="text-ui-fg-muted hover:text-ui-fg-base text-sm underline"
+          className="text-ui-fg-muted hover:text-ui-fg-base txt-small underline"
         >
           Continue shopping
         </Link>
@@ -77,7 +77,7 @@ const Cart = () => {
           <p className="text-ui-fg-muted mb-8">Start by adding some products</p>
           <Link
             to="/store"
-            className="bg-ui-fg-base text-ui-fg-on-color px-6 py-3 rounded text-sm hover:bg-ui-fg-subtle transition-colors"
+            className="bg-ui-fg-base text-ui-fg-on-color px-6 py-3 rounded txt-small hover:bg-ui-fg-subtle transition-colors"
           >
             Continue shopping
           </Link>

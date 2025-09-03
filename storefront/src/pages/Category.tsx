@@ -137,19 +137,19 @@ const Category = () => {
         <div className="mb-8">
           <h1
             data-testid="category-page-title"
-            className="text-3xl font-medium text-gray-900 mb-1"
+            className="txt-xlarge-plus font-medium text-fg-subtle mb-1"
           >
             {categoryDisplayName}
           </h1>
-          <p className="text-gray-500">{allProducts.length} items</p>
+          <p className="text-fg-subtle">{allProducts.length} items</p>
         </div>
         {productsLoading && allProducts.length === 0 ? (
           <div className="flex items-center justify-center h-64">
-            <div className="text-lg text-gray-600">Loading products...</div>
+            <div className="text-lg text-fg-subtle">Loading products...</div>
           </div>
         ) : allProducts.length === 0 ? (
-          <div className="text-center text-gray-600 py-16">
-            <p className="text-xl mb-4">
+          <div className="text-center text-fg-subtle py-16">
+            <p className="txt-xlarge mb-4">
               No products found in {categoryDisplayName.toLowerCase()}
             </p>
             <p>This category doesn't have any products yet.</p>

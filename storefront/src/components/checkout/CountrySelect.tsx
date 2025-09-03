@@ -15,7 +15,7 @@ const CountrySelect = ({
     <div className="flex flex-col gap-1">
       <label
         htmlFor={props.id || props.name}
-        className="text-ui-fg-base text-base-regular"
+        className="text-ui-fg-base txt-medium-regular"
       >
         {label}
         {props.required && <span className="text-red-500 ml-1">*</span>}

@@ -69,7 +69,7 @@ const OrdersTemplate = () => {
             tracking and management.
           </p>
           <LocalizedClientLink href="/store">
-            <span className="inline-flex items-center px-6 py-2 text-sm font-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover border-b border-transparent hover:border-ui-fg-interactive transition-colors">
+            <span className="inline-flex items-center px-6 py-2 txt-small font-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover border-b border-transparent hover:border-ui-fg-interactive transition-colors">
               Start Shopping
             </span>
           </LocalizedClientLink>
@@ -117,7 +117,7 @@ const OrderItem = ({ order, baseHref }: OrderCardProps) => {
                 day: "numeric",
               })}
             </span>
-            <span className={`text-sm font-medium ${status.color}`}>
+            <span className={`txt-small font-medium ${status.color}`}>
               {status.label}
             </span>
             <span>
@@ -147,13 +147,13 @@ const OrderItem = ({ order, baseHref }: OrderCardProps) => {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-ui-fg-muted text-xs">
+                      <div className="w-full h-full flex items-center justify-center text-ui-fg-muted txt-xsmall">
                         N/A
                       </div>
                     )}
                   </div>
                   {item.quantity > 1 && (
-                    <div className="absolute -top-1 -right-1 bg-ui-fg-base text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                    <div className="absolute -top-1 -right-1 bg-ui-fg-base text-white txt-xsmall rounded-full w-4 h-4 flex items-center justify-center">
                       {item.quantity}
                     </div>
                   )}
@@ -161,7 +161,7 @@ const OrderItem = ({ order, baseHref }: OrderCardProps) => {
               );
             })}
             {numberOfProducts > 5 && (
-              <div className="w-12 h-12 rounded-lg border border-ui-border-base bg-ui-bg-subtle flex items-center justify-center text-xs text-ui-fg-muted">
+              <div className="w-12 h-12 rounded-lg border border-ui-border-base bg-ui-bg-subtle flex items-center justify-center txt-xsmall text-ui-fg-muted">
                 +{numberOfProducts - 5}
               </div>
             )}
@@ -170,7 +170,7 @@ const OrderItem = ({ order, baseHref }: OrderCardProps) => {
 
         <Link
           to={`${baseHref}/account/orders/details/${order.id}`}
-          className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover text-sm font-medium px-0 h-auto"
+          className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-small font-medium px-0 h-auto"
         >
           View details
         </Link>

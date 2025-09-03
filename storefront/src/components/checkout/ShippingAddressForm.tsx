@@ -98,7 +98,7 @@ const ShippingAddressForm = ({
     <>
       {customer && (addressesInRegion?.length || 0) > 0 && (
         <div className="mb-6 flex flex-col gap-y-4 p-5 border border-ui-border-base rounded">
-          <p className="text-small-regular">
+          <p className="txt-smallall-regular">
             {`Hi ${customer.first_name}, do you want to use one of your saved addresses?`}
           </p>
           <AddressSelect

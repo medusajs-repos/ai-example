@@ -21,7 +21,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         {label && (
           <label
             htmlFor={props.id || props.name}
-            className="text-ui-fg-base text-base-regular cursor-pointer"
+            className="text-ui-fg-base txt-medium-regular cursor-pointer"
           >
             {label}
           </label>
