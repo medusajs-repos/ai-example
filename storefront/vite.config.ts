@@ -17,7 +17,7 @@ function getHmrConfig(hmrPort: number, mode: string): HmrOptions {
     options.protocol = env.VITE_HMR_PROTOCOL;
   }
   if (env.VITE_HMR_HOST) {
-    options.host = env.HMR_HOST;
+    options.host = env.VITE_HMR_HOST;
   }
   if (env.VITE_HMR_CLIENT_PORT) {
     options.clientPort = parseInt(env.VITE_HMR_CLIENT_PORT);
