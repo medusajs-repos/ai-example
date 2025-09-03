@@ -57,6 +57,9 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
+      warmup: {
+        clientFiles: ["src/pages/Home.tsx"],
+      },
       port,
       allowedHosts: true as const,
       hmr: hmrConfig,
