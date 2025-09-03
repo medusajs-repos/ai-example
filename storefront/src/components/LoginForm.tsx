@@ -87,7 +87,7 @@ const LoginForm = ({ onSuccess, onSwitchToRegister }: LoginFormProps) => {
         <button
           type="submit"
           disabled={login.isPending}
-          className="w-full bg-black text-white py-2 rounded-md hover:bg-ui-bg-subtle disabled:opacity-50"
+          className="w-full bg-black text-white py-2 rounded-md hover:bg-black/80 disabled:opacity-50"
         >
           {login.isPending ? "Signing in..." : "Sign In"}
         </button>

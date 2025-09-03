@@ -31,7 +31,7 @@ const Pagination = ({
       <button
         onClick={() => onPageChange(page - 1)}
         disabled={page <= 1}
-        className="px-3 py-2 txt-small font-medium text-ui-fg-subtle bg-white border border-ui-border-base rounded-md hover:bg-ui-bg-subtledisabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-3 py-2 txt-small font-medium text-ui-fg-subtle bg-white border border-ui-border-base rounded-md hover:bg-ui-bg-subtle disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Previous
       </button>

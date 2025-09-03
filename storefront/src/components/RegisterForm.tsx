@@ -150,7 +150,7 @@ const RegisterForm = ({ onSuccess, onSwitchToLogin }: RegisterFormProps) => {
         <button
           type="submit"
           disabled={register.isPending}
-          className="w-full bg-black text-white py-2 rounded-md hover:bg-ui-bg-subtle disabled:opacity-50"
+          className="w-full bg-black text-white py-2 rounded-md hover:bg-black/80 disabled:opacity-50"
         >
           {register.isPending ? 'Creating Account...' : 'Create Account'}
         </button>

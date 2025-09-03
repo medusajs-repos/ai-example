@@ -46,7 +46,7 @@ const Cart = () => {
           <p className="text-ui-fg-subtle mb-6">Unable to load cart</p>
           <Link
             to="/store"
-            className="bg-black text-white px-6 py-3 rounded-lg hover:bg-ui-bg-subtle"
+            className="bg-black text-white px-6 py-3 rounded-lg hover:bg-black/80"
           >
             Continue Shopping
           </Link>

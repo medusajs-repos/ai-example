@@ -80,7 +80,7 @@ const FeaturedProducts = () => {
         <div className="text-center mt-12">
           <Link
             to={`/${countryCode}/store`}
-            className="inline-flex items-center px-8 py-3 bg-black text-white font-semibold rounded-full hover:bg-ui-bg-subtle transition-colors duration-200 group"
+            className="inline-flex items-center px-8 py-3 bg-black text-white font-semibold rounded-full hover:bg-black/80 transition-colors duration-200 group"
           >
             View All Products
             <svg
