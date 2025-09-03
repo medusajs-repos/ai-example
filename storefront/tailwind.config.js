@@ -31,12 +31,12 @@ export default {
           200: "var(--bg-component)", // rgba(250, 250, 250, 1)
           300: "var(--bg-disabled)", // rgba(244, 244, 245, 1)
           400: "var(--bg-base-hover)", // rgba(244, 244, 245, 1)
-          500: "var(--bg-component-hover)", // rgba(244, 244, 245, 1)
-          600: "var(--bg-field-hover)", // rgba(244, 244, 245, 1)
-          700: "var(--bg-subtle-hover)", // rgba(244, 244, 245, 1)
-          800: "var(--bg-base-pressed)", // rgba(228, 228, 231, 1)
-          900: "var(--bg-component-pressed)", // rgba(228, 228, 231, 1)
-          950: "var(--bg-subtle-pressed)", // rgba(228, 228, 231, 1)
+          500: "#9ca3af", // Medium gray
+          600: "#6b7280", // Dark gray
+          700: "#4b5563", // Darker gray
+          800: "#374151", // Very dark gray
+          900: "#1f2937", // Darkest gray
+          950: "#111827", // Almost black
         },
         
         // Blue colors (interactive elements)
