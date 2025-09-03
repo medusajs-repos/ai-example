@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "start": "node .output/server/index.mjs",
+    "start": "node .vercel/output/functions/__fallback.func/index.mjs",
+    "build:prod": "pnpm build && pnpm preview",
+    "preview": "vite preview",
     "debug": "node --inspect-brk node_modules/.bin/vite dev"
   },
   "dependencies": {

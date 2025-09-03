@@ -1,40 +1,47 @@
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
-import { defineConfig, HmrOptions } from "vite";
+import viteReact from "@vitejs/plugin-react";
+import { defineConfig, HmrOptions, loadEnv } from "vite";
 import Terminal from "vite-plugin-terminal";
 import viteTsConfigPaths from "vite-tsconfig-paths";
 
-function getHmrConfig(hmrPort: number): HmrOptions {
+// dotenv.config();
+
+function getHmrConfig(hmrPort: number, mode: string): HmrOptions {
+  const env = loadEnv(mode, process.cwd());
+
   const options: HmrOptions = {
     port: hmrPort,
     timeout: 60000,
   };
 
-  if (process.env.VITE_HMR_PROTOCOL) {
-    options.protocol = process.env.VITE_HMR_PROTOCOL;
+  if (env.VITE_HMR_PROTOCOL) {
+    options.protocol = env.VITE_HMR_PROTOCOL;
   }
-  if (process.env.VITE_HMR_HOST) {
-    options.host = process.env.HMR_HOST;
+  if (env.VITE_HMR_HOST) {
+    options.host = env.HMR_HOST;
   }
-  if (process.env.VITE_HMR_CLIENT_PORT) {
-    options.clientPort = parseInt(process.env.VITE_HMR_CLIENT_PORT);
+  if (env.VITE_HMR_CLIENT_PORT) {
+    options.clientPort = parseInt(env.VITE_HMR_CLIENT_PORT);
   }
 
   return options;
 }
 
-export default defineConfig(() => {
-  const port = parseInt(process.env.VITE_PORT ?? "5173");
-  const hmrPort = parseInt(process.env.VITE_HMR_PORT ?? "24677");
-  const hmrConfig = getHmrConfig(hmrPort);
-  const deploymentTarget = process.env.VITE_DEPLOYMENT_TARGET ?? "vercel";
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd());
+  const port = parseInt(env.VITE_PORT ?? "5173");
+  const hmrPort = parseInt(env.VITE_HMR_PORT ?? "24677");
+  const hmrConfig = getHmrConfig(hmrPort, mode);
+  const deploymentTarget = env.VITE_DEPLOYMENT_TARGET ?? "vercel";
 
   return {
     plugins: [
       Terminal({ console: "terminal", output: ["terminal"] }),
       viteTsConfigPaths({ projects: ["./tsconfig.json"] }),
       tailwindcss(),
-      tanstackStart({ target: deploymentTarget, customViteReactPlugin: true }),
+      tanstackStart({ customViteReactPlugin: true, target: deploymentTarget }),
+      viteReact(),
     ],
     ssr: {
       noExternal: [
