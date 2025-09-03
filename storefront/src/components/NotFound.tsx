@@ -9,13 +9,13 @@ const NotFound = () => {
       <div className="min-h-[50vh] flex flex-col items-center justify-center text-center">
         <div className="max-w-md space-y-6">
           {/* Large 404 */}
-          <h1 className="text-8xl font-light text-fg-subtle">404</h1>
+          <h1 className="text-8xl font-light text-fg-base">404</h1>
           
           {/* Main message */}
           <div className="space-y-2">
             <Heading
               level="h1"
-              className="txt-xlarge-plus text-fg-subtle"
+              className="txt-xlarge-plus text-fg-base"
             >
               Page not found
             </Heading>

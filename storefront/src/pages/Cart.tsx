@@ -40,7 +40,7 @@ const Cart = () => {
     return (
       <div className="content-container py-8">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-fg-subtle mb-4">
+          <h1 className="text-3xl font-bold text-fg-base mb-4">
             Shopping Cart
           </h1>
           <p className="text-fg-subtle mb-6">Unable to load cart</p>

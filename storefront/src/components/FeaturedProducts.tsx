@@ -45,7 +45,7 @@ const FeaturedProducts = () => {
       <section className="py-20 bg-gradient-to-b from-gray-50 to-white mb-16">
         <div className="content-container">
           <div className="text-center text-yellow-600">
-            <h2 className="text-4xl font-bold text-fg-subtle mb-4 tracking-tight">
+            <h2 className="text-4xl font-bold text-fg-base mb-4 tracking-tight">
               Latest Products
             </h2>
             <p>No products available at the moment.</p>
@@ -59,7 +59,7 @@ const FeaturedProducts = () => {
     <section className="py-20 bg-gradient-to-b from-gray-50 to-white mb-16">
       <div className="content-container">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-fg-subtle mb-4 tracking-tight">
+          <h2 className="text-4xl font-bold text-fg-base mb-4 tracking-tight">
             Latest Products
           </h2>
           <p className="text-lg text-fg-subtle max-w-2xl mx-auto">

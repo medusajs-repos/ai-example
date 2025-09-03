@@ -17,7 +17,7 @@ const Login = () => {
     <div className="content-container py-8">
       <div className="max-w-md mx-auto">
         <div className="text-center mb-8">
-          <h1 className="txt-xlarge-plus text-fg-subtle mb-2">
+          <h1 className="txt-xlarge-plus text-fg-base mb-2">
             {isLogin ? "Sign In" : "Create Account"}
           </h1>
           <p className="text-fg-subtle">

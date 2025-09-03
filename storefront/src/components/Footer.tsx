@@ -16,7 +16,7 @@ const Footer = () => {
           <div className="lg:w-1/3">
             <Link
               to={baseHref || '/' as any}
-              className="text-2xl font-bold text-fg-subtle hover:text-fg-subtle transition-colors"
+              className="text-2xl font-bold text-fg-base hover:text-fg-base transition-colors"
             >
               Medusa Store
             </Link>
@@ -26,7 +26,7 @@ const Footer = () => {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-8 lg:gap-12">
             <div className="flex flex-col gap-y-4">
-              <h3 className="font-semibold text-fg-subtle txt-small uppercase tracking-wide">
+              <h3 className="font-semibold text-fg-base txt-small uppercase tracking-wide">
                 Collections
               </h3>
               <ul className="space-y-3" data-testid="footer-collections">
@@ -41,7 +41,7 @@ const Footer = () => {
               </ul>
             </div>
             <div className="flex flex-col gap-y-4">
-              <h3 className="font-semibold text-fg-subtle txt-small uppercase tracking-wide">
+              <h3 className="font-semibold text-fg-base txt-small uppercase tracking-wide">
                 Categories
               </h3>
               <ul className="space-y-3" data-testid="footer-categories">
@@ -80,7 +80,7 @@ const Footer = () => {
               </ul>
             </div>
             <div className="flex flex-col gap-y-4">
-              <h3 className="font-semibold text-fg-subtle txt-small uppercase tracking-wide">
+              <h3 className="font-semibold text-fg-base txt-small uppercase tracking-wide">
                 Resources
               </h3>
               <ul className="space-y-3">

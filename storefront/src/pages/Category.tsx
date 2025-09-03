@@ -137,7 +137,7 @@ const Category = () => {
         <div className="mb-8">
           <h1
             data-testid="category-page-title"
-            className="txt-xlarge-plus font-medium text-fg-subtle mb-1"
+            className="txt-xlarge-plus font-medium text-fg-base mb-1"
           >
             {categoryDisplayName}
           </h1>
