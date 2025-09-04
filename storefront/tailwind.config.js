@@ -7,6 +7,26 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
     "./node_modules/@medusajs/ui/dist/**/*.{js,ts,jsx,tsx}",
   ],
+  plugins: [
+    function({ addUtilities, theme }) {
+      const opacityUtilities = {};
+      const opacityValues = theme('opacity');
+      
+      Object.keys(opacityValues).forEach(opacity => {
+        opacityUtilities[`.bg-opacity-${opacity}`] = {
+          '--tw-bg-opacity': opacityValues[opacity],
+        };
+        opacityUtilities[`.text-opacity-${opacity}`] = {
+          '--tw-text-opacity': opacityValues[opacity],
+        };
+        opacityUtilities[`.border-opacity-${opacity}`] = {
+          '--tw-border-opacity': opacityValues[opacity],
+        };
+      });
+      
+      addUtilities(opacityUtilities);
+    }
+  ],
   theme: {
     extend: {
       transitionProperty: {
@@ -289,5 +309,4 @@ export default {
       },
     },
   },
-  plugins: [],
 };
