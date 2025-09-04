@@ -12,7 +12,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={props.id || props.name}
-            className="text-ui-fg-base txt-medium-regular"
+            className="text-ui-fg-base txt-medium"
           >
             {label}
             {props.required && <span className="text-red-500 ml-1">*</span>}
@@ -30,7 +30,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         {error && (
-          <span className="text-red-500 txt-smallall-regular">{error}</span>
+          <span className="text-red-500 txt-small">{error}</span>
         )}
       </div>
     )
