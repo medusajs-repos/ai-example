@@ -70,7 +70,7 @@ const FeaturedProducts = () => {
           {products.map((product) => (
             <div
               key={product.id}
-              className="transform hover:scale-105 transition-transform duration-300"
+              className="transform transition-transform duration-300"
             >
               <ProductCard product={product} region={region} />
             </div>
