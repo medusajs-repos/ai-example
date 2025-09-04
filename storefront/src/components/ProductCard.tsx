@@ -29,7 +29,7 @@ const ProductCard = ({ product, region }: ProductCardProps) => {
           <img
             src={imageUrl}
             alt={product.title || "Product image"}
-            className="absolute inset-0 object-cover object-center group-hover:scale-105 transition-transform duration-300"
+            className="absolute inset-0 object-cover object-center group-hover:scale-105 transition-transform duration-300 w-full h-full"
             draggable={false}
           />
         ) : (
