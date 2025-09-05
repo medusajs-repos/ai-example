@@ -33,7 +33,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
     return (
       <div className="bg-white p-8 rounded-lg border border-ui-border-base">
         <div className="flex items-center gap-3 mb-6">
-          <ShoppingBag className="w-6 h-6 text-ui-fg-base" />
+          <ShoppingBag className="text-ui-fg-base" />
           <Heading level="h2">Review</Heading>
         </div>
         <div className="text-center py-8">
@@ -53,7 +53,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
       <div className="flex flex-row items-center justify-between mb-6">
         <Heading
           level="h2"
-          className="flex flex-row txt-xlarge-plus-regular gap-x-2 items-baseline"
+          className="flex flex-row txt-xlarge-plus-regular gap-x-2 items-center"
         >
           Review Order
           <CheckCircleSolid className="text-green-500" />
@@ -63,7 +63,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
       <div className="space-y-8">
         {/* Order Summary */}
         <div>
-          <Heading level="h3" className="text-lg font-semibold mb-4">
+          <Heading level="h3" className="txt-large-plus mb-4">
             Order Summary
           </Heading>
           <div className="space-y-4">
@@ -83,7 +83,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
                   )}
                 </div>
                 <div className="flex-1">
-                  <Text className="font-medium text-ui-fg-base">{item.title}</Text>
+                  <Text className="txt-medium-plus text-ui-fg-base">{item.title}</Text>
                   {item.variant && item.variant.title !== "Default" && (
                     <Text className="txt-small text-ui-fg-subtle">
                       {item.variant.title}
@@ -94,7 +94,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
                   </Text>
                 </div>
                 <div className="text-right">
-                  <Text className="font-medium">
+                  <Text className="txt-medium-plus">
                     {item.total ? (
                       convertToLocale({
                         amount: item.total,
@@ -116,12 +116,12 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
         {/* Delivery Information */}
         {cart.shipping_address && (
           <div>
-            <Heading level="h3" className="text-lg font-semibold mb-4">
+            <Heading level="h3" className="txt-large-plus mb-4">
               Delivery Information
             </Heading>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <Text className="font-medium text-ui-fg-base mb-2">Shipping Address</Text>
+                <Text className="txt-medium-plus text-ui-fg-base mb-2">Shipping Address</Text>
                 <div className="txt-small text-ui-fg-subtle">
                   <div>{cart.shipping_address.first_name} {cart.shipping_address.last_name}</div>
                   <div>{cart.shipping_address.address_1} {cart.shipping_address.address_2}</div>
@@ -132,7 +132,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
               
               {cart.shipping_methods?.[0] && (
                 <div>
-                  <Text className="font-medium text-ui-fg-base mb-2">Shipping Method</Text>
+                  <Text className="txt-medium-plus text-ui-fg-base mb-2">Shipping Method</Text>
                   <div className="txt-small text-ui-fg-subtle">
                     <div>{cart.shipping_methods[0].name}</div>
                     <div>
@@ -154,12 +154,12 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
 
         {/* Payment Information */}
         <div>
-          <Heading level="h3" className="text-lg font-semibold mb-4">
+          <Heading level="h3" className="txt-large-plus mb-4">
             Payment Information
           </Heading>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <Text className="font-medium text-ui-fg-base mb-2">Payment Method</Text>
+              <Text className="txt-medium-plus text-ui-fg-base mb-2">Payment Method</Text>
               <div className="txt-small text-ui-fg-subtle">
                 {cart.payment_sessions?.[0] && (
                   <div className="flex items-center gap-2">
@@ -172,7 +172,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
             </div>
             
             <div>
-              <Text className="font-medium text-ui-fg-base mb-2">Billing Address</Text>
+              <Text className="txt-medium-plus text-ui-fg-base mb-2">Billing Address</Text>
               <div className="txt-small text-ui-fg-subtle">
                 {cart.billing_address ? (
                   <>
@@ -239,7 +239,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
             )}
             
             <div className="border-t border-ui-border-base pt-2">
-              <div className="flex justify-between font-semibold text-lg">
+              <div className="flex justify-between txt-medium-plus">
                 <span>Total</span>
                 <span>
                   {convertToLocale({

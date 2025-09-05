@@ -102,7 +102,7 @@ const Checkout = () => {
         <div className="space-y-6">
           {/* Progress Steps */}
           <div className="bg-white p-6 rounded-lg border border-ui-border-base">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex flex-wrap gap-y-4 items-center justify-between">
               {steps.map((step, index) => (
                 <div key={step.key} className="flex items-center">
                   <button

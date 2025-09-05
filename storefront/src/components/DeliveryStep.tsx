@@ -199,7 +199,7 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
   return (
     <div className="bg-white p-8 rounded-lg border border-ui-border-base">
       <div className="flex items-center gap-3 mb-6">
-        <TruckFast className="w-6 h-6 text-ui-fg-base" />
+        <TruckFast className="text-ui-fg-base" />
         <Heading level="h2">Choose delivery method</Heading>
       </div>
 
@@ -215,11 +215,7 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
           return (
             <label
               key={option.id}
-              className={`block transition-all duration-200 ${
-                isSelected
-                  ? "ring-2 ring-ui-fg-interactive ring-opacity-50"
-                  : ""
-              } ${
+              className={`block transition-all duration-200 rounded-lg ${
                 isDisabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
               }`}
             >
@@ -258,7 +254,7 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
 
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <Text className="font-semibold text-ui-fg-base">
+                      <Text className="txt-medium-plus text-ui-fg-base">
                         {option.name}
                       </Text>
                       {isFree && (
@@ -270,16 +266,16 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
                     <Text className="txt-small text-ui-fg-subtle">
                       {getDeliveryTime(option)}
                     </Text>
-                    {option.data?.description && (
+                    {option.data?.description !== undefined && (
                       <Text className="txt-xsmall text-ui-fg-muted mt-1">
-                        {option.data.description}
+                        {option.data.description as string}
                       </Text>
                     )}
                   </div>
                 </div>
 
                 <div className="text-right">
-                  <Text className="font-semibold text-lg">
+                  <Text className="txt-medium-plus text-lg">
                     {formatPrice(option)}
                   </Text>
                 </div>
@@ -294,7 +290,7 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
         <div className="mb-8 p-4 bg-ui-bg-subtle rounded-lg">
           <div className="flex items-center gap-2 mb-2">
             <MapPin className="w-4 h-4 text-ui-fg-subtle" />
-            <Text className="txt-small font-medium text-ui-fg-base">
+            <Text className="txt-small-plus text-ui-fg-base">
               Delivering to:
             </Text>
           </div>

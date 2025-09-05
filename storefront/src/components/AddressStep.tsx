@@ -279,7 +279,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
         </div>
 
         {/* Billing Address Checkbox */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-x-2 mb-0">
           <Checkbox
             id="same_as_billing"
             checked={sameAsBilling}

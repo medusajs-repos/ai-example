@@ -78,18 +78,18 @@
     scrollbar-width: none; /* Firefox */
   }
 
-  input:focus ~ label,
-  input:not(:placeholder-shown) ~ label {
+  input:not([type="checkbox"]):focus ~ label,
+  input:not([type="checkbox"]):not(:placeholder-shown) ~ label {
     @apply -translate-y-2 txt-xsmall-plus;
   }
 
-  input:focus ~ label {
+  input:not([type="checkbox"]):focus ~ label {
     @apply left-0;
   }
 
-  input:-webkit-autofill,
-  input:-webkit-autofill:hover,
-  input:-webkit-autofill:focus,
+  input:not([type="checkbox"]):-webkit-autofill,
+  input:not([type="checkbox"]):-webkit-autofill:hover,
+  input:not([type="checkbox"]):-webkit-autofill:focus,
   textarea:-webkit-autofill,
   textarea:-webkit-autofill:hover,
   textarea:-webkit-autofill:focus,

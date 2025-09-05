@@ -18,6 +18,8 @@ export const retrieveCart = async (
         "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name",
     });
 
+    console.log(cart)
+
     return cart;
   } catch (error) {
     if (!cartId) {
@@ -171,6 +173,12 @@ export const setAddresses = async (
         };
 
   const email = data.email as string;
+
+  console.log({
+    shipping_address: shippingAddress,
+    billing_address: billingAddress,
+    email,
+  },)
 
   try {
     const { cart } = await sdk.store.cart.update(
