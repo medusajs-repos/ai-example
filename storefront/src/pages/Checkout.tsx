@@ -102,12 +102,12 @@ const Checkout = () => {
         <div className="space-y-6">
           {/* Progress Steps */}
           <div className="bg-white p-6 rounded-lg border border-ui-border-base">
-            <div className="flex flex-wrap gap-y-4 items-center justify-between">
+            <div className="flex flex-wrap gap-y-4 items-center">
               {steps.map((step, index) => (
                 <div key={step.key} className="flex items-center">
                   <button
                     onClick={() => setCurrentStep(step.key)}
-                    className={`w-8 h-8 rounded-full flex items-center justify-center txt-small font-medium transition-colors cursor-pointer ${
+                    className={`w-8 h-8 rounded-full flex items-center justify-center txt-small-plus transition-colors cursor-pointer ${
                       index <= currentStepIndex
                         ? "bg-ui-fg-interactive text-white hover:bg-ui-fg-interactive-hover"
                         : step.completed
@@ -119,7 +119,7 @@ const Checkout = () => {
                   </button>
                   <button
                     onClick={() => setCurrentStep(step.key)}
-                    className="ml-2 txt-small font-medium hover:text-ui-fg-interactive transition-colors"
+                    className="ml-2 txt-small-plus hover:text-ui-fg-interactive transition-colors"
                   >
                     {step.title}
                   </button>
@@ -190,14 +190,14 @@ const Checkout = () => {
                   )}
                 </div>
                 <div className="flex-1">
-                  <Text className="font-medium">
+                  <Text className="txt-medium-plus">
                     {item.product?.title}
                   </Text>
                   <Text className="text-ui-fg-subtle txt-small">
                     Qty: {item.quantity}
                   </Text>
                 </div>
-                <Text className="font-medium">
+                <Text className="txt-medium-plus">
                   {new Intl.NumberFormat('en-US', {
                     style: 'currency',
                     currency: cart.currency_code || 'USD'
@@ -228,7 +228,7 @@ const Checkout = () => {
                 </Text>
               </div>
             )}
-            <div className="flex justify-between font-medium text-lg pt-2 border-t border-ui-border-base">
+            <div className="flex justify-between txt-large-plus pt-2 border-t border-ui-border-base">
               <Text>Total</Text>
               <Text>
                 {new Intl.NumberFormat('en-US', {
