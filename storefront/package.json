@@ -4,11 +4,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
-    "start": "node .vercel/output/functions/__fallback.func/index.mjs",
+    "build": "pnpm generate:routes && pnpm vite build",
     "build:prod": "pnpm build && pnpm preview",
+    "generate:routes": "tsx scripts/generate-static-routes.ts",
+    "start": "node .netlify/functions-internal/server/server.mjs",
     "preview": "vite preview",
-    "debug": "node --inspect-brk node_modules/.bin/vite dev"
+    "debug": "node --inspect-brk node_modules/.bin/vite dev",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext ts,tsx --fix"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.7",
@@ -57,9 +60,11 @@
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.1",
     "eslint": "^9.33.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
+    "tsx": "^4.19.2",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
     "vite": "^7.1.2"

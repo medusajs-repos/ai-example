@@ -1,57 +1,26 @@
-import CartItem from "@components/CartItem";
-import CartSummary from "@components/CartSummary";
-import { useCart, useCreateCart } from "@lib/hooks/useCart";
-import { useRegions } from "@lib/hooks/useProducts";
-import { Link } from "@tanstack/react-router";
+import CartItem from "@/components/cart-item";
+import CartSummary from "@/components/cart-summary";
+import { useCart, useCreateCart } from "@/lib/hooks/use-cart";
+import { Link, useLoaderData } from "@tanstack/react-router";
+import { useRegions } from "@/lib/hooks/use-region";
+import { Loading } from "@/components/common";
 
 const Cart = () => {
+  const { region } = useLoaderData({
+    from: "/$countryCode/cart"
+  });
   const { data: cart, isLoading: cartLoading } = useCart();
-  const { data: regions } = useRegions();
   const createCart = useCreateCart();
 
-  const defaultRegion = regions?.[0];
-
   // Auto-create cart if none exists and we have a region
-  if (!cart && !cartLoading && defaultRegion && !createCart.isPending) {
-    createCart.mutate(defaultRegion.id);
+  if (!cart && !cartLoading && region && !createCart.isPending) {
+    createCart.mutate(region.id);
   }
 
-  if (cartLoading) {
+  if (cartLoading || !cart) {
+    // TODO replace with loading skeleton
     return (
-      <div className="content-container py-8">
-        <div className="flex items-center justify-center h-64">
-          <div className="text-lg text-ui-fg-subtle">Loading cart...</div>
-        </div>
-      </div>
-    );
-  }
-
-  if (!defaultRegion) {
-    return (
-      <div className="content-container py-8">
-        <div className="text-center text-red-600">
-          No regions available. Please check your Medusa backend connection.
-        </div>
-      </div>
-    );
-  }
-
-  if (!cart) {
-    return (
-      <div className="content-container py-8">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-ui-fg-base mb-4">
-            Shopping Cart
-          </h1>
-          <p className="text-ui-fg-subtle mb-6">Unable to load cart</p>
-          <Link
-            to="/store"
-            className="bg-black text-white px-6 py-3 rounded-lg hover:bg-black/80"
-          >
-            Continue Shopping
-          </Link>
-        </div>
-      </div>
+      <Loading />
     );
   }
 

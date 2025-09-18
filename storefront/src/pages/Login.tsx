@@ -1,6 +1,6 @@
-import LoginForm from "@components/LoginForm";
-import RegisterForm from "@components/RegisterForm";
-import { useCustomer } from "@lib/hooks/useAuth";
+import LoginForm from "@/components/login-form";
+import RegisterForm from "@/components/register-form";
+import { useCustomer } from "@/lib/hooks/use-auth";
 import { Navigate } from "@tanstack/react-router";
 import { useState } from "react";
 

@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react"
 import { useLocation } from "@tanstack/react-router"
-import { useCart } from "@lib/hooks/useCart"
-import { getCountryCodeFromPath } from "@lib/util/regions"
+import { useCart } from "@/lib/hooks/use-cart"
+import { getCountryCodeFromPath } from "@/lib/utils/regions"
 import { Heading, Text, Button } from "@medusajs/ui"
-import DeliveryStep from "@components/DeliveryStep"
-import AddressStep from "@components/AddressStep"
-import PaymentStep from "@components/PaymentStep"
-import ReviewStep from "@components/ReviewStep"
+import DeliveryStep from "@/components/delivery-step"
+import AddressStep from "@/components/address-step"
+import PaymentStep from "@/components/payment-step"
+import ReviewStep from "@/components/review-step"
 
 enum CheckoutStep {
   ADDRESS = "address",

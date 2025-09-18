@@ -1,17 +1,29 @@
-import Layout from "@/components/Layout";
-import NotFound from "@/components/NotFound";
-import RegionRedirect from "@/components/RegionRedirect";
+import Layout from "@/components/layout";
+import NotFound from "@/components/not-found";
+import RegionRedirect from "@/components/region-redirect";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   HeadContent,
   Scripts,
   createRootRouteWithContext,
 } from "@tanstack/react-router";
-import appCss from "../styles/app.css?url";
+import appCss from "@/styles/app.css?url";
+import { listRegions } from "@/lib/data/regions";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
 }>()({
+  loader: async ({ context }) => {
+    const { queryClient } = context;
+    
+    // Pre-populate regions cache
+    await queryClient.ensureQueryData({
+      queryKey: ["regions"],
+      queryFn: listRegions,
+    });
+    
+    return {};
+  },
   head: () => ({
     links: [
       { rel: "icon", href: "/images/medusa.svg" },

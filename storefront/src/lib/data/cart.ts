@@ -1,6 +1,6 @@
-import { sdk } from "@lib/config";
-import { getRegion } from "@lib/data/regions";
-import { getCartId, removeCartId, setCartId } from "@lib/util/cookies";
+import { sdk } from "@/lib/config";
+import { getRegion } from "@/lib/data/regions";
+import { getCartId, removeCartId, setCartId } from "@/lib/utils/cookies";
 import { HttpTypes } from "@medusajs/types";
 
 export const retrieveCart = async (

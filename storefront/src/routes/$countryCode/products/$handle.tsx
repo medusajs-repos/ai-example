@@ -1,8 +1,31 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { retrieveProduct } from "../../../lib/data/products";
-import { listRegions } from "../../../lib/data/regions";
-import { getRegionByCountryCode } from "../../../lib/util/regions";
-import ProductDetails from "../../../pages/ProductDetails";
+import { createFileRoute, notFound } from "@tanstack/react-router";
+import { retrieveProduct } from "@/lib/data/products";
+import { listRegions } from "@/lib/data/regions";
+import { getRegion } from "@/lib/data/regions";
+import ProductDetails from "@/pages/product-details";
+import { createServerFn } from "@tanstack/react-start";
+import { HttpTypes } from "@medusajs/types";
+
+const getProductStatic = createServerFn({
+  type: "static"
+})
+.validator((data: { handle: string; regionId: string }) => {
+  return data;
+})
+.handler(async ({ data }) => {
+  const { handle, regionId } = data;
+  try {
+    const product = await retrieveProduct({ 
+      handle, 
+      regionId,
+      fields: "*variants, *images, *options, *options.values, *collection, *tags"
+    });
+    // Use type assertion to bypass strict typing
+    return product as any;
+  } catch (error) {
+    throw notFound()
+  }
+});
 
 export const Route = createFileRoute("/$countryCode/products/$handle")({
   loader: async ({ params, context }) => {
@@ -12,15 +35,13 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
     // Pre-fetch region data
     const regionPromise = queryClient.ensureQueryData({
       queryKey: ["region", countryCode],
-      queryFn: () => getRegionByCountryCode(countryCode),
-      staleTime: 1000 * 60 * 60, // 1 hour
+      queryFn: () => getRegion(countryCode),
     });
 
     // Pre-fetch regions list
     const regionsPromise = queryClient.ensureQueryData({
       queryKey: ["regions"],
       queryFn: listRegions,
-      staleTime: 1000 * 60 * 60, // 1 hour
     });
 
     const [region, regions] = await Promise.all([
@@ -36,23 +57,25 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
     if (defaultRegion?.id && handle) {
       product = await queryClient.ensureQueryData({
         queryKey: ["product", handle, defaultRegion.id],
-        queryFn: () => retrieveProduct(handle, defaultRegion.id),
-        staleTime: 1000 * 60 * 5, // 5 minutes
+        queryFn: () => getProductStatic({
+          data: {
+            handle,
+            regionId: defaultRegion.id
+          }
+        }),
       });
     }
 
-    const loaderResult = {
+    return {
       countryCode,
       handle,
       region: defaultRegion,
       regions,
-      product,
+      product: product as HttpTypes.StoreProduct,
     };
-
-    return loaderResult;
   },
   head: ({ loaderData }) => {
-    const { product, region } = loaderData;
+    const { product, region } = loaderData || {}
 
     if (!product) {
       return {
@@ -70,7 +93,7 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
       "@type": "Product",
       name: product.title,
       description: product.description,
-      image: product.images?.map((img) => img.url).filter(Boolean) || [],
+      image: product.images?.map((img: any) => img.url).filter(Boolean) || [],
       brand: {
         "@type": "Brand",
         name: "Medusa Store",

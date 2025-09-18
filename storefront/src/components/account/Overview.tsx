@@ -1,8 +1,8 @@
-import { useCustomerOrders } from "@lib/hooks/useOrders";
-import { getCountryCodeFromPath } from "@lib/util/regions";
+import { useCustomerOrders } from "@/lib/hooks/use-orders";
+import { getCountryCodeFromPath } from "@/lib/utils/regions";
 import { HttpTypes } from "@medusajs/types";
 import { Link, useLocation } from "@tanstack/react-router";
-import AccountContainer from "./AccountContainer";
+import AccountContainer from "@/components/account/account-container";
 
 interface OverviewProps {
   customer: HttpTypes.StoreCustomer;

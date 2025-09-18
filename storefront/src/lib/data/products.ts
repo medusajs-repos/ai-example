@@ -1,12 +1,5 @@
-import { sdk } from "@lib/config";
+import { sdk } from "@/lib/config";
 import { HttpTypes } from "@medusajs/types";
-
-export type SortOptions =
-  | "price_asc"
-  | "price_desc"
-  | "title_asc"
-  | "title_desc"
-  | "created_at";
 
 export const listProducts = async ({
   pageParam = 1,
@@ -14,7 +7,7 @@ export const listProducts = async ({
   regionId,
 }: {
   pageParam?: number;
-  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams;
+  queryParams?: HttpTypes.StoreProductListParams;
   regionId?: string;
 }): Promise<{
   products: HttpTypes.StoreProduct[];
@@ -26,32 +19,12 @@ export const listProducts = async ({
   const offset = _pageParam === 1 ? 0 : (_pageParam - 1) * limit;
 
   try {
-    const searchParams = new URLSearchParams();
-    searchParams.set("limit", String(limit));
-    searchParams.set("offset", String(offset));
-
-    if (regionId) {
-      searchParams.set("region_id", regionId);
-    }
-
-    Object.entries(queryParams || {}).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        if (Array.isArray(value)) {
-          value.forEach((item) => {
-            searchParams.append(`${key}[]`, String(item));
-          });
-        } else {
-          searchParams.set(key, String(value));
-        }
-      }
-    });
-
-    const response = await sdk.client.fetch<{
-      products: HttpTypes.StoreProduct[];
-      count: number;
-    }>(`/store/products?${searchParams}`, {
-      method: "GET",
-    });
+    const response = await sdk.store.product.list({
+      limit,
+      offset,
+      region_id: regionId,
+      ...queryParams,
+    })
 
     const nextPage = offset + limit < response.count ? _pageParam + 1 : null;
 
@@ -66,15 +39,20 @@ export const listProducts = async ({
   }
 };
 
-export const retrieveProduct = async (
-  handle: string,
-  regionId?: string
-): Promise<HttpTypes.StoreProduct> => {
+export const retrieveProduct = async ({
+  handle,
+  regionId,
+  fields,
+}: {
+  handle: string;
+  regionId?: string;
+  fields?: string;
+}): Promise<HttpTypes.StoreProduct> => {
   try {
     const { products } = await sdk.store.product.list({
       handle: handle,
       region_id: regionId,
-      fields:
+      fields: fields ||
         "*variants, +variants.inventory_quantity, +variants.manage_inventory, +variants.allow_backorder, *images, *options, *options.values, *collection, *tags",
     });
 

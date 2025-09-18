@@ -1,13 +1,12 @@
-import { useCart } from "@lib/hooks/useCart";
-import { useRegions } from "@lib/hooks/useRegion";
-import { getCountryCodeFromPath } from "@lib/util/regions";
+import { useCart } from "@/lib/hooks/use-cart";
+import { useRegions } from "@/lib/hooks/use-region";
+import { getCountryCodeFromPath } from "@/lib/utils/regions";
 import { Link, Outlet, useLocation } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import CartDropdown from "./CartDropdown";
-import ErrorBoundary from "./ErrorBoundary";
-import ErrorFallback from "./ErrorFallback";
-import Footer from "./Footer";
-import SideMenu from "./SideMenu";
+import CartDropdown from "@/components/cart-dropdown";
+import ErrorBoundary from "@/components/error-boundary";
+import Footer from "@/components/footer";
+import SideMenu from "@/components/side-menu";
 
 const Layout = () => {
   const { data: cart } = useCart();

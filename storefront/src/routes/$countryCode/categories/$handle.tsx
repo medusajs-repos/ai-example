@@ -1,9 +1,46 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { retrieveCategory } from "../../../lib/data/categories";
-import { listProducts } from "../../../lib/data/products";
-import { listRegions } from "../../../lib/data/regions";
-import { getRegionByCountryCode } from "../../../lib/util/regions";
-import Category from "../../../pages/Category";
+import { createFileRoute, notFound } from "@tanstack/react-router";
+import { retrieveCategory } from "@/lib/data/categories";
+import { listProducts } from "@/lib/data/products";
+import { getRegion } from "@/lib/data/regions";
+import Category from "@/pages/category";
+import { createServerFn } from "@tanstack/react-start";
+import { HttpTypes } from "@medusajs/types";
+
+const getCategoryStatic = createServerFn({
+  type: "static"
+})
+.validator((data: { handle: string }) => {
+  return data;
+})
+.handler(async ({ data }) => {
+  const { handle } = data;
+  try {
+    const category = await retrieveCategory(handle);
+    return category as any;
+  } catch (error) {
+    throw notFound()
+  }
+});
+
+const getCategoryProductsStatic = createServerFn({
+  type: "static"
+})
+.validator((data: { regionId: string, categoryId: string }) => {
+  return data;
+})
+.handler(async ({ data }) => {
+  const { regionId, categoryId } = data;
+  const { products } = await listProducts({
+    queryParams: { 
+      limit: 100, 
+      category_id: categoryId,
+      order: "-created_at"
+    },
+    regionId,
+  });
+  return products as any;
+});
+
 
 export const Route = createFileRoute("/$countryCode/categories/$handle")({
   loader: async ({ params, context }) => {
@@ -11,89 +48,81 @@ export const Route = createFileRoute("/$countryCode/categories/$handle")({
     const { queryClient } = context;
 
     // Pre-fetch region data
-    const regionPromise = queryClient.ensureQueryData({
+    const region = await queryClient.ensureQueryData({
       queryKey: ["region", countryCode],
-      queryFn: () => getRegionByCountryCode(countryCode),
-      staleTime: 1000 * 60 * 60, // 1 hour
+      queryFn: () => getRegion(countryCode),
     });
 
-    // Pre-fetch regions list
-    const regionsPromise = queryClient.ensureQueryData({
-      queryKey: ["regions"],
-      queryFn: listRegions,
-      staleTime: 1000 * 60 * 60, // 1 hour
-    });
+    if (!region) {
+      throw notFound();
+    }
 
     // Fetch category by handle
-    const categoryPromise = queryClient.ensureQueryData({
+    const category = await queryClient.ensureQueryData({
       queryKey: ["category", handle],
-      queryFn: () => retrieveCategory(handle),
-      staleTime: 1000 * 60 * 60, // 1 hour
+      queryFn: () => getCategoryStatic({ data: { handle } }),
     });
 
-    const [region, regions, category] = await Promise.all([
-      regionPromise,
-      regionsPromise,
-      categoryPromise,
-    ]);
-
-    // Use current region or fallback to first available region
-    const defaultRegion = region || regions[0];
-
-    let products = null;
-    // Pre-fetch products filtered by category if we have both region and category
-    if (defaultRegion?.id && category?.id) {
-      products = await queryClient.ensureQueryData({
-        queryKey: [
-          "products",
-          { limit: 1000, category: category.id },
-          defaultRegion.id,
-        ],
-        queryFn: ({ pageParam = 1 }) =>
-          listProducts({
-            pageParam,
-            queryParams: {
-              limit: 1000,
-              category_id: [category.id], // Filter by category ID
-            },
-            regionId: defaultRegion.id,
-          }),
-        staleTime: 1000 * 60 * 5, // 5 minutes
-      });
-    }
+    const products = await queryClient.ensureQueryData({
+      queryKey: ["products", { limit: 1000, category: category.id }, region.id],
+      queryFn: () =>
+        getCategoryProductsStatic({ data: { 
+          regionId: region.id, 
+          categoryId: category.id
+        }}),
+    });
 
     return {
       countryCode,
-      region: defaultRegion,
-      regions,
-      products,
-      category,
-      categoryId: category?.id,
-      categoryHandle: handle,
+      region,
+      products: products as HttpTypes.StoreProduct[],
+      category: category as HttpTypes.StoreProductCategory,
     };
   },
   head: ({ loaderData }) => {
-    const { region, products, countryCode, category, categoryHandle } =
+    const { region, products, countryCode, category } =
       loaderData || {};
-    const productCount = products?.products?.length || products?.length || 0;
+    const productCount = products?.length || 0;
     const regionName = region?.name || countryCode?.toUpperCase();
-    const categoryName =
-      category?.name ||
-      categoryHandle?.charAt(0).toUpperCase() + categoryHandle?.slice(1) ||
-      "Category";
+    const categoryName = category?.name || "Category";
     const title = `${categoryName} - ${regionName} | Medusa Store`;
     const description = `Shop our ${categoryName.toLowerCase()} collection with ${productCount} products available in ${regionName}. Free shipping and easy returns.`;
 
     return {
-      title,
-      description,
-      "og:title": title,
-      "og:description": description,
-      "og:type": "website",
-      "twitter:card": "summary_large_image",
-      "twitter:title": title,
-      "twitter:description": description,
-    };
+      meta: [
+        {
+          title,
+        },
+        {
+          name: "description",
+          content: description,
+        },
+        {
+          property: "og:title",
+          content: title,
+        },
+        {
+          property: "og:description",
+          content: description,
+        },
+        {
+          property: "og:type",
+          content: "website",
+        },
+        {
+          property: "twitter:card",
+          content: "summary_large_image",
+        },
+        {
+          property: "twitter:title",
+          content: title,
+        },
+        {
+          property: "twitter:description",
+          content: description,
+        },
+      ]
+    }
   },
   component: Category,
 });

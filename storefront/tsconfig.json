@@ -11,10 +11,7 @@
     /* Path mapping */
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["*"],
-      "@lib/*": ["lib/*"],
-      "@components/*": ["components/*"],
-      "@pages/*": ["pages/*"]
+      "@/*": ["*"]
     }
   },
   "include": ["src", "vite.config.ts"]

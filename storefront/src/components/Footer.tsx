@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router"
-import { getCountryCodeFromPath } from "@lib/util/regions"
+import { getCountryCodeFromPath } from "@/lib/utils/regions"
 
 const Footer = () => {
   const location = useLocation()

@@ -1,7 +1,7 @@
 import { Navigate } from '@tanstack/react-router'
-import { useCustomer } from '@lib/hooks/useAuth'
-import AccountLayout from '@components/account/AccountLayout'
-import Overview from '@components/account/Overview'
+import { useCustomer } from "@/lib/hooks/use-auth";
+import AccountLayout from "@/components/account/account-layout";
+import Overview from "@/components/account/overview";
 
 const Account = () => {
   const { data: customer, isLoading } = useCustomer()

@@ -1,10 +1,10 @@
-import { sdk } from "@lib/config";
+import { sdk } from "@/lib/config";
 import {
   getCartId,
   removeAuthToken,
   removeCartId,
   setAuthToken,
-} from "@lib/util/cookies";
+} from "@/lib/utils/cookies";
 import { HttpTypes } from "@medusajs/types";
 
 export const loginCustomer = async ({

@@ -1,8 +1,6 @@
-import RegionRedirect from "@/components/RegionRedirect";
+import RegionRedirect from "@/components/region-redirect";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
-  component: () => {
-    return <RegionRedirect />;
-  },
+  component: RegionRedirect,
 });

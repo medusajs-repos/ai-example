@@ -1,7 +1,27 @@
-import Home from "@/pages/Home";
-import { createFileRoute } from "@tanstack/react-router";
-import { listProducts } from "../../lib/data/products";
-import { getRegionByCountryCode } from "../../lib/util/regions";
+import Home from "@/pages/home";
+import { createFileRoute, notFound } from "@tanstack/react-router";
+import { listProducts } from "@/lib/data/products";
+import { getRegion } from "@/lib/data/regions";
+import { createServerFn } from "@tanstack/react-start";
+import { HttpTypes } from "@medusajs/types";
+
+const getLatestProductsStatic = createServerFn({
+  type: "static"
+})
+.validator((data: { regionId: string }) => {
+  return data;
+})
+.handler(async ({ data }) => {
+  const { regionId } = data;
+  const { products } = await listProducts({
+    queryParams: { 
+      limit: 4, 
+      order: "-created_at"
+    },
+    regionId,
+  });
+  return products as any;
+});
 
 export const Route = createFileRoute("/$countryCode/")({
   loader: async ({ params, context }) => {
@@ -9,53 +29,67 @@ export const Route = createFileRoute("/$countryCode/")({
     const { queryClient } = context;
 
     // Pre-fetch region data
-    const regionPromise = queryClient.ensureQueryData({
+    const region = await queryClient.ensureQueryData({
       queryKey: ["region", countryCode],
-      queryFn: () => getRegionByCountryCode(countryCode),
-      staleTime: 1000 * 60 * 60, // 1 hour
+      queryFn: () => getRegion(countryCode),
     });
 
-    const region = await regionPromise;
-
-    let latestProducts = null;
-    // Pre-fetch latest products if we have a region
-    if (region?.id) {
-      latestProducts = await queryClient.ensureQueryData({
-        queryKey: ["latest-products", 4, region.id],
-        queryFn: () =>
-          listProducts({
-            queryParams: {
-              limit: 4,
-              order: "-created_at",
-            },
-            regionId: region.id,
-          }),
-        staleTime: 1000 * 60 * 5, // 5 minutes
-      });
+    if (!region) {
+      throw notFound();
     }
+
+    const latestProducts = await queryClient.ensureQueryData({
+      queryKey: ["latest-products", 4, region.id],
+      queryFn: () => getLatestProductsStatic({ data: { regionId: region.id } }),
+    });
 
     return {
       region,
       countryCode,
-      latestProducts,
+      latestProducts: latestProducts as HttpTypes.StoreProduct[],
     };
   },
   head: ({ loaderData }) => {
     const { region, countryCode, latestProducts } = loaderData || {};
     const regionName = region?.name || countryCode?.toUpperCase();
-    const productCount = latestProducts?.products?.length || 0;
+    const productCount = latestProducts?.length || 0;
     const title = `Welcome to Medusa Store - ${regionName}`;
     const description = `Discover our curated collection of products in ${regionName}. Browse our latest ${productCount} featured items and shop with confidence.`;
 
     return {
-      title,
-      description,
-      'og:title': title,
-      'og:description': description,
-      'og:type': 'website',
-      'twitter:card': 'summary_large_image',
-      'twitter:title': title,
-      'twitter:description': description,
+      meta: [
+        {
+          title,
+        },
+        {
+          name: "description",
+          content: description,
+        },
+        {
+          property: "og:title",
+          content: title,
+        },
+        {
+          property: "og:description",
+          content: description,
+        },
+        {
+          property: "og:type",
+          content: "website",
+        },
+        {
+          property: "twitter:card",
+          content: "summary_large_image",
+        },
+        {
+          property: "twitter:title",
+          content: title,
+        },
+        {
+          property: "twitter:description",
+          content: description,
+        },
+      ]
     };
   },
   component: Home,
