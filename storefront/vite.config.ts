@@ -55,21 +55,7 @@ export default defineConfig(({ mode }) => {
           enabled: true,
           autoSubfolderIndex: true,
           // Don't crawl links in pages
-          crawlLinks: false,
-          filter: ({ path }) => {
-            // Exclude dynamic routes that shouldn't be prerendered
-            const excludedPaths = [
-              '/account/', 
-              '/checkout', 
-              '/cart', 
-              '/login', 
-              '/order/', 
-              '/api/'
-            ];
-            return !excludedPaths.some(
-              excludedPath => path.includes(excludedPath)
-            );
-          },
+          crawlLinks: true
         },
         // Load static routes from generated file if it exists
         pages: (() => {
@@ -86,7 +72,7 @@ export default defineConfig(({ mode }) => {
                   lastmod: route.lastModified,
                 }
               }
-            }));
+            }))
           }
         })()
       }),

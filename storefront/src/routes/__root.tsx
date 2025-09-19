@@ -1,5 +1,4 @@
 import Layout from "@/components/layout";
-import NotFound from "@/components/not-found";
 import RegionRedirect from "@/components/region-redirect";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
@@ -9,6 +8,9 @@ import {
 } from "@tanstack/react-router";
 import appCss from "@/styles/app.css?url";
 import { listRegions } from "@/lib/data/regions";
+import { lazy } from "react";
+
+const NotFound = lazy(() => import("@/components/not-found"));
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -53,9 +55,7 @@ function RootComponent() {
       </head>
       <body>
         <QueryClientProvider client={queryClient}>
-          <RegionRedirect>
-            <Layout />
-          </RegionRedirect>
+          <Layout />
         </QueryClientProvider>
 
         <Scripts />

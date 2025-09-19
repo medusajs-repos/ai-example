@@ -1,11 +1,12 @@
 import getDefaultCountryCode from "@/lib/utils/regions/get-default-country-code";
 import { useLocation, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import { useRegions } from "@/lib/hooks/static/use-region";
 import { buildPathWithCountryCode } from "@/lib/utils/regions/build-path-with-country-code";
 import { getCountryCodeFromPath } from "@/lib/utils/regions/get-country-code-from-path";
-import NotFound from "./not-found";
 import { getStoredCountryCode, setStoredCountryCode } from "@/lib/utils/regions/stored-country-code";
+
+const NotFound = lazy(() => import("./not-found"));
 
 interface RegionRedirectProps {
   children?: React.ReactNode;
