@@ -78,6 +78,29 @@ export default defineConfig(({ mode }) => {
       }),
       viteReact(),
     ],
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            // MedusaJS vendor chunk (only non-external modules)
+            'medusa-vendor': [
+              '@medusajs/js-sdk', 
+              '@medusajs/ui', 
+              '@medusajs/types',
+              '@medusajs/ui-preset'
+            ],
+          }
+        }
+      },
+      // Optimize build performance
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true
+        }
+      }
+    },
     ssr: {
       noExternal: [
         "@medusajs/js-sdk",
