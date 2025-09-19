@@ -1,4 +1,4 @@
-import { useDeleteLineItem, useUpdateLineItem } from "@/lib/hooks/use-cart";
+import { useDeleteLineItem, useUpdateLineItem } from "@/lib/hooks/dynamic/use-cart";
 import { HttpTypes } from "@medusajs/types";
 import LineItemPrice from "@/components/line-item-price";
 
@@ -9,14 +9,14 @@ interface CartItemProps {
 }
 
 const CartItem = ({ item, cart }: CartItemProps) => {
-  const updateLineItem = useUpdateLineItem();
-  const deleteLineItem = useDeleteLineItem();
+  const updateLineItemMutation = useUpdateLineItem();
+  const deleteLineItemMutation = useDeleteLineItem();
 
   const handleQuantityChange = (newQuantity: number) => {
     if (newQuantity === 0) {
-      deleteLineItem.mutate(item.id);
+      deleteLineItemMutation.mutate(item.id);
     } else {
-      updateLineItem.mutate({
+      updateLineItemMutation.mutate({
         lineId: item.id,
         quantity: newQuantity,
       });
@@ -55,7 +55,7 @@ const CartItem = ({ item, cart }: CartItemProps) => {
         <div className="flex items-center border border-ui-border-base rounded">
           <button
             onClick={() => handleQuantityChange(item.quantity - 1)}
-            disabled={updateLineItem.isPending || deleteLineItem.isPending}
+            disabled={updateLineItemMutation.isPending || deleteLineItemMutation.isPending}
             className="w-8 h-8 flex items-center justify-center hover:bg-ui-bg-subtle disabled:opacity-50 transition-colors"
           >
             −
@@ -65,7 +65,7 @@ const CartItem = ({ item, cart }: CartItemProps) => {
           </span>
           <button
             onClick={() => handleQuantityChange(item.quantity + 1)}
-            disabled={updateLineItem.isPending}
+            disabled={updateLineItemMutation.isPending}
             className="w-8 h-8 flex items-center justify-center hover:bg-ui-bg-subtle disabled:opacity-50 transition-colors"
           >
             +
@@ -81,11 +81,11 @@ const CartItem = ({ item, cart }: CartItemProps) => {
         </div>
 
         <button
-          onClick={() => deleteLineItem.mutate(item.id)}
-          disabled={deleteLineItem.isPending}
+          onClick={() => deleteLineItemMutation.mutate(item.id)}
+          disabled={deleteLineItemMutation.isPending}
           className="text-ui-fg-muted hover:text-ui-fg-base txt-small underline disabled:opacity-50 transition-colors"
         >
-          {deleteLineItem.isPending ? "Removing..." : "Remove"}
+          {deleteLineItemMutation.isPending ? "Removing..." : "Remove"}
         </button>
       </div>
     </div>

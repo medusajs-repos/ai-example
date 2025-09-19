@@ -1,6 +1,6 @@
 import { completeCart } from "@/lib/data/cart";
 import { isManual, isStripe } from "@/lib/constants";
-import { useCompleteOrder } from "@/lib/hooks/use-cart";
+import { useCompleteOrder } from "@/lib/hooks/dynamic/use-cart";
 import { getCountryCodeFromPath } from "@/lib/utils/regions";
 import { HttpTypes } from "@medusajs/types";
 import { Button } from "@medusajs/ui";

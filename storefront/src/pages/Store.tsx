@@ -1,96 +1,12 @@
-import Pagination from "@/components/common/pagination";
-import ProductCard from "@/components/product/product-card";
-import RefinementList from "@/components/product/refinement-list";
 import { useLoaderData } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import sortProducts, { ProductSortOptions } from "@/lib/utils/products/sort-products";
-
-const PRODUCTS_PER_PAGE = 12;
+import ProductListing from "../components/product/product-listing";
 
 const Store = () => {
-  const [sortBy, setSortBy] = useState<ProductSortOptions>("created_at");
-  const [currentPage, setCurrentPage] = useState(1);
-
-  // Access the loader data from the route - this works with SSR
   const { region: defaultRegion, products } = useLoaderData({
     from: "/$countryCode/store"
   });
 
-  const allProducts = products || [];
-
-  // Sort products based on selected option
-  const sortedProducts = useMemo(() => {
-    return sortProducts({ products, sortBy });
-  }, [allProducts, sortBy]);
-
-  // Paginate products
-  const totalPages = Math.ceil(sortedProducts.length / PRODUCTS_PER_PAGE);
-  const paginatedProducts = sortedProducts.slice(
-    (currentPage - 1) * PRODUCTS_PER_PAGE,
-    currentPage * PRODUCTS_PER_PAGE
-  );
-
-  const setQueryParams = (name: string, value: ProductSortOptions) => {
-    if (name === "sortBy") {
-      setSortBy(value);
-      setCurrentPage(1); // Reset to first page when sorting changes
-    }
-  };
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  return (
-    <div
-      className="content-container flex flex-col lg:flex-row gap-6 py-6"
-      data-testid="store-container"
-    >
-      {/* Left Column - Filters & Refinements */}
-      <div className="w-full lg:w-64 xl:w-72 flex-shrink-0">
-        <RefinementList sortBy={sortBy} setQueryParams={setQueryParams} />
-      </div>
-
-      {/* Center Column - Product Grid */}
-      <div className="flex-1">
-        <div className="mb-8 text-2xl-semi">
-          <h1 data-testid="store-page-title">All products</h1>
-        </div>
-        {allProducts.length === 0 ? (
-          <div className="flex items-center justify-center h-64">
-            <div className="text-lg text-ui-fg-subtle">Loading products...</div>
-          </div>
-        ) : allProducts.length === 0 ? (
-          <div className="text-center text-ui-fg-subtle py-16">
-            <p className="txt-xlarge mb-4">No products available</p>
-            <p>Make sure your Medusa backend is running and has products.</p>
-          </div>
-        ) : (
-          <>
-            <div
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-x-6 gap-y-8"
-              data-testid="products-list"
-            >
-              {paginatedProducts.map((product) => (
-                <div key={product.id}>
-                  <ProductCard product={product} region={defaultRegion || {}} />
-                </div>
-              ))}
-            </div>
-            {totalPages > 1 && (
-              <Pagination
-                data-testid="product-pagination"
-                page={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-              />
-            )}
-          </>
-        )}
-      </div>
-    </div>
-  );
+  return <ProductListing products={products} region={defaultRegion} title="All Products" />
 };
 
 export default Store;

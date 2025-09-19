@@ -2,6 +2,7 @@ import { clx } from "@medusajs/ui"
 
 import { getProductPrice } from "@/lib/utils/get-product-price"
 import { HttpTypes } from "@medusajs/types"
+import { Loading } from "./common"
 
 export default function ProductPrice({
   product,
@@ -20,7 +21,7 @@ export default function ProductPrice({
   const selectedPrice = variant ? variantPrice : cheapestPrice
 
   if (!selectedPrice) {
-    return <div className="block w-32 h-9 bg-ui-bg-subtle animate-pulse" />
+    return <Loading rows={1} />
   }
 
   return (

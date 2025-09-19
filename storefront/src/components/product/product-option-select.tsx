@@ -2,7 +2,7 @@ import { HttpTypes } from "@medusajs/types"
 import { clx } from "@medusajs/ui"
 import React from "react"
 
-type OptionSelectProps = {
+type ProductOptionSelectProps = {
   option: HttpTypes.StoreProductOption
   current: string | undefined
   updateOption: (title: string, value: string) => void
@@ -11,7 +11,7 @@ type OptionSelectProps = {
   "data-testid"?: string
 }
 
-const OptionSelect: React.FC<OptionSelectProps> = ({
+const ProductOptionSelect: React.FC<ProductOptionSelectProps> = ({
   option,
   current,
   updateOption,
@@ -53,4 +53,4 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
   )
 }
 
-export default OptionSelect
+export default ProductOptionSelect

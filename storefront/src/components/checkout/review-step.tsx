@@ -1,4 +1,4 @@
-import { useCompleteOrder } from "@/lib/hooks/use-cart";
+import { useCompleteOrder } from "@/lib/hooks/dynamic/use-cart";
 import { CheckCircleSolid } from "@medusajs/icons";
 import { HttpTypes } from "@medusajs/types";
 import { Heading } from "@medusajs/ui";

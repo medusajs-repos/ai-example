@@ -1,10 +1,10 @@
 import { lazy, Suspense } from "react";
 import { useLoaderData } from "@tanstack/react-router";
 import { Loading } from "@/components/common";
-import ProductDetailsLoading from "./loading";
+import ProductDetailsLoading from "../components/product/product-details-loading";
+import ErrorBoundary from "@/components/error-boundary";
 
 // Dynamic imports for heavy components
-const ErrorBoundary = lazy(() => import("@/components/error-boundary"));
 const ImageGallery = lazy(() => import("@/components/common/image-gallery"));
 const ProductActions = lazy(() => import("@/components/product/product-actions"));
 const ProductInfo = lazy(() => import("@/components/product/product-info"));
@@ -12,45 +12,9 @@ const ProductTabs = lazy(() => import("@/components/product/product-tabs"));
 const RelatedProducts = lazy(() => import("@/components/product/related-products"));
 
 const ProductDetails = () => {
-  const { product, region: defaultRegion, handle } = useLoaderData({
+  const { product, region } = useLoaderData({
     from: "/$countryCode/products/$handle"
   });
-
-  if (!handle) {
-    return (
-      <div className="content-container py-8">
-        <div className="text-center text-red-600">
-          <p className="txt-xlarge mb-4">Invalid product URL</p>
-          <a href="/store" className="text-blue-600 hover:underline">
-            Return to store
-          </a>
-        </div>
-      </div>
-    );
-  }
-
-  if (!product) {
-    return (
-      <div className="content-container py-8">
-        <div className="text-center text-red-600">
-          <p className="txt-xlarge mb-4">Product not found</p>
-          <a href="/store" className="text-blue-600 hover:underline">
-            Return to store
-          </a>
-        </div>
-      </div>
-    );
-  }
-
-  if (!defaultRegion) {
-    return (
-      <div className="content-container py-8">
-        <div className="text-center text-red-600">
-          No regions available. Please check your Medusa backend connection.
-        </div>
-      </div>
-    );
-  }
 
   return (
     <Suspense fallback={<ProductDetailsLoading />}>
@@ -103,7 +67,7 @@ const ProductDetails = () => {
               }
             >
               <Suspense fallback={<Loading />}>
-                <ProductActions handle={product.handle} region={defaultRegion} />
+                <ProductActions handle={product.handle} region={region} />
               </Suspense>
             </ErrorBoundary>
           </div>
@@ -121,7 +85,7 @@ const ProductDetails = () => {
               </div>
             }
           >
-            <RelatedProducts product={product} region={defaultRegion} />
+            <RelatedProducts product={product} region={region} />
           </ErrorBoundary>
         </div>
       </ErrorBoundary>

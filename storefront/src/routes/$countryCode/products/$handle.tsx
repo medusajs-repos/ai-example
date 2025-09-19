@@ -1,8 +1,7 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { retrieveProduct } from "@/lib/data/products";
-import { listRegions } from "@/lib/data/regions";
 import { getRegion } from "@/lib/data/regions";
-import ProductDetails from "@/pages/product-details";
+import ProductDetails from "@/pages/product";
 import { createServerFn } from "@tanstack/react-start";
 import { HttpTypes } from "@medusajs/types";
 
@@ -32,45 +31,28 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
     const { countryCode, handle } = params;
     const { queryClient } = context;
 
-    // Pre-fetch region data
-    const regionPromise = queryClient.ensureQueryData({
-      queryKey: ["region", countryCode],
+    const region = await queryClient.ensureQueryData({
+      queryKey: ['region', countryCode],
       queryFn: () => getRegion(countryCode),
     });
 
-    // Pre-fetch regions list
-    const regionsPromise = queryClient.ensureQueryData({
-      queryKey: ["regions"],
-      queryFn: listRegions,
-    });
-
-    const [region, regions] = await Promise.all([
-      regionPromise,
-      regionsPromise,
-    ]);
-
-    // Use current region or fallback to first available region
-    const defaultRegion = region || regions[0];
-
-    let product = null;
-    // Pre-fetch product data if we have a region
-    if (defaultRegion?.id && handle) {
-      product = await queryClient.ensureQueryData({
-        queryKey: ["product", handle, defaultRegion.id],
-        queryFn: () => getProductStatic({
-          data: {
-            handle,
-            regionId: defaultRegion.id
-          }
-        }),
-      });
+    if (!region || !handle) {
+      throw notFound();
     }
+
+    const product = await queryClient.ensureQueryData({
+      queryKey: ["product", handle, region.id],
+      queryFn: () => getProductStatic({
+        data: {
+          handle,
+          regionId: region.id
+        }
+      }),
+    });
 
     return {
       countryCode,
-      handle,
-      region: defaultRegion,
-      regions,
+      region,
       product: product as HttpTypes.StoreProduct,
     };
   },

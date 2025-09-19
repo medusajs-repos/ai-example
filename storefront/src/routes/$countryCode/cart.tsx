@@ -18,6 +18,7 @@ export const Route = createFileRoute("/$countryCode/cart")({
 
     return {
       region,
+      countryCode,
     };
   },
   component: Cart,

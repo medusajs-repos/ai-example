@@ -1,5 +1,5 @@
-import { useCart } from "@/lib/hooks/use-cart";
-import { useRegions } from "@/lib/hooks/use-region";
+import { useCart } from "@/lib/hooks/dynamic/use-cart";
+import { useRegions } from "@/lib/hooks/static/use-region";
 import { getCountryCodeFromPath } from "@/lib/utils/regions";
 import { Link, Outlet, useLocation } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";

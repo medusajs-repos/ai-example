@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Button, Text, Heading, Input, Label, Checkbox } from "@medusajs/ui"
 import { HttpTypes } from "@medusajs/types"
-import { useSetAddresses } from "@/lib/hooks/use-cart"
+import { useSetAddresses } from "@/lib/hooks/dynamic/use-cart"
 
 interface AddressStepProps {
   cart: HttpTypes.StoreCart

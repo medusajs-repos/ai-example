@@ -2,7 +2,7 @@ import {
   useCart,
   useDeleteLineItem,
   useUpdateLineItem,
-} from "@/lib/hooks/use-cart";
+} from "@/lib/hooks/dynamic/use-cart";
 import { getCountryCodeFromPath } from "@/lib/utils/regions";
 import { Minus, Plus, Trash } from "@medusajs/icons";
 import { HttpTypes } from "@medusajs/types";

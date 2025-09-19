@@ -1,7 +1,7 @@
 import getDefaultCountryCode from "@/lib/utils/regions/get-default-country-code";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { useRegions } from "@/lib/hooks/use-region";
+import { useRegions } from "@/lib/hooks/static/use-region";
 import { buildPathWithCountryCode } from "@/lib/utils/regions/build-path-with-country-code";
 import { getCountryCodeFromPath } from "@/lib/utils/regions/get-country-code-from-path";
 import NotFound from "./not-found";

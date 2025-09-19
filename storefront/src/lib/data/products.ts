@@ -18,25 +18,20 @@ export const listProducts = async ({
   const _pageParam = Math.max(pageParam, 1);
   const offset = _pageParam === 1 ? 0 : (_pageParam - 1) * limit;
 
-  try {
-    const response = await sdk.store.product.list({
-      limit,
-      offset,
-      region_id: regionId,
-      ...queryParams,
-    })
+  const response = await sdk.store.product.list({
+    limit,
+    offset,
+    region_id: regionId,
+    ...queryParams,
+  })
 
-    const nextPage = offset + limit < response.count ? _pageParam + 1 : null;
+  const nextPage = offset + limit < response.count ? _pageParam + 1 : null;
 
-    return {
-      products: response.products,
-      count: response.count,
-      nextPage,
-    };
-  } catch (error) {
-    console.error("Failed to fetch products:", error);
-    throw error;
-  }
+  return {
+    products: response.products,
+    count: response.count,
+    nextPage,
+  };
 };
 
 export const retrieveProduct = async ({
@@ -48,49 +43,18 @@ export const retrieveProduct = async ({
   regionId?: string;
   fields?: string;
 }): Promise<HttpTypes.StoreProduct> => {
-  try {
-    const { products } = await sdk.store.product.list({
-      handle: handle,
-      region_id: regionId,
-      fields: fields ||
-        "*variants, +variants.inventory_quantity, +variants.manage_inventory, +variants.allow_backorder, *images, *options, *options.values, *collection, *tags",
-    });
+  const { products } = await sdk.store.product.list({
+    handle: handle,
+    region_id: regionId,
+    fields: fields ||
+      "*variants, +variants.inventory_quantity, +variants.manage_inventory, +variants.allow_backorder, *images, *options, *options.values, *collection, *tags",
+  });
 
-    if (!products || products.length === 0) {
-      throw new Error(`Product with handle ${handle} not found`);
-    }
-
-    const product = products[0];
-
-    return product;
-  } catch (error) {
-    console.error(`Failed to fetch product ${handle}:`, error);
-    throw error;
+  if (!products || products.length === 0) {
+    throw new Error(`Product with handle ${handle} not found`);
   }
-};
 
-export const getProductsById = async ({
-  ids,
-  regionId,
-}: {
-  ids: string[];
-  regionId?: string;
-}): Promise<HttpTypes.StoreProduct[]> => {
-  try {
-    const searchParams = new URLSearchParams({
-      id: ids,
-      ...(regionId && { region_id: regionId }),
-    } as any);
+  const product = products[0];
 
-    const response = await sdk.client.fetch<{
-      products: HttpTypes.StoreProduct[];
-    }>(`/store/products?${searchParams}`, {
-      method: "GET",
-    });
-
-    return response.products;
-  } catch (error) {
-    console.error("Failed to fetch products by IDs:", error);
-    throw error;
-  }
+  return product;
 };

@@ -1,16 +1,17 @@
 import { Dialog, Transition } from "@headlessui/react"
 import { Button, clx } from "@medusajs/ui"
-import React, { Fragment, useMemo } from "react"
+import React, { Fragment, lazy, Suspense, useMemo } from "react"
 
 import useToggleState from "@/lib/hooks/use-toggle-state"
 import { getProductPrice } from "@/lib/utils/get-product-price"
 import { isSimpleProduct } from "@/lib/utils/product"
 import { HttpTypes } from "@medusajs/types"
-import OptionSelect from "@/components/option-select"
+import { Loading } from "@/components/common"
 
-type MobileActionsProps = {
+const ProductOptionSelect = lazy(() => import("@/components/product/product-option-select"))
+
+type ProductMobileActionsProps = {
   product: HttpTypes.StoreProduct
-  region: HttpTypes.StoreRegion
   variant?: HttpTypes.StoreProductVariant
   options: Record<string, string | undefined>
   updateOptions: (title: string, value: string) => void
@@ -21,9 +22,8 @@ type MobileActionsProps = {
   optionsDisabled: boolean
 }
 
-const MobileActions: React.FC<MobileActionsProps> = ({
+const ProductMobileActions: React.FC<ProductMobileActionsProps> = ({
   product,
-  region,
   variant,
   options,
   updateOptions,
@@ -180,13 +180,15 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                         {(product.options || []).map((option) => {
                           return (
                             <div key={option.id}>
-                              <OptionSelect
-                                option={option}
-                                current={options[option.id]}
-                                updateOption={updateOptions}
-                                title={option.title ?? ""}
-                                disabled={optionsDisabled}
-                              />
+                              <Suspense fallback={<Loading />}>
+                                <ProductOptionSelect
+                                  option={option}
+                                  current={options[option.id]}
+                                  updateOption={updateOptions}
+                                  title={option.title ?? ""}
+                                  disabled={optionsDisabled}
+                                  />
+                              </Suspense>
                             </div>
                           )
                         })}
@@ -203,4 +205,4 @@ const MobileActions: React.FC<MobileActionsProps> = ({
   )
 }
 
-export default MobileActions
+export default ProductMobileActions

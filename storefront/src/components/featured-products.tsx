@@ -6,19 +6,7 @@ const FeaturedProducts = () => {
     from: "/$countryCode/",
   });
 
-  const { region, countryCode, latestProducts } = loaderData || {};
-
-  if (!region) {
-    return (
-      <section className="py-20 bg-gradient-to-b from-gray-50 to-white mb-16">
-        <div className="content-container">
-          <div className="text-center text-red-600">
-            No region available. Please check your Medusa backend connection.
-          </div>
-        </div>
-      </section>
-    );
-  }
+  const { region, countryCode, latestProducts } = loaderData;
 
   if (latestProducts.length === 0) {
     return <></>

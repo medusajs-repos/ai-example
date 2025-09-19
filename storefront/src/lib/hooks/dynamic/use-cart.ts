@@ -18,7 +18,6 @@ export const useCart = () => {
   return useQuery({
     queryKey: ["cart"],
     queryFn: () => retrieveCart(),
-    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 };
 
@@ -49,17 +48,9 @@ export const useAddToCart = () => {
 
   return useMutation({
     mutationFn: addToCart,
-    onSuccess: async (updatedCart) => {
-      // Update the cache immediately with the returned cart data
-      if (updatedCart) {
-        queryClient.setQueryData(["cart"], updatedCart);
-      }
-
-      // Also invalidate to ensure fresh data on next fetch
-      await queryClient.invalidateQueries({ queryKey: ["cart"] });
-    },
-    onError: (error) => {
-      console.error("Add to cart mutation error:", error);
+    onSuccess: (updatedCart) => {
+      // Update the cache with the fresh data from the server
+      queryClient.setQueryData(["cart"], updatedCart);
     },
   });
 };
@@ -69,17 +60,9 @@ export const useUpdateLineItem = () => {
 
   return useMutation({
     mutationFn: updateLineItem,
-    onSuccess: async (cart) => {
-      // Update the cache immediately with the returned cart data
-      if (cart) {
-        queryClient.setQueryData(["cart"], cart);
-      }
-
-      // Also invalidate to ensure fresh data on next fetch
-      await queryClient.invalidateQueries({ queryKey: ["cart"] });
-    },
-    onError: (error) => {
-      console.error("Update item mutation error:", error);
+    onSuccess: (cart) => {
+      // Update the cache with the fresh data from the server
+      queryClient.setQueryData(["cart"], cart);
     },
   });
 };
@@ -89,17 +72,9 @@ export const useDeleteLineItem = () => {
 
   return useMutation({
     mutationFn: deleteLineItem,
-    onSuccess: async (cart) => {
-      // Update the cache immediately with the returned cart data
-      if (cart) {
-        queryClient.setQueryData(["cart"], cart);
-      }
-
-      // Also invalidate to ensure fresh data on next fetch
+    onSuccess: async () => {
+      // invalidate to ensure fresh data on next fetch
       await queryClient.invalidateQueries({ queryKey: ["cart"] });
-    },
-    onError: (error) => {
-      console.error("Delete item mutation error:", error);
     },
   });
 };
@@ -109,17 +84,9 @@ export const useSetAddresses = () => {
 
   return useMutation({
     mutationFn: (formData: FormData) => setAddresses(null, formData),
-    onSuccess: async (cart) => {
-      // Update the cache immediately with the returned cart data
-      if (cart) {
-        queryClient.setQueryData(["cart"], cart);
-      }
-
-      // Also invalidate to ensure fresh data on next fetch
-      await queryClient.invalidateQueries({ queryKey: ["cart"] });
-    },
-    onError: (error) => {
-      console.error("Set addresses mutation error:", error);
+    onSuccess: (cart) => {
+      // Update the cache with the fresh data from the server
+      queryClient.setQueryData(["cart"], cart);
     },
   });
 };
@@ -143,9 +110,6 @@ export const useCompleteOrder = () => {
 
       return order;
     },
-    onError: (error) => {
-      console.error("Complete order error:", error);
-    },
   });
 };
 
@@ -154,17 +118,9 @@ export const useApplyPromoCode = () => {
 
   return useMutation({
     mutationFn: applyPromoCode,
-    onSuccess: async (cart) => {
-      // Update the cache immediately with the returned cart data
-      if (cart) {
-        queryClient.setQueryData(["cart"], cart);
-      }
-
-      // Also invalidate to ensure fresh data on next fetch
-      await queryClient.invalidateQueries({ queryKey: ["cart"] });
-    },
-    onError: (error) => {
-      console.error("Apply promo code mutation error:", error);
+    onSuccess: (cart) => {
+      // Update the cache with the fresh data from the server
+      queryClient.setQueryData(["cart"], cart);
     },
   });
 };
@@ -174,17 +130,9 @@ export const useRemovePromoCode = () => {
 
   return useMutation({
     mutationFn: removePromoCode,
-    onSuccess: async (cart) => {
-      // Update the cache immediately with the returned cart data
-      if (cart) {
-        queryClient.setQueryData(["cart"], cart);
-      }
-
-      // Also invalidate to ensure fresh data on next fetch
-      await queryClient.invalidateQueries({ queryKey: ["cart"] });
-    },
-    onError: (error) => {
-      console.error("Remove promo code mutation error:", error);
+    onSuccess: (cart) => {
+      // Update the cache with the fresh data from the server
+      queryClient.setQueryData(["cart"], cart);
     },
   });
 };

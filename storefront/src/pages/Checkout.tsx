@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useLocation } from "@tanstack/react-router"
-import { useCart } from "@/lib/hooks/use-cart"
+import { useCart } from "@/lib/hooks/dynamic/use-cart"
 import { getCountryCodeFromPath } from "@/lib/utils/regions"
 import { Heading, Text, Button } from "@medusajs/ui"
 import DeliveryStep from "@/components/delivery-step"

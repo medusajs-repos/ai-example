@@ -53,7 +53,7 @@ export const Route = createFileRoute("/$countryCode/categories/$handle")({
       queryFn: () => getRegion(countryCode),
     });
 
-    if (!region) {
+    if (!region || !handle) {
       throw notFound();
     }
 

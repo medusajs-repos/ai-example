@@ -12,22 +12,12 @@ export const retrieveCart = async (
     return null;
   }
 
-  try {
-    const { cart } = await sdk.store.cart.retrieve(id, {
-      fields:
-        "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name",
-    });
+  const { cart } = await sdk.store.cart.retrieve(id, {
+    fields:
+      "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name",
+  });
 
-    console.log(cart)
-
-    return cart;
-  } catch (error) {
-    if (!cartId) {
-      removeCartId();
-    }
-
-    return null;
-  }
+  return cart;
 };
 
 export const getOrSetCart = async (
