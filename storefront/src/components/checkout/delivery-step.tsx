@@ -1,7 +1,7 @@
 import {
   useSetShippingMethod,
   useShippingOptions,
-} from "@/lib/hooks/use-shipping";
+} from "@/lib/hooks/dynamic/use-shipping";
 import { Clock, MapPin, TruckFast, Loader } from "@medusajs/icons";
 import { HttpTypes } from "@medusajs/types";
 import { Badge, Button, Heading, Text } from "@medusajs/ui";

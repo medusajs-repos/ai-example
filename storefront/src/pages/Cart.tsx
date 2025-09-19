@@ -4,7 +4,7 @@ import CartDetailsLoading from "@/components/cart/cart-details-loading";
 import { lazy, Suspense } from "react";
 
 const CartItem = lazy(() => import("@/components/cart/cart-item"));
-const CartSummary = lazy(() => import("@/components/cart-summary"));
+const CartSummary = lazy(() => import("@/components/cart/cart-summary"));
 
 const Cart = () => {
   const { region, countryCode } = useLoaderData({

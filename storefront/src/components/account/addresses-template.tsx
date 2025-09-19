@@ -2,7 +2,7 @@ import { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
 import { useState } from "react"
 import { Plus, EllipsisHorizontal } from "@medusajs/icons"
-import { useCreateAddress, useUpdateAddress, useDeleteAddress } from "@/lib/hooks/use-address"
+import { useCreateAddress, useUpdateAddress, useDeleteAddress } from "@/lib/hooks/dynamic/use-address"
 import AddressForm from "@/components/account/address-form"
 import AccountContainer from "@/components/account/account-container"
 

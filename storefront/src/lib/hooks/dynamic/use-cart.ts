@@ -18,6 +18,7 @@ export const useCart = () => {
   return useQuery({
     queryKey: ["cart"],
     queryFn: () => retrieveCart(),
+    staleTime: 0
   });
 };
 

@@ -1,227 +1,275 @@
-import { useCompleteOrder } from "@/lib/hooks/dynamic/use-cart";
-import { CheckCircleSolid } from "@medusajs/icons";
-import { HttpTypes } from "@medusajs/types";
-import { Heading } from "@medusajs/ui";
-import { useNavigate } from "@tanstack/react-router";
-import { useCallback, useState } from "react";
+import { HttpTypes } from "@medusajs/types"
+import { CheckCircleSolid, ShoppingBag } from "@medusajs/icons"
+import { Button, Heading, Text } from "@medusajs/ui"
+import { useMemo } from "react"
+import { convertToLocale } from "@/lib/utils/money"
+import { paymentInfoMap } from "@/lib/constants"
+import PaymentButton from "@/components/payment-button"
 
 interface ReviewStepProps {
-  cart: HttpTypes.StoreCart;
-  isActive: boolean;
-  countryCode?: string | null;
+  cart: HttpTypes.StoreCart
+  onBack: () => void
 }
 
-const ReviewStep = ({ cart, isActive, countryCode }: ReviewStepProps) => {
-  const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
-  const completeOrder = useCompleteOrder();
+const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
+  const paidByGiftcard = (cart as any)?.gift_cards && 
+    (cart as any)?.gift_cards?.length > 0 && 
+    (cart as any)?.total === 0
 
-  const handleCompleteOrder = useCallback(async () => {
-    setError(null);
+  const previousStepsCompleted = useMemo(() => {
+    return Boolean(
+      cart?.shipping_address &&
+      (cart?.shipping_methods?.length || 0) > 0 &&
+      (cart?.payment_collection?.payment_sessions?.length || paidByGiftcard)
+    )
+  }, [cart, paidByGiftcard])
 
-    try {
-      // Use the hook which will automatically clear cache on success
-      const order = await completeOrder.mutateAsync(undefined, {
-        context: { regionId: cart.region?.id }
-      });
-      
-      // Navigate to order confirmation page
-      const baseHref = countryCode ? `/${countryCode}` : '';
-      navigate({ 
-        to: `${baseHref}/order/${order.id}/confirmed` as any,
-        replace: true 
-      });
-    } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "An error occurred while completing your order"
-      );
-    }
-  }, [navigate, countryCode, completeOrder, cart.region?.id]);
-
-  const canCompleteOrder = Boolean(
-    cart.shipping_address &&
-      cart.shipping_methods?.length &&
-      cart.payment_sessions?.length &&
-      cart.items?.length
-  );
+  if (!previousStepsCompleted) {
+    return (
+      <div className="bg-white p-8 rounded-lg border border-ui-border-base">
+        <div className="flex items-center gap-3 mb-6">
+          <ShoppingBag className="text-ui-fg-base" />
+          <Heading level="h2">Review</Heading>
+        </div>
+        <div className="text-center py-8">
+          <Text className="text-ui-fg-subtle mb-4">
+            Please complete all previous steps before reviewing your order.
+          </Text>
+          <Button variant="secondary" onClick={onBack}>
+            ← Back to Payment
+          </Button>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className="bg-white">
+    <div className="bg-white p-8 rounded-lg border border-ui-border-base">
       <div className="flex flex-row items-center justify-between mb-6">
         <Heading
           level="h2"
-          className="flex flex-row txt-xlarge-plus-regular gap-x-2 items-baseline"
+          className="flex flex-row txt-xlarge-plus-regular gap-x-2 items-center"
         >
-          Review
-          {isActive && canCompleteOrder && <CheckCircleSolid />}
+          Review Order
+          <CheckCircleSolid className="text-green-500" />
         </Heading>
       </div>
 
-      {isActive ? (
+      <div className="space-y-8">
+        {/* Order Summary */}
         <div>
-          {!canCompleteOrder ? (
-            <div className="pb-8">
-              <div className="text-ui-fg-subtle txt-smallall-regular">
-                Please complete all previous steps to review your order.
-              </div>
-
-              {/* Show what's missing */}
-              <div className="mt-4 space-y-2">
-                {!cart.shipping_address && (
-                  <div className="text-red-500 txt-smallall-regular">
-                    • Shipping address required
-                  </div>
-                )}
-                {!cart.shipping_methods?.length && (
-                  <div className="text-red-500 txt-smallall-regular">
-                    • Delivery method required
-                  </div>
-                )}
-                {!cart.payment_sessions?.length && (
-                  <div className="text-red-500 txt-smallall-regular">
-                    • Payment method required
-                  </div>
-                )}
-                {!cart.items?.length && (
-                  <div className="text-red-500 txt-smallall-regular">
-                    • Cart is empty
-                  </div>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div className="pb-8">
-              <div className="txt-smallall-regular text-ui-fg-subtle mb-6">
-                By clicking "Complete order" you agree to our terms and
-                conditions.
-              </div>
-
-              {/* Order Summary */}
-              <div className="space-y-6">
-                {/* Items */}
-                <div>
-                  <h3 className="txt-medium-semi text-ui-fg-base mb-4">Items</h3>
-                  <div className="space-y-3">
-                    {cart.items?.map((item) => (
-                      <div key={item.id} className="flex items-center gap-4">
-                        <div className="w-12 h-12 flex-shrink-0">
-                          {item.variant?.product?.thumbnail ||
-                          item.thumbnail ? (
-                            <img
-                              src={
-                                item.variant?.product?.thumbnail ||
-                                item.thumbnail ||
-                                ""
-                              }
-                              alt={item.title}
-                              className="w-full h-full object-cover rounded"
-                            />
-                          ) : (
-                            <div className="w-full h-full bg-ui-bg-subtle rounded flex items-center justify-center">
-                              <span className="txt-xsmall text-ui-fg-muted">
-                                No image
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                        <div className="flex-1">
-                          <div className="txt-medium-regular text-ui-fg-base">
-                            {item.title}
-                          </div>
-                          {item.variant && item.variant.title !== "Default" && (
-                            <div className="txt-smallall-regular text-ui-fg-subtle">
-                              {item.variant.title}
-                            </div>
-                          )}
-                          <div className="txt-smallall-regular text-ui-fg-subtle">
-                            Quantity: {item.quantity}
-                          </div>
-                        </div>
-                        <div className="txt-medium-regular text-ui-fg-base">
-                          {item.total
-                            ? `$${item.total.toFixed(2)}`
-                            : `$${(
-                                (item.unit_price || 0) * item.quantity
-                              ).toFixed(2)}`}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+          <Heading level="h3" className="txt-large-plus mb-4">
+            Order Summary
+          </Heading>
+          <div className="space-y-4">
+            {cart.items?.map((item) => (
+              <div key={item.id} className="flex items-center gap-4 py-3 border-b border-ui-border-base last:border-b-0">
+                <div className="w-16 h-16 flex-shrink-0">
+                  {item.variant?.product?.thumbnail || item.thumbnail ? (
+                    <img
+                      src={item.variant?.product?.thumbnail || item.thumbnail || ''}
+                      alt={item.title}
+                      className="w-full h-full object-cover rounded"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-ui-bg-subtle rounded flex items-center justify-center">
+                      <span className="txt-xsmall text-ui-fg-muted">No image</span>
+                    </div>
+                  )}
                 </div>
+                <div className="flex-1">
+                  <Text className="txt-medium-plus text-ui-fg-base">{item.title}</Text>
+                  {item.variant && item.variant.title !== "Default" && (
+                    <Text className="txt-small text-ui-fg-subtle">
+                      {item.variant.title}
+                    </Text>
+                  )}
+                  <Text className="txt-small text-ui-fg-subtle">
+                    Quantity: {item.quantity}
+                  </Text>
+                </div>
+                <div className="text-right">
+                  <Text className="txt-medium-plus">
+                    {item.total ? (
+                      convertToLocale({
+                        amount: item.total,
+                        currency_code: cart.currency_code || 'USD'
+                      })
+                    ) : (
+                      convertToLocale({
+                        amount: (item.unit_price || 0) * item.quantity,
+                        currency_code: cart.currency_code || 'USD'
+                      })
+                    )}
+                  </Text>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
-                {/* Delivery */}
-                {cart.shipping_address && (
-                  <div>
-                    <h3 className="txt-medium-semi text-ui-fg-base mb-4">
-                      Delivery
-                    </h3>
-                    <div className="txt-smallall-regular text-ui-fg-base">
-                      <div>
-                        {cart.shipping_address.first_name}{" "}
-                        {cart.shipping_address.last_name}
-                      </div>
-                      <div>
-                        {cart.shipping_address.address_1}{" "}
-                        {cart.shipping_address.address_2}
-                      </div>
-                      <div>
-                        {cart.shipping_address.postal_code},{" "}
-                        {cart.shipping_address.city}
-                      </div>
-                      <div>
-                        {cart.shipping_address.country_code?.toUpperCase()}
-                      </div>
-                      {cart.shipping_methods?.[0] && (
-                        <div className="mt-2 text-ui-fg-subtle">
-                          via {cart.shipping_methods[0].name}
-                        </div>
+        {/* Delivery Information */}
+        {cart.shipping_address && (
+          <div>
+            <Heading level="h3" className="txt-large-plus mb-4">
+              Delivery Information
+            </Heading>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <Text className="txt-medium-plus text-ui-fg-base mb-2">Shipping Address</Text>
+                <div className="txt-small text-ui-fg-subtle">
+                  <div>{cart.shipping_address.first_name} {cart.shipping_address.last_name}</div>
+                  <div>{cart.shipping_address.address_1} {cart.shipping_address.address_2}</div>
+                  <div>{cart.shipping_address.postal_code}, {cart.shipping_address.city}</div>
+                  <div>{cart.shipping_address.country_code?.toUpperCase()}</div>
+                </div>
+              </div>
+              
+              {cart.shipping_methods?.[0] && (
+                <div>
+                  <Text className="txt-medium-plus text-ui-fg-base mb-2">Shipping Method</Text>
+                  <div className="txt-small text-ui-fg-subtle">
+                    <div>{cart.shipping_methods[0].name}</div>
+                    <div>
+                      {cart.shipping_methods[0].amount ? (
+                        convertToLocale({
+                          amount: cart.shipping_methods[0].amount,
+                          currency_code: cart.currency_code || 'USD'
+                        })
+                      ) : (
+                        'Free'
                       )}
                     </div>
                   </div>
-                )}
-
-                {/* Payment */}
-                {cart.payment_sessions?.length && (
-                  <div>
-                    <h3 className="txt-medium-semi text-ui-fg-base mb-4">
-                      Payment
-                    </h3>
-                    <div className="txt-smallall-regular text-ui-fg-base">
-                      {cart.payment_sessions[0].provider_id === "stripe"
-                        ? "Credit Card"
-                        : cart.payment_sessions[0].provider_id}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex items-center justify-between mt-8">
-                <button
-                  onClick={handleCompleteOrder}
-                  disabled={completeOrder.isPending}
-                  className="bg-ui-bg-interactive text-white px-8 py-3 txt-medium-regular hover:bg-ui-bg-interactive-hover disabled:opacity-50"
-                  data-testid="complete-order-button"
-                >
-                  {completeOrder.isPending ? "Processing..." : "Complete order"}
-                </button>
-              </div>
-
-              {error && (
-                <div
-                  className="text-red-500 txt-small mt-4"
-                  data-testid="review-error-message"
-                >
-                  {error}
                 </div>
               )}
             </div>
-          )}
-        </div>
-      ) : null}
-    </div>
-  );
-};
+          </div>
+        )}
 
-export default ReviewStep;
+        {/* Payment Information */}
+        <div>
+          <Heading level="h3" className="txt-large-plus mb-4">
+            Payment Information
+          </Heading>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <Text className="txt-medium-plus text-ui-fg-base mb-2">Payment Method</Text>
+              <div className="txt-small text-ui-fg-subtle">
+                {cart.payment_collection?.payment_sessions?.[0] && (
+                  <div className="flex items-center gap-2">
+                    <span>{paymentInfoMap[cart.payment_collection?.payment_sessions[0].provider_id]?.title || cart.payment_collection?.payment_sessions[0].provider_id}</span>
+                    {paymentInfoMap[cart.payment_collection?.payment_sessions[0].provider_id]?.icon}
+                  </div>
+                )}
+                {paidByGiftcard && <span>Gift Card</span>}
+              </div>
+            </div>
+            
+            <div>
+              <Text className="txt-medium-plus text-ui-fg-base mb-2">Billing Address</Text>
+              <div className="txt-small text-ui-fg-subtle">
+                {cart.billing_address ? (
+                  <>
+                    <div>{cart.billing_address.first_name} {cart.billing_address.last_name}</div>
+                    <div>{cart.billing_address.address_1} {cart.billing_address.address_2}</div>
+                    <div>{cart.billing_address.postal_code}, {cart.billing_address.city}</div>
+                    <div>{cart.billing_address.country_code?.toUpperCase()}</div>
+                  </>
+                ) : (
+                  <span>Same as shipping address</span>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Order Totals */}
+        <div className="border-t border-ui-border-base pt-6">
+          <div className="space-y-2">
+            <div className="flex justify-between txt-small">
+              <span className="text-ui-fg-subtle">Subtotal</span>
+              <span>
+                {convertToLocale({
+                  amount: cart.subtotal || 0,
+                  currency_code: cart.currency_code || 'USD'
+                })}
+              </span>
+            </div>
+            
+            {(cart.discount_total || 0) > 0 && (
+              <div className="flex justify-between txt-small">
+                <span className="text-ui-fg-subtle">Discount</span>
+                <span className="text-red-500">
+                  -{convertToLocale({
+                    amount: cart.discount_total || 0,
+                    currency_code: cart.currency_code || 'USD'
+                  })}
+                </span>
+              </div>
+            )}
+            
+            {(cart.shipping_total || 0) > 0 && (
+              <div className="flex justify-between txt-small">
+                <span className="text-ui-fg-subtle">Shipping</span>
+                <span>
+                  {convertToLocale({
+                    amount: cart.shipping_total || 0,
+                    currency_code: cart.currency_code || 'USD'
+                  })}
+                </span>
+              </div>
+            )}
+            
+            {(cart.tax_total || 0) > 0 && (
+              <div className="flex justify-between txt-small">
+                <span className="text-ui-fg-subtle">Taxes</span>
+                <span>
+                  {convertToLocale({
+                    amount: cart.tax_total || 0,
+                    currency_code: cart.currency_code || 'USD'
+                  })}
+                </span>
+              </div>
+            )}
+            
+            <div className="border-t border-ui-border-base pt-2">
+              <div className="flex justify-between txt-medium-plus">
+                <span>Total</span>
+                <span>
+                  {convertToLocale({
+                    amount: cart.total || 0,
+                    currency_code: cart.currency_code || 'USD'
+                  })}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Terms and Conditions */}
+        <div className="bg-ui-bg-subtle p-4 rounded border">
+          <Text className="txt-small text-ui-fg-base">
+            By clicking "Place Order" below, you confirm that you have read, understand and accept our{" "}
+            <span className="text-ui-fg-interactive hover:underline cursor-pointer">Terms of Use</span>,{" "}
+            <span className="text-ui-fg-interactive hover:underline cursor-pointer">Terms of Sale</span> and{" "}
+            <span className="text-ui-fg-interactive hover:underline cursor-pointer">Returns Policy</span> and{" "}
+            acknowledge that you have read our{" "}
+            <span className="text-ui-fg-interactive hover:underline cursor-pointer">Privacy Policy</span>.
+          </Text>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex items-center justify-between pt-4">
+          <Button variant="secondary" onClick={onBack}>
+            ← Back to Payment
+          </Button>
+          
+          <PaymentButton cart={cart} />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default ReviewStep

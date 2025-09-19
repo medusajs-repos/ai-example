@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react"
-import { useLocation } from "@tanstack/react-router"
+import { useState, useEffect, lazy } from "react"
+import { useLoaderData } from "@tanstack/react-router"
 import { useCart } from "@/lib/hooks/dynamic/use-cart"
-import { getCountryCodeFromPath } from "@/lib/utils/regions"
 import { Heading, Text, Button } from "@medusajs/ui"
-import DeliveryStep from "@/components/delivery-step"
-import AddressStep from "@/components/address-step"
-import PaymentStep from "@/components/payment-step"
-import ReviewStep from "@/components/review-step"
+import { Loading } from "../components/common"
+import { convertToLocale } from "../lib/utils/money"
+
+const DeliveryStep = lazy(() => import("@/components/checkout/delivery-step"))
+const AddressStep = lazy(() => import("@/components/checkout/address-step"))
+const PaymentStep = lazy(() => import("@/components/checkout/payment-step"))
+const ReviewStep = lazy(() => import("@/components/checkout/review-step"))
 
 enum CheckoutStep {
   ADDRESS = "address",
@@ -16,40 +18,36 @@ enum CheckoutStep {
 }
 
 const Checkout = () => {
+  const { countryCode } = useLoaderData({
+    from: "/$countryCode/checkout",
+  })
   const { data: cart, isLoading } = useCart()
   const [currentStep, setCurrentStep] = useState<CheckoutStep>(CheckoutStep.ADDRESS)
-  const location = useLocation()
-  const countryCode = getCountryCodeFromPath(location.pathname)
-  const baseHref = countryCode ? `/${countryCode}` : ''
 
   // Check if cart has items
   const itemCount = cart?.items?.reduce((total, item) => total + item.quantity, 0) || 0
 
   useEffect(() => {
     // Determine which step to show based on cart state
-    if (cart?.shipping_address && cart?.billing_address && cart?.email) {
-      if (cart?.shipping_methods?.length > 0) {
-        if (cart?.payment_sessions?.length || cart?.payment_collection) {
-          setCurrentStep(CheckoutStep.REVIEW)
-        } else {
-          setCurrentStep(CheckoutStep.PAYMENT)
-        }
-      } else {
-        setCurrentStep(CheckoutStep.DELIVERY)
-      }
-    } else {
+    if (!cart) return;
+    if (!cart.shipping_address || !cart.billing_address || !cart.email) {
       setCurrentStep(CheckoutStep.ADDRESS)
+      return;
     }
+    if (!cart.shipping_methods?.length) {
+      setCurrentStep(CheckoutStep.DELIVERY)
+      return;
+    }
+    if (!cart.payment_collection?.payment_sessions?.length) {
+      setCurrentStep(CheckoutStep.PAYMENT)
+      return;
+    }
+    setCurrentStep(CheckoutStep.REVIEW)
   }, [cart])
 
   if (isLoading) {
-    return (
-      <div className="content-container py-8">
-        <div className="flex items-center justify-center h-64">
-          <div className="text-lg text-ui-fg-subtle">Loading checkout...</div>
-        </div>
-      </div>
-    )
+    // TODO add checkout loading
+    return <Loading />
   }
 
   if (!cart || itemCount === 0) {
@@ -61,7 +59,7 @@ const Checkout = () => {
             Add some items to your cart before checking out.
           </Text>
           <Button asChild>
-            <a href={`${baseHref}/store`}>Continue Shopping</a>
+            <a href={`/${countryCode}/store`}>Continue Shopping</a>
           </Button>
         </div>
       </div>
@@ -69,10 +67,25 @@ const Checkout = () => {
   }
 
   const steps = [
-    { key: CheckoutStep.ADDRESS, title: "Address", completed: !!(cart?.shipping_address && cart?.billing_address) },
-    { key: CheckoutStep.DELIVERY, title: "Delivery", completed: !!(cart?.shipping_methods && cart?.shipping_methods.length > 0) },
-    { key: CheckoutStep.PAYMENT, title: "Payment", completed: !!(cart?.payment_sessions?.length || cart?.payment_collection?.payment_sessions?.length) },
-    { key: CheckoutStep.REVIEW, title: "Review", completed: false },
+    { 
+      key: CheckoutStep.ADDRESS, 
+      title: "Address", 
+      completed: !!(cart?.shipping_address && cart?.billing_address)
+    },
+    { 
+      key: CheckoutStep.DELIVERY, title: "Delivery", 
+      completed: !!(cart?.shipping_methods && cart?.shipping_methods.length > 0)
+    },
+    { 
+      key: CheckoutStep.PAYMENT, 
+      title: "Payment", 
+      completed: !!(cart?.payment_collection?.payment_sessions?.length)
+    },
+    { 
+      key: CheckoutStep.REVIEW, 
+      title: "Review", 
+      completed: false
+    },
   ]
 
   const currentStepIndex = steps.findIndex(step => step.key === currentStep)
@@ -161,8 +174,7 @@ const Checkout = () => {
           {currentStep === CheckoutStep.REVIEW && (
             <ReviewStep
               cart={cart}
-              isActive={true}
-              countryCode={countryCode}
+              onBack={handleBack}
             />
           )}
         </div>
@@ -177,9 +189,9 @@ const Checkout = () => {
             {cart.items?.map((item) => (
               <div key={item.id} className="flex items-center gap-4">
                 <div className="w-16 h-16 bg-ui-bg-subtle rounded-lg overflow-hidden">
-                  {item.variant?.product?.thumbnail || item.product?.thumbnail ? (
+                  {item.thumbnail ? (
                     <img
-                      src={item.variant?.product?.thumbnail || item.product?.thumbnail}
+                      src={item.thumbnail || ''}
                       alt={item.product?.title || 'Product'}
                       className="w-full h-full object-cover"
                     />
@@ -198,10 +210,10 @@ const Checkout = () => {
                   </Text>
                 </div>
                 <Text className="txt-medium-plus">
-                  {new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: cart.currency_code || 'USD'
-                  }).format((item.unit_price || 0))}
+                  {convertToLocale({
+                    amount: item.unit_price || 0,
+                    currency_code: cart.currency_code || 'USD'
+                  })}
                 </Text>
               </div>
             ))}
@@ -211,30 +223,30 @@ const Checkout = () => {
             <div className="flex justify-between">
               <Text>Subtotal</Text>
               <Text>
-                {new Intl.NumberFormat('en-US', {
-                  style: 'currency',
-                  currency: cart.currency_code || 'USD'
-                }).format(subtotal)}
+                {convertToLocale({
+                  amount: subtotal,
+                  currency_code: cart.currency_code || 'USD'
+                })}
               </Text>
             </div>
             {shippingTotal > 0 && (
               <div className="flex justify-between">
                 <Text>Shipping</Text>
                 <Text>
-                  {new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: cart.currency_code || 'USD'
-                  }).format(shippingTotal)}
+                  {convertToLocale({
+                    amount: shippingTotal,
+                    currency_code: cart.currency_code || 'USD'
+                  })}
                 </Text>
               </div>
             )}
             <div className="flex justify-between txt-large-plus pt-2 border-t border-ui-border-base">
               <Text>Total</Text>
               <Text>
-                {new Intl.NumberFormat('en-US', {
-                  style: 'currency',
-                  currency: cart.currency_code || 'USD'
-                }).format(total)}
+                {convertToLocale({
+                  amount: total,
+                  currency_code: cart.currency_code || 'USD'
+                })}
               </Text>
             </div>
           </div>

@@ -18,7 +18,7 @@ export const useShippingOptions = (cartId?: string) => {
       return shipping_options;
     },
     enabled: !!cartId || !!getCartId(),
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 0
   });
 };
 
@@ -29,13 +29,8 @@ export const useSetShippingMethod = () => {
     mutationFn: setShippingMethod,
     onSuccess: async (cart) => {
       // Update the cart cache
-      if (cart) {
-        queryClient.setQueryData(["cart"], cart);
-      }
-
-      // Invalidate shipping options as they may change
+      queryClient.setQueryData(["cart"], cart);
       await queryClient.invalidateQueries({ queryKey: ["shipping-options"] });
-      await queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
   });
 };

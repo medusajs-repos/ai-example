@@ -61,7 +61,7 @@ const CartSummary = ({ cart, region, countryCode }: CartSummaryProps) => {
         </div>
         
         <Link
-          to={`${countryCode}/checkout` as any}
+          to={`/${countryCode}/checkout` as any}
           className="w-full bg-ui-fg-base text-ui-fg-on-color py-3 rounded txt-small font-medium hover:bg-ui-fg-subtle transition-colors disabled:opacity-50 block text-center"
           style={{ 
             pointerEvents: !cart.items?.length ? 'none' : 'auto',
