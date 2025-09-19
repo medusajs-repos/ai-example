@@ -2,11 +2,11 @@ import { useLoaderData } from "@tanstack/react-router";
 import ProductListing from "../components/product/product-listing";
 
 const Store = () => {
-  const { region: defaultRegion, products } = useLoaderData({
+  const { region: defaultRegion } = useLoaderData({
     from: "/$countryCode/store"
   });
 
-  return <ProductListing products={products} region={defaultRegion} title="All Products" />
+  return <ProductListing region={defaultRegion} title="All Products" />
 };
 
 export default Store;

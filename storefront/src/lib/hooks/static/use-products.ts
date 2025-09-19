@@ -11,13 +11,14 @@ export const useProducts = ({
 } = {}) => {
   return useInfiniteQuery({
     queryKey: ["products", queryParams, regionId],
-    queryFn: ({ pageParam = 1 }) =>
+    queryFn: ({ pageParam }) =>
       listProducts({
         pageParam,
         queryParams,
         regionId,
       }),
     getNextPageParam: (lastPage) => lastPage.nextPage,
+    getPreviousPageParam: (firstPage) => firstPage.nextPage,
     initialPageParam: 1,
     enabled: !!regionId,
   })

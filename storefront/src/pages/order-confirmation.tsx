@@ -1,16 +1,11 @@
-import { getCountryCodeFromPath } from "@/lib/utils/regions";
 import { CheckCircleSolid, ShoppingBag } from "@medusajs/icons";
 import { Button, Heading, Text } from "@medusajs/ui";
-import { Link, useLocation, useParams } from "@tanstack/react-router";
+import { Link, useLoaderData } from "@tanstack/react-router";
 
 const OrderConfirmation = () => {
-  const params = useParams({ strict: false });
-  const location = useLocation();
-  const countryCode = getCountryCodeFromPath(location.pathname);
-  const baseHref = countryCode ? `/${countryCode}` : "";
-
-  // Get order ID from params - could be from either route pattern
-  const orderId = params.orderId;
+  const { countryCode, order } = useLoaderData({
+    from: "/$countryCode/order/$orderId/confirmed"
+  });
 
   return (
     <div className="content-container py-12 max-w-2xl mx-auto">
@@ -36,11 +31,11 @@ const OrderConfirmation = () => {
             <ShoppingBag className="w-5 h-5 text-ui-fg-base" />
             <Text className="font-medium text-ui-fg-base">Order Number</Text>
           </div>
-          <Text className="txt-small-plus text-ui-fg-base">#{orderId}</Text>
+          <Text className="txt-small-plus text-ui-fg-base">#{order.id}</Text>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link to={`${baseHref}/store`}>
+          <Link to={`/${countryCode}/store` as any}>
             <Button variant="secondary" className="w-full sm:w-auto">
               Continue Shopping
             </Button>

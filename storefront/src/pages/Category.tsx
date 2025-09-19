@@ -4,7 +4,6 @@ import ProductListing from "@/components/product/product-listing";
 const Category = () => {
   const {
     category,
-    products,
     region
   } = useLoaderData({
     from: "/$countryCode/categories/$handle",
@@ -15,7 +14,13 @@ const Category = () => {
     "Category";
 
   return (
-    <ProductListing products={products} region={region} title={categoryDisplayName} />
+    <ProductListing 
+      region={region} 
+      title={categoryDisplayName} 
+      queryParams={{
+        category_id: category?.id,
+      }}
+    />
   )
 };
 

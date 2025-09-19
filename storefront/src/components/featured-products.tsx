@@ -1,14 +1,19 @@
 import { Link, useLoaderData } from "@tanstack/react-router";
 import ProductCard from "@/components/product/product-card";
+import { useLatestProducts } from "../lib/hooks/static/use-products";
 
 const FeaturedProducts = () => {
   const loaderData = useLoaderData({
     from: "/$countryCode/",
   });
 
-  const { region, countryCode, latestProducts } = loaderData;
+  const { region, countryCode } = loaderData;
+  
+  const { data: latestProducts } = useLatestProducts({
+    regionId: region.id,
+  });
 
-  if (latestProducts.length === 0) {
+  if (!latestProducts?.products.length) {
     return <></>
   }
 
@@ -24,7 +29,7 @@ const FeaturedProducts = () => {
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {latestProducts.map((product) => (
+          {latestProducts.products.map((product) => (
             <div
               key={product.id}
               className="transform transition-transform duration-300"
