@@ -4,6 +4,7 @@ import sortProducts, { type ProductSortOptions } from "../../lib/utils/products/
 import { useProducts } from "../../lib/hooks/static/use-products";
 import { Loading } from "../common";
 import ProductCard from "@/components/product/product-card";
+import ProductListingLoading from "@/components/product/product-listing-loading";
 
 const RefinementList = lazy(() => import("@/components/product/refinement-list"));
 const Pagination = lazy(() => import("@/components/common/pagination"));
@@ -57,8 +58,7 @@ const ProductListing = ({ region, title, queryParams }: ProductListProps) => {
   }, [data?.pages, sortBy]);
 
   if (isFetching) {
-    // TODO add skeleton loading
-    return <Loading />
+    return <ProductListingLoading />
   }
 
   return (
