@@ -36,7 +36,7 @@ export default defineConfig(({ mode }) => {
   const port = parseInt(env.VITE_PORT);
   const hmrPort = parseInt(env.VITE_HMR_PORT);
   const hmrConfig = getHmrConfig(hmrPort, mode);
-  const deploymentTarget = env.VITE_DEPLOYMENT_TARGET ?? "vercel";
+  const deploymentTarget = env.VITE_DEPLOYMENT_TARGET ?? "node-server";
 
   console.log("hmrConfig", hmrConfig);
   console.log("env", env);
@@ -55,7 +55,7 @@ export default defineConfig(({ mode }) => {
           enabled: true,
           autoSubfolderIndex: true,
           // Don't crawl links in pages
-          crawlLinks: true
+          crawlLinks: false
         },
         // Load static routes from generated file if it exists
         pages: (() => {

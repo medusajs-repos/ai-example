@@ -8,6 +8,7 @@
     "build:prod": "pnpm build && pnpm preview",
     "generate:routes": "tsx scripts/generate-static-routes.ts",
     "start": "node .netlify/functions-internal/server/server.mjs",
+    "start:local": "PORT=8000 node .output/server/index.mjs",
     "preview": "vite preview",
     "debug": "node --inspect-brk node_modules/.bin/vite dev",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
