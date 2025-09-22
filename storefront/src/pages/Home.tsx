@@ -1,5 +1,7 @@
-import FeaturedProducts from "@/components/featured-products";
 import Hero from "@/components/hero";
+import { lazy } from "react";
+
+const FeaturedProducts = lazy(() => import("@/components/featured-products"));
 
 const Home = () => {
   return (

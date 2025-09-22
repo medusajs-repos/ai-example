@@ -44,7 +44,7 @@ const Layout = () => {
   }, []);
 
   return (
-    <div>
+    <div className="h-screen flex flex-col">
       <div className="sticky top-0 inset-x-0 z-50 group">
         <header className="relative h-16 mx-auto border-b duration-200 bg-ui-bg-base border-ui-border-base">
           <nav className="content-container txt-xsmall-plus text-ui-fg-subtle flex items-center justify-between w-full h-full">
@@ -103,7 +103,7 @@ const Layout = () => {
         </header>
       </div>
 
-      <main className="relative">
+      <main className="relative flex-1">
         <ErrorBoundary>
           <Outlet />
         </ErrorBoundary>

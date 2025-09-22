@@ -41,7 +41,7 @@ const DATA_DRIVEN_ROUTES = ['/products', '/categories'];
  * Fetch regions from Medusa backend
  */
 async function fetchRegions(): Promise<HttpTypes.StoreRegion[]> {
-  const response = await fetch(`${MEDUSA_BACKEND_URL}/store/regions`, {
+  const response = await fetch(`${MEDUSA_BACKEND_URL}/store/regions?limit=1000`, {
     headers: { 'x-publishable-api-key': PUBLISHABLE_KEY }
   });
   const data = await response.json();
@@ -202,6 +202,11 @@ function generateCountrySpecificDataRoutes(
   const routes: StaticRoute[] = [];
   
   for (const countryCode of countryCodes) {
+    routes.push({
+      path: `/${countryCode}/`,
+      priority: 'high',
+      lastModified: new Date().toISOString()
+    });
     // Generate country-specific category routes
     for (const category of categories) {
       if (category.handle) {
