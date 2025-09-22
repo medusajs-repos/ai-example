@@ -27,8 +27,8 @@ export const useCreateCart = () => {
 
   return useMutation({
     mutationFn: createCart,
-    onSuccess: (cart) => {
-      queryClient.setQueryData(queryKeys.cart.current(), cart);
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.cart.current() });
     },
   });
 };
@@ -38,9 +38,8 @@ export const useAddToCart = () => {
 
   return useMutation({
     mutationFn: addToCart,
-    onSuccess: (updatedCart) => {
-      // Update the cache with the fresh data from the server
-      queryClient.setQueryData(queryKeys.cart.current(), updatedCart);
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.cart.current() });
     },
   });
 };
@@ -51,8 +50,7 @@ export const useUpdateLineItem = () => {
   return useMutation({
     mutationFn: updateLineItem,
     onSuccess: (cart) => {
-      // Update the cache with the fresh data from the server
-      queryClient.setQueryData(queryKeys.cart.current(), cart);
+      queryClient.invalidateQueries({ queryKey: queryKeys.cart.current() });
     },
   });
 };
@@ -64,7 +62,7 @@ export const useDeleteLineItem = () => {
     mutationFn: deleteLineItem,
     onSuccess: async () => {
       // invalidate to ensure fresh data on next fetch
-      await queryClient.invalidateQueries({ queryKey: queryKeys.cart.all });
+      await queryClient.invalidateQueries({ queryKey: queryKeys.cart.current() });
     },
   });
 };
@@ -76,7 +74,7 @@ export const useSetAddresses = () => {
     mutationFn: (formData: FormData) => setAddresses({ prev_state: null, form_data: formData }),
     onSuccess: (cart) => {
       // Update the cache with the fresh data from the server
-      queryClient.setQueryData(queryKeys.cart.current(), cart);
+      queryClient.invalidateQueries({ queryKey: queryKeys.cart.current() });
     },
   });
 };
@@ -92,11 +90,7 @@ export const useCompleteOrder = () => {
 
       // Clear all storage data (cookies, localStorage, sessionStorage)
       clearAllStorageData();
-
-      // Force refetch the cart query to ensure UI updates immediately
-      setTimeout(() => {
-        queryClient.refetchQueries({ queryKey: queryKeys.cart.all });
-      }, 100);
+      await queryClient.refetchQueries({ queryKey: queryKeys.cart.all });
 
       return order;
     },
@@ -110,7 +104,7 @@ export const useApplyPromoCode = () => {
     mutationFn: applyPromoCode,
     onSuccess: (cart) => {
       // Update the cache with the fresh data from the server
-      queryClient.setQueryData(queryKeys.cart.current(), cart);
+      queryClient.invalidateQueries({ queryKey: queryKeys.cart.current() });
     },
   });
 };
@@ -122,7 +116,7 @@ export const useRemovePromoCode = () => {
     mutationFn: removePromoCode,
     onSuccess: (cart) => {
       // Update the cache with the fresh data from the server
-      queryClient.setQueryData(queryKeys.cart.current(), cart);
+      queryClient.invalidateQueries({ queryKey: queryKeys.cart.current() });
     },
   });
 };

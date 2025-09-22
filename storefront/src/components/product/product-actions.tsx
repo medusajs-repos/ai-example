@@ -13,7 +13,7 @@ import getVariantOptionsKeymap from "@/lib/utils/products/get-variant-options-ke
 import isVariantInStock from "@/lib/utils/products/is-variant-in-stock";
 
 const ProductMobileActions = lazy(() => import("@/components/product/product-mobile-actions"));
-const ProductPrice = lazy(() => import("@/components/product-price"));
+const ProductPrice = lazy(() => import("@/components/product/product-price"));
 const ProductOptionSelect = lazy(() => import("@/components/product/product-option-select"));
 
 type ProductActionsProps = {

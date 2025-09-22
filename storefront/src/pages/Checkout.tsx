@@ -3,12 +3,12 @@ import { useLoaderData } from "@tanstack/react-router"
 import { useCart } from "@/lib/hooks/dynamic/use-cart"
 import { Heading, Text, Button } from "@medusajs/ui"
 import { Loading } from "../components/common"
-import { convertToLocale } from "../lib/utils/money"
 
 const DeliveryStep = lazy(() => import("@/components/checkout/delivery-step"))
 const AddressStep = lazy(() => import("@/components/checkout/address-step"))
 const PaymentStep = lazy(() => import("@/components/checkout/payment-step"))
 const ReviewStep = lazy(() => import("@/components/checkout/review-step"))
+const CheckoutSummary = lazy(() => import("@/components/checkout/checkout-summary"))
 
 enum CheckoutStep {
   ADDRESS = "address",
@@ -180,77 +180,9 @@ const Checkout = () => {
         </div>
 
         {/* Right Column - Order Summary */}
-        <div className="bg-white p-6 rounded-lg border border-ui-border-base h-fit sticky top-6">
-          <Heading level="h3" className="mb-6">
-            Order Summary
-          </Heading>
-          
-          <div className="space-y-4 mb-6">
-            {cart.items?.map((item) => (
-              <div key={item.id} className="flex items-center gap-4">
-                <div className="w-16 h-16 bg-ui-bg-subtle rounded-lg overflow-hidden">
-                  {item.thumbnail ? (
-                    <img
-                      src={item.thumbnail || ''}
-                      alt={item.product?.title || 'Product'}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-ui-fg-subtle txt-xsmall">
-                      No image
-                    </div>
-                  )}
-                </div>
-                <div className="flex-1">
-                  <Text className="txt-medium-plus">
-                    {item.product?.title}
-                  </Text>
-                  <Text className="text-ui-fg-subtle txt-small">
-                    Qty: {item.quantity}
-                  </Text>
-                </div>
-                <Text className="txt-medium-plus">
-                  {convertToLocale({
-                    amount: item.unit_price || 0,
-                    currency_code: cart.currency_code || 'USD'
-                  })}
-                </Text>
-              </div>
-            ))}
-          </div>
-
-          <div className="border-t border-ui-border-base pt-4 space-y-2">
-            <div className="flex justify-between">
-              <Text>Subtotal</Text>
-              <Text>
-                {convertToLocale({
-                  amount: subtotal,
-                  currency_code: cart.currency_code || 'USD'
-                })}
-              </Text>
-            </div>
-            {shippingTotal > 0 && (
-              <div className="flex justify-between">
-                <Text>Shipping</Text>
-                <Text>
-                  {convertToLocale({
-                    amount: shippingTotal,
-                    currency_code: cart.currency_code || 'USD'
-                  })}
-                </Text>
-              </div>
-            )}
-            <div className="flex justify-between txt-large-plus pt-2 border-t border-ui-border-base">
-              <Text>Total</Text>
-              <Text>
-                {convertToLocale({
-                  amount: total,
-                  currency_code: cart.currency_code || 'USD'
-                })}
-              </Text>
-            </div>
-          </div>
-        </div>
+        <CheckoutSummary
+          cart={cart}
+        />
       </div>
     </div>
   )

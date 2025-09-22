@@ -5,7 +5,7 @@ export const listRegions = async ({
   fields,
 }: {
   fields?: string;
-}): Promise<HttpTypes.StoreRegion[]> => {
+} = {}): Promise<HttpTypes.StoreRegion[]> => {
   const { regions } = await sdk.store.region.list({ fields })
   return regions
 }

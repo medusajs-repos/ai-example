@@ -1,6 +1,6 @@
 import { Component, ErrorInfo, ReactNode } from "react";
 import { terminal } from "virtual:terminal";
-import ErrorFallback from "@/components/error-fallback";
+import ErrorFallback from "@/components/common/error-fallback";
 
 interface Props {
   children: ReactNode;

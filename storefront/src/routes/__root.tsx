@@ -1,5 +1,4 @@
-import Layout from "@/components/layout";
-import RegionRedirect from "@/components/region-redirect";
+import Layout from "@/components/layout/layout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   HeadContent,
@@ -10,7 +9,7 @@ import appCss from "@/styles/app.css?url";
 import { listRegions } from "@/lib/data/regions";
 import { lazy } from "react";
 
-const NotFound = lazy(() => import("@/components/not-found"));
+const NotFound = lazy(() => import("@/components/common/not-found"));
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -21,7 +20,7 @@ export const Route = createRootRouteWithContext<{
     // Pre-populate regions cache
     await queryClient.ensureQueryData({
       queryKey: ["regions"],
-      queryFn: listRegions,
+      queryFn: () => listRegions(),
     });
     
     return {};

@@ -8,7 +8,7 @@ const OrderDetails = () => {
   const { data: customer, isLoading: isLoadingCustomer } = useCustomer();
   const params = useParams({ strict: false });
 
-  const orderId = params.orderId!
+  const orderId = params.orderId || params.id as string
   const { data: order, isLoading: isLoadingOrder, error } = useOrder({ order_id: orderId });
 
   if (isLoadingCustomer || isLoadingOrder) {

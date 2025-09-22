@@ -1,8 +1,10 @@
 import { getCountryCodeFromPath } from "@/lib/utils/regions";
 import { HttpTypes } from "@medusajs/types";
-import { Badge, Button } from "@medusajs/ui";
+import { Badge } from "@medusajs/ui";
 import { useLocation } from "@tanstack/react-router";
 import AccountContainer from "@/components/account/account-container";
+import { Price } from "@/components/common/price";
+import Address from "@/components/common/address";
 
 interface OrderDetailsTemplateProps {
   order: HttpTypes.StoreOrder;
@@ -37,20 +39,11 @@ const OrderDetailsTemplate = ({ order }: OrderDetailsTemplateProps) => {
       <div className="flex flex-col small:flex-row small:items-start small:justify-between gap-y-6 -mt-6 mb-6">
         <div className="flex items-center gap-x-4">
           <Badge
-            variant={orderStatus.variant}
+            color={orderStatus.variant}
             className="txt-small font-medium px-3 py-1"
           >
             {orderStatus.label}
           </Badge>
-        </div>
-
-        <div className="flex gap-x-3">
-          <Button variant="secondary" size="small" className="txt-small">
-            Download Invoice
-          </Button>
-          <Button variant="secondary" size="small" className="txt-small">
-            Reorder Items
-          </Button>
         </div>
       </div>
 
@@ -62,13 +55,13 @@ const OrderDetailsTemplate = ({ order }: OrderDetailsTemplateProps) => {
         <div className="space-y-4">
           <OrderTimelineItem
             status="Order confirmed"
-            date={order.created_at!}
+            date={order.created_at as string}
             isCompleted={true}
             icon="check"
           />
           <OrderTimelineItem
             status="Payment processed"
-            date={order.created_at!}
+            date={order.created_at as string}
             isCompleted={order.payment_status === "captured"}
             icon={order.payment_status === "captured" ? "check" : "clock"}
           />
@@ -76,7 +69,7 @@ const OrderDetailsTemplate = ({ order }: OrderDetailsTemplateProps) => {
             status={getFulfillmentStatusLabel(
               order.fulfillment_status || "not_fulfilled"
             )}
-            date={order.created_at!}
+            date={order.created_at as string}
             isCompleted={
               order.fulfillment_status === "shipped" ||
               order.fulfillment_status === "delivered"
@@ -99,7 +92,7 @@ const OrderDetailsTemplate = ({ order }: OrderDetailsTemplateProps) => {
           </h2>
           <div className="space-y-6">
             {order.items?.map((item) => (
-              <OrderItem key={item.id} item={item} />
+              <OrderItem key={item.id} item={item} currencyCode={order.currency_code} />
             ))}
           </div>
         </div>
@@ -114,36 +107,37 @@ const OrderDetailsTemplate = ({ order }: OrderDetailsTemplateProps) => {
             <div className="space-y-6">
               <div className="flex items-center justify-between py-3 border-b border-ui-border-base">
                 <span className="text-ui-fg-subtle">Subtotal</span>
-                <span className="text-ui-fg-base font-medium">
-                  {order.currency_code?.toUpperCase()}{" "}
-                  {(order.subtotal || 0).toFixed(2)}
-                </span>
+                <Price 
+                  price={order.subtotal}
+                  currencyCode={order.currency_code}
+                  textClassName="txt-medium"
+                />
               </div>
               <div className="flex items-center justify-between py-3 border-b border-ui-border-base">
                 <span className="text-ui-fg-subtle">Shipping</span>
-                <span className="text-ui-fg-base font-medium">
-                  {(order.shipping_total || 0) === 0
-                    ? "Free"
-                    : `${order.currency_code?.toUpperCase()} ${(
-                        order.shipping_total || 0
-                      ).toFixed(2)}`}
-                </span>
+                <Price
+                  price={order.shipping_total}
+                  currencyCode={order.currency_code}
+                  textClassName="txt-medium"
+                />
               </div>
               <div className="flex items-center justify-between py-3 border-b border-ui-border-base">
                 <span className="text-ui-fg-subtle">Tax</span>
-                <span className="text-ui-fg-base font-medium">
-                  {order.currency_code?.toUpperCase()}{" "}
-                  {(order.tax_total || 0).toFixed(2)}
-                </span>
+                <Price
+                  price={order.tax_total}
+                  currencyCode={order.currency_code}
+                  textClassName="txt-medium"
+                />
               </div>
               <div className="border-t-2 border-ui-border-base pt-6 flex items-center justify-between">
                 <span className="txt-xlarge font-medium text-ui-fg-base">
                   Total
                 </span>
-                <span className="txt-xlarge font-medium text-ui-fg-base">
-                  {order.currency_code?.toUpperCase()}{" "}
-                  {(order.total || 0).toFixed(2)}
-                </span>
+                <Price
+                  price={order.total}
+                  currencyCode={order.currency_code}
+                  textClassName="txt-medium"
+                />
               </div>
             </div>
 
@@ -170,11 +164,13 @@ const OrderDetailsTemplate = ({ order }: OrderDetailsTemplateProps) => {
                 </div>
                 <div>
                   <div className="txt-small font-medium text-ui-fg-base capitalize">
-                    {order.payments?.[0]?.provider_id || "Card"}
+                    {order.payment_collections?.[0].payment_providers[0].id || "Card"}
                   </div>
-                  <div className="txt-xsmall text-ui-fg-subtle">
-                    •••• {order.payments?.[0]?.data?.last4 || "****"}
-                  </div>
+                  {typeof order.payment_collections?.[0].payment_sessions?.[0].data?.last4 === "string" && (
+                    <div className="txt-xsmall text-ui-fg-subtle">
+                      {order.payment_collections?.[0].payment_sessions?.[0].data?.last4}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -192,29 +188,7 @@ const OrderDetailsTemplate = ({ order }: OrderDetailsTemplateProps) => {
                   <h3 className="text-lg font-medium text-ui-fg-base mb-6">
                     Shipping Address
                   </h3>
-                  <div className="bg-ui-bg-subtle/50 rounded-lg p-4 space-y-1 txt-small">
-                    <div className="font-medium text-ui-fg-base">
-                      {order.shipping_address.first_name}{" "}
-                      {order.shipping_address.last_name}
-                    </div>
-                    <div className="text-ui-fg-subtle">
-                      {order.shipping_address.address_1}
-                      {order.shipping_address.address_2 &&
-                        `, ${order.shipping_address.address_2}`}
-                    </div>
-                    <div className="text-ui-fg-subtle">
-                      {order.shipping_address.city},{" "}
-                      {order.shipping_address.postal_code}
-                    </div>
-                    <div className="text-ui-fg-subtle">
-                      {order.shipping_address.country_code?.toUpperCase()}
-                    </div>
-                    {order.shipping_address.phone && (
-                      <div className="text-ui-fg-subtle pt-2 border-t border-ui-border-base">
-                        {order.shipping_address.phone}
-                      </div>
-                    )}
-                  </div>
+                  <Address address={order.shipping_address} />
                 </div>
 
                 {order.shipping_methods?.[0] && (
@@ -226,13 +200,11 @@ const OrderDetailsTemplate = ({ order }: OrderDetailsTemplateProps) => {
                       <span className="txt-small text-ui-fg-base">
                         {order.shipping_methods[0].name}
                       </span>
-                      <span className="txt-small font-medium text-ui-fg-base">
-                        {(order.shipping_total || 0) === 0
-                          ? "Free"
-                          : `${order.currency_code?.toUpperCase()} ${(
-                              order.shipping_total || 0
-                            ).toFixed(2)}`}
-                      </span>
+                      <Price
+                        price={order.shipping_total}
+                        currencyCode={order.currency_code}
+                        textClassName="txt-small"
+                      />
                     </div>
                   </div>
                 )}
@@ -245,7 +217,7 @@ const OrderDetailsTemplate = ({ order }: OrderDetailsTemplateProps) => {
   );
 };
 
-const OrderItem = ({ item }: { item: HttpTypes.StoreOrderLineItem }) => {
+const OrderItem = ({ item, currencyCode }: { item: HttpTypes.StoreOrderLineItem, currencyCode: string }) => {
   const productImage =
     item.variant?.product?.thumbnail ||
     item.product?.thumbnail ||
@@ -282,13 +254,11 @@ const OrderItem = ({ item }: { item: HttpTypes.StoreOrderLineItem }) => {
         </div>
       </div>
       <div className="text-right">
-        <div className="font-medium text-ui-fg-base">
-          {item.currency_code?.toUpperCase()} {(item.total || 0).toFixed(2)}
-        </div>
-        <div className="txt-small text-ui-fg-subtle">
-          {item.currency_code?.toUpperCase()}{" "}
-          {(item.unit_price || 0).toFixed(2)} each
-        </div>
+        <Price
+          price={item.total}
+          currencyCode={currencyCode}
+          textClassName="txt-small"
+        />
       </div>
     </div>
   );

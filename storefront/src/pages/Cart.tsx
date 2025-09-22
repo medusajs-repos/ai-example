@@ -53,7 +53,7 @@ const Cart = () => {
             <div className="space-y-6">
               {cartItems.map((item, index) => (
                 <div key={item.id}>
-                  <CartItem item={item} cart={cart!} region={region} />
+                  <CartItem item={item} cart={cart!} />
                   {index < cartItems.length - 1 && (
                     <hr className="border-ui-border-base mt-6" />
                   )}
@@ -63,7 +63,7 @@ const Cart = () => {
 
             {cart && (
               <div className="border-t border-ui-border-base pt-8">
-                <CartSummary cart={cart} region={region} countryCode={countryCode} />
+                <CartSummary cart={cart} countryCode={countryCode} />
               </div>
             )}
           </div>

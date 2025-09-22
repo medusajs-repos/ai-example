@@ -1,5 +1,5 @@
 import { HttpTypes } from "@medusajs/types"
-import { Button, Input, Select } from "@medusajs/ui"
+import { Button, Input } from "@medusajs/ui"
 import { useState } from "react"
 
 interface AddressFormProps {
@@ -75,7 +75,6 @@ const AddressForm = ({ address, onSubmit, onCancel, isLoading }: AddressFormProp
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <Input
-            label="First name"
             name="first_name"
             type="text"
             autoComplete="given-name"
@@ -90,7 +89,6 @@ const AddressForm = ({ address, onSubmit, onCancel, isLoading }: AddressFormProp
         </div>
         <div>
           <Input
-            label="Last name"
             name="last_name"
             type="text"
             autoComplete="family-name"
@@ -108,7 +106,6 @@ const AddressForm = ({ address, onSubmit, onCancel, isLoading }: AddressFormProp
       {/* Company */}
       <div>
         <Input
-          label="Company (optional)"
           name="company"
           type="text"
           autoComplete="organization"
@@ -121,7 +118,6 @@ const AddressForm = ({ address, onSubmit, onCancel, isLoading }: AddressFormProp
       {/* Address fields */}
       <div>
         <Input
-          label="Address"
           name="address_1"
           type="text"
           autoComplete="street-address"
@@ -137,7 +133,6 @@ const AddressForm = ({ address, onSubmit, onCancel, isLoading }: AddressFormProp
 
       <div>
         <Input
-          label="Apartment, suite, etc. (optional)"
           name="address_2"
           type="text"
           value={formData.address_2}
@@ -150,7 +145,6 @@ const AddressForm = ({ address, onSubmit, onCancel, isLoading }: AddressFormProp
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <Input
-            label="City"
             name="city"
             type="text"
             autoComplete="address-level2"
@@ -165,7 +159,6 @@ const AddressForm = ({ address, onSubmit, onCancel, isLoading }: AddressFormProp
         </div>
         <div>
           <Input
-            label="State / Province"
             name="province"
             type="text"
             autoComplete="address-level1"
@@ -176,7 +169,6 @@ const AddressForm = ({ address, onSubmit, onCancel, isLoading }: AddressFormProp
         </div>
         <div>
           <Input
-            label="Postal code"
             name="postal_code"
             type="text"
             autoComplete="postal-code"
@@ -218,7 +210,6 @@ const AddressForm = ({ address, onSubmit, onCancel, isLoading }: AddressFormProp
       {/* Phone */}
       <div>
         <Input
-          label="Phone (optional)"
           name="phone"
           type="tel"
           autoComplete="tel"

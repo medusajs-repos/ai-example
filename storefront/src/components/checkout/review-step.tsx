@@ -2,9 +2,10 @@ import { HttpTypes } from "@medusajs/types"
 import { CheckCircleSolid, ShoppingBag } from "@medusajs/icons"
 import { Button, Heading, Text } from "@medusajs/ui"
 import { useMemo } from "react"
-import { convertToLocale } from "@/lib/utils/money"
 import { paymentInfoMap } from "@/lib/constants"
-import PaymentButton from "@/components/payment-button"
+import PaymentButton from "@/components/checkout/payment-button"
+import { Price } from "@/components/common/price"
+import Address from "@/components/common/address"
 
 interface ReviewStepProps {
   cart: HttpTypes.StoreCart
@@ -89,19 +90,11 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
                   </Text>
                 </div>
                 <div className="text-right">
-                  <Text className="txt-medium-plus">
-                    {item.total ? (
-                      convertToLocale({
-                        amount: item.total,
-                        currency_code: cart.currency_code || 'USD'
-                      })
-                    ) : (
-                      convertToLocale({
-                        amount: (item.unit_price || 0) * item.quantity,
-                        currency_code: cart.currency_code || 'USD'
-                      })
-                    )}
-                  </Text>
+                  <Price
+                    price={item.total}
+                    currencyCode={cart.currency_code}
+                    textClassName="txt-medium-plus"
+                  />
                 </div>
               </div>
             ))}
@@ -117,12 +110,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <Text className="txt-medium-plus text-ui-fg-base mb-2">Shipping Address</Text>
-                <div className="txt-small text-ui-fg-subtle">
-                  <div>{cart.shipping_address.first_name} {cart.shipping_address.last_name}</div>
-                  <div>{cart.shipping_address.address_1} {cart.shipping_address.address_2}</div>
-                  <div>{cart.shipping_address.postal_code}, {cart.shipping_address.city}</div>
-                  <div>{cart.shipping_address.country_code?.toUpperCase()}</div>
-                </div>
+                <Address address={cart.shipping_address} />
               </div>
               
               {cart.shipping_methods?.[0] && (
@@ -130,16 +118,11 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
                   <Text className="txt-medium-plus text-ui-fg-base mb-2">Shipping Method</Text>
                   <div className="txt-small text-ui-fg-subtle">
                     <div>{cart.shipping_methods[0].name}</div>
-                    <div>
-                      {cart.shipping_methods[0].amount ? (
-                        convertToLocale({
-                          amount: cart.shipping_methods[0].amount,
-                          currency_code: cart.currency_code || 'USD'
-                        })
-                      ) : (
-                        'Free'
-                      )}
-                    </div>
+                    <Price
+                      price={cart.shipping_methods[0].amount}
+                      currencyCode={cart.currency_code}
+                      textClassName="txt-medium-plus"
+                    />
                   </div>
                 </div>
               )}
@@ -170,12 +153,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
               <Text className="txt-medium-plus text-ui-fg-base mb-2">Billing Address</Text>
               <div className="txt-small text-ui-fg-subtle">
                 {cart.billing_address ? (
-                  <>
-                    <div>{cart.billing_address.first_name} {cart.billing_address.last_name}</div>
-                    <div>{cart.billing_address.address_1} {cart.billing_address.address_2}</div>
-                    <div>{cart.billing_address.postal_code}, {cart.billing_address.city}</div>
-                    <div>{cart.billing_address.country_code?.toUpperCase()}</div>
-                  </>
+                  <Address address={cart.billing_address} />
                 ) : (
                   <span>Same as shipping address</span>
                 )}
@@ -189,59 +167,54 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
           <div className="space-y-2">
             <div className="flex justify-between txt-small">
               <span className="text-ui-fg-subtle">Subtotal</span>
-              <span>
-                {convertToLocale({
-                  amount: cart.subtotal || 0,
-                  currency_code: cart.currency_code || 'USD'
-                })}
-              </span>
+              <Price
+                price={cart.subtotal}
+                currencyCode={cart.currency_code}
+                textClassName="txt-medium"
+              />
             </div>
             
             {(cart.discount_total || 0) > 0 && (
               <div className="flex justify-between txt-small">
                 <span className="text-ui-fg-subtle">Discount</span>
-                <span className="text-red-500">
-                  -{convertToLocale({
-                    amount: cart.discount_total || 0,
-                    currency_code: cart.currency_code || 'USD'
-                  })}
-                </span>
+                <Price
+                  price={cart.discount_total}
+                  currencyCode={cart.currency_code}
+                  textClassName="txt-medium"
+                />
               </div>
             )}
             
             {(cart.shipping_total || 0) > 0 && (
               <div className="flex justify-between txt-small">
                 <span className="text-ui-fg-subtle">Shipping</span>
-                <span>
-                  {convertToLocale({
-                    amount: cart.shipping_total || 0,
-                    currency_code: cart.currency_code || 'USD'
-                  })}
-                </span>
+                <Price
+                  price={cart.shipping_total}
+                  currencyCode={cart.currency_code}
+                  textClassName="txt-medium"
+                />
               </div>
             )}
             
             {(cart.tax_total || 0) > 0 && (
               <div className="flex justify-between txt-small">
                 <span className="text-ui-fg-subtle">Taxes</span>
-                <span>
-                  {convertToLocale({
-                    amount: cart.tax_total || 0,
-                    currency_code: cart.currency_code || 'USD'
-                  })}
-                </span>
+                <Price
+                  price={cart.tax_total}
+                  currencyCode={cart.currency_code}
+                  textClassName="txt-medium"
+                />
               </div>
             )}
             
             <div className="border-t border-ui-border-base pt-2">
               <div className="flex justify-between txt-medium-plus">
                 <span>Total</span>
-                <span>
-                  {convertToLocale({
-                    amount: cart.total || 0,
-                    currency_code: cart.currency_code || 'USD'
-                  })}
-                </span>
+                <Price
+                  price={cart.total}
+                  currencyCode={cart.currency_code}
+                  textClassName="txt-medium"
+                />
               </div>
             </div>
           </div>

@@ -96,7 +96,7 @@ const ProductListing = ({ region, title, queryParams }: ProductListProps) => {
             >
               {sortedData.map((product) => (
                 <div key={product.id}>
-                  <ProductCard product={product} region={region} />
+                  <ProductCard product={product} />
                 </div>
               ))}
             </div>

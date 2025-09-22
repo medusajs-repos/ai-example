@@ -33,7 +33,7 @@ const FeaturedProducts = () => {
               key={product.id}
               className="transform transition-transform duration-300"
             >
-              {region && <ProductCard product={product} region={region} />}
+              <ProductCard product={product} />
             </div>
           ))}
         </div>

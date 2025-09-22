@@ -3,6 +3,7 @@ import { getCountryCodeFromPath } from "@/lib/utils/regions";
 import { HttpTypes } from "@medusajs/types";
 import { Link, useLocation } from "@tanstack/react-router";
 import AccountContainer from "@/components/account/account-container";
+import { Price } from "@/components/common/price";
 
 interface OverviewProps {
   customer: HttpTypes.StoreCustomer;
@@ -42,7 +43,7 @@ const Overview = ({ customer }: OverviewProps) => {
                 </div>
               </div>
               <Link
-                to={`${baseHref}/account/profile`}
+                to={`${baseHref}/account/profile` as any}
                 className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-small font-medium"
               >
                 Edit profile
@@ -66,7 +67,7 @@ const Overview = ({ customer }: OverviewProps) => {
                 </div>
               </div>
               <Link
-                to={`${baseHref}/account/addresses`}
+                to={`${baseHref}/account/addresses` as any}
                 className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-small font-medium"
               >
                 Manage
@@ -81,7 +82,7 @@ const Overview = ({ customer }: OverviewProps) => {
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-medium text-ui-fg-base">Recent Orders</h3>
           <Link
-            to={`${baseHref}/account/orders`}
+            to={`${baseHref}/account/orders` as any}
             className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-small font-medium"
           >
             View all orders
@@ -117,7 +118,7 @@ const Overview = ({ customer }: OverviewProps) => {
             </div>
             <p className="text-ui-fg-subtle txt-small mb-4">No orders yet</p>
             <Link
-              to={`${baseHref}/store`}
+              to={`${baseHref}/store` as any}
               className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-small font-medium"
             >
               Start shopping
@@ -144,16 +145,10 @@ const getProfileCompletion = (customer: HttpTypes.StoreCustomer): number => {
 
   // Billing address
   if (
-    customer.billing_address &&
-    customer.billing_address.address_1 &&
-    customer.billing_address.city &&
-    customer.billing_address.country_code
+    customer.addresses.length
   ) {
     filledFields++;
   }
-
-  // At least one saved address
-  if (customer.addresses && customer.addresses.length > 0) filledFields++;
 
   return Math.round((filledFields / totalFields) * 100);
 };
@@ -181,7 +176,7 @@ const RecentOrderItem = ({
 
   return (
     <Link
-      to={`${baseHref}/account/orders/details/${order.id}`}
+      to={`${baseHref}/account/orders/details/${order.id}` as any}
       className="block bg-white border border-ui-border-base rounded-lg p-4 hover:shadow-sm transition-shadow group"
     >
       <div className="flex items-center justify-between mb-3">
@@ -210,9 +205,11 @@ const RecentOrderItem = ({
           <span>
             {numberOfItems} {numberOfItems === 1 ? "item" : "items"}
           </span>
-          <span className="font-medium text-ui-fg-base">
-            {order.currency_code?.toUpperCase()} {(order.total || 0).toFixed(2)}
-          </span>
+          <Price
+            price={order.total}
+            currencyCode={order.currency_code}
+            textClassName="txt-small"
+          />
         </div>
       </div>
     </Link>

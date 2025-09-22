@@ -1,6 +1,7 @@
-import CartTotals from "@/components/cart-totals";
 import { HttpTypes } from "@medusajs/types";
-import { Heading } from "@medusajs/ui";
+import { Heading, Text } from "@medusajs/ui";
+import LineItemPrice from "../cart/line-item-price";
+import { Price } from "../common/price";
 
 interface CheckoutSummaryProps {
   cart: HttpTypes.StoreCart;
@@ -8,82 +9,70 @@ interface CheckoutSummaryProps {
 
 const CheckoutSummary = ({ cart }: CheckoutSummaryProps) => {
   return (
-    <div className="sticky top-0 flex flex-col-reverse small:flex-col gap-y-8 py-8 small:py-0">
-      <div className="w-full bg-white flex flex-col">
-        <div className="border-b border-ui-border-base my-6 small:hidden" />
-        <Heading
-          level="h2"
-          className="flex flex-row txt-xlarge-plus-regular items-baseline"
-        >
-          In your Cart
-        </Heading>
-        <div className="border-b border-ui-border-base my-6" />
-        <CartTotals cart={cart} />
-
-        {/* Cart Items Preview */}
-        <div className="flex flex-col gap-y-4 mt-6">
-          {cart.items?.map((item) => (
-            <div key={item.id} className="flex items-center gap-x-4">
-              <div className="relative w-16 h-16 flex-shrink-0">
-                {item.variant?.product?.thumbnail || item.thumbnail ? (
-                  <img
-                    src={
-                      item.variant?.product?.thumbnail || item.thumbnail || ""
-                    }
-                    alt={item.title}
-                    className="w-full h-full object-cover rounded"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-ui-bg-subtle rounded flex items-center justify-center">
-                    <span className="txt-xsmall text-ui-fg-muted">No image</span>
-                  </div>
-                )}
-                <span className="absolute -top-2 -right-2 bg-ui-fg-base text-white txt-xsmall rounded-full w-5 h-5 flex items-center justify-center">
-                  {item.quantity}
-                </span>
-              </div>
-              <div className="flex-1">
-                <h3 className="txt-medium-regular text-ui-fg-base">
-                  {item.title}
-                </h3>
-                {item.variant && (
-                  <p className="txt-smallall-regular text-ui-fg-subtle">
-                    {item.variant.title !== "Default" ? item.variant.title : ""}
-                  </p>
-                )}
-              </div>
-              <div className="txt-medium-regular text-ui-fg-base">
-                {item.total
-                  ? `$${item.total.toFixed(2)}`
-                  : `$${(
-                      ((item.unit_price || 0) * item.quantity) /
-                      100
-                    ).toFixed(2)}`}
-              </div>
+    <div className="bg-white p-6 rounded-lg border border-ui-border-base h-fit sticky top-6">
+      <Heading level="h3" className="mb-6">
+        Order Summary
+      </Heading>
+      
+      <div className="space-y-4 mb-6">
+        {cart.items?.map((item) => (
+          <div key={item.id} className="flex items-center gap-4">
+            <div className="w-16 h-16 bg-ui-bg-subtle rounded-lg overflow-hidden">
+              {item.thumbnail ? (
+                <img
+                  src={item.thumbnail || ''}
+                  alt={item.product?.title || 'Product'}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-ui-fg-subtle txt-xsmall">
+                  No image
+                </div>
+              )}
             </div>
-          ))}
-        </div>
-
-        {/* Discount Code Section - Placeholder for now */}
-        <div className="my-6">
-          <div className="flex flex-col gap-2">
-            <label className="txt-smallall-regular text-ui-fg-base">
-              Discount code
-            </label>
-            <div className="flex gap-2">
-              <input
-                type="text"
-                placeholder="Enter discount code"
-                className="flex-1 px-3 py-2 border border-ui-border-base rounded focus:outline-none focus:border-ui-border-interactive"
-              />
-              <button
-                type="button"
-                className="px-4 py-2 bg-ui-bg-base text-ui-fg-base border border-ui-border-base rounded hover:bg-ui-bg-subtle"
-              >
-                Apply
-              </button>
+            <div className="flex-1">
+              <Text className="txt-medium-plus">
+                {item.product?.title}
+              </Text>
+              <Text className="text-ui-fg-subtle txt-small">
+                Qty: {item.quantity}
+              </Text>
             </div>
+            <LineItemPrice
+              item={item}
+              currencyCode={cart.currency_code}
+              className="txt-small"
+            />
           </div>
+        ))}
+      </div>
+
+      <div className="border-t border-ui-border-base pt-4 space-y-2">
+        <div className="flex justify-between">
+          <Text>Subtotal</Text>
+          <Price
+            price={cart.subtotal}
+            currencyCode={cart.currency_code}
+            textClassName="txt-medium"
+          />
+        </div>
+        {cart.shipping_total > 0 && (
+          <div className="flex justify-between">
+            <Text>Shipping</Text>
+            <Price
+              price={cart.shipping_total}
+              currencyCode={cart.currency_code}
+              textClassName="txt-medium"
+            />
+          </div>
+        )}
+        <div className="flex justify-between txt-large-plus pt-2 border-t border-ui-border-base">
+          <Text>Total</Text>
+          <Price
+            price={cart.total}
+            currencyCode={cart.currency_code}
+            textClassName="txt-medium"
+          />
         </div>
       </div>
     </div>

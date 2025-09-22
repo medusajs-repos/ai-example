@@ -34,7 +34,7 @@ export const useRegister = () => {
   return useMutation({
     mutationFn: registerCustomer,
     onSuccess: (data) => {
-      queryClient.setQueryData(queryKeys.customer.current(), data.customer);
+      queryClient.invalidateQueries({ queryKey: queryKeys.customer.current() });
       queryClient.invalidateQueries({ queryKey: queryKeys.cart.all });
     },
   });
@@ -46,7 +46,7 @@ export const useLogout = () => {
   return useMutation({
     mutationFn: logoutCustomer,
     onSuccess: () => {
-      queryClient.setQueryData(queryKeys.customer.current(), null);
+      queryClient.invalidateQueries({ queryKey: queryKeys.customer.current() });
       queryClient.invalidateQueries({ queryKey: queryKeys.cart.all });
     },
   });
@@ -57,8 +57,8 @@ export const useUpdateCustomer = () => {
 
   return useMutation({
     mutationFn: updateCustomer,
-    onSuccess: (customer) => {
-      queryClient.setQueryData(queryKeys.customer.current(), customer);
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.customer.current() });
     },
   });
 };

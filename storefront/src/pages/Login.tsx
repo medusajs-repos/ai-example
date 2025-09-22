@@ -1,5 +1,5 @@
-import LoginForm from "@/components/login-form";
-import RegisterForm from "@/components/register-form";
+import LoginForm from "@/components/account/login-form";
+import RegisterForm from "@/components/account/register-form";
 import { useCustomer } from "@/lib/hooks/dynamic/use-auth";
 import { Navigate } from "@tanstack/react-router";
 import { useState } from "react";

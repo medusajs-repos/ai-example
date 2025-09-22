@@ -1,11 +1,11 @@
 import { Dialog, Transition } from "@headlessui/react"
 import { Button, clx, useToggleState } from "@medusajs/ui"
-import React, { Fragment, lazy, Suspense, useMemo } from "react"
+import React, { Fragment, lazy, Suspense } from "react"
 
-import { getProductPrice } from "@/lib/utils/get-product-price"
 import { isSimpleProduct } from "@/lib/utils/product"
 import { HttpTypes } from "@medusajs/types"
 import { Loading } from "@/components/common"
+import ProductPrice from "./product-price"
 
 const ProductOptionSelect = lazy(() => import("@/components/product/product-option-select"))
 
@@ -34,20 +34,6 @@ const ProductMobileActions: React.FC<ProductMobileActionsProps> = ({
 }) => {
   const { state, open, close } = useToggleState()
 
-  const price = getProductPrice({
-    product: product,
-    variant_id: variant?.id,
-  })
-
-  const selectedPrice = useMemo(() => {
-    if (!price) {
-      return null
-    }
-    const { variantPrice, cheapestPrice } = price
-
-    return variantPrice || cheapestPrice || null
-  }, [price])
-
   const isSimple = isSimpleProduct(product)
 
   return (
@@ -71,31 +57,11 @@ const ProductMobileActions: React.FC<ProductMobileActionsProps> = ({
             className="bg-ui-bg-base flex flex-col gap-y-3 justify-center items-center txt-large-regular p-4 h-full w-full border-t border-ui-border-base"
             data-testid="mobile-actions"
           >
-            <div className="flex items-center gap-x-2">
-              <span data-testid="mobile-title" className="text-ui-fg-base">{product.title}</span>
-              <span className="text-ui-fg-muted">—</span>
-              {selectedPrice ? (
-                <div className="flex items-end gap-x-2 text-ui-fg-base">
-                  {selectedPrice.price_type === "sale" && (
-                    <p>
-                      <span className="line-through txt-smallall-regular text-ui-fg-muted">
-                        {selectedPrice.original_price}
-                      </span>
-                    </p>
-                  )}
-                  <span
-                    className={clx({
-                      "text-ui-fg-interactive":
-                        selectedPrice.price_type === "sale",
-                    })}
-                  >
-                    {selectedPrice.calculated_price}
-                  </span>
-                </div>
-              ) : (
-                <div></div>
-              )}
-            </div>
+            <span data-testid="mobile-title" className="text-ui-fg-base">{product.title}</span>
+            <ProductPrice
+              product={product}
+              variant={variant}
+            />
             <div
               className={clx("grid grid-cols-2 w-full gap-x-4", {
                 "!grid-cols-1": isSimple,

@@ -1,6 +1,6 @@
 import { useUpdateCustomer } from "@/lib/hooks/dynamic/use-auth";
 import { HttpTypes } from "@medusajs/types";
-import { Badge, Button, Input } from "@medusajs/ui";
+import { Button, Input } from "@medusajs/ui";
 import { useState } from "react";
 import AccountInfo from "@/components/account/account-info";
 import AccountContainer from "@/components/account/account-container";
@@ -42,8 +42,10 @@ const ProfileName = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
 
     try {
       await updateCustomer.mutateAsync({
-        first_name: firstName.trim(),
-        last_name: lastName.trim(),
+        updates: {
+          first_name: firstName.trim(),
+          last_name: lastName.trim(),
+        },
       });
       setSuccess("Name updated successfully");
       // Clear success message after 3 seconds
@@ -78,7 +80,6 @@ const ProfileName = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 small:grid-cols-2 gap-6">
           <Input
-            label="First name"
             name="first_name"
             type="text"
             autoComplete="given-name"
@@ -89,7 +90,6 @@ const ProfileName = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
             className="w-full"
           />
           <Input
-            label="Last name"
             name="last_name"
             type="text"
             autoComplete="family-name"
@@ -123,11 +123,6 @@ const ProfileEmail = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
       currentInfo={
         <div className="flex items-center gap-x-2">
           <span>{customer.email}</span>
-          {customer.has_account && (
-            <Badge size="small" color="green">
-              Verified
-            </Badge>
-          )}
         </div>
       }
       data-testid="account-email-editor"
@@ -173,7 +168,9 @@ const ProfilePhone = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
 
     try {
       await updateCustomer.mutateAsync({
-        phone: phone.trim(),
+        updates: {
+          phone: phone.trim(),
+        },
       });
       setSuccess("Phone number updated successfully");
       // Clear success message after 3 seconds
@@ -205,7 +202,6 @@ const ProfilePhone = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-3">
           <Input
-            label="Phone number"
             name="phone"
             type="tel"
             autoComplete="tel"

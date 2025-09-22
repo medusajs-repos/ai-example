@@ -1,9 +1,11 @@
-import LocalizedClientLink from "@/components/localized-client-link";
+
 import { useCustomerOrders } from "@/lib/hooks/static/use-orders";
 import { getCountryCodeFromPath } from "@/lib/utils/regions";
 import { HttpTypes } from "@medusajs/types";
 import { Link, useLocation } from "@tanstack/react-router";
 import AccountContainer from "@/components/account/account-container";
+import { Price } from "@/components/common/price";
+import { Thumbnail } from "@/components/common/thumbnail";
 
 const OrdersTemplate = () => {
   const { data: orders, isLoading } = useCustomerOrders();
@@ -68,11 +70,11 @@ const OrdersTemplate = () => {
             When you place your first order, it will appear here for easy
             tracking and management.
           </p>
-          <LocalizedClientLink href="/store">
+          <Link to={`${baseHref}/store` as any}>
             <span className="inline-flex items-center px-6 py-2 txt-small font-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover border-b border-transparent hover:border-ui-fg-interactive transition-colors">
               Start Shopping
             </span>
-          </LocalizedClientLink>
+          </Link>
         </div>
       )}
     </AccountContainer>
@@ -123,35 +125,19 @@ const OrderItem = ({ order, baseHref }: OrderCardProps) => {
             <span>
               {numberOfLines} {numberOfLines !== 1 ? "items" : "item"}
             </span>
-            <span className="font-medium text-ui-fg-base">
-              {order.currency_code?.toUpperCase()}{" "}
-              {(order.total || 0).toFixed(2)}
-            </span>
+            <Price
+              price={order.total}
+              currencyCode={order.currency_code}
+              textClassName="txt-small"
+            />
           </div>
 
           {/* Product thumbnails */}
           <div className="flex items-center gap-x-2">
             {order.items?.slice(0, 5).map((item) => {
-              const productImage =
-                item.variant?.product?.thumbnail ||
-                item.product?.thumbnail ||
-                item.thumbnail;
-
               return (
                 <div key={item.id} className="relative">
-                  <div className="w-12 h-12 rounded-lg overflow-hidden bg-ui-bg-subtle border border-ui-border-base flex-shrink-0">
-                    {productImage ? (
-                      <img
-                        src={productImage}
-                        alt={item.product_title}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-ui-fg-muted txt-xsmall">
-                        N/A
-                      </div>
-                    )}
-                  </div>
+                  <Thumbnail thumbnail={item.thumbnail} alt={item.title} />
                   {item.quantity > 1 && (
                     <div className="absolute -top-1 -right-1 bg-ui-fg-base text-white txt-xsmall rounded-full w-4 h-4 flex items-center justify-center">
                       {item.quantity}
@@ -169,7 +155,7 @@ const OrderItem = ({ order, baseHref }: OrderCardProps) => {
         </div>
 
         <Link
-          to={`${baseHref}/account/orders/details/${order.id}`}
+          to={`${baseHref}/account/orders/details/${order.id}` as any}
           className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-small font-medium px-0 h-auto"
         >
           View details

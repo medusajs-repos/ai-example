@@ -5,6 +5,7 @@ import { Plus, EllipsisHorizontal } from "@medusajs/icons"
 import { useCreateAddress, useUpdateAddress, useDeleteAddress } from "@/lib/hooks/dynamic/use-address"
 import AddressForm from "@/components/account/address-form"
 import AccountContainer from "@/components/account/account-container"
+import Address from "@/components/common/address"
 
 interface AddressesTemplateProps {
   customer: HttpTypes.StoreCustomer
@@ -26,7 +27,7 @@ const AddressesTemplate = ({ customer }: AddressesTemplateProps) => {
           onClick={() => setIsAdding(!isAdding)}
           className="flex items-center gap-x-2"
         >
-          <Plus size={16} />
+          <Plus />
           Add address
         </Button>
       </div>
@@ -73,12 +74,12 @@ const AddressCard = ({ address, customer }: AddressCardProps) => {
   const [showMenu, setShowMenu] = useState(false)
   const deleteAddress = useDeleteAddress()
 
-  const isDefaultBilling = customer.billing_address?.id === address.id
-  const isDefaultShipping = customer.shipping_address?.id === address.id
+  const isDefaultBilling = address.id === customer.default_billing_address_id
+  const isDefaultShipping = address.id === customer.default_shipping_address_id
 
   const handleDelete = () => {
     if (confirm('Are you sure you want to delete this address?')) {
-      deleteAddress.mutate(address.id!)
+      deleteAddress.mutate({ address_id: address.id })
     }
   }
 
@@ -100,7 +101,7 @@ const AddressCard = ({ address, customer }: AddressCardProps) => {
             onClick={() => setShowMenu(!showMenu)}
             className="text-ui-fg-subtle hover:text-ui-fg-base p-1"
           >
-            <EllipsisHorizontal size={16} />
+            <EllipsisHorizontal />
           </button>
           {showMenu && (
             <div className="absolute right-0 top-full mt-1 bg-white border border-ui-border-base rounded-rounded shadow-elevation-modal min-w-[120px] z-10">
@@ -133,20 +134,7 @@ const AddressCard = ({ address, customer }: AddressCardProps) => {
         />
       ) : (
         <div className="flex flex-col gap-y-3">
-          <div className="text-ui-fg-base leading-relaxed">
-            <div className="mb-1">{address.address_1}</div>
-            {address.address_2 && <div className="mb-1">{address.address_2}</div>}
-            <div className="mb-1">
-              {address.postal_code}, {address.city}
-            </div>
-            {address.province && <div className="mb-1">{address.province}</div>}
-            <div className="font-medium">{address.country_code?.toUpperCase()}</div>
-          </div>
-          {address.phone && (
-            <div className="text-ui-fg-subtle">
-              Phone: {address.phone}
-            </div>
-          )}
+          <Address address={address} />
           <div className="flex gap-x-3 mt-4">
             {isDefaultBilling && (
               <div className="px-3 py-1.5 bg-ui-bg-base border border-ui-border-base text-ui-fg-subtle txt-small rounded-md font-medium">
@@ -175,7 +163,7 @@ const AddAddressForm = ({ onSuccess, onCancel }: AddAddressFormProps) => {
 
   const handleSubmit = async (addressData: HttpTypes.StoreCreateCustomerAddress) => {
     try {
-      await createAddress.mutateAsync(addressData)
+      await createAddress.mutateAsync({ address: addressData })
       onSuccess()
     } catch (error) {
       console.error('Failed to create address:', error)
@@ -203,7 +191,7 @@ const EditAddressForm = ({ address, onSuccess, onCancel }: EditAddressFormProps)
   const handleSubmit = async (addressData: HttpTypes.StoreCreateCustomerAddress) => {
     try {
       await updateAddress.mutateAsync({
-        addressId: address.id!,
+        address_id: address.id!,
         address: addressData
       })
       onSuccess()

@@ -1,4 +1,4 @@
-import SortProducts from '@/components/sort-products'
+import SortProducts from '@/components/product/sort-products'
 import { type ProductSortOptions } from '@/lib/utils/products/sort-products'
 
 type RefinementListProps = {

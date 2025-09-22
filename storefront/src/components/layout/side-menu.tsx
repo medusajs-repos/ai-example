@@ -5,14 +5,14 @@ import {
   PopoverPanel,
   Transition,
 } from "@headlessui/react";
-import { ArrowRightMini, XMark } from "@medusajs/icons";
-import { Text, clx, useToggleState } from "@medusajs/ui";
+import { XMark } from "@medusajs/icons";
+import { Text } from "@medusajs/ui";
 import { Link, useLocation } from "@tanstack/react-router";
 import { Fragment } from "react";
 
 import { getCountryCodeFromPath } from "@/lib/utils/regions";
 import { HttpTypes } from "@medusajs/types";
-import CountrySelect from "@/components/country-select";
+import CountrySelect from "@/components/common/country-select";
 
 const SideMenuItems = {
   Home: "/",
@@ -22,7 +22,6 @@ const SideMenuItems = {
 };
 
 const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
-  const toggleState = useToggleState();
   const location = useLocation();
   const countryCode = getCountryCodeFromPath(location.pathname);
   const baseHref = countryCode ? `/${countryCode}` : "";
@@ -81,24 +80,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                       })}
                     </ul>
                     <div className="flex flex-col gap-y-6">
-                      <div
-                        className="flex justify-between"
-                        onMouseEnter={toggleState.open}
-                        onMouseLeave={toggleState.close}
-                      >
-                        {regions && (
-                          <CountrySelect
-                            toggleState={toggleState}
-                            regions={regions}
-                          />
-                        )}
-                        <ArrowRightMini
-                          className={clx(
-                            "transition-transform duration-150",
-                            toggleState.state ? "-rotate-90" : ""
-                          )}
-                        />
-                      </div>
+                      <CountrySelect regions={regions ?? []} />
                       <Text className="flex justify-between txt-small">
                         © {new Date().getFullYear()} Medusa Store. All rights
                         reserved.

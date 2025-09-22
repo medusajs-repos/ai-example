@@ -24,8 +24,7 @@ const PaymentButton = ({ cart }: PaymentButtonProps) => {
     (cart.shipping_methods?.length ?? 0) < 1;
 
   const paymentSession =
-    cart.payment_collection?.payment_sessions?.[0] ||
-    cart.payment_sessions?.[0];
+    cart.payment_collection?.payment_sessions?.[0]
 
   // For now, we'll implement a simple payment button that works with manual payments
   // In production, you'd want to integrate with Stripe Elements for card payments
@@ -103,13 +102,14 @@ const ManualPaymentButton = ({
   const navigate = useNavigate();
   const location = useLocation();
   const countryCode = getCountryCodeFromPath(location.pathname);
+  const completeOrderMutation = useCompleteOrder();
 
   const handlePayment = async () => {
     setSubmitting(true);
     setErrorMessage(null);
 
     try {
-      const order = await completeCart();
+      const order = await completeOrderMutation.mutateAsync();
 
       // Navigate to order confirmation
       navigate({

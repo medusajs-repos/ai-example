@@ -1,10 +1,12 @@
 import { useDeleteLineItem, useUpdateLineItem } from "@/lib/hooks/dynamic/use-cart";
 import { HttpTypes } from "@medusajs/types";
-import LineItemPrice from "@/components/line-item-price";
+import LineItemPrice from "@/components/cart/line-item-price";
+import { IconButton } from "@medusajs/ui";
+import { Minus, Plus, Trash } from "@medusajs/icons";
+import { Thumbnail } from "@/components/common/thumbnail";
 
 interface CartItemProps {
   item: HttpTypes.StoreCartLineItem;
-  region: HttpTypes.StoreRegion;
   cart: HttpTypes.StoreCart;
 }
 
@@ -23,70 +25,51 @@ const CartItem = ({ item, cart }: CartItemProps) => {
     }
   };
 
-  const productImage =
-    item.variant?.product?.thumbnail ||
-    item.variant?.product?.images?.[0]?.url ||
-    item.thumbnail;
-
   return (
     <div className="flex items-center gap-6 py-4">
       <div className="flex-shrink-0">
-        {productImage ? (
-          <img
-            src={productImage}
-            alt={item.title}
-            className="w-20 h-20 object-cover rounded bg-ui-bg-subtle"
-          />
-        ) : (
-          <div className="w-20 h-20 bg-ui-bg-subtle rounded flex items-center justify-center">
-            <span className="txt-xsmall text-ui-fg-muted">No image</span>
-          </div>
-        )}
+        <Thumbnail thumbnail={item.thumbnail} alt={item.title} />
       </div>
 
       <div className="flex-1 min-w-0">
-        <h3 className="font-medium text-ui-fg-base">{item.title}</h3>
+        <h3 className="txt-medium-plus text-ui-fg-base">{item.title}</h3>
         {item.variant?.title && item.variant.title !== "Default Variant" && (
           <p className="txt-small text-ui-fg-muted mt-1">{item.variant.title}</p>
         )}
       </div>
 
       <div className="flex items-center gap-4">
-        <div className="flex items-center border border-ui-border-base rounded">
-          <button
+        <div className="flex items-center">
+          <IconButton
             onClick={() => handleQuantityChange(item.quantity - 1)}
             disabled={updateLineItemMutation.isPending || deleteLineItemMutation.isPending}
-            className="w-8 h-8 flex items-center justify-center hover:bg-ui-bg-subtle disabled:opacity-50 transition-colors"
           >
-            −
-          </button>
-          <span className="w-12 text-center txt-small font-medium">
+            <Minus />
+          </IconButton>
+          <span className="w-12 text-center txt-small">
             {item.quantity}
           </span>
-          <button
+          <IconButton
             onClick={() => handleQuantityChange(item.quantity + 1)}
             disabled={updateLineItemMutation.isPending}
-            className="w-8 h-8 flex items-center justify-center hover:bg-ui-bg-subtle disabled:opacity-50 transition-colors"
           >
-            +
-          </button>
+            <Plus />
+          </IconButton>
         </div>
 
-        <div className="text-right min-w-[80px]">
+        <div className="text-right">
           <LineItemPrice
             item={item}
             currencyCode={cart.currency_code}
-            style="tight"
           />
         </div>
 
-        <button
+        <IconButton
           onClick={() => deleteLineItemMutation.mutate({ line_id: item.id })}
           disabled={deleteLineItemMutation.isPending}
-          className="text-ui-fg-muted hover:text-ui-fg-base txt-small underline disabled:opacity-50 transition-colors"
         >
-          {deleteLineItemMutation.isPending ? "Removing..." : "Remove"}
-        </button>
+          <Trash />
+        </IconButton>
       </div>
     </div>
   );

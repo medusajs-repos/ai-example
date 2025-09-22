@@ -56,7 +56,7 @@ export const useRelatedProducts = ({
     queryKey: queryKeys.products.related(product_id, region_id),
     queryFn: async () => {
       const params: Record<string, any> = {
-        fields: "title, handle, *images, *variants",
+        fields: "title, handle, *thumbnail, *variants",
         is_giftcard: false,
         limit: 4
       }

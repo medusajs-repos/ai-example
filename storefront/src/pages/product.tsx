@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react";
 import { useLoaderData } from "@tanstack/react-router";
 import { Loading } from "@/components/common";
 import ProductDetailsLoading from "../components/product/product-details-loading";
-import ErrorBoundary from "@/components/error-boundary";
+import ErrorBoundary from "@/components/common/error-boundary";
 
 // Dynamic imports for heavy components
 const ImageGallery = lazy(() => import("@/components/common/image-gallery"));

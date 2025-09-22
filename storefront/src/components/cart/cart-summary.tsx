@@ -1,75 +1,62 @@
 import { HttpTypes } from "@medusajs/types"
-import { convertToLocale } from "@/lib/utils/money"
 import { Link } from "@tanstack/react-router"
+import { Price } from "@/components/common/price"
+import { Button } from "@medusajs/ui"
 
 interface CartSummaryProps {
   cart: HttpTypes.StoreCart
-  region: HttpTypes.StoreRegion
   countryCode: string
 }
 
-const CartSummary = ({ cart, region, countryCode }: CartSummaryProps) => {
-  const subtotal = convertToLocale({
-    amount: cart.subtotal || 0,
-    currency_code: region.currency_code
-  })
-
-  const shippingTotal = convertToLocale({
-    amount: cart.shipping_total || 0,
-    currency_code: region.currency_code
-  })
-
-  const taxTotal = convertToLocale({
-    amount: cart.tax_total || 0,
-    currency_code: region.currency_code
-  })
-
-  const total = convertToLocale({
-    amount: cart.total || 0,
-    currency_code: region.currency_code
-  })
-
+const CartSummary = ({ cart, countryCode }: CartSummaryProps) => {
   return (
     <div className="max-w-sm ml-auto">
       <div className="space-y-4">
         <div className="space-y-2">
           <div className="flex justify-between txt-small">
             <span className="text-ui-fg-muted">Subtotal</span>
-            <span className="text-ui-fg-base">{subtotal}</span>
+            <Price
+              price={cart.subtotal}
+              currencyCode={cart.currency_code}
+            />
           </div>
           
           {(cart.shipping_total || 0) > 0 && (
             <div className="flex justify-between txt-small">
               <span className="text-ui-fg-muted">Shipping</span>
-              <span className="text-ui-fg-base">{shippingTotal}</span>
+              <Price
+                price={cart.shipping_total}
+                currencyCode={cart.currency_code}
+              />
             </div>
           )}
           
           {(cart.tax_total || 0) > 0 && (
             <div className="flex justify-between txt-small">
               <span className="text-ui-fg-muted">Tax</span>
-              <span className="text-ui-fg-base">{taxTotal}</span>
+              <Price
+                price={cart.tax_total}
+                currencyCode={cart.currency_code}
+              />
             </div>
           )}
         </div>
         
         <hr className="border-ui-border-base" />
         
-        <div className="flex justify-between font-medium">
+        <div className="flex justify-between">
           <span className="text-ui-fg-base">Total</span>
-          <span className="text-ui-fg-base">{total}</span>
+          <Price
+            price={cart.total}
+            currencyCode={cart.currency_code}
+          />
         </div>
-        
-        <Link
-          to={`/${countryCode}/checkout` as any}
-          className="w-full bg-ui-fg-base text-ui-fg-on-color py-3 rounded txt-small font-medium hover:bg-ui-fg-subtle transition-colors disabled:opacity-50 block text-center"
-          style={{ 
-            pointerEvents: !cart.items?.length ? 'none' : 'auto',
-            opacity: !cart.items?.length ? 0.5 : 1
-          }}
-        >
-          Checkout
-        </Link>
+
+        <Button asChild className="w-full">
+          <Link to={`/${countryCode}/checkout` as any}>
+            Checkout
+          </Link>
+        </Button>
       </div>
     </div>
   )
