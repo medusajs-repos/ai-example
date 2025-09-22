@@ -8,17 +8,17 @@ import { HttpTypes } from "@medusajs/types";
 const getProductsStatic = createServerFn({
   type: "static"
 })
-.validator((data: { regionId: string }) => {
+.validator((data: { region_id: string }) => {
   return data;
 })
 .handler(async ({ data }) => {
-  const { regionId } = data;
+  const { region_id } = data;
   const { products } = await listProducts({
-    queryParams: { 
+    query_params: { 
       limit: 1000,
       order: "-created_at"
     },
-    regionId,
+    region_id,
   });
   return products as any;
 });
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/$countryCode/store")({
 
     const region = await queryClient.ensureQueryData({
       queryKey: ['region', countryCode],
-      queryFn: () => getRegion(countryCode),
+      queryFn: () => getRegion({ country_code: countryCode }),
     });
 
     if (!region) {
@@ -38,8 +38,8 @@ export const Route = createFileRoute("/$countryCode/store")({
     }
 
     const products = await queryClient.ensureQueryData({
-      queryKey: ['products', { regionId: region.id }],
-      queryFn: () => getProductsStatic({ data: { regionId: region.id } }),
+      queryKey: ['products', { region_id: region.id }],
+      queryFn: () => getProductsStatic({ data: { region_id: region.id } }),
     });
 
     return {

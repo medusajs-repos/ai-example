@@ -9,7 +9,7 @@ import { Fragment, useEffect, useMemo, useState } from "react"
 import ReactCountryFlag from "react-country-flag"
 import { useNavigate, useLocation } from "@tanstack/react-router"
 
-import useToggleState, { type StateType } from "@/lib/hooks/use-toggle-state"
+import { type StateType } from "@/lib/hooks/use-toggle-state"
 import { HttpTypes } from "@medusajs/types"
 import { getCountryCodeFromPath } from "@/lib/utils/regions"
 import { setStoredCountryCode } from "@/lib/utils/regions/stored-country-code"

@@ -15,7 +15,7 @@ const Cart = () => {
 
   // Auto-create cart if none exists
   if (!cart && !cartLoading && !createCartMutation.isPending) {
-    createCartMutation.mutate(region.id);
+    createCartMutation.mutate({ region_id: region.id });
   }
 
   const cartItems = cart?.items || [];

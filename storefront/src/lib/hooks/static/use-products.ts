@@ -1,67 +1,68 @@
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query"
 import { listProducts, retrieveProduct } from "@/lib/data/products"
 import { HttpTypes } from "@medusajs/types"
+import { queryKeys } from "@/lib/query-keys"
 
 export const useProducts = ({
-  queryParams,
-  regionId,
+  query_params,
+  region_id,
 }: {
-  queryParams?: HttpTypes.FindParams & HttpTypes.StoreProductParams
-  regionId?: string
+  query_params?: HttpTypes.FindParams & HttpTypes.StoreProductParams
+  region_id?: string
 } = {}) => {
   return useInfiniteQuery({
-    queryKey: ["products", queryParams, regionId],
+    queryKey: queryKeys.products.list(query_params, region_id),
     queryFn: ({ pageParam }) =>
       listProducts({
-        pageParam,
-        queryParams,
-        regionId,
+        page_param: pageParam,
+        query_params,
+        region_id,
       }),
-    getNextPageParam: (lastPage) => lastPage.nextPage,
-    getPreviousPageParam: (firstPage) => firstPage.nextPage,
+    getNextPageParam: (lastPage) => lastPage.next_page,
+    getPreviousPageParam: (firstPage) => firstPage.next_page,
     initialPageParam: 1,
-    enabled: !!regionId,
+    enabled: !!region_id,
   })
 }
 
 export const useProduct = ({
   handle,
-  regionId,
+  region_id,
   fields,
 }: {
   handle: string;
-  regionId?: string;
+  region_id?: string;
   fields?: string;
 }) => {
   return useQuery({
-    queryKey: ["product", handle, regionId],
-    queryFn: () => retrieveProduct({ handle, regionId, fields }),
-    enabled: !!handle && !!regionId,
+    queryKey: queryKeys.products.detail(handle, region_id),
+    queryFn: () => retrieveProduct({ handle, region_id, fields }),
+    enabled: !!handle && !!region_id,
   })
 }
 
 export const useRelatedProducts = ({
-  productId,
-  regionId,
-  collectionId,
+  product_id,
+  region_id,
+  collection_id,
   tags,
 }: {
-  productId: string;
-  regionId?: string;
-  collectionId?: string;
+  product_id: string;
+  region_id?: string;
+  collection_id?: string;
   tags?: string[];
 }) => {
   return useQuery({
-    queryKey: ["related-products", productId, regionId],
+    queryKey: queryKeys.products.related(product_id, region_id),
     queryFn: async () => {
-      const params: any = {
+      const params: Record<string, any> = {
         fields: "title, handle, *images, *variants",
         is_giftcard: false,
         limit: 4
       }
       
-      if (collectionId) {
-        params.collection_id = [collectionId]
+      if (collection_id) {
+        params.collection_id = [collection_id]
       }
       
       if (tags && tags.length > 0) {
@@ -69,33 +70,33 @@ export const useRelatedProducts = ({
       }
       
       const { products } = await listProducts({
-        queryParams: params,
-        regionId,
+        query_params: params,
+        region_id,
       })
 
-      return products.filter((product) => product.id !== productId)
+      return products.filter((product) => product.id !== product_id)
     },
-    enabled: !!productId && !!regionId,
+    enabled: !!product_id && !!region_id,
   })
 }
 
 export const useLatestProducts = ({
   limit = 4,
-  regionId,
+  region_id,
 }: {
   limit?: number
-  regionId?: string
+  region_id?: string
 } = {}) => {
   return useQuery({
-    queryKey: ["latest-products", limit, regionId],
+    queryKey: queryKeys.products.latest(limit, region_id),
     queryFn: () =>
       listProducts({
-        queryParams: { 
+        query_params: { 
           limit,
           order: "-created_at"
         },
-        regionId,
+        region_id,
       }),
-    enabled: !!regionId,
+    enabled: !!region_id,
   })
 }

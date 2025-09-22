@@ -1,25 +1,24 @@
-import { sdk } from "@/lib/config";
+import { sdk } from "@/lib/sdk";
 import { HttpTypes } from "@medusajs/types";
 
-export const calculatePriceForShippingOption = async (
-  optionId: string,
-  cartId: string,
-  data?: Record<string, unknown>
-): Promise<HttpTypes.StoreCartShippingOption | null> => {
+export const calculatePriceForShippingOption = async ({
+  option_id,
+  cart_id,
+  data,
+}: {
+  option_id: string;
+  cart_id: string;
+  data?: Record<string, unknown>;
+}): Promise<HttpTypes.StoreCartShippingOption> => {
   const body: { cart_id: string; data?: Record<string, unknown> } = {
-    cart_id: cartId,
+    cart_id,
   };
 
   if (data) {
     body.data = data;
   }
 
-  try {
-    const { shipping_option } =
-      await sdk.store.fulfillment.calculateShippingOptionPrice(optionId, body);
-    return shipping_option;
-  } catch (error) {
-    console.error("Failed to calculate shipping option price:", error);
-    return null;
-  }
+  const { shipping_option } =
+    await sdk.store.fulfillment.calculate(option_id, body);
+  return shipping_option;
 };

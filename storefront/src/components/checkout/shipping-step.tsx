@@ -36,7 +36,7 @@ const ShippingStep = ({ cart, isActive, onComplete }: ShippingStepProps) => {
       setError(null);
 
       try {
-        await setShippingMethod(selectedOption);
+        await setShippingMethod({ shipping_option_id: selectedOption });
         if (onComplete) {
           onComplete();
         }

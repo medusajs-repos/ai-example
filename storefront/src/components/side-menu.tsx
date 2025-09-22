@@ -6,11 +6,10 @@ import {
   Transition,
 } from "@headlessui/react";
 import { ArrowRightMini, XMark } from "@medusajs/icons";
-import { Text, clx } from "@medusajs/ui";
+import { Text, clx, useToggleState } from "@medusajs/ui";
 import { Link, useLocation } from "@tanstack/react-router";
 import { Fragment } from "react";
 
-import useToggleState from "@/lib/hooks/use-toggle-state";
 import { getCountryCodeFromPath } from "@/lib/utils/regions";
 import { HttpTypes } from "@medusajs/types";
 import CountrySelect from "@/components/country-select";

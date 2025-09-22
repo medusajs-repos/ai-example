@@ -14,7 +14,7 @@ const getCategoryStatic = createServerFn({
 .handler(async ({ data }) => {
   const { handle } = data;
   try {
-    const category = await retrieveCategory(handle);
+    const category = await retrieveCategory({ handle });
     return category as any;
   } catch (error) {
     throw notFound()
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/$countryCode/categories/$handle")({
     // Pre-fetch region data
     const region = await queryClient.ensureQueryData({
       queryKey: ["region", countryCode],
-      queryFn: () => getRegion(countryCode),
+      queryFn: () => getRegion({ country_code: countryCode }),
     });
 
     if (!region || !handle) {

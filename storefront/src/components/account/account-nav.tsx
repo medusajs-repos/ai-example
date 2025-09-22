@@ -1,4 +1,4 @@
-import { useLogout } from "@/lib/hooks/use-auth";
+import { useLogout } from "@/lib/hooks/dynamic/use-auth";
 import { getCountryCodeFromPath } from "@/lib/utils/regions";
 import { MapPin, ShoppingCart, User } from "@medusajs/icons";
 import { HttpTypes } from "@medusajs/types";

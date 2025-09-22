@@ -1,12 +1,20 @@
-import { sdk } from "@/lib/config";
+import { sdk } from "@/lib/sdk";
 import { getRegion } from "@/lib/data/regions";
 import { getCartId, removeCartId, setCartId } from "@/lib/utils/cookies";
 import { HttpTypes } from "@medusajs/types";
+import { QueryClient } from "@tanstack/react-query";
+import { queryKeys } from "@/lib/query-keys";
+import { sendPostRequest } from "./custom";
+import { sendDeleteRequest } from "./custom";
 
-export const retrieveCart = async (
-  cartId?: string
-): Promise<HttpTypes.StoreCart | null> => {
-  const id = cartId || getCartId();
+export const retrieveCart = async ({
+  cart_id,
+  fields,
+}: {
+  cart_id?: string;
+  fields?: string;
+}): Promise<HttpTypes.StoreCart | null> => {
+  const id = cart_id || getCartId();
 
   if (!id) {
     return null;
@@ -14,64 +22,66 @@ export const retrieveCart = async (
 
   const { cart } = await sdk.store.cart.retrieve(id, {
     fields:
-      "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name",
+      fields || "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name",
   });
 
   return cart;
 };
 
-export const getOrSetCart = async (
-  countryCode: string
-): Promise<HttpTypes.StoreCart> => {
-  const region = await getRegion(countryCode);
+export const getOrSetCart = async ({
+  country_code,
+  fields,
+}: {
+  country_code: string;
+  fields?: string;
+}): Promise<HttpTypes.StoreCart> => {
+  const region = await getRegion({ country_code });
 
   if (!region) {
-    throw new Error(`Region not found for country code: ${countryCode}`);
+    throw new Error(`Region not found for country code: ${country_code}`);
   }
 
-  let cart = await retrieveCart();
+  let cart = await retrieveCart({ fields });
 
   if (!cart) {
     // Create new cart
-    const cartResp = await sdk.store.cart.create({ region_id: region.id }, {});
+    const cartResp = await sdk.store.cart.create({ region_id: region.id });
     cart = cartResp.cart;
     setCartId(cart.id);
   }
 
   // Update cart region if different
   if (cart && cart.region_id !== region.id) {
-    await sdk.store.cart.update(cart.id, { region_id: region.id }, {});
+    await sdk.store.cart.update(cart.id, { region_id: region.id });
   }
 
   return cart;
 };
 
-export const createCart = async (
-  regionId: string
-): Promise<HttpTypes.StoreCart> => {
-  try {
-    const { cart } = await sdk.store.cart.create({ region_id: regionId }, {});
-    setCartId(cart.id);
-    return cart;
-  } catch (error) {
-    throw error;
-  }
+export const createCart = async ({
+  region_id,
+}: {
+  region_id: string;
+}): Promise<HttpTypes.StoreCart> => {
+  const { cart } = await sdk.store.cart.create({ region_id });
+  setCartId(cart.id);
+  return cart;
 };
 
 export const addToCart = async ({
-  variantId,
+  variant_id,
   quantity,
-  countryCode,
+  country_code,
 }: {
-  variantId: string;
+  variant_id: string;
   quantity: number;
-  countryCode: string;
+  country_code: string;
 }): Promise<HttpTypes.StoreCart> => {
-  if (!variantId) {
+  if (!variant_id) {
     throw new Error("Missing variant ID when adding to cart");
   }
 
-  const cart = await getOrSetCart(countryCode);
+  const cart = await getOrSetCart({ country_code });
 
   if (!cart) {
     throw new Error("Error retrieving or creating cart");
@@ -80,20 +90,19 @@ export const addToCart = async ({
   const response = await sdk.store.cart.createLineItem(
     cart.id,
     {
-      variant_id: variantId,
+      variant_id,
       quantity,
     },
-    {}
   );
 
   return response.cart;
 };
 
 export const updateLineItem = async ({
-  lineId,
+  line_id,
   quantity,
 }: {
-  lineId: string;
+  line_id: string;
   quantity: number;
 }): Promise<HttpTypes.StoreCart> => {
   const cartId = getCartId();
@@ -104,34 +113,40 @@ export const updateLineItem = async ({
 
   const { cart } = await sdk.store.cart.updateLineItem(
     cartId,
-    lineId,
+    line_id,
     { quantity },
-    {}
   );
   return cart;
 };
 
-export const deleteLineItem = async (lineId: string): Promise<void> => {
+export const deleteLineItem = async ({
+  line_id,
+}: {
+  line_id: string;
+}): Promise<void> => {
   const cartId = getCartId();
 
   if (!cartId) {
     throw new Error("No cart found");
   }
 
-  await sdk.store.cart.deleteLineItem(cartId, lineId);
+  await sdk.store.cart.deleteLineItem(cartId, line_id);
 };
 
-export const setAddresses = async (
-  prevState: any,
-  formData: FormData
-): Promise<HttpTypes.StoreCart | null> => {
+export const setAddresses = async ({
+  prev_state,
+  form_data,
+}: {
+  prev_state: any;
+  form_data: FormData;
+}): Promise<HttpTypes.StoreCart> => {
   const cartId = getCartId();
 
   if (!cartId) {
     throw new Error("No cart found");
   }
 
-  const data = Object.fromEntries(formData.entries());
+  const data = Object.fromEntries(form_data.entries());
 
   const shippingAddress = {
     first_name: data["shipping_address.first_name"] as string,
@@ -164,54 +179,40 @@ export const setAddresses = async (
 
   const email = data.email as string;
 
-  console.log({
-    shipping_address: shippingAddress,
-    billing_address: billingAddress,
-    email,
-  },)
-
-  try {
-    const { cart } = await sdk.store.cart.update(
-      cartId,
-      {
-        shipping_address: shippingAddress,
-        billing_address: billingAddress,
-        email,
-      },
-      {}
-    );
-    return cart;
-  } catch (error) {
-    console.error("Failed to set addresses:", error);
-    throw error;
-  }
+  const { cart } = await sdk.store.cart.update(
+    cartId,
+    {
+      shipping_address: shippingAddress,
+      billing_address: billingAddress,
+      email,
+    },
+  );
+  return cart;
 };
 
-export const setShippingMethod = async (
-  shippingOptionId: string
-): Promise<HttpTypes.StoreCart> => {
+export const setShippingMethod = async ({
+  shipping_option_id,
+}: {
+  shipping_option_id: string;
+}): Promise<HttpTypes.StoreCart> => {
   const cartId = getCartId();
 
   if (!cartId) {
     throw new Error("No cart found");
   }
 
-  try {
-    const { cart } = await sdk.store.cart.addShippingMethod(
-      cartId,
-      { option_id: shippingOptionId },
-      {}
-    );
-    return cart;
-  } catch (error) {
-    console.error("Failed to set shipping method:", error);
-    throw error;
-  }
+  const { cart } = await sdk.store.cart.addShippingMethod(
+    cartId,
+    { option_id: shipping_option_id },
+  );
+  return cart;
 };
 
-export const initiatePaymentSession = async (
-  providerId: string
-): Promise<any> => {
+export const initiatePaymentSession = async ({
+  provider_id,
+}: {
+  provider_id: string;
+}): Promise<HttpTypes.StorePaymentCollection> => {
   const cartId = getCartId();
 
   if (!cartId) {
@@ -219,25 +220,23 @@ export const initiatePaymentSession = async (
   }
 
   // First retrieve the cart to pass to the payment API
-  const cart = await retrieveCart(cartId);
+  const cart = await retrieveCart({ cart_id: cartId });
   if (!cart) {
     throw new Error("Cart not found");
   }
 
-  try {
-    const response = await sdk.store.payment.initiatePaymentSession(
-      cart,
-      { provider_id: providerId },
-      {}
-    );
-    return response;
-  } catch (error) {
-    console.error("Failed to initiate payment session:", error);
-    throw error;
-  }
+  const { payment_collection } = await sdk.store.payment.initiatePaymentSession(
+    cart,
+    { provider_id },
+  );
+  return payment_collection
 };
 
-export const setPaymentMethod = async (providerId: string): Promise<any> => {
+export const setPaymentMethod = async ({
+  provider_id,
+}: {
+  provider_id: string;
+}): Promise<HttpTypes.StorePaymentCollection> => {
   const cartId = getCartId();
 
   if (!cartId) {
@@ -245,22 +244,16 @@ export const setPaymentMethod = async (providerId: string): Promise<any> => {
   }
 
   // First retrieve the cart to pass to the payment API
-  const cart = await retrieveCart(cartId);
+  const cart = await retrieveCart({ cart_id: cartId });
   if (!cart) {
     throw new Error("Cart not found");
   }
 
-  try {
-    const response = await sdk.store.payment.initiatePaymentSession(
-      cart,
-      { provider_id: providerId },
-      {}
-    );
-    return response;
-  } catch (error) {
-    console.error("Failed to set payment method:", error);
-    throw error;
-  }
+  const { payment_collection } = await sdk.store.payment.initiatePaymentSession(
+    cart,
+    { provider_id },
+  );
+  return payment_collection;
 };
 
 export const completeCart = async (): Promise<HttpTypes.StoreOrder> => {
@@ -270,42 +263,44 @@ export const completeCart = async (): Promise<HttpTypes.StoreOrder> => {
     throw new Error("No cart found");
   }
 
-  try {
-    const cartRes = await sdk.store.cart.complete(cartId, {});
+  const cartRes = await sdk.store.cart.complete(cartId, {});
 
-    if (cartRes?.type === "order") {
-      // Clear the cart from storage after successful completion
-      removeCartId();
-      return cartRes.order;
-    }
-
-    // If not an order, something went wrong
+  if (cartRes.type !== "order") {
     throw new Error("Order creation failed");
-  } catch (error) {
-    console.error("Failed to complete cart:", error);
-    throw error;
   }
+
+  // Clear the cart from storage after successful completion
+  removeCartId();
+  return cartRes.order;
 };
 
-export const clearAllCartCache = (queryClient: any, regionId?: string) => {
+export const clearAllCartCache = ({
+  query_client,
+  cart_id,
+  region_id,
+}: {
+  query_client: QueryClient;
+  cart_id: string;
+  region_id?: string;
+}) => {
   // Immediately set cart data to null to clear the UI
-  queryClient.setQueryData(["cart"], null);
+  query_client.setQueryData(queryKeys.cart.current(), null);
 
   // Remove all cart-related queries from cache
-  queryClient.removeQueries({ queryKey: ["cart"] });
+  query_client.removeQueries({ queryKey: queryKeys.cart.current() });
 
   // Clear payment methods cache
-  if (regionId) {
-    queryClient.removeQueries({ queryKey: ["payment-methods", regionId] });
+  if (region_id) {
+    query_client.removeQueries({ queryKey: queryKeys.payments.sessions(region_id) });
   }
-  queryClient.removeQueries({ queryKey: ["payment-methods"] });
+  query_client.removeQueries({ queryKey: queryKeys.payments.sessions() });
 
   // Clear shipping options cache
-  queryClient.removeQueries({ queryKey: ["shipping-options"] });
+  query_client.removeQueries({ queryKey: queryKeys.shipping.options(cart_id, region_id) });
 
   // Clear any other cart-related caches
-  queryClient.removeQueries({
-    predicate: (query: { queryKey: string[] }) => {
+  query_client.removeQueries({
+    predicate: (query) => {
       const queryKey = query.queryKey;
       return (
         queryKey &&
@@ -318,7 +313,7 @@ export const clearAllCartCache = (queryClient: any, regionId?: string) => {
   });
 
   // Invalidate cart queries to trigger a fresh fetch with no cart ID
-  queryClient.invalidateQueries({ queryKey: ["cart"] });
+  query_client.invalidateQueries({ queryKey: queryKeys.cart.current() });
 };
 
 export const clearAllStorageData = () => {
@@ -378,46 +373,47 @@ export const clearAllStorageData = () => {
   }
 };
 
-export const applyPromoCode = async (code: string): Promise<HttpTypes.StoreCart> => {
+export const applyPromoCode = async ({
+  code,
+}: {
+  code: string;
+}): Promise<HttpTypes.StoreCart> => {
   const cartId = getCartId();
 
   if (!cartId) {
     throw new Error("No cart found");
   }
 
-  try {
-    const { cart } = await sdk.client.fetch<{ cart: HttpTypes.StoreCart }>(`/store/carts/${cartId}/promotions`, {
-      method: "POST",
+  const { cart } = await sendPostRequest<{ cart: HttpTypes.StoreCart }>(
+    `/store/carts/${cartId}/promotions`, 
+    {
       body: {
         promo_codes: [code],
       },
-    });
+    }
+  )
 
-    return cart;
-  } catch (error) {
-    console.error("Failed to apply promo code:", error);
-    throw error;
-  }
+  return cart;
 };
 
-export const removePromoCode = async (code: string): Promise<HttpTypes.StoreCart> => {
+export const removePromoCode = async ({
+  code,
+}: {
+  code: string;
+}): Promise<HttpTypes.StoreCart> => {
   const cartId = getCartId();
 
   if (!cartId) {
     throw new Error("No cart found");
   }
 
-  try {
-    const { cart } = await sdk.client.fetch<{ cart: HttpTypes.StoreCart }>(`/store/carts/${cartId}/promotions`, {
-      method: "DELETE",
-      body: {
-        promo_codes: [code],
-      },
-    });
+  const { cart } = await sendDeleteRequest<
+    { cart: HttpTypes.StoreCart }
+  >(`/store/carts/${cartId}/promotions`, {
+    body: {
+      promo_codes: [code],
+    },
+  });
 
-    return cart;
-  } catch (error) {
-    console.error("Failed to remove promo code:", error);
-    throw error;
-  }
+  return cart;
 };

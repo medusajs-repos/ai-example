@@ -1,15 +1,15 @@
 import AccountLayout from "@/components/account/account-layout";
 import OrderDetailsTemplate from "@/components/account/order-details-template";
-import { useCustomer } from "@/lib/hooks/use-auth";
-import { useOrder } from "@/lib/hooks/use-orders";
+import { useCustomer } from "@/lib/hooks/dynamic/use-auth";
+import { useOrder } from "@/lib/hooks/static/use-orders";
 import { Navigate, useParams } from "@tanstack/react-router";
 
 const OrderDetails = () => {
   const { data: customer, isLoading: isLoadingCustomer } = useCustomer();
   const params = useParams({ strict: false });
 
-  const orderId = params.id || params.orderId;
-  const { data: order, isLoading: isLoadingOrder, error } = useOrder(orderId);
+  const orderId = params.orderId!
+  const { data: order, isLoading: isLoadingOrder, error } = useOrder({ order_id: orderId });
 
   if (isLoadingCustomer || isLoadingOrder) {
     return (

@@ -1,4 +1,4 @@
-import { useUpdateCustomer } from "@/lib/hooks/use-auth";
+import { useUpdateCustomer } from "@/lib/hooks/dynamic/use-auth";
 import { HttpTypes } from "@medusajs/types";
 import { Badge, Button, Input } from "@medusajs/ui";
 import { useState } from "react";

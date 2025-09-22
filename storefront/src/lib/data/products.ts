@@ -1,51 +1,51 @@
-import { sdk } from "@/lib/config";
+import { sdk } from "@/lib/sdk";
 import { HttpTypes } from "@medusajs/types";
 
 export const listProducts = async ({
-  pageParam = 1,
-  queryParams,
-  regionId,
+  page_param = 1,
+  query_params,
+  region_id,
 }: {
-  pageParam?: number;
-  queryParams?: HttpTypes.StoreProductListParams;
-  regionId?: string;
+  page_param?: number;
+  query_params?: HttpTypes.StoreProductListParams;
+  region_id?: string;
 }): Promise<{
   products: HttpTypes.StoreProduct[];
   count: number;
-  nextPage: number | null;
+  next_page: number | null;
 }> => {
-  const limit = queryParams?.limit || 12;
-  const _pageParam = Math.max(pageParam, 1);
-  const offset = _pageParam === 1 ? 0 : (_pageParam - 1) * limit;
+  const limit = query_params?.limit || 12;
+  const _page_param = Math.max(page_param, 1);
+  const offset = _page_param === 1 ? 0 : (_page_param - 1) * limit;
 
   const response = await sdk.store.product.list({
     limit,
     offset,
-    region_id: regionId,
-    ...queryParams,
+    region_id,
+    ...query_params,
   })
 
-  const nextPage = offset + limit < response.count ? _pageParam + 1 : null;
+  const next_page = offset + limit < response.count ? _page_param + 1 : null;
 
   return {
     products: response.products,
     count: response.count,
-    nextPage,
+    next_page,
   };
 };
 
 export const retrieveProduct = async ({
   handle,
-  regionId,
+  region_id,
   fields,
 }: {
   handle: string;
-  regionId?: string;
+  region_id?: string;
   fields?: string;
 }): Promise<HttpTypes.StoreProduct> => {
   const { products } = await sdk.store.product.list({
     handle: handle,
-    region_id: regionId,
+    region_id,
     fields: fields ||
       "*variants, +variants.inventory_quantity, +variants.manage_inventory, +variants.allow_backorder, *images, *options, *options.values, *collection, *tags",
   });
@@ -54,7 +54,5 @@ export const retrieveProduct = async ({
     throw new Error(`Product with handle ${handle} not found`);
   }
 
-  const product = products[0];
-
-  return product;
+  return products[0];
 };

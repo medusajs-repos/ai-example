@@ -8,15 +8,15 @@ import { HttpTypes } from "@medusajs/types";
 const getProductStatic = createServerFn({
   type: "static"
 })
-.validator((data: { handle: string; regionId: string }) => {
+.validator((data: { handle: string; region_id: string }) => {
   return data;
 })
 .handler(async ({ data }) => {
-  const { handle, regionId } = data;
+  const { handle, region_id } = data;
   try {
     const product = await retrieveProduct({ 
       handle, 
-      regionId,
+      region_id,
       fields: "*variants, *images, *options, *options.values, *collection, *tags"
     });
     // Use type assertion to bypass strict typing
@@ -33,7 +33,7 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
 
     const region = await queryClient.ensureQueryData({
       queryKey: ['region', countryCode],
-      queryFn: () => getRegion(countryCode),
+      queryFn: () => getRegion({ country_code: countryCode }),
     });
 
     if (!region || !handle) {
@@ -45,7 +45,7 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
       queryFn: () => getProductStatic({
         data: {
           handle,
-          regionId: region.id
+          region_id: region.id
         }
       }),
     });

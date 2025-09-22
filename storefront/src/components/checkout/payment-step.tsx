@@ -23,7 +23,7 @@ const PaymentStep = ({ cart, onNext, onBack }: PaymentStepProps) => {
     data: availablePaymentMethods = [],
     isLoading: isLoadingPaymentMethods,
     error: paymentMethodsError,
-  } = usePaymentMethods(cart.region?.id);
+  } = usePaymentMethods({ region_id: cart.region?.id });
 
   const activeSession =
     cart.payment_collection?.payment_sessions?.find(
@@ -66,7 +66,7 @@ const PaymentStep = ({ cart, onNext, onBack }: PaymentStepProps) => {
 
     if (isStripeFunc(method)) {
       try {
-        await initiatePaymentSession(method);
+        await initiatePaymentSession({ provider_id: method });
         // Refresh cart data after initiating payment session
         queryClient.invalidateQueries({ queryKey: ["cart"] });
       } catch (err) {
@@ -96,7 +96,7 @@ const PaymentStep = ({ cart, onNext, onBack }: PaymentStepProps) => {
         activeSession?.provider_id === selectedPaymentMethod;
 
       if (!checkActiveSession) {
-        await initiatePaymentSession(selectedPaymentMethod);
+        await initiatePaymentSession({ provider_id: selectedPaymentMethod });
         // Refresh cart data
         queryClient.invalidateQueries({ queryKey: ["cart"] });
       }

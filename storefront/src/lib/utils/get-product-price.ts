@@ -29,12 +29,10 @@ export const getPricesForVariant = (variant: any) => {
 
 export function getProductPrice({
   product,
-  variantId,
-  region,
+  variant_id,
 }: {
   product: HttpTypes.StoreProduct
-  variantId?: string
-  region?: HttpTypes.StoreRegion
+  variant_id?: string
 }) {
   if (!product || !product.id) {
     throw new Error("No product provided")
@@ -58,12 +56,12 @@ export function getProductPrice({
   }
 
   const variantPrice = () => {
-    if (!product || !variantId) {
+    if (!product || !variant_id) {
       return null
     }
 
     const variant: any = product.variants?.find(
-      (v) => v.id === variantId || v.sku === variantId
+      (v) => v.id === variant_id || v.sku === variant_id
     )
 
     if (!variant) {

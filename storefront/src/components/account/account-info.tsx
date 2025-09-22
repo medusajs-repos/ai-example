@@ -1,6 +1,5 @@
 import { ReactNode, useState } from "react"
 import { Button } from "@medusajs/ui"
-import { clx } from "@medusajs/ui"
 
 interface AccountInfoProps {
   label: string

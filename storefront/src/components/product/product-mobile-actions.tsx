@@ -1,8 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react"
-import { Button, clx } from "@medusajs/ui"
+import { Button, clx, useToggleState } from "@medusajs/ui"
 import React, { Fragment, lazy, Suspense, useMemo } from "react"
 
-import useToggleState from "@/lib/hooks/use-toggle-state"
 import { getProductPrice } from "@/lib/utils/get-product-price"
 import { isSimpleProduct } from "@/lib/utils/product"
 import { HttpTypes } from "@medusajs/types"
@@ -37,7 +36,7 @@ const ProductMobileActions: React.FC<ProductMobileActionsProps> = ({
 
   const price = getProductPrice({
     product: product,
-    variantId: variant?.id,
+    variant_id: variant?.id,
   })
 
   const selectedPrice = useMemo(() => {

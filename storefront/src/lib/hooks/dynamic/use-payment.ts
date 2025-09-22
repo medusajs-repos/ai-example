@@ -1,16 +1,20 @@
 import { useQuery } from "@tanstack/react-query"
 import { listCartPaymentMethods } from "@/lib/data/payment"
+import { queryKeys } from "@/lib/query-keys"
 
-export const usePaymentMethods = (regionId?: string) => {
+export const usePaymentMethods = ({
+  region_id,
+  fields,
+}: {
+  region_id?: string;
+  fields?: string;
+} = {}) => {
   return useQuery({
-    queryKey: ["payment-methods", regionId],
+    queryKey: queryKeys.payments.sessions(region_id),
     queryFn: () => {
-      if (!regionId) {
-        throw new Error('Region ID is required to fetch payment methods')
-      }
-      return listCartPaymentMethods(regionId)
+      return listCartPaymentMethods({ region_id: region_id!, fields })
     },
-    enabled: !!regionId,
-    staleTime: 0
+    enabled: !!region_id,
+    staleTime: 0,
   })
 }

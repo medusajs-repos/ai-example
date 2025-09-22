@@ -1,5 +1,5 @@
 import LocalizedClientLink from "@/components/localized-client-link";
-import { useCustomerOrders } from "@/lib/hooks/use-orders";
+import { useCustomerOrders } from "@/lib/hooks/static/use-orders";
 import { getCountryCodeFromPath } from "@/lib/utils/regions";
 import { HttpTypes } from "@medusajs/types";
 import { Link, useLocation } from "@tanstack/react-router";

@@ -1,6 +1,6 @@
 
 import { useAddToCart } from "@/lib/hooks/dynamic/use-cart";
-import { useIntersection } from "@/lib/hooks/use-intersection";
+import { useIntersection } from "@/lib/hooks/lib/use-intersection";
 import { getCountryCodeFromPath } from "@/lib/utils/regions";
 import { HttpTypes } from "@medusajs/types";
 import { Button } from "@medusajs/ui";
@@ -29,7 +29,7 @@ export default function ProductActions({
 }: ProductActionsProps) {
   const { data: product } = useProductDynamic({ 
     handle,
-    regionId: region.id,
+    region_id: region.id,
    })
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string | undefined>>(
     {}
@@ -108,9 +108,9 @@ export default function ProductActions({
 
     try {
       await addToCartMutation.mutateAsync({
-        variantId: selectedVariant.id,
+        variant_id: selectedVariant.id,
         quantity: 1,
-        countryCode,
+        country_code: countryCode,
       });
     } catch (error) {
       alert("Failed to add item to cart. Please try again.");

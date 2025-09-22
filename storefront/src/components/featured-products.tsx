@@ -7,9 +7,9 @@ import { useRegion } from "@/lib/hooks/static/use-region";
 const FeaturedProducts = () => {
   const location = useLocation();
   const countryCode = getCountryCodeFromPath(location.pathname);
-  const { data: region } = useRegion(countryCode || "");
+  const { data: region } = useRegion({ country_code: countryCode || "" });
   const { data: latestProducts } = useLatestProducts({
-    regionId: region?.id,
+    region_id: region?.id,
   });
 
   if (!latestProducts?.products.length) {

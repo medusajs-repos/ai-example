@@ -1,4 +1,4 @@
-import { sdk } from "@/lib/config";
+import { sdk } from "@/lib/sdk";
 import { HttpTypes } from "@medusajs/types";
 
 export const listCategories = async (options?: {
@@ -13,12 +13,17 @@ export const listCategories = async (options?: {
   return product_categories
 };
 
-export const retrieveCategory = async (
-  handle: string
-): Promise<HttpTypes.StoreProductCategory | null> => {
+export const retrieveCategory = async ({
+  handle,
+  fields,
+}: {
+  handle: string;
+  fields?: string;
+}): Promise<HttpTypes.StoreProductCategory | null> => {
   const product_categories = await listCategories({
     queryParams: {
       handle,
+      fields
     },
   });
 

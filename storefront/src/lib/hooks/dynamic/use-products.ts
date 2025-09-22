@@ -3,19 +3,21 @@ import { retrieveProduct } from "../../data/products";
 
 export const useProductDynamic = ({
   handle,
-  regionId,
+  region_id,
+  fields,
 }: {
   handle: string;
-  regionId: string;
+  region_id: string;
+  fields?: string;
 }) => {
   return useQuery({
-    queryKey: ["product-dynamic", handle, regionId],
+    queryKey: ["product-dynamic", handle, region_id],
     queryFn: () => retrieveProduct({
       handle,
-      regionId,
-      fields: "*variants, variants.inventory_quantity, variants.manage_inventory, variants.allow_backorder, *options, *options.values"
+      region_id,
+      fields: fields || "*variants, variants.inventory_quantity, variants.manage_inventory, variants.allow_backorder, *options, *options.values"
     }),
     staleTime: 0, // Don't cache
-    enabled: !!handle && !!regionId,
+    enabled: !!handle && !!region_id,
   });
 }

@@ -4,19 +4,19 @@ import { convertToLocale } from "@/lib/utils/money";
 
 export const getProductPrice = ({
   product,
-  variantId,
+  variant_id,
   region,
 }: {
   product: HttpTypes.StoreProduct;
-  variantId?: string;
+  variant_id?: string;
   region: HttpTypes.StoreRegion;
 }): VariantPrice | undefined => {
   if (!product?.variants?.length || !region) {
     return undefined;
   }
 
-  const variant = variantId
-    ? product.variants.find((v) => v.id === variantId)
+  const variant = variant_id
+    ? product.variants.find((v) => v.id === variant_id)
     : product.variants[0];
 
   if (!variant) {

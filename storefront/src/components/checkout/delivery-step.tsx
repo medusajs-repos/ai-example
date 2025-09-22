@@ -20,7 +20,7 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
     data: shippingOptions,
     isLoading,
     error,
-  } = useShippingOptions(cart.id);
+  } = useShippingOptions({ cart_id: cart.id });
   const setShippingMethod = useSetShippingMethod();
   const [selectedOptionId, setSelectedOptionId] = useState<string>(
     cart.shipping_methods?.[0]?.shipping_option_id || ""
@@ -52,7 +52,7 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
     }
 
     const promises = calculatedOptions.map((option) =>
-      calculatePriceForShippingOption(option.id, cart.id)
+      calculatePriceForShippingOption({ option_id: option.id, cart_id: cart.id })
     );
 
     Promise.allSettled(promises).then((results) => {
@@ -75,7 +75,7 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
 
     setIsSubmitting(true);
     try {
-      await setShippingMethod.mutateAsync(selectedOptionId);
+      await setShippingMethod.mutateAsync({ shipping_option_id: selectedOptionId });
       onNext();
     } catch (error) {
       console.error("Failed to set shipping method:", error);

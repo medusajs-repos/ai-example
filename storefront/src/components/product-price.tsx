@@ -15,7 +15,7 @@ export default function ProductPrice({
 }) {
   const { cheapestPrice, variantPrice } = getProductPrice({
     product,
-    variantId: variant?.id,
+    variant_id: variant?.id,
   })
 
   const selectedPrice = variant ? variantPrice : cheapestPrice

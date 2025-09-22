@@ -1,5 +1,5 @@
 import { getCountryCodeFromPath } from "@/lib/utils/regions";
-import { useLogin } from "@/lib/hooks/use-auth";
+import { useLogin } from "@/lib/hooks/dynamic/use-auth";
 import { useLocation, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
 

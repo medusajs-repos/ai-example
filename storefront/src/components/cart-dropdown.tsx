@@ -109,7 +109,7 @@ const CartItem = ({
     setIsUpdating(true);
     try {
       await updateLineItem.mutateAsync({
-        lineId: item.id,
+        line_id: item.id,
         quantity: newQuantity,
       });
     } catch (error) {
@@ -124,7 +124,7 @@ const CartItem = ({
 
     setIsUpdating(true);
     try {
-      await deleteLineItem.mutateAsync(item.id);
+      await deleteLineItem.mutateAsync({ line_id: item.id });
     } catch (error) {
       console.error("Failed to delete item:", error);
     } finally {

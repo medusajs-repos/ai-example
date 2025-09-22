@@ -9,7 +9,7 @@ export const Route = createFileRoute("/$countryCode/cart")({
 
     const region = await queryClient.ensureQueryData({
       queryKey: ["region", countryCode],
-      queryFn: () => getRegion(countryCode),
+      queryFn: () => getRegion({ country_code: countryCode }),
     });
 
     if (!region) {

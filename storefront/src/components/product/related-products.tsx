@@ -13,10 +13,10 @@ export default function RelatedProducts({
   region,
 }: RelatedProductsProps) {
   const { data: relatedProducts, isLoading } = useRelatedProducts({
-    productId: product.id,
-    collectionId: product.collection_id || undefined,
+    product_id: product.id,
+    collection_id: product.collection_id || undefined,
     tags: product.tags?.map((tag) => tag.id),
-    regionId: region.id,
+    region_id: region.id,
   })
 
   if (isLoading) {

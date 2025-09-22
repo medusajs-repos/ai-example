@@ -14,10 +14,10 @@ const CartItem = ({ item, cart }: CartItemProps) => {
 
   const handleQuantityChange = (newQuantity: number) => {
     if (newQuantity === 0) {
-      deleteLineItemMutation.mutate(item.id);
+      deleteLineItemMutation.mutate({ line_id: item.id });
     } else {
       updateLineItemMutation.mutate({
-        lineId: item.id,
+        line_id: item.id,
         quantity: newQuantity,
       });
     }
@@ -81,7 +81,7 @@ const CartItem = ({ item, cart }: CartItemProps) => {
         </div>
 
         <button
-          onClick={() => deleteLineItemMutation.mutate(item.id)}
+          onClick={() => deleteLineItemMutation.mutate({ line_id: item.id })}
           disabled={deleteLineItemMutation.isPending}
           className="text-ui-fg-muted hover:text-ui-fg-base txt-small underline disabled:opacity-50 transition-colors"
         >

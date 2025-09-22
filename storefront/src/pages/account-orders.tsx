@@ -1,6 +1,6 @@
 import AccountLayout from "@/components/account/account-layout";
 import OrdersTemplate from "@/components/account/orders-template";
-import { useCustomer } from "@/lib/hooks/use-auth";
+import { useCustomer } from "@/lib/hooks/dynamic/use-auth";
 import { Navigate } from "@tanstack/react-router";
 
 const AccountOrders = () => {

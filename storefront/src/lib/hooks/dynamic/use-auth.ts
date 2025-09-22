@@ -6,11 +6,12 @@ import {
   updateCustomer,
 } from "@/lib/data/customer";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "@/lib/query-keys";
 
-export const useCustomer = () => {
+export const useCustomer = (fields?: string) => {
   return useQuery({
-    queryKey: ["customer"],
-    queryFn: retrieveCustomer,
+    queryKey: queryKeys.customer.current(),
+    queryFn: () => retrieveCustomer({ fields }),
     staleTime: 1000 * 60 * 10, // 10 minutes
   });
 };
@@ -21,8 +22,8 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: loginCustomer,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
-      queryClient.invalidateQueries({ queryKey: ["customer"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.cart.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.customer.all });
     },
   });
 };
@@ -33,8 +34,8 @@ export const useRegister = () => {
   return useMutation({
     mutationFn: registerCustomer,
     onSuccess: (data) => {
-      queryClient.setQueryData(["customer"], data.customer);
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
+      queryClient.setQueryData(queryKeys.customer.current(), data.customer);
+      queryClient.invalidateQueries({ queryKey: queryKeys.cart.all });
     },
   });
 };
@@ -45,8 +46,8 @@ export const useLogout = () => {
   return useMutation({
     mutationFn: logoutCustomer,
     onSuccess: () => {
-      queryClient.setQueryData(["customer"], null);
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
+      queryClient.setQueryData(queryKeys.customer.current(), null);
+      queryClient.invalidateQueries({ queryKey: queryKeys.cart.all });
     },
   });
 };
@@ -57,7 +58,7 @@ export const useUpdateCustomer = () => {
   return useMutation({
     mutationFn: updateCustomer,
     onSuccess: (customer) => {
-      queryClient.setQueryData(["customer"], customer);
+      queryClient.setQueryData(queryKeys.customer.current(), customer);
     },
   });
 };
@@ -65,8 +66,7 @@ export const useUpdateCustomer = () => {
 export const useChangePassword = () => {
   return useMutation({
     mutationFn: async ({ oldPassword, newPassword }: { oldPassword: string; newPassword: string }) => {
-      // Note: This would need to be implemented based on your backend's password change endpoint
-      // For now, returning a mock implementation
+      // TODO: This would need to be implemented based on your backend's password change endpoint
       throw new Error("Password change is currently not available. Please contact customer service.");
     },
   });

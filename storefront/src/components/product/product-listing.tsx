@@ -28,8 +28,8 @@ const ProductListing = ({ region, title, queryParams }: ProductListProps) => {
     fetchPreviousPage,
     hasPreviousPage,
   } = useProducts({
-    regionId: region.id,
-    queryParams: {
+    region_id: region.id,
+    query_params: {
       ...queryParams,
       limit: PRODUCTS_PER_PAGE,
     },

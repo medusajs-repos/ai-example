@@ -1,8 +1,15 @@
-import { sdk } from "@/lib/config";
+import { sdk } from "@/lib/sdk";
 
-export const listCartPaymentMethods = async (regionId: string) => {
+export const listCartPaymentMethods = async ({
+  region_id,
+  fields,
+}: {
+  region_id: string;
+  fields?: string;
+}) => {
   const { payment_providers } = await sdk.store.payment.listPaymentProviders({
-    region_id: regionId,
+    region_id,
+    fields
   });
 
   return payment_providers;

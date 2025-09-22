@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useRegister } from "@/lib/hooks/use-auth";
+import { useRegister } from "@/lib/hooks/dynamic/use-auth";
 
 interface RegisterFormProps {
   onSuccess?: () => void

@@ -1,9 +1,7 @@
-import { sdk } from "@/lib/config";
+import { sdk } from "@/lib/sdk";
 import {
   getCartId,
-  removeAuthToken,
   removeCartId,
-  setAuthToken,
 } from "@/lib/utils/cookies";
 import { HttpTypes } from "@medusajs/types";
 
@@ -14,141 +12,121 @@ export const loginCustomer = async ({
   email: string;
   password: string;
 }): Promise<{ token: string }> => {
-  const token = (await sdk.auth.login("customer", "emailpass", {
+  const token = await sdk.auth.login("customer", "emailpass", {
     email,
     password,
-  })) as string;
+  })
 
-  if (!token) {
+  if (typeof token !== "string") {
     throw new Error("Login failed");
-  }
-
-  if (token) {
-    setAuthToken(token);
   }
 
   // Transfer anonymous cart to authenticated user
   const cartId = getCartId();
   if (cartId && token) {
-    try {
-      await sdk.store.cart.transferCart(cartId, {});
-      removeCartId();
-    } catch (error) {
-      console.warn("Failed to transfer cart:", error);
-    }
+    await sdk.store.cart.transferCart(cartId, {});
+    removeCartId();
   }
 
   return {
-    token: token,
+    token,
   };
 };
 
 export const registerCustomer = async ({
   email,
   password,
-  firstName,
-  lastName,
+  first_name,
+  last_name,
 }: {
   email: string;
   password: string;
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
 }): Promise<{ customer: HttpTypes.StoreCustomer; token: string }> => {
-  try {
-    const customerForm = {
-      email,
-      password,
-      first_name: firstName,
-      last_name: lastName,
-    };
-
-    // Step 1: Register via auth
-    const registrationToken = await sdk.auth.register("customer", "emailpass", {
-      email: customerForm.email,
-      password: password,
-    });
-
-    // Step 2: Create customer record (without password)
-    const { customer: createdCustomer } = await sdk.store.customer.create(
-      {
-        first_name: firstName,
-        last_name: lastName,
-        email: email,
-      },
-      {},
-      { authorization: `Bearer ${registrationToken}` }
-    );
-
-    // Step 3: Login to get proper session token
-    const loginToken = (await sdk.auth.login("customer", "emailpass", {
-      email: customerForm.email,
-      password,
-    })) as string;
-
-    // Step 4: Set auth token
-    setAuthToken(loginToken);
-
-    // Step 5: Transfer cart
-    const cartId = getCartId();
-    if (cartId) {
-      try {
-        const authHeaders = { authorization: `Bearer ${loginToken}` };
-        await sdk.store.cart.transferCart(cartId, {}, authHeaders);
-        removeCartId();
-      } catch (error) {
-        console.warn("Failed to transfer cart:", error);
-      }
-    }
-
-    return { customer: createdCustomer, token: loginToken };
-  } catch (error) {
-    console.error("Registration failed:", error);
-    throw error;
-  }
-};
-
-export const retrieveCustomer =
-  async (): Promise<HttpTypes.StoreCustomer | null> => {
-    try {
-      const response = await sdk.store.customer.retrieve();
-      return response.customer;
-    } catch (error) {
-      console.error("Failed to retrieve customer:", error);
-      removeAuthToken();
-      return null;
-    }
+  const customerForm = {
+    email,
+    password,
+    first_name,
+    last_name,
   };
 
-export const logoutCustomer = async (): Promise<void> => {
-  try {
-    await sdk.auth.logout();
-  } catch (error) {
-    console.error("Logout error:", error);
-  } finally {
-    removeAuthToken();
-  }
+  // Step 1: Register via auth
+  await sdk.auth.register("customer", "emailpass", {
+    email: customerForm.email,
+    password: password,
+  });
+
+  // Step 2: Create customer record (without password)
+  const { customer: createdCustomer } = await sdk.store.customer.create(
+    {
+      first_name,
+      last_name,
+      email,
+    },
+  );
+
+  // Step 3: Login to get proper session token
+  const { token } = await loginCustomer({
+    email: customerForm.email,
+    password: password,
+  })
+
+  return { customer: createdCustomer, token };
 };
 
-export const updateCustomer = async (
-  updates: Partial<
-    Pick<HttpTypes.StoreCustomer, "first_name" | "last_name" | "phone">
-  >
-): Promise<HttpTypes.StoreCustomer> => {
-  try {
-    const response = await sdk.store.customer.update(updates);
+export const retrieveCustomer = async ({
+  fields,
+}: {
+  fields?: string;
+}): Promise<HttpTypes.StoreCustomer | null> => {
+  const response = await sdk.store.customer.retrieve({ fields });
+  return response.customer;
+};
 
-    return response.customer;
-  } catch (error) {
-    console.error("Failed to update customer:", error);
-    // If auth fails, remove the token
-    if (
-      error &&
-      typeof error === "object" &&
-      "status" in error &&
-      error.status === 401
-    ) {
-      removeAuthToken();
-    }
-    throw error;
-  }
+export const logoutCustomer = async (): Promise<void> => {
+  await sdk.auth.logout();
+};
+
+export const updateCustomer = async ({
+  updates,
+}: {
+  updates: HttpTypes.StoreUpdateCustomer;
+}): Promise<HttpTypes.StoreCustomer> => {
+  const { customer } = await sdk.store.customer.update(updates);
+
+  return customer;
+};
+
+export const createCustomerAddress = async ({
+  address,
+}: {
+  address: HttpTypes.StoreCreateCustomerAddress;
+}): Promise<HttpTypes.StoreCustomer> => {
+  const { customer } = await sdk.store.customer.createAddress(address);
+  return customer;
+};
+
+export const updateCustomerAddress = async ({
+  address_id,
+  address,
+}: {
+  address_id: string;
+  address: HttpTypes.StoreUpdateCustomerAddress;
+}): Promise<HttpTypes.StoreCustomer> => {
+  const { customer } = await sdk.store.customer.updateAddress(
+    address_id,
+    address
+  );
+  return customer;
+};
+
+export const deleteCustomerAddress = async ({
+  address_id,
+}: {
+  address_id: string;
+}): Promise<HttpTypes.StoreCustomer | undefined> => {
+  const { parent: customer } = await sdk.store.customer.deleteAddress(address_id);
+
+  return customer;
 };
