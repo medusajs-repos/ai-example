@@ -37,7 +37,7 @@ export const useSetShippingMethod = () => {
     mutationFn: setShippingMethod,
     onSuccess: async (cart) => {
       // Update the cart cache
-      queryClient.invalidateQueries({ queryKey: queryKeys.cart.current() });
+      queryClient.invalidateQueries({ predicate: queryKeys.cart.predicate });
       queryClient.invalidateQueries({ queryKey: queryKeys.shipping.options(cart.id) });
     },
   });

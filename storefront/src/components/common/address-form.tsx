@@ -1,5 +1,5 @@
 import { HttpTypes } from "@medusajs/types"
-import { Button, Input, Label, Select } from "@medusajs/ui"
+import { Button, Input, Label, Select, clx } from "@medusajs/ui"
 import { useMemo, useState } from "react"
 import { countries } from "../../lib/constants/countries"
 
@@ -15,6 +15,7 @@ interface AddressFormProps {
   onCancel?: () => void
   countries?: HttpTypes.StoreRegion["countries"]
   isLoading?: boolean
+  className?: string
 }
 
 const AddressForm = ({
@@ -24,7 +25,8 @@ const AddressForm = ({
   onSubmit, 
   onCancel, 
   isLoading,
-  countries: customCountries
+  countries: customCountries,
+  className
 }: AddressFormProps) => {
   const [errors, setErrors] = useState<Record<string, string>>({})
 
@@ -50,8 +52,7 @@ const AddressForm = ({
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = () => {
     
     if (!validateForm() || !shouldHandleSubmit) return
 
@@ -70,7 +71,7 @@ const AddressForm = ({
   }, [customCountries])
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <div className={clx("space-y-4", className)}>
       {/* Name fields */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
@@ -85,7 +86,6 @@ const AddressForm = ({
             value={addressFormData.first_name}
             onChange={(e) => handleChange('first_name', e.target.value)}
             placeholder="First name"
-            required
           />
           {errors.first_name && (
             <div className="text-red-500 txt-small mt-1">{errors.first_name}</div>
@@ -103,7 +103,6 @@ const AddressForm = ({
             value={addressFormData.last_name}
             onChange={(e) => handleChange('last_name', e.target.value)}
             placeholder="Last name"
-            required
           />
           {errors.last_name && (
             <div className="text-red-500 txt-small mt-1">{errors.last_name}</div>
@@ -140,7 +139,6 @@ const AddressForm = ({
           value={addressFormData.address_1}
           onChange={(e) => handleChange('address_1', e.target.value)}
           placeholder="Address line 1"
-          required
         />
         {errors.address_1 && (
           <div className="text-red-500 txt-small mt-1">{errors.address_1}</div>
@@ -175,7 +173,6 @@ const AddressForm = ({
             value={addressFormData.city}
             onChange={(e) => handleChange('city', e.target.value)}
             placeholder="City"
-            required
           />
           {errors.city && (
             <div className="text-red-500 txt-small mt-1">{errors.city}</div>
@@ -207,7 +204,6 @@ const AddressForm = ({
             value={addressFormData.postal_code}
             onChange={(e) => handleChange('postal_code', e.target.value)}
             placeholder="Postal code"
-            required
           />
           {errors.postal_code && (
             <div className="text-red-500 txt-small mt-1">{errors.postal_code}</div>
@@ -224,7 +220,6 @@ const AddressForm = ({
           name="country_code"
           value={addressFormData.country_code}
           onValueChange={(value) => handleChange('country_code', value)}
-          required
         >
           <Select.Trigger>
             <Select.Value placeholder="Select country" />
@@ -270,7 +265,7 @@ const AddressForm = ({
             Cancel
           </Button>
           <Button
-            type="submit"
+            onClick={handleSubmit}
             isLoading={isLoading}
             className="min-w-[100px]"
           >
@@ -278,7 +273,7 @@ const AddressForm = ({
           </Button>
         </div>
       )}
-    </form>
+    </div>
   )
 }
 

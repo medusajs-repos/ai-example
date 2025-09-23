@@ -107,7 +107,7 @@ const CompactCartLineItem = ({ item, cart, fields }: CartLineItemProps) => {
 
 const DisplayCartLineItem = ({ item, cart }: CartLineItemProps) => {
   return (
-    <div key={item.id} className="flex items-center gap-4 py-3 border-b border-ui-border-base last:border-b-0">
+    <div className="flex items-center gap-4 py-3 border-b border-ui-border-base last:border-b-0">
       <Thumbnail thumbnail={item.thumbnail} alt={item.product_title || item.title} className="w-16 h-16" />
       <div className="flex-1">
         <Text className="txt-medium-plus text-ui-fg-base">{item.product_title}</Text>

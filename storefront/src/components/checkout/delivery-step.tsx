@@ -4,7 +4,7 @@ import {
 } from "@/lib/hooks/dynamic/use-shipping";
 import { MapPin, TruckFast } from "@medusajs/icons";
 import { HttpTypes } from "@medusajs/types";
-import { Button, Heading, Text } from "@medusajs/ui";
+import { Button, Heading, Text, toast } from "@medusajs/ui";
 import { useEffect, useState } from "react";
 import ShippingItemSelector from "./shipping-item-selector";
 import Address from "../common/address";
@@ -19,7 +19,7 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
   const {
     data: shippingOptions,
   } = useShippingOptions({ cart_id: cart.id });
-  const setShippingMethod = useSetShippingMethod();
+  const setShippingMethodMutation = useSetShippingMethod();
   const [selectedOptionId, setSelectedOptionId] = useState<string>(
     cart.shipping_methods?.[0]?.shipping_option_id || ""
   );
@@ -31,27 +31,33 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
       setSelectedOptionId(shippingOptions[0].id);
     }
   }, [shippingOptions, selectedOptionId]);
+  
 
   const handleSubmit = async () => {
     if (!selectedOptionId || isSubmitting) return;
 
     setIsSubmitting(true);
-    try {
-      await setShippingMethod.mutateAsync({ shipping_option_id: selectedOptionId });
-      onNext();
-    } catch (error) {
-      console.error("Failed to set shipping method:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
+    await setShippingMethodMutation.mutateAsync({ 
+      shipping_option_id: selectedOptionId
+    }, {
+      onSuccess: () => {
+        onNext();
+      },
+      onSettled: () => {
+        setIsSubmitting(false);
+      },
+      onError: (error) => {
+        console.error("Failed to set shipping method:", error);
+        toast.error("Failed to set shipping method. Please try again.");
+      }
+    });
   };
 
   return (
-    <div className="bg-white p-8 rounded-lg border border-ui-border-base">
-      <div className="flex items-center gap-3 mb-6">
-        <TruckFast className="text-ui-fg-base" />
-        <Heading level="h2">Choose delivery method</Heading>
-      </div>
+    <div>
+    <Heading level="h2" className="mb-6">
+      Delivery
+    </Heading>
 
       <div className="space-y-3 mb-8">
         {shippingOptions?.map((option) => (
@@ -69,7 +75,7 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
       {cart.shipping_address && (
         <div className="mb-8 p-4 bg-ui-bg-subtle rounded-lg">
           <div className="flex items-center gap-2 mb-2">
-            <MapPin className="w-4 h-4 text-ui-fg-subtle" />
+            <MapPin className="text-ui-fg-subtle" />
             <Text className="txt-small-plus text-ui-fg-base">
               Delivering to:
             </Text>
@@ -80,13 +86,12 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
 
       <div className="flex items-center justify-between">
         <Button variant="secondary" onClick={onBack} disabled={isSubmitting}>
-          ← Back to Address
+          Back
         </Button>
         <Button
           onClick={handleSubmit}
           disabled={!selectedOptionId || isSubmitting}
           isLoading={isSubmitting}
-          className="min-w-[180px]"
         >
           {isSubmitting ? "Saving..." : "Continue to Payment →"}
         </Button>

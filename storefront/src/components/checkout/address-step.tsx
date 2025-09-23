@@ -63,10 +63,6 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
         submitData.append(`billing_address.${key}`, value)
       })
       
-      if (sameAsBilling) {
-        submitData.append('same_as_billing', 'on')
-      }
-      
       await setAddresses.mutateAsync(submitData)
       onNext()
     } catch (error) {
@@ -82,27 +78,27 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
     
     const shippingValid = required.every(field => shipping[field as keyof typeof shipping]?.trim())
     const emailValid = email.trim() && email.includes('@')
+    let billingValid = true
     
     if (!sameAsBilling) {
       const billing = billingAddress
-      const billingValid = required.every(field => billing[field as keyof typeof billing]?.trim())
-      return shippingValid && emailValid && billingValid
+      billingValid = required.every(field => billing[field as keyof typeof billing]?.trim())
     }
     
-    return shippingValid && emailValid
+    return shippingValid && emailValid && billingValid
   }
 
   return (
-    <div className="bg-white p-6 rounded-lg border border-ui-border-base">
+    <div>
       <Heading level="h2" className="mb-6">
-        Contact & Shipping Information
+        Shipping
       </Heading>
       
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Email */}
         <div>
           <Label htmlFor="email" className="block txt-small font-medium mb-2">
-            Email Address *
+            Email Address
           </Label>
           <Input
             id="email"
@@ -110,7 +106,6 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="your@email.com"
-            required
             className="w-full"
           />
         </div>
@@ -140,6 +135,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
             addressFormData={billingAddress}
             setAddressFormData={setBillingAddress}
             countries={cart.region?.countries}
+            className="mt-6"
           />
         )}
 

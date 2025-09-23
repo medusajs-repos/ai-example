@@ -1,7 +1,6 @@
-import { useState, useEffect, lazy } from "react"
-import { useLoaderData } from "@tanstack/react-router"
+import { useEffect, lazy, Suspense, useMemo } from "react"
+import { useLoaderData, useNavigate, useLocation } from "@tanstack/react-router"
 import { useCart } from "@/lib/hooks/dynamic/use-cart"
-import { Heading, Text, Button } from "@medusajs/ui"
 import { Loading } from "../components/common"
 
 const DeliveryStep = lazy(() => import("@/components/checkout/delivery-step"))
@@ -9,104 +8,94 @@ const AddressStep = lazy(() => import("@/components/checkout/address-step"))
 const PaymentStep = lazy(() => import("@/components/checkout/payment-step"))
 const ReviewStep = lazy(() => import("@/components/checkout/review-step"))
 const CheckoutSummary = lazy(() => import("@/components/checkout/checkout-summary"))
+const CartEmpty = lazy(() => import("@/components/cart/cart-empty"))
 
-enum CheckoutStep {
-  ADDRESS = "address",
+export enum CheckoutStep {
+  ADDRESSES = "addresses",
   DELIVERY = "delivery",
   PAYMENT = "payment",
   REVIEW = "review",
 }
 
 const Checkout = () => {
-  const { countryCode } = useLoaderData({
-    from: "/$countryCode/checkout",
+  const { step } = useLoaderData({
+    from: "/$countryCode/checkout"
   })
-  const { data: cart, isLoading } = useCart()
-  const [currentStep, setCurrentStep] = useState<CheckoutStep>(CheckoutStep.ADDRESS)
+  const { data: cart } = useCart()
+  const location = useLocation()
+  const navigate = useNavigate()
 
-  // Check if cart has items
-  const itemCount = cart?.items?.reduce((total, item) => total + item.quantity, 0) || 0
+  const steps = useMemo(() => {
+    return [
+      { 
+        key: CheckoutStep.ADDRESSES,
+        title: "Addresses", 
+        completed: !!(cart?.shipping_address && cart?.billing_address)
+      },
+      { 
+        key: CheckoutStep.DELIVERY,
+        title: "Delivery", 
+        completed: !!(cart?.shipping_methods?.length)
+      },
+      { 
+        key: CheckoutStep.PAYMENT,
+        title: "Payment", 
+        completed: !!(cart?.payment_collection?.payment_sessions?.length)
+      },
+      { 
+        key: CheckoutStep.REVIEW,
+        title: "Review", 
+        completed: false
+      },
+    ]
+  }, [cart])
+
+  const currentStepIndex = useMemo(() => 
+    steps.findIndex((s) => s.key === step),
+  [step, steps])
+
+  const goToStep = (step: CheckoutStep) => {
+    navigate({
+      to: `${location.pathname}?step=${step}`,
+      replace: true,
+    })
+  }
 
   useEffect(() => {
     // Determine which step to show based on cart state
-    if (!cart) return;
-    if (!cart.shipping_address || !cart.billing_address || !cart.email) {
-      setCurrentStep(CheckoutStep.ADDRESS)
-      return;
+    if (!cart) {
+      return
     }
-    if (!cart.shipping_methods?.length) {
-      setCurrentStep(CheckoutStep.DELIVERY)
-      return;
+    
+    if (step !== CheckoutStep.ADDRESSES && currentStepIndex >= 0 && !steps[0].completed) {
+      goToStep(CheckoutStep.ADDRESSES)
+      return
     }
-    if (!cart.payment_collection?.payment_sessions?.length) {
-      setCurrentStep(CheckoutStep.PAYMENT)
-      return;
+
+    if (step !== CheckoutStep.DELIVERY && currentStepIndex >= 1 && !steps[1].completed) {
+      goToStep(CheckoutStep.DELIVERY)
+      return
     }
-    setCurrentStep(CheckoutStep.REVIEW)
-  }, [cart])
 
-  if (isLoading) {
-    // TODO add checkout loading
-    return <Loading />
-  }
-
-  if (!cart || itemCount === 0) {
-    return (
-      <div className="content-container py-8">
-        <div className="text-center">
-          <Heading level="h1" className="mb-4">Your cart is empty</Heading>
-          <Text className="text-ui-fg-subtle mb-6">
-            Add some items to your cart before checking out.
-          </Text>
-          <Button asChild>
-            <a href={`/${countryCode}/store`}>Continue Shopping</a>
-          </Button>
-        </div>
-      </div>
-    )
-  }
-
-  const steps = [
-    { 
-      key: CheckoutStep.ADDRESS, 
-      title: "Address", 
-      completed: !!(cart?.shipping_address && cart?.billing_address)
-    },
-    { 
-      key: CheckoutStep.DELIVERY, title: "Delivery", 
-      completed: !!(cart?.shipping_methods && cart?.shipping_methods.length > 0)
-    },
-    { 
-      key: CheckoutStep.PAYMENT, 
-      title: "Payment", 
-      completed: !!(cart?.payment_collection?.payment_sessions?.length)
-    },
-    { 
-      key: CheckoutStep.REVIEW, 
-      title: "Review", 
-      completed: false
-    },
-  ]
-
-  const currentStepIndex = steps.findIndex(step => step.key === currentStep)
+    if (step !== CheckoutStep.PAYMENT && currentStepIndex >= 2 && !steps[2].completed) {
+      goToStep(CheckoutStep.PAYMENT)
+      return
+    }
+  }, [cart, steps, location])
 
   const handleNext = () => {
     const nextIndex = currentStepIndex + 1
     if (nextIndex < steps.length) {
-      setCurrentStep(steps[nextIndex].key)
+      goToStep(steps[nextIndex].key)
     }
   }
 
   const handleBack = () => {
     const prevIndex = currentStepIndex - 1
     if (prevIndex >= 0) {
-      setCurrentStep(steps[prevIndex].key)
+      goToStep(steps[prevIndex].key)
     }
   }
-
-  const subtotal = cart.subtotal || 0
-  const shippingTotal = cart.shipping_total || 0
-  const total = cart.total || 0
 
   return (
     <div className="content-container py-8">
@@ -114,12 +103,12 @@ const Checkout = () => {
         {/* Left Column - Checkout Steps */}
         <div className="space-y-6">
           {/* Progress Steps */}
-          <div className="bg-white p-6 rounded-lg border border-ui-border-base">
+          <div className="bg-ui-bg-base p-6 rounded-lg border border-ui-border-base">
             <div className="flex flex-wrap gap-y-4 items-center">
               {steps.map((step, index) => (
                 <div key={step.key} className="flex items-center">
                   <button
-                    onClick={() => setCurrentStep(step.key)}
+                    onClick={() => goToStep(step.key)}
                     className={`w-8 h-8 rounded-full flex items-center justify-center txt-small-plus transition-colors cursor-pointer ${
                       index <= currentStepIndex
                         ? "bg-ui-fg-interactive text-white hover:bg-ui-fg-interactive-hover"
@@ -131,7 +120,7 @@ const Checkout = () => {
                     {step.completed ? "✓" : index + 1}
                   </button>
                   <button
-                    onClick={() => setCurrentStep(step.key)}
+                    onClick={() => goToStep(step.key)}
                     className="ml-2 txt-small-plus hover:text-ui-fg-interactive transition-colors"
                   >
                     {step.title}
@@ -144,45 +133,58 @@ const Checkout = () => {
             </div>
           </div>
 
-          {/* Address Step */}
-          {currentStep === CheckoutStep.ADDRESS && (
-            <AddressStep
-              cart={cart}
-              onNext={handleNext}
-            />
-          )}
+          <Suspense fallback={<Loading />}>
+            {cart && (
+              <div className="bg-ui-bg-base p-6 rounded-lg border border-ui-border-base">
+                {/* Address Step */}
+                {step === CheckoutStep.ADDRESSES && (
+                  <AddressStep
+                    cart={cart}
+                    onNext={handleNext}
+                  />
+                )}
 
-          {/* Delivery Step */}
-          {currentStep === CheckoutStep.DELIVERY && (
-            <DeliveryStep
-              cart={cart}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          )}
+                {/* Delivery Step */}
+                {step === CheckoutStep.DELIVERY && (
+                  <DeliveryStep
+                    cart={cart}
+                    onNext={handleNext}
+                    onBack={handleBack}
+                  />
+                )}
 
-          {/* Payment Step */}
-          {currentStep === CheckoutStep.PAYMENT && (
-            <PaymentStep
-              cart={cart}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          )}
+                {/* Payment Step */}
+                {step === CheckoutStep.PAYMENT && (
+                  <PaymentStep
+                    cart={cart}
+                    onNext={handleNext}
+                    onBack={handleBack}
+                  />
+                )}
 
-          {/* Review Step */}
-          {currentStep === CheckoutStep.REVIEW && (
-            <ReviewStep
-              cart={cart}
-              onBack={handleBack}
-            />
-          )}
+                {/* Review Step */}
+                {step === CheckoutStep.REVIEW && (
+                  <ReviewStep
+                    cart={cart}
+                    onBack={handleBack}
+                  />
+                )}
+              </div>
+            )}
+          </Suspense>
         </div>
 
         {/* Right Column - Order Summary */}
-        <CheckoutSummary
-          cart={cart}
-        />
+        <Suspense fallback={<Loading />}>
+          {cart && (
+            <CheckoutSummary
+              cart={cart}
+            />
+          )}
+          {!cart && (
+            <CartEmpty />
+          )}
+        </Suspense>
       </div>
     </div>
   )

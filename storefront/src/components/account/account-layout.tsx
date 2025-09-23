@@ -4,7 +4,7 @@ import AccountNav from "@/components/account/account-nav"
 
 interface AccountLayoutProps {
   children: ReactNode
-  customer: HttpTypes.StoreCustomer
+  customer?: HttpTypes.StoreCustomer | null
 }
 
 const AccountLayout = ({ children, customer }: AccountLayoutProps) => {

@@ -6,19 +6,18 @@ type StripeCardContainerProps = {
   paymentProviderId: string
   selectedPaymentOptionId: string | null
   disabled?: boolean
-  setCardBrand?: (brand: string) => void
   setError?: (error: string | null) => void
-  setCardComplete?: (complete: boolean) => void
+  onCardComplete?: () => void
   onSelect?: () => void
 }
 
 const StripeCardContainer: React.FC<StripeCardContainerProps> = ({
   paymentProviderId,
   selectedPaymentOptionId,
-  setCardBrand,
-  setCardComplete,
+  onCardComplete,
 }) => {
   const [cardNumber, setCardNumber] = useState("")
+  const [cardBrand, setCardBrand] = useState("")
   const [expiryDate, setExpiryDate] = useState("")
   const [cvv, setCvv] = useState("")
   const [cardholderName, setCardholderName] = useState("")
@@ -32,16 +31,18 @@ const StripeCardContainer: React.FC<StripeCardContainerProps> = ({
     
     // Simulate card brand detection
     if (value.startsWith('4')) {
-      setCardBrand?.('Visa')
+      setCardBrand('Visa')
     } else if (value.startsWith('5')) {
-      setCardBrand?.('Mastercard')
+      setCardBrand('Mastercard')
     } else {
-      setCardBrand?.('')
+      setCardBrand('')
     }
     
     // Simulate validation
     const isComplete = value.replace(/\s/g, '').length >= 16 && expiryDate.length >= 5 && cvv.length >= 3
-    setCardComplete?.(isComplete)
+    if (isComplete) {
+      onCardComplete?.()
+    }
   }
 
   const handleExpiryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +54,9 @@ const StripeCardContainer: React.FC<StripeCardContainerProps> = ({
     
     // Simulate validation
     const isComplete = cardNumber.replace(/\s/g, '').length >= 16 && value.length >= 5 && cvv.length >= 3
-    setCardComplete?.(isComplete)
+    if (isComplete) {
+      onCardComplete?.()
+    }
   }
 
   const handleCvvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,7 +65,9 @@ const StripeCardContainer: React.FC<StripeCardContainerProps> = ({
     
     // Simulate validation
     const isComplete = cardNumber.replace(/\s/g, '').length >= 16 && expiryDate.length >= 5 && value.length >= 3
-    setCardComplete?.(isComplete)
+    if (isComplete) {
+      onCardComplete?.()
+    }
   }
 
   return (

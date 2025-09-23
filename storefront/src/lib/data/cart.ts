@@ -7,7 +7,7 @@ import { queryKeys } from "@/lib/query-keys";
 import { sendPostRequest } from "./custom";
 import { sendDeleteRequest } from "./custom";
 
-const DEFAULT_CART_FIELDS = "+items.total";
+const DEFAULT_CART_FIELDS = "+items.total, shipping_methods.name";
 
 export const retrieveCart = async ({
   cart_id,
@@ -160,21 +160,18 @@ export const setAddresses = async ({
     phone: (data["shipping_address.phone"] as string) || "",
   };
 
-  const billingAddress =
-    data["same_as_billing"] === "on"
-      ? shippingAddress
-      : {
-          first_name: data["billing_address.first_name"] as string,
-          last_name: data["billing_address.last_name"] as string,
-          address_1: data["billing_address.address_1"] as string,
-          address_2: (data["billing_address.address_2"] as string) || "",
-          company: (data["billing_address.company"] as string) || "",
-          postal_code: data["billing_address.postal_code"] as string,
-          city: data["billing_address.city"] as string,
-          country_code: data["billing_address.country_code"] as string,
-          province: (data["billing_address.province"] as string) || "",
-          phone: (data["billing_address.phone"] as string) || "",
-        };
+  const billingAddress = {
+    first_name: data["billing_address.first_name"] as string,
+    last_name: data["billing_address.last_name"] as string,
+    address_1: data["billing_address.address_1"] as string,
+    address_2: (data["billing_address.address_2"] as string) || "",
+    company: (data["billing_address.company"] as string) || "",
+    postal_code: data["billing_address.postal_code"] as string,
+    city: data["billing_address.city"] as string,
+    country_code: data["billing_address.country_code"] as string,
+    province: (data["billing_address.province"] as string) || "",
+    phone: (data["billing_address.phone"] as string) || "",
+  }
 
   const email = data.email as string;
 

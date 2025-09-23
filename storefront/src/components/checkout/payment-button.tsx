@@ -120,8 +120,6 @@ const ManualPaymentButton = ({
         disabled={notReady}
         isLoading={submitting}
         onClick={handlePayment}
-        size="large"
-        className="min-w-[200px]"
         data-testid="place-order-button"
       >
         Place Order
