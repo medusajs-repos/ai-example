@@ -6,7 +6,7 @@ import { Loading } from "../common";
 import ProductCard from "@/components/product/product-card";
 import ProductListingLoading from "@/components/product/product-listing-loading";
 
-const RefinementList = lazy(() => import("@/components/product/refinement-list"));
+const RefinementList = lazy(() => import("@/components/product/product-list-refinement"));
 const Pagination = lazy(() => import("@/components/common/pagination"));
 
 const PRODUCTS_PER_PAGE = 12;

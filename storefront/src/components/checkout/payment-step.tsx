@@ -1,6 +1,6 @@
 import PaymentContainer from "@/components/checkout/payment-container";
 import StripeCardContainer from "@/components/checkout/stripe-card-container";
-import { isStripe as isStripeFunc, paymentInfoMap } from "@/lib/constants";
+import { isStripe as isStripeFunc, paymentInfoMap } from "@/lib/constants/constants";
 import { initiatePaymentSession } from "@/lib/data/cart";
 import { usePaymentMethods } from "@/lib/hooks/dynamic/use-payment";
 import { CheckCircleSolid, CreditCard, Loader } from "@medusajs/icons";

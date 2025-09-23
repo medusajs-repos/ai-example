@@ -3,27 +3,41 @@ import { Badge, Text } from "@medusajs/ui"
 import { Price } from "@/components/common/price"
 import { Loading } from "@/components/common"
 import { getShippingIcon } from "@/lib/utils/checkout/get-shipping-icon"
+import { useEffect, useState } from "react"
+import { calculatePriceForShippingOption } from "@/lib/data/fulfillment"
 
 type ShippingItemSelectorProps = {
   shippingOption: HttpTypes.StoreCartShippingOption
+  cart: HttpTypes.StoreCart
   isSelected: boolean
   handleSelect: (optionId: string) => void
-  currencyCode: string
-  calculatedPrice?: number
 }
 
 const ShippingItemSelector = ({ 
   shippingOption, 
+  cart,
   isSelected, 
   handleSelect, 
-  currencyCode, 
-  calculatedPrice
 }: ShippingItemSelectorProps) => {
+  const [calculatedPrice, setCalculatedPrice] = useState<number | undefined>(undefined);
   const isDisabled = 
     shippingOption.price_type === "calculated" &&
     typeof calculatedPrice !== "number";
   const isFree = shippingOption.price_type === "flat" && (shippingOption.amount || 0) === 0;
   const price = shippingOption.price_type === "calculated" ? calculatedPrice : shippingOption.amount;
+
+  useEffect(() => {
+    if (shippingOption.price_type !== "calculated") {
+      return
+    }
+
+    calculatePriceForShippingOption({ 
+      option_id: shippingOption.id, 
+      cart_id: cart.id
+    }).then((option) => {
+      setCalculatedPrice(option.amount);
+    });
+  }, [shippingOption.price_type]);
 
   return (
     <label
@@ -87,9 +101,9 @@ const ShippingItemSelector = ({
           {price ? 
             <Price
               price={price} 
-              currencyCode={currencyCode} 
+              currencyCode={cart.currency_code} 
               textClassName="txt-medium-plus"
-            /> : <Loading className="w-4 h-4" />}
+            /> : <Loading className="w-4 h-4" rows={1} />}
         </div>
       </div>
     </label>

@@ -22,7 +22,7 @@ const sortOptions = [
   },
 ]
 
-const SortProducts = ({
+const ProductSort = ({
   'data-testid': dataTestId,
   sortBy,
   setQueryParams,
@@ -42,4 +42,4 @@ const SortProducts = ({
   )
 }
 
-export default SortProducts
+export default ProductSort

@@ -111,6 +111,8 @@ export default function ProductActions({
         variant_id: selectedVariant.id,
         quantity: 1,
         country_code: countryCode,
+        product,
+        variant: selectedVariant,
       });
     } catch (error) {
       alert("Failed to add item to cart. Please try again.");

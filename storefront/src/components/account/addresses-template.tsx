@@ -3,9 +3,9 @@ import { Button } from "@medusajs/ui"
 import { useState } from "react"
 import { Plus, EllipsisHorizontal } from "@medusajs/icons"
 import { useCreateAddress, useUpdateAddress, useDeleteAddress } from "@/lib/hooks/dynamic/use-address"
-import AddressForm from "@/components/account/address-form"
 import AccountContainer from "@/components/account/account-container"
 import Address from "@/components/common/address"
+import AddressForm from "../common/address-form"
 
 interface AddressesTemplateProps {
   customer: HttpTypes.StoreCustomer
@@ -159,6 +159,7 @@ interface AddAddressFormProps {
 }
 
 const AddAddressForm = ({ onSuccess, onCancel }: AddAddressFormProps) => {
+  const [addressFormData, setAddressFormData] = useState<Record<string, any>>({})
   const createAddress = useCreateAddress()
 
   const handleSubmit = async (addressData: HttpTypes.StoreCreateCustomerAddress) => {
@@ -172,6 +173,9 @@ const AddAddressForm = ({ onSuccess, onCancel }: AddAddressFormProps) => {
 
   return (
     <AddressForm
+      shouldHandleSubmit
+      addressFormData={addressFormData}
+      setAddressFormData={setAddressFormData}
       onSubmit={handleSubmit}
       onCancel={onCancel}
       isLoading={createAddress.isPending}
@@ -186,6 +190,18 @@ interface EditAddressFormProps {
 }
 
 const EditAddressForm = ({ address, onSuccess, onCancel }: EditAddressFormProps) => {
+  const [addressFormData, setAddressFormData] = useState<Record<string, any>>({
+    first_name: address.first_name || "",
+    last_name: address.last_name || "",
+    company: address.company || "",
+    address_1: address.address_1 || "",
+    address_2: address.address_2 || "",
+    city: address.city || "",
+    postal_code: address.postal_code || "",
+    province: address.province || "",
+    country_code: address.country_code || "",
+    phone: address.phone || "",
+  })
   const updateAddress = useUpdateAddress()
 
   const handleSubmit = async (addressData: HttpTypes.StoreCreateCustomerAddress) => {
@@ -202,7 +218,9 @@ const EditAddressForm = ({ address, onSuccess, onCancel }: EditAddressFormProps)
 
   return (
     <AddressForm
-      address={address}
+      addressFormData={addressFormData}
+      setAddressFormData={setAddressFormData}
+      shouldHandleSubmit
       onSubmit={handleSubmit}
       onCancel={onCancel}
       isLoading={updateAddress.isPending}

@@ -1,17 +1,13 @@
 import {
   useCart,
-  useDeleteLineItem,
-  useUpdateLineItem,
 } from "@/lib/hooks/dynamic/use-cart";
 import { getCountryCodeFromPath } from "@/lib/utils/regions";
-import { MinusMini, PlusMini, ShoppingCart, Trash } from "@medusajs/icons";
-import { HttpTypes } from "@medusajs/types";
-import { Button, IconButton, toast } from "@medusajs/ui";
+import { ShoppingCart } from "@medusajs/icons";
+import { Button } from "@medusajs/ui";
 import { Link, useLocation } from "@tanstack/react-router";
-import { useState } from "react";
 import { NavbarLink } from "@/components/layout/navbar-link";
 import { Price } from "@/components/common/price";
-import { Thumbnail } from "../common/thumbnail";
+import CartLineItem from "./cart-line-item";
 
 const CartDropdown = () => {
   const { data: cart } = useCart();
@@ -53,7 +49,7 @@ const CartDropdown = () => {
             <>
               <div className="max-h-[250px] overflow-y-auto p-4 space-y-3">
                 {cart.items?.map((item) => (
-                  <CartItem key={item.id} item={item} cart={cart} />
+                  <CartLineItem key={item.id} item={item} cart={cart} type="compact" />
                 ))}
               </div>
 
@@ -75,111 +71,6 @@ const CartDropdown = () => {
               </div>
             </>
           )}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const CartItem = ({
-  item,
-  cart,
-}: {
-  item: HttpTypes.StoreCartLineItem;
-  cart: HttpTypes.StoreCart;
-}) => {
-  const updateLineItemMutation = useUpdateLineItem();
-  const deleteLineItemMutation = useDeleteLineItem();
-  const [isUpdating, setIsUpdating] = useState(false);
-
-  const handleQuantityChange = async (newQuantity: number) => {
-    if (newQuantity < 1 || isUpdating) return;
-
-    setIsUpdating(true);
-    updateLineItemMutation.mutateAsync({
-      line_id: item.id,
-      quantity: newQuantity,
-    }, {
-      onSuccess: () => {
-        toast.success("Quantity updated");
-      },
-      onError: () => {
-        toast.error("Failed to update quantity");
-      },
-      onSettled: () => {
-        setIsUpdating(false);
-      },
-    });
-  };
-
-  const handleDelete = async () => {
-    if (isUpdating) return;
-
-    setIsUpdating(true);
-    deleteLineItemMutation.mutateAsync({ line_id: item.id }, {
-      onSuccess: () => {
-        toast.success("Item deleted");
-      },
-      onError: () => {
-        toast.error("Failed to delete item");
-      },
-      onSettled: () => {
-        setIsUpdating(false);
-      },
-    });
-  };
-
-  return (
-    <div className="flex items-start gap-x-4" data-testid="cart-item">
-      <Thumbnail thumbnail={item.thumbnail} alt={item.title} />
-      <div className="flex-1 min-w-0">
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            <h4 className="txt-medium-semi line-clamp-1">
-              {item.product?.title}
-            </h4>
-            <div className="txt-smallall-regular text-ui-fg-subtle">
-              {item.variant?.title &&
-                item.variant.title !== "Default Title" && (
-                  <span>{item.variant.title}</span>
-                )}
-            </div>
-          </div>
-          <IconButton
-            onClick={handleDelete}
-            disabled={isUpdating}
-            className="text-ui-fg-subtle hover:text-ui-fg-base transition-colors p-1 ml-2"
-            variant="transparent"
-          >
-            <Trash />
-          </IconButton>
-        </div>
-
-        <div className="flex items-center justify-between mt-2">
-          <div className="flex items-center gap-x-2">
-            <IconButton
-              onClick={() => handleQuantityChange(item.quantity - 1)}
-              disabled={isUpdating || item.quantity <= 1}
-              variant="transparent"
-            >
-              <MinusMini />
-            </IconButton>
-            <span className="txt-smallall-regular text-ui-fg-base min-w-[1.5rem] text-center">
-              {item.quantity}
-            </span>
-            <IconButton
-              onClick={() => handleQuantityChange(item.quantity + 1)}
-              disabled={isUpdating}
-              variant="transparent"
-            >
-              <PlusMini />
-            </IconButton>
-          </div>
-          <Price
-            price={item.total}
-            currencyCode={cart.currency_code}
-            textClassName="txt-small"
-          />
         </div>
       </div>
     </div>

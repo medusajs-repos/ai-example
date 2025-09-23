@@ -1,20 +1,20 @@
-import SortProducts from '@/components/product/sort-products'
+import ProductSort from '@/components/product/product-sort'
 import { type ProductSortOptions } from '@/lib/utils/products/sort-products'
 
-type RefinementListProps = {
+type ProductListRefinementProps = {
   sortBy: ProductSortOptions
   setQueryParams: (name: string, value: ProductSortOptions) => void
   'data-testid'?: string
 }
 
-const RefinementList = ({
+const ProductListRefinement = ({
   sortBy,
   setQueryParams,
   'data-testid': dataTestId,
-}: RefinementListProps) => {
+}: ProductListRefinementProps) => {
   return (
     <div className="flex small:flex-col gap-12 py-4 mb-8 small:px-0 pl-6 small:min-w-[250px] small:ml-[1.675rem]">
-      <SortProducts
+      <ProductSort
         sortBy={sortBy}
         setQueryParams={setQueryParams}
         data-testid={dataTestId}
@@ -23,4 +23,4 @@ const RefinementList = ({
   )
 }
 
-export default RefinementList
+export default ProductListRefinement

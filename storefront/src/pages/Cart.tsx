@@ -2,9 +2,12 @@ import { useCart, useCreateCart } from "@/lib/hooks/dynamic/use-cart";
 import { Link, useLoaderData } from "@tanstack/react-router";
 import CartDetailsLoading from "@/components/cart/cart-details-loading";
 import { lazy, Suspense } from "react";
+import { Button } from "@medusajs/ui";
 
-const CartItem = lazy(() => import("@/components/cart/cart-item"));
+const CartItem = lazy(() => import("@/components/cart/cart-line-item"));
 const CartSummary = lazy(() => import("@/components/cart/cart-summary"));
+const CartEmpty = lazy(() => import("@/components/cart/cart-empty"));
+const CartPromo = lazy(() => import("@/components/cart/cart-promo"));
 
 const Cart = () => {
   const { region, countryCode } = useLoaderData({
@@ -36,18 +39,7 @@ const Cart = () => {
         </div>
 
         {cartItems.length === 0 ? (
-          <div className="text-center py-16">
-            <h2 className="text-lg font-medium text-ui-fg-base mb-2">
-              Your cart is empty
-            </h2>
-            <p className="text-ui-fg-muted mb-8">Start by adding some products</p>
-            <Link
-              to={`/${countryCode}/store` as any}
-              className="bg-ui-fg-base text-ui-fg-on-color px-6 py-3 rounded txt-small hover:bg-ui-fg-subtle transition-colors"
-            >
-              Continue shopping
-            </Link>
-          </div>
+          <CartEmpty />
         ) : (
           <div className="space-y-8">
             <div className="space-y-6">
@@ -63,7 +55,17 @@ const Cart = () => {
 
             {cart && (
               <div className="border-t border-ui-border-base pt-8">
-                <CartSummary cart={cart} countryCode={countryCode} />
+                <div className="max-w-sm ml-auto flex flex-col gap-y-4">
+                  <CartSummary cart={cart} />
+
+                  <CartPromo cart={cart} />
+
+                  <Button asChild className="w-full">
+                    <Link to={`/${countryCode}/checkout` as any}>
+                      Checkout
+                    </Link>
+                  </Button>
+                </div>
               </div>
             )}
           </div>

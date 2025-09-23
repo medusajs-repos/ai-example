@@ -1,7 +1,7 @@
 import { Text } from "@medusajs/ui"
 import React, { type JSX } from "react"
 import Radio from "@/components/common/radio"
-import { isManual } from "@/lib/constants"
+import { isManual } from "@/lib/constants/constants"
 
 type PaymentContainerProps = {
   paymentProviderId: string

@@ -28,36 +28,6 @@ export const retrieveCart = async ({
   return cart;
 };
 
-export const getOrSetCart = async ({
-  country_code,
-  fields,
-}: {
-  country_code: string;
-  fields?: string;
-}): Promise<HttpTypes.StoreCart> => {
-  const region = await getRegion({ country_code });
-
-  if (!region) {
-    throw new Error(`Region not found for country code: ${country_code}`);
-  }
-
-  let cart = await retrieveCart({ fields });
-
-  if (!cart) {
-    // Create new cart
-    const cartResp = await sdk.store.cart.create({ region_id: region.id });
-    cart = cartResp.cart;
-    setCartId(cart.id);
-  }
-
-  // Update cart region if different
-  if (cart && cart.region_id !== region.id) {
-    await sdk.store.cart.update(cart.id, { region_id: region.id });
-  }
-
-  return cart;
-};
-
 export const createCart = async ({
   region_id,
 }: {
@@ -81,14 +51,24 @@ export const addToCart = async ({
     throw new Error("Missing variant ID when adding to cart");
   }
 
-  const cart = await getOrSetCart({ country_code });
+  let cartId = getCartId();
 
-  if (!cart) {
+  if (!cartId) {
+    const region = await getRegion({ country_code });
+  
+    if (!region) {
+      throw new Error(`Region not found for country code: ${country_code}`);
+    }
+    // Create new cart
+    cartId = (await createCart({ region_id: region.id })).id
+  }
+
+  if (!cartId) {
     throw new Error("Error retrieving or creating cart");
   }
 
   const response = await sdk.store.cart.createLineItem(
-    cart.id,
+    cartId,
     {
       variant_id,
       quantity,
@@ -230,30 +210,6 @@ export const initiatePaymentSession = async ({
     { provider_id },
   );
   return payment_collection
-};
-
-export const setPaymentMethod = async ({
-  provider_id,
-}: {
-  provider_id: string;
-}): Promise<HttpTypes.StorePaymentCollection> => {
-  const cartId = getCartId();
-
-  if (!cartId) {
-    throw new Error("No cart found");
-  }
-
-  // First retrieve the cart to pass to the payment API
-  const cart = await retrieveCart({ cart_id: cartId });
-  if (!cart) {
-    throw new Error("Cart not found");
-  }
-
-  const { payment_collection } = await sdk.store.payment.initiatePaymentSession(
-    cart,
-    { provider_id },
-  );
-  return payment_collection;
 };
 
 export const completeCart = async (): Promise<HttpTypes.StoreOrder> => {

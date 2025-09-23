@@ -29,7 +29,7 @@ export default function ProductPrice({
       currencyCode={selectedPrice.currency_code}
       type={variant ? "default" : "range"}
       className={className}
-      sale={selectedPrice.price_type === "sale" ? {
+      originalPrice={selectedPrice.price_type === "sale" ? {
         price: selectedPrice.original_price,
         percentage: selectedPrice.percentage_diff,
       } : undefined}

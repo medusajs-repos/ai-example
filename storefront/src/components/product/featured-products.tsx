@@ -1,6 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import ProductCard from "@/components/product/product-card";
-import { useLatestProducts } from "../lib/hooks/static/use-products";
+import { useLatestProducts } from "@/lib/hooks/static/use-products";
 import { getCountryCodeFromPath } from "@/lib/utils/regions";
 import { useRegion } from "@/lib/hooks/static/use-region";
 

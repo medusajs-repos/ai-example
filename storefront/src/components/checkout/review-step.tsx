@@ -2,10 +2,12 @@ import { HttpTypes } from "@medusajs/types"
 import { CheckCircleSolid, ShoppingBag } from "@medusajs/icons"
 import { Button, Heading, Text } from "@medusajs/ui"
 import { useMemo } from "react"
-import { paymentInfoMap } from "@/lib/constants"
+import { paymentInfoMap } from "@/lib/constants/constants"
 import PaymentButton from "@/components/checkout/payment-button"
 import { Price } from "@/components/common/price"
 import Address from "@/components/common/address"
+import CartLineItem from "@/components/cart/cart-line-item"
+import CartSummary from "@/components/cart/cart-summary"
 
 interface ReviewStepProps {
   cart: HttpTypes.StoreCart
@@ -64,39 +66,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
           </Heading>
           <div className="space-y-4">
             {cart.items?.map((item) => (
-              <div key={item.id} className="flex items-center gap-4 py-3 border-b border-ui-border-base last:border-b-0">
-                <div className="w-16 h-16 flex-shrink-0">
-                  {item.variant?.product?.thumbnail || item.thumbnail ? (
-                    <img
-                      src={item.variant?.product?.thumbnail || item.thumbnail || ''}
-                      alt={item.title}
-                      className="w-full h-full object-cover rounded"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-ui-bg-subtle rounded flex items-center justify-center">
-                      <span className="txt-xsmall text-ui-fg-muted">No image</span>
-                    </div>
-                  )}
-                </div>
-                <div className="flex-1">
-                  <Text className="txt-medium-plus text-ui-fg-base">{item.title}</Text>
-                  {item.variant && item.variant.title !== "Default" && (
-                    <Text className="txt-small text-ui-fg-subtle">
-                      {item.variant.title}
-                    </Text>
-                  )}
-                  <Text className="txt-small text-ui-fg-subtle">
-                    Quantity: {item.quantity}
-                  </Text>
-                </div>
-                <div className="text-right">
-                  <Price
-                    price={item.total}
-                    currencyCode={cart.currency_code}
-                    textClassName="txt-medium-plus"
-                  />
-                </div>
-              </div>
+              <CartLineItem key={item.id} item={item} cart={cart} type="display" />
             ))}
           </div>
         </div>
@@ -162,63 +132,8 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
           </div>
         </div>
 
-        {/* Order Totals */}
-        <div className="border-t border-ui-border-base pt-6">
-          <div className="space-y-2">
-            <div className="flex justify-between txt-small">
-              <span className="text-ui-fg-subtle">Subtotal</span>
-              <Price
-                price={cart.subtotal}
-                currencyCode={cart.currency_code}
-                textClassName="txt-medium"
-              />
-            </div>
-            
-            {(cart.discount_total || 0) > 0 && (
-              <div className="flex justify-between txt-small">
-                <span className="text-ui-fg-subtle">Discount</span>
-                <Price
-                  price={cart.discount_total}
-                  currencyCode={cart.currency_code}
-                  textClassName="txt-medium"
-                />
-              </div>
-            )}
-            
-            {(cart.shipping_total || 0) > 0 && (
-              <div className="flex justify-between txt-small">
-                <span className="text-ui-fg-subtle">Shipping</span>
-                <Price
-                  price={cart.shipping_total}
-                  currencyCode={cart.currency_code}
-                  textClassName="txt-medium"
-                />
-              </div>
-            )}
-            
-            {(cart.tax_total || 0) > 0 && (
-              <div className="flex justify-between txt-small">
-                <span className="text-ui-fg-subtle">Taxes</span>
-                <Price
-                  price={cart.tax_total}
-                  currencyCode={cart.currency_code}
-                  textClassName="txt-medium"
-                />
-              </div>
-            )}
-            
-            <div className="border-t border-ui-border-base pt-2">
-              <div className="flex justify-between txt-medium-plus">
-                <span>Total</span>
-                <Price
-                  price={cart.total}
-                  currencyCode={cart.currency_code}
-                  textClassName="txt-medium"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Cart Totals */}
+        <CartSummary cart={cart} />
 
         {/* Terms and Conditions */}
         <div className="bg-ui-bg-subtle p-4 rounded border">

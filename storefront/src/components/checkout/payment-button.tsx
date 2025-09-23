@@ -1,5 +1,5 @@
 import { completeCart } from "@/lib/data/cart";
-import { isManual, isStripe } from "@/lib/constants";
+import { isManual, isStripe } from "@/lib/constants/constants";
 import { useCompleteOrder } from "@/lib/hooks/dynamic/use-cart";
 import { getCountryCodeFromPath } from "@/lib/utils/regions";
 import { HttpTypes } from "@medusajs/types";

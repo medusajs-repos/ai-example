@@ -5,7 +5,7 @@ import { convertToLocale } from "@/lib/utils/money";
 type PriceProps = {
   price: number | string;
   type?: "default" | "range" | "discount"
-  sale?: {
+  originalPrice?: {
     price: number | string;
     percentage: string;
   }
@@ -17,7 +17,7 @@ type PriceProps = {
 export const Price = ({ 
   price, 
   type = "default", 
-  sale, 
+  originalPrice, 
   className,
   currencyCode,
   textClassName
@@ -26,43 +26,37 @@ export const Price = ({
     if (!currencyCode) {
       return {
         formattedPrice: price,
-        formattedSalePrice: sale?.price,
+        formattedSalePrice: originalPrice?.price,
       }
     }
     return {
       formattedPrice: typeof price === "string" ? price : convertToLocale(
         { amount: price, currency_code: currencyCode }
       ),
-      formattedSalePrice: typeof sale?.price === "string" ? sale?.price : convertToLocale(
-        { amount: sale?.price || 0, currency_code: currencyCode }
+      formattedSalePrice: typeof originalPrice?.price === "string" ? originalPrice?.price : convertToLocale(
+        { amount: originalPrice?.price || 0, currency_code: currencyCode }
       ),
     }
-  }, [price, sale, currencyCode])
+  }, [price, originalPrice, currencyCode])
   return (
     <div className={clx("flex flex-col text-ui-fg-base", className)}>
+      {originalPrice && (
+        <p>
+          <span className="line-through">
+            {formattedSalePrice}
+          </span>
+        </p>
+      )}
       <span
         className={clx(textClassName || "txt-xlarge-semi", {
-          "text-ui-fg-interactive": sale,
+          "text-ui-fg-interactive": originalPrice,
         })}
       >
         {type === "range" && "From "}
         <span>
-          {type === "discount" && "-"}{formattedPrice}
+          {type === "discount" && price !== 0 && "- "}{formattedPrice}
         </span>
       </span>
-      {sale && (
-        <>
-          <p>
-            <span className="text-ui-fg-subtle">Original: </span>
-            <span className="line-through">
-              {formattedSalePrice}
-            </span>
-          </p>
-          <span className="text-ui-fg-interactive">
-            -{sale.percentage}%
-          </span>
-        </>
-      )}
     </div>
   )
 };

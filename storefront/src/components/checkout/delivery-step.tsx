@@ -6,7 +6,6 @@ import { MapPin, TruckFast } from "@medusajs/icons";
 import { HttpTypes } from "@medusajs/types";
 import { Button, Heading, Text } from "@medusajs/ui";
 import { useEffect, useState } from "react";
-import { calculatePriceForShippingOption } from "@/lib/data/fulfillment";
 import ShippingItemSelector from "./shipping-item-selector";
 import Address from "../common/address";
 
@@ -25,7 +24,6 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
     cart.shipping_methods?.[0]?.shipping_option_id || ""
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [calculatedPricesMap, setCalculatedPricesMap] = useState<Record<string, number>>({});
 
   useEffect(() => {
     // Auto-select first option if none selected and options are available
@@ -33,37 +31,6 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
       setSelectedOptionId(shippingOptions[0].id);
     }
   }, [shippingOptions, selectedOptionId]);
-
-  // Calculate prices for calculated shipping options
-  useEffect(() => {
-    if (!shippingOptions?.length) return;
-
-
-    const calculatedOptions = shippingOptions.filter(
-      (option) => option.price_type === "calculated"
-    );
-
-    if (calculatedOptions.length === 0) {
-      return;
-    }
-
-    const promises = calculatedOptions.map((option) =>
-      calculatePriceForShippingOption({ option_id: option.id, cart_id: cart.id })
-    );
-
-    Promise.allSettled(promises).then((results) => {
-      const pricesMap: Record<string, number> = {};
-      results
-        .filter((result) => result.status === "fulfilled" && result.value)
-        .forEach((result) => {
-          if (result.status === "fulfilled" && result.value) {
-            pricesMap[result.value.id] = result.value.amount || 0;
-          }
-        });
-
-      setCalculatedPricesMap(pricesMap);
-    });
-  }, [shippingOptions, cart.id]);
 
   const handleSubmit = async () => {
     if (!selectedOptionId || isSubmitting) return;
@@ -93,8 +60,7 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
             shippingOption={option}
             isSelected={selectedOptionId === option.id}
             handleSelect={setSelectedOptionId}
-            currencyCode={cart.currency_code}
-            calculatedPrice={calculatedPricesMap[option.id]}
+            cart={cart}
           />
         ))}
       </div>
