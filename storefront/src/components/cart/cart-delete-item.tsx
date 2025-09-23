@@ -6,10 +6,13 @@ import { Trash } from "@medusajs/icons";
 type CartDeleteItemProps = {
   item: HttpTypes.StoreCartLineItem;
   type?: "default" | "compact"
+  fields?: string
 }
 
-const CartDeleteItem = ({ item, type = "default" }: CartDeleteItemProps) => {
-  const deleteLineItemMutation = useDeleteLineItem();
+const CartDeleteItem = ({ item, type = "default", fields }: CartDeleteItemProps) => {
+  const deleteLineItemMutation = useDeleteLineItem({
+    fields
+  });
   return (
     <IconButton
       onClick={() => deleteLineItemMutation.mutate({ line_id: item.id })}

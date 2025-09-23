@@ -1,4 +1,3 @@
-import { completeCart } from "@/lib/data/cart";
 import { isManual, isStripe } from "@/lib/constants/constants";
 import { useCompleteOrder } from "@/lib/hooks/dynamic/use-cart";
 import { getCountryCodeFromPath } from "@/lib/utils/regions";
@@ -12,10 +11,6 @@ type PaymentButtonProps = {
 };
 
 const PaymentButton = ({ cart }: PaymentButtonProps) => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const countryCode = getCountryCodeFromPath(location.pathname);
-
   const notReady =
     !cart ||
     !cart.shipping_address ||
@@ -26,23 +21,19 @@ const PaymentButton = ({ cart }: PaymentButtonProps) => {
   const paymentSession =
     cart.payment_collection?.payment_sessions?.[0]
 
-  // For now, we'll implement a simple payment button that works with manual payments
-  // In production, you'd want to integrate with Stripe Elements for card payments
   switch (true) {
     case isStripe(paymentSession?.provider_id):
-      return <StripePaymentButton notReady={notReady} cart={cart} />;
+      return <StripePaymentButton notReady={notReady} />;
     case isManual(paymentSession?.provider_id):
-      return <ManualPaymentButton notReady={notReady} cart={cart} />;
+      return <ManualPaymentButton notReady={notReady} />;
     default:
       return <Button disabled>Select a payment method</Button>;
   }
 };
 
 const StripePaymentButton = ({
-  cart,
   notReady,
 }: {
-  cart: HttpTypes.StoreCart;
   notReady: boolean;
 }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -91,10 +82,8 @@ const StripePaymentButton = ({
 };
 
 const ManualPaymentButton = ({
-  cart,
   notReady,
 }: {
-  cart: HttpTypes.StoreCart;
   notReady: boolean;
 }) => {
   const [submitting, setSubmitting] = useState(false);

@@ -1,13 +1,12 @@
 import { Text } from "@medusajs/ui"
-import React, { type JSX } from "react"
+import React from "react"
 import Radio from "@/components/common/radio"
-import { isManual } from "@/lib/constants/constants"
+import { isManual, paymentInfoMap } from "@/lib/constants/constants"
 
 type PaymentContainerProps = {
   paymentProviderId: string
   selectedPaymentOptionId: string | null
   disabled?: boolean
-  paymentInfoMap: Record<string, { title: string; icon: JSX.Element }>
   children?: React.ReactNode
   onClick?: () => void
 }
@@ -15,12 +14,10 @@ type PaymentContainerProps = {
 const PaymentContainer: React.FC<PaymentContainerProps> = ({
   paymentProviderId,
   selectedPaymentOptionId,
-  paymentInfoMap,
   disabled = false,
   children,
   onClick,
 }) => {
-  const isDevelopment = process.env.NODE_ENV === "development"
   const isSelected = selectedPaymentOptionId === paymentProviderId
 
   return (
@@ -38,7 +35,7 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
           <Text className="txt-medium-regular">
             {paymentInfoMap[paymentProviderId]?.title || paymentProviderId}
           </Text>
-          {isManual(paymentProviderId) && isDevelopment && (
+          {isManual(paymentProviderId) && (
             <span className="txt-xsmall bg-orange-100 text-orange-800 px-2 py-1 rounded hidden small:block">
               Test Mode
             </span>
@@ -48,7 +45,7 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
           {paymentInfoMap[paymentProviderId]?.icon}
         </span>
       </div>
-      {isManual(paymentProviderId) && isDevelopment && (
+      {isManual(paymentProviderId) && (
         <span className="txt-xsmall bg-orange-100 text-orange-800 px-2 py-1 rounded small:hidden">
           Test Mode
         </span>

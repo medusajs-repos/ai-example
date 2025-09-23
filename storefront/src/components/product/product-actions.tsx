@@ -3,7 +3,7 @@ import { useAddToCart } from "@/lib/hooks/dynamic/use-cart";
 import { useIntersection } from "@/lib/hooks/lib/use-intersection";
 import { getCountryCodeFromPath } from "@/lib/utils/regions";
 import { HttpTypes } from "@medusajs/types";
-import { Button } from "@medusajs/ui";
+import { Button, toast } from "@medusajs/ui";
 import { useLocation } from "@tanstack/react-router";
 import { isEqual } from 'lodash-es';
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
@@ -11,6 +11,7 @@ import { useProductDynamic } from "@/lib/hooks/dynamic/use-products";
 import { Loading } from "@/components/common";
 import getVariantOptionsKeymap from "@/lib/utils/products/get-variant-options-keymap";
 import isVariantInStock from "@/lib/utils/products/is-variant-in-stock";
+import { DEFAULT_CART_DROPDOWN_FIELDS } from "../cart/cart-dropdown";
 
 const ProductMobileActions = lazy(() => import("@/components/product/product-mobile-actions"));
 const ProductPrice = lazy(() => import("@/components/product/product-price"));
@@ -34,11 +35,12 @@ export default function ProductActions({
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string | undefined>>(
     {}
   );
-  const [isAdding, setIsAdding] = useState(false);
   const location = useLocation();
   const countryCode = getCountryCodeFromPath(location.pathname) || "dk";
 
-  const addToCartMutation = useAddToCart();
+  const addToCartMutation = useAddToCart({
+    fields: DEFAULT_CART_DROPDOWN_FIELDS
+  });
 
   const actionsRef = useRef<HTMLDivElement>(null);
   const inView = useIntersection(actionsRef, "0px");
@@ -104,21 +106,20 @@ export default function ProductActions({
   const handleAddToCart = async () => {
     if (!selectedVariant?.id) return null;
 
-    setIsAdding(true);
+    // optimistic success message
+    toast.success("Item added to cart");
 
-    try {
-      await addToCartMutation.mutateAsync({
-        variant_id: selectedVariant.id,
-        quantity: 1,
-        country_code: countryCode,
-        product,
-        variant: selectedVariant,
-      });
-    } catch (error) {
-      alert("Failed to add item to cart. Please try again.");
-    } finally {
-      setIsAdding(false);
-    }
+    addToCartMutation.mutateAsync({
+      variant_id: selectedVariant.id,
+      quantity: 1,
+      country_code: countryCode,
+      product,
+      variant: selectedVariant,
+    }, {
+      onError: () => {
+        toast.error("Failed to add item to cart. Please try again.");
+      },
+    });
   };
 
 
@@ -141,7 +142,7 @@ export default function ProductActions({
                       updateOption={setOptionValue}
                       title={option.title ?? ""}
                       data-testid="product-options"
-                      disabled={!!disabled || isAdding}
+                      disabled={!!disabled || addToCartMutation.isPending}
                     />
                   </Suspense>
                 </div>
@@ -162,12 +163,10 @@ export default function ProductActions({
           !inStock ||
           !selectedVariant ||
           !!disabled ||
-          isAdding ||
           !isValidVariant
         }
         variant="primary"
         className="w-full h-10"
-        isLoading={isAdding}
         data-testid="add-product-button"
       >
         {!selectedVariant && !selectedOptions
@@ -184,9 +183,8 @@ export default function ProductActions({
           updateOptions={setOptionValue}
           inStock={inStock}
           handleAddToCart={handleAddToCart}
-          isAdding={isAdding}
           show={!inView}
-          optionsDisabled={!!disabled || isAdding}
+          optionsDisabled={!!disabled}
         />
       </Suspense>
     </div>

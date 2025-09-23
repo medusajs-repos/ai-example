@@ -3,17 +3,22 @@ import { Link, useLoaderData } from "@tanstack/react-router";
 import CartDetailsLoading from "@/components/cart/cart-details-loading";
 import { lazy, Suspense } from "react";
 import { Button } from "@medusajs/ui";
+import { sortCartItems } from "@/lib/utils/cart/sort-cart-items";
 
 const CartItem = lazy(() => import("@/components/cart/cart-line-item"));
 const CartSummary = lazy(() => import("@/components/cart/cart-summary"));
 const CartEmpty = lazy(() => import("@/components/cart/cart-empty"));
 const CartPromo = lazy(() => import("@/components/cart/cart-promo"));
 
+const DEFAULT_CART_FIELDS = "id, *items, total, currency_code, subtotal, shipping_total, discount_total, tax_total, *promotions";
+
 const Cart = () => {
   const { region, countryCode } = useLoaderData({
     from: "/$countryCode/cart"
   });
-  const { data: cart, isLoading: cartLoading } = useCart();
+  const { data: cart, isLoading: cartLoading } = useCart({
+    fields: DEFAULT_CART_FIELDS
+  });
   const createCartMutation = useCreateCart();
 
   // Auto-create cart if none exists
@@ -21,7 +26,7 @@ const Cart = () => {
     createCartMutation.mutate({ region_id: region.id });
   }
 
-  const cartItems = cart?.items || [];
+  const cartItems = sortCartItems(cart?.items || []);
 
   return (
     <Suspense fallback={<CartDetailsLoading />}>
@@ -45,7 +50,7 @@ const Cart = () => {
             <div className="space-y-6">
               {cartItems.map((item, index) => (
                 <div key={item.id}>
-                  <CartItem item={item} cart={cart!} />
+                  <CartItem item={item} cart={cart!} fields={DEFAULT_CART_FIELDS} />
                   {index < cartItems.length - 1 && (
                     <hr className="border-ui-border-base mt-6" />
                   )}

@@ -228,28 +228,26 @@ const PaymentStep = ({ cart, onNext, onBack }: PaymentStepProps) => {
             <div className="space-y-3 mb-6">
               {availablePaymentMethods.map((paymentMethod) => (
                 <div key={paymentMethod.id}>
-                  {isStripeFunc(paymentMethod.id) ? (
-                    <StripeCardContainer
-                      paymentProviderId={paymentMethod.id}
-                      selectedPaymentOptionId={selectedPaymentMethod}
-                      paymentInfoMap={paymentInfoMap}
-                      setCardBrand={setCardBrand}
-                      setError={setError}
-                      setCardComplete={setCardComplete}
-                      onSelect={() =>
-                        handlePaymentMethodChange(paymentMethod.id)
-                      }
-                    />
-                  ) : (
-                    <PaymentContainer
-                      paymentInfoMap={paymentInfoMap}
-                      paymentProviderId={paymentMethod.id}
-                      selectedPaymentOptionId={selectedPaymentMethod}
-                      onClick={() =>
-                        handlePaymentMethodChange(paymentMethod.id)
-                      }
-                    />
-                  )}
+                  <PaymentContainer
+                    paymentProviderId={paymentMethod.id}
+                    selectedPaymentOptionId={selectedPaymentMethod}
+                    onClick={() =>
+                      handlePaymentMethodChange(paymentMethod.id)
+                    }
+                  >
+                    {isStripeFunc(paymentMethod.id) && (
+                      <StripeCardContainer
+                        paymentProviderId={paymentMethod.id}
+                        selectedPaymentOptionId={selectedPaymentMethod}
+                        setCardBrand={setCardBrand}
+                        setError={setError}
+                        setCardComplete={setCardComplete}
+                        onSelect={() =>
+                          handlePaymentMethodChange(paymentMethod.id)
+                        }
+                      />
+                    )}
+                  </PaymentContainer>
                 </div>
               ))}
             </div>

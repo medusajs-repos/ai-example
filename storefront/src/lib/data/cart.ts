@@ -2,10 +2,12 @@ import { sdk } from "@/lib/sdk";
 import { getRegion } from "@/lib/data/regions";
 import { getCartId, removeCartId, setCartId } from "@/lib/utils/cookies";
 import { HttpTypes } from "@medusajs/types";
-import { QueryClient } from "@tanstack/react-query";
+import { Query, QueryClient } from "@tanstack/react-query";
 import { queryKeys } from "@/lib/query-keys";
 import { sendPostRequest } from "./custom";
 import { sendDeleteRequest } from "./custom";
+
+const DEFAULT_CART_FIELDS = "+items.total";
 
 export const retrieveCart = async ({
   cart_id,
@@ -22,7 +24,7 @@ export const retrieveCart = async ({
 
   const { cart } = await sdk.store.cart.retrieve(id, {
     fields:
-      fields || "*items, *region, *items.product, *items.variant, *items.thumbnail, *items.metadata, +items.total, *promotions, +shipping_methods.name",
+      fields || DEFAULT_CART_FIELDS,
   });
 
   return cart;
@@ -30,10 +32,14 @@ export const retrieveCart = async ({
 
 export const createCart = async ({
   region_id,
+  fields = DEFAULT_CART_FIELDS,
 }: {
   region_id: string;
+  fields?: string;
 }): Promise<HttpTypes.StoreCart> => {
-  const { cart } = await sdk.store.cart.create({ region_id });
+  const { cart } = await sdk.store.cart.create({ region_id }, {
+    fields,
+  });
   setCartId(cart.id);
   return cart;
 };
@@ -42,10 +48,12 @@ export const addToCart = async ({
   variant_id,
   quantity,
   country_code,
+  fields = DEFAULT_CART_FIELDS,
 }: {
   variant_id: string;
   quantity: number;
   country_code: string;
+  fields?: string;
 }): Promise<HttpTypes.StoreCart> => {
   if (!variant_id) {
     throw new Error("Missing variant ID when adding to cart");
@@ -73,6 +81,9 @@ export const addToCart = async ({
       variant_id,
       quantity,
     },
+    {
+      fields,
+    }
   );
 
   return response.cart;
@@ -81,9 +92,11 @@ export const addToCart = async ({
 export const updateLineItem = async ({
   line_id,
   quantity,
+  fields = DEFAULT_CART_FIELDS,
 }: {
   line_id: string;
   quantity: number;
+  fields?: string;
 }): Promise<HttpTypes.StoreCart> => {
   const cartId = getCartId();
 
@@ -95,14 +108,19 @@ export const updateLineItem = async ({
     cartId,
     line_id,
     { quantity },
+    {
+      fields,
+    }
   );
   return cart;
 };
 
 export const deleteLineItem = async ({
   line_id,
+  fields = DEFAULT_CART_FIELDS,
 }: {
   line_id: string;
+  fields?: string;
 }): Promise<void> => {
   const cartId = getCartId();
 
@@ -110,12 +128,13 @@ export const deleteLineItem = async ({
     throw new Error("No cart found");
   }
 
+  // TODO pass fields when supported
   await sdk.store.cart.deleteLineItem(cartId, line_id);
 };
 
 export const setAddresses = async ({
   prev_state,
-  form_data,
+  form_data, 
 }: {
   prev_state: any;
   form_data: FormData;
@@ -346,7 +365,7 @@ export const applyPromoCode = async ({
       body: {
         promo_codes: [code],
       },
-    }
+    },
   )
 
   return cart;

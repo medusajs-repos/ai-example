@@ -6,11 +6,16 @@ import { clx, IconButton } from "@medusajs/ui";
 type CartItemQuantitySelectorProps = {
   item: HttpTypes.StoreCartLineItem;
   type?: "default" | "compact"
+  fields?: string
 }
 
-const CartItemQuantitySelector = ({ item, type = "default" }: CartItemQuantitySelectorProps) => {
-  const updateLineItemMutation = useUpdateLineItem();
-  const deleteLineItemMutation = useDeleteLineItem();
+const CartItemQuantitySelector = ({ item, type = "default", fields }: CartItemQuantitySelectorProps) => {
+  const updateLineItemMutation = useUpdateLineItem({
+    fields
+  });
+  const deleteLineItemMutation = useDeleteLineItem({
+    fields
+  });
   
   const handleQuantityChange = (newQuantity: number) => {
     if (newQuantity === 0) {
@@ -27,7 +32,6 @@ const CartItemQuantitySelector = ({ item, type = "default" }: CartItemQuantitySe
     <div className="flex items-center">
       <IconButton
         onClick={() => handleQuantityChange(item.quantity - 1)}
-        disabled={updateLineItemMutation.isPending || deleteLineItemMutation.isPending}
         className={clx(
           type === "compact" && "text-ui-fg-subtle hover:text-ui-fg-base transition-colors p-1 ml-2"
         )}
@@ -42,7 +46,6 @@ const CartItemQuantitySelector = ({ item, type = "default" }: CartItemQuantitySe
       </span>
       <IconButton
         onClick={() => handleQuantityChange(item.quantity + 1)}
-        disabled={updateLineItemMutation.isPending}
         className={clx(
           type === "compact" && "text-ui-fg-subtle hover:text-ui-fg-base transition-colors p-1 ml-2"
         )}

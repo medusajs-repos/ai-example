@@ -5,6 +5,8 @@
  * It ensures consistency and makes it easier to invalidate related queries.
  */
 
+import { Query } from "@tanstack/react-query";
+
 // Generic domain factory function
 const createDomainKeys = (domain: string) => ({
   all: [domain] as const,
@@ -12,6 +14,16 @@ const createDomainKeys = (domain: string) => ({
   detail: (id: string, ...params: any[]) => [domain, 'detail', id, ...params] as const,
   // Dynamic property for custom keys
   [Symbol.for('dynamic')]: (key: string, ...params: any[]) => [domain, key, ...params] as const,
+  predicate: (
+    query: Query,
+    excludeKeys?: string[],
+  ): boolean => {
+    let hasExcludedKeys = false;
+    if (excludeKeys) {
+      hasExcludedKeys = excludeKeys.some(key => query.queryKey?.includes(key));
+    }
+    return !hasExcludedKeys && query.queryKey?.includes(domain);
+  },
 });
 
 // Helper function to create dynamic keys
@@ -22,7 +34,7 @@ export const queryKeys = {
   // Cart related queries
   cart: {
     ...createDomainKeys('cart'),
-    current: () => [...queryKeys.cart.all] as const,
+    current: (fields?: string) => [...queryKeys.cart.all, fields] as const,
   },
 
   // Customer related queries

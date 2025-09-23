@@ -1,12 +1,10 @@
 import { Text } from "@medusajs/ui"
 import { useState } from "react"
-import PaymentContainer from "@/components/checkout/payment-container"
 import Input from "@/components/common/input"
 
 type StripeCardContainerProps = {
   paymentProviderId: string
   selectedPaymentOptionId: string | null
-  paymentInfoMap: Record<string, { title: string; icon: React.JSX.Element }>
   disabled?: boolean
   setCardBrand?: (brand: string) => void
   setError?: (error: string | null) => void
@@ -17,12 +15,8 @@ type StripeCardContainerProps = {
 const StripeCardContainer: React.FC<StripeCardContainerProps> = ({
   paymentProviderId,
   selectedPaymentOptionId,
-  paymentInfoMap,
-  disabled = false,
   setCardBrand,
-  setError,
   setCardComplete,
-  onSelect,
 }) => {
   const [cardNumber, setCardNumber] = useState("")
   const [expiryDate, setExpiryDate] = useState("")
@@ -72,13 +66,7 @@ const StripeCardContainer: React.FC<StripeCardContainerProps> = ({
   }
 
   return (
-    <PaymentContainer
-      paymentProviderId={paymentProviderId}
-      selectedPaymentOptionId={selectedPaymentOptionId}
-      paymentInfoMap={paymentInfoMap}
-      disabled={disabled}
-      onClick={onSelect}
-    >
+    <>
       {isSelected && (
         <div className="my-4 transition-all duration-150 ease-in-out">
           <Text className="txt-medium-plus text-ui-fg-base mb-4">
@@ -120,7 +108,7 @@ const StripeCardContainer: React.FC<StripeCardContainerProps> = ({
           </div>
         </div>
       )}
-    </PaymentContainer>
+    </>
   )
 }
 

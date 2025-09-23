@@ -25,7 +25,7 @@ import { HttpTypes } from "@medusajs/types";
 
 export const useCart = ({ fields }: { fields?: string } = {}) => {
   return useQuery({
-    queryKey: queryKeys.cart.current(),
+    queryKey: queryKeys.cart.current(fields),
     queryFn: () => retrieveCart({ fields }),
     staleTime: 0
   });
@@ -37,17 +37,17 @@ export const useCreateCart = () => {
   return useMutation({
     mutationFn: createCart,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.cart.current() });
+      queryClient.invalidateQueries({ predicate: queryKeys.cart.predicate });
     },
   });
 };
 
 // Enhanced version that accepts product and variant data for better optimistic updates
-export const useAddToCart = () => {
+export const useAddToCart = ({ fields }: { fields?: string } = {}) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: addToCart,
+    mutationFn: (variables) => addToCart({ ...variables, fields }),
     onMutate: async (variables: {
       variant_id: string;
       quantity: number;
@@ -56,10 +56,10 @@ export const useAddToCart = () => {
       variant?: HttpTypes.StoreProductVariant;
     }) => {
       // Cancel any outgoing refetches
-      await queryClient.cancelQueries({ queryKey: queryKeys.cart.current() });
+      await queryClient.cancelQueries({ predicate: queryKeys.cart.predicate });
 
       // Snapshot the previous value
-      const previousCart = getCurrentCart(queryClient);
+      const previousCart = getCurrentCart(queryClient, fields);
 
       // If we have a cart and product/variant data, we can add optimistically
       if (previousCart && variables.product && variables.variant) {
@@ -69,7 +69,7 @@ export const useAddToCart = () => {
           variables.quantity
         );
 
-        addItemOptimistically(queryClient, optimisticItem);
+        addItemOptimistically(queryClient, optimisticItem, fields);
       }
 
       // Return a context object with the snapshotted value
@@ -78,31 +78,41 @@ export const useAddToCart = () => {
     onError: (err, variables, context) => {
       // If the mutation fails, use the context returned from onMutate to roll back
       if (context?.previousCart) {
-        rollbackOptimisticCart(queryClient, context.previousCart);
+        rollbackOptimisticCart(queryClient, context.previousCart, fields);
       }
     },
-    onSettled: () => {
+    onSettled: (data) => {
       // Always refetch after error or success to ensure we have the latest data
-      queryClient.invalidateQueries({ queryKey: queryKeys.cart.current() });
+      queryClient.invalidateQueries({ predicate: 
+        (query) => queryKeys.cart.predicate(query, fields && data ? [fields] : undefined)
+      });
+      if (data) {
+        queryClient.setQueryData(queryKeys.cart.current(fields), data);
+      }
     },
   });
 };
 
-export const useUpdateLineItem = () => {
+export const useUpdateLineItem = ({ fields }: { fields?: string } = {}) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: updateLineItem,
+    mutationFn: (variables: {
+      line_id: string;
+      quantity: number;
+    }) => updateLineItem({ ...variables, fields }),
     onMutate: async (variables) => {
       // Cancel any outgoing refetches
-      await queryClient.cancelQueries({ queryKey: queryKeys.cart.current() });
+      await queryClient.cancelQueries({ 
+        predicate: (query) => queryKeys.cart.predicate(query, fields ? [fields] : undefined)
+      });
 
       // Snapshot the previous value
-      const previousCart = getCurrentCart(queryClient);
+      const previousCart = getCurrentCart(queryClient, fields);
 
       // Update optimistically
       if (previousCart) {
-        updateLineItemOptimistically(queryClient, variables.line_id, variables.quantity);
+        updateLineItemOptimistically(queryClient, variables.line_id, variables.quantity, fields);
       }
 
       // Return a context object with the snapshotted value
@@ -111,31 +121,40 @@ export const useUpdateLineItem = () => {
     onError: (err, variables, context) => {
       // If the mutation fails, use the context returned from onMutate to roll back
       if (context?.previousCart) {
-        rollbackOptimisticCart(queryClient, context.previousCart);
+        rollbackOptimisticCart(queryClient, context.previousCart, fields);
       }
     },
-    onSettled: () => {
+    onSettled: (data) => {
       // Always refetch after error or success to ensure we have the latest data
-      queryClient.invalidateQueries({ queryKey: queryKeys.cart.current() });
+      queryClient.invalidateQueries({ predicate: 
+        (query) => queryKeys.cart.predicate(query, fields && data ? [fields] : undefined)
+      });
+      if (data) {
+        queryClient.setQueryData(queryKeys.cart.current(fields), data);
+      }
     },
   });
 };
 
-export const useDeleteLineItem = () => {
+export const useDeleteLineItem = ({ fields }: { fields?: string } = {}) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: deleteLineItem,
+    mutationFn: (variables: {
+      line_id: string;
+    }) => deleteLineItem({ ...variables, fields }),
     onMutate: async (variables) => {
       // Cancel any outgoing refetches
-      await queryClient.cancelQueries({ queryKey: queryKeys.cart.current() });
+      await queryClient.cancelQueries({ predicate: 
+        (query) => queryKeys.cart.predicate(query, fields ? [fields] : undefined)
+      });
 
       // Snapshot the previous value
-      const previousCart = getCurrentCart(queryClient);
+      const previousCart = getCurrentCart(queryClient, fields);
 
       // Remove optimistically
       if (previousCart) {
-        removeLineItemOptimistically(queryClient, variables.line_id);
+        removeLineItemOptimistically(queryClient, variables.line_id, fields);
       }
 
       // Return a context object with the snapshotted value
@@ -144,12 +163,17 @@ export const useDeleteLineItem = () => {
     onError: (err, variables, context) => {
       // If the mutation fails, use the context returned from onMutate to roll back
       if (context?.previousCart) {
-        rollbackOptimisticCart(queryClient, context.previousCart);
+        rollbackOptimisticCart(queryClient, context.previousCart, fields);
       }
     },
-    onSettled: () => {
+    onSettled: (data) => {
       // Always refetch after error or success to ensure we have the latest data
-      queryClient.invalidateQueries({ queryKey: queryKeys.cart.current() });
+      queryClient.invalidateQueries({ predicate: 
+        (query) => queryKeys.cart.predicate(query, fields && data ? [fields] : undefined)
+      });
+      if (data) {
+        queryClient.setQueryData(queryKeys.cart.current(fields), data);
+      }
     },
   });
 };
@@ -161,7 +185,7 @@ export const useSetAddresses = () => {
     mutationFn: (formData: FormData) => setAddresses({ prev_state: null, form_data: formData }),
     onSuccess: (cart) => {
       // Update the cache with the fresh data from the server
-      queryClient.invalidateQueries({ queryKey: queryKeys.cart.current() });
+      queryClient.invalidateQueries({ predicate: queryKeys.cart.predicate });
     },
   });
 };
@@ -177,7 +201,7 @@ export const useCompleteOrder = () => {
 
       // Clear all storage data (cookies, localStorage, sessionStorage)
       clearAllStorageData();
-      await queryClient.refetchQueries({ queryKey: queryKeys.cart.all });
+      await queryClient.refetchQueries({ predicate: queryKeys.cart.predicate });
 
       return order;
     },
@@ -189,9 +213,9 @@ export const useApplyPromoCode = () => {
 
   return useMutation({
     mutationFn: applyPromoCode,
-    onSuccess: (cart) => {
+    onSuccess: () => {
       // Update the cache with the fresh data from the server
-      queryClient.invalidateQueries({ queryKey: queryKeys.cart.current() });
+      queryClient.invalidateQueries({ predicate: queryKeys.cart.predicate });
     },
   });
 };
@@ -201,9 +225,9 @@ export const useRemovePromoCode = () => {
 
   return useMutation({
     mutationFn: removePromoCode,
-    onSuccess: (cart) => {
+    onSuccess: () => {
       // Update the cache with the fresh data from the server
-      queryClient.invalidateQueries({ queryKey: queryKeys.cart.current() });
+      queryClient.invalidateQueries({ predicate: queryKeys.cart.predicate });
     },
   });
 };

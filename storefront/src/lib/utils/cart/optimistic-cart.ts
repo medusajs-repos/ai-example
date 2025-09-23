@@ -25,6 +25,10 @@ export interface OptimisticCartItem {
   isOptimistic?: boolean;
 }
 
+export interface OptimisticCart extends HttpTypes.StoreCart {
+  isOptimistic?: boolean;
+}
+
 /**
  * Creates an optimistic cart item for add to cart operations
  */
@@ -60,10 +64,11 @@ export const createOptimisticCartItem = (
  */
 export const addItemOptimistically = (
   queryClient: QueryClient,
-  newItem: OptimisticCartItem
+  newItem: OptimisticCartItem,
+  fields?: string
 ): HttpTypes.StoreCart | null => {
   const currentCart = queryClient.getQueryData<HttpTypes.StoreCart | null>(
-    queryKeys.cart.current()
+    queryKeys.cart.current(fields)
   );
 
   if (!currentCart) {
@@ -117,17 +122,20 @@ export const addItemOptimistically = (
       is_tax_inclusive: false,
     } as HttpTypes.StoreCartLineItem;
     
-    updatedItems = [...(currentCart.items || []), optimisticLineItem];
+    updatedItems = [...(currentCart.items || []), optimisticLineItem]
   }
 
-  const optimisticCart: HttpTypes.StoreCart = {
+  const newItemSubtotal = updatedItems.reduce((sum, item) => sum + (item.total || 0), 0);
+
+  const optimisticCart: OptimisticCart = {
     ...currentCart,
     items: updatedItems,
-    item_subtotal: updatedItems.reduce((sum, item) => sum + (item.total || 0), 0),
+    item_subtotal: newItemSubtotal,
+    isOptimistic: true,
   };
 
   // Update the cache optimistically
-  queryClient.setQueryData(queryKeys.cart.current(), optimisticCart);
+  queryClient.setQueryData(queryKeys.cart.current(fields), optimisticCart);
 
   return optimisticCart;
 };
@@ -138,10 +146,11 @@ export const addItemOptimistically = (
 export const updateLineItemOptimistically = (
   queryClient: QueryClient,
   lineId: string,
-  quantity: number
+  quantity: number,
+  fields?: string
 ): HttpTypes.StoreCart | null => {
   const currentCart = queryClient.getQueryData<HttpTypes.StoreCart | null>(
-    queryKeys.cart.current()
+    queryKeys.cart.current(fields)
   );
 
   if (!currentCart) {
@@ -160,15 +169,14 @@ export const updateLineItemOptimistically = (
     return item;
   });
 
-  const optimisticCart: HttpTypes.StoreCart = {
+  const optimisticCart: OptimisticCart = {
     ...currentCart,
     items: updatedItems,
     item_subtotal: updatedItems.reduce((sum, item) => sum + (item.total || 0), 0),
+    isOptimistic: true,
   };
 
-  // console.log("optimisticCart", optimisticCart.items);
-
-  queryClient.setQueryData(queryKeys.cart.current(), optimisticCart);
+  queryClient.setQueryData(queryKeys.cart.current(fields), optimisticCart);
 
   return optimisticCart;
 };
@@ -178,10 +186,11 @@ export const updateLineItemOptimistically = (
  */
 export const removeLineItemOptimistically = (
   queryClient: QueryClient,
-  lineId: string
+  lineId: string,
+  fields?: string
 ): HttpTypes.StoreCart | null => {
   const currentCart = queryClient.getQueryData<HttpTypes.StoreCart | null>(
-    queryKeys.cart.current()
+    queryKeys.cart.current(fields)
   );
 
   if (!currentCart) {
@@ -190,13 +199,14 @@ export const removeLineItemOptimistically = (
 
   const updatedItems = (currentCart.items || []).filter(item => item.id !== lineId);
 
-  const optimisticCart: HttpTypes.StoreCart = {
+  const optimisticCart: OptimisticCart = {
     ...currentCart,
     items: updatedItems,
     item_subtotal: updatedItems.reduce((sum, item) => sum + (item.total || 0), 0),
+    isOptimistic: true,
   };
 
-  queryClient.setQueryData(queryKeys.cart.current(), optimisticCart);
+  queryClient.setQueryData(queryKeys.cart.current(fields), optimisticCart);
 
   return optimisticCart;
 };
@@ -206,14 +216,18 @@ export const removeLineItemOptimistically = (
  */
 export const rollbackOptimisticCart = (
   queryClient: QueryClient,
-  previousCart: HttpTypes.StoreCart | null
+  previousCart: HttpTypes.StoreCart | null,
+  fields?: string
 ) => {
-  queryClient.setQueryData(queryKeys.cart.current(), previousCart);
+  queryClient.setQueryData(queryKeys.cart.current(fields), previousCart);
 };
 
 /**
  * Gets the current cart state from cache
  */
-export const getCurrentCart = (queryClient: QueryClient): HttpTypes.StoreCart | null => {
-  return queryClient.getQueryData<HttpTypes.StoreCart | null>(queryKeys.cart.current()) || null;
+export const getCurrentCart = (queryClient: QueryClient, fields?: string): HttpTypes.StoreCart | null => {
+  return queryClient.getQueryData<HttpTypes.StoreCart | null>(queryKeys.cart.current(fields)) || 
+    queryClient.getQueriesData<HttpTypes.StoreCart | null>({
+      predicate: queryKeys.cart.predicate
+    })[0]?.[1] || null;
 };

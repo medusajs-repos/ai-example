@@ -41,8 +41,13 @@ const DATA_DRIVEN_ROUTES = ['/products', '/categories'];
  * Fetch regions from Medusa backend
  */
 async function fetchRegions(): Promise<HttpTypes.StoreRegion[]> {
-  const response = await fetch(`${MEDUSA_BACKEND_URL}/store/regions?limit=1000`, {
+  const queryParams = new URLSearchParams({
+    limit: '1000',
+    fields: "*countries"
+  });
+  const response = await fetch(`${MEDUSA_BACKEND_URL}/store/regions?${queryParams.toString()}`, {
     headers: { 'x-publishable-api-key': PUBLISHABLE_KEY }
+    
   });
   const data = await response.json();
   return data.regions || [];
@@ -52,7 +57,11 @@ async function fetchRegions(): Promise<HttpTypes.StoreRegion[]> {
  * Fetch product categories from Medusa backend
  */
 async function fetchCategories(): Promise<HttpTypes.StoreProductCategory[]> {
-  const response = await fetch(`${MEDUSA_BACKEND_URL}/store/product-categories`, {
+  const queryParams = new URLSearchParams({
+    limit: '1000',
+    fields: "handle,updated_at"
+  });
+  const response = await fetch(`${MEDUSA_BACKEND_URL}/store/product-categories?${queryParams.toString()}`, {
     headers: { 'x-publishable-api-key': PUBLISHABLE_KEY }
   });
   const data = await response.json();
@@ -63,7 +72,11 @@ async function fetchCategories(): Promise<HttpTypes.StoreProductCategory[]> {
  * Fetch products from Medusa backend
  */
 async function fetchProducts(): Promise<HttpTypes.StoreProduct[]> {
-  const response = await fetch(`${MEDUSA_BACKEND_URL}/store/products?fields=handle,updated_at`, {
+  const queryParams = new URLSearchParams({
+    limit: '1000',
+    fields: "handle,updated_at"
+  });
+  const response = await fetch(`${MEDUSA_BACKEND_URL}/store/products?${queryParams.toString()}`, {
     headers: { 'x-publishable-api-key': PUBLISHABLE_KEY }
   });
   const data = await response.json();

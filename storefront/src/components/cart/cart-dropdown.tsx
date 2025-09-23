@@ -8,15 +8,21 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { NavbarLink } from "@/components/layout/navbar-link";
 import { Price } from "@/components/common/price";
 import CartLineItem from "./cart-line-item";
+import { sortCartItems } from "@/lib/utils/cart/sort-cart-items";
+
+export const DEFAULT_CART_DROPDOWN_FIELDS = "id, *items, total, currency_code, item_subtotal";
 
 const CartDropdown = () => {
-  const { data: cart } = useCart();
+  const { data: cart } = useCart({
+    fields: DEFAULT_CART_DROPDOWN_FIELDS
+  });
   const location = useLocation();
   const countryCode = getCountryCodeFromPath(location.pathname);
   const baseHref = countryCode ? `/${countryCode}` : "";
 
+  const sortedItems = sortCartItems(cart?.items || []);
   const itemCount =
-    cart?.items?.reduce((total, item) => total + item.quantity, 0) || 0;
+    sortedItems?.reduce((total, item) => total + item.quantity, 0) || 0;
 
   return (
     <div className="relative group">
@@ -48,8 +54,8 @@ const CartDropdown = () => {
           {cart && itemCount > 0 && (
             <>
               <div className="max-h-[250px] overflow-y-auto p-4 space-y-3">
-                {cart.items?.map((item) => (
-                  <CartLineItem key={item.id} item={item} cart={cart} type="compact" />
+                {sortedItems?.map((item) => (
+                  <CartLineItem key={item.id} item={item} cart={cart} type="compact" fields={DEFAULT_CART_DROPDOWN_FIELDS} />
                 ))}
               </div>
 
