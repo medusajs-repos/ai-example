@@ -1,7 +1,7 @@
 import { HttpTypes } from "@medusajs/types"
 import { Badge, Button, Input, toast } from "@medusajs/ui"
 import { useState } from "react"
-import { useApplyPromoCode, useRemovePromoCode } from "../../lib/hooks/dynamic/use-cart"
+import { useApplyPromoCode, useRemovePromoCode } from "@/lib/hooks/dynamic/use-cart"
 import { XMark } from "@medusajs/icons"
 
 type CartPromoProps = {
@@ -9,18 +9,18 @@ type CartPromoProps = {
 }
 
 const CartPromo = ({ cart }: CartPromoProps) => {
-  const [showInput, setShowInput] = useState(false);
-  const [promoCode, setPromoCode] = useState("");
-  const applyPromoCodeMutation = useApplyPromoCode();
-  const removePromoCodeMutation = useRemovePromoCode();
+  const [showInput, setShowInput] = useState(false)
+  const [promoCode, setPromoCode] = useState("")
+  const applyPromoCodeMutation = useApplyPromoCode()
+  const removePromoCodeMutation = useRemovePromoCode()
 
   const handleRemove = (code: string) => {
     removePromoCodeMutation.mutate({ code }, {
       onSuccess: () => {
-        toast.success("Promo code removed successfully");
+        toast.success("Promo code removed successfully")
       },
       onError: () => {
-        toast.error("Failed to remove promo code");
+        toast.error("Failed to remove promo code")
       },
     })
   }
@@ -28,12 +28,12 @@ const CartPromo = ({ cart }: CartPromoProps) => {
   const handleApply = () => {
     applyPromoCodeMutation.mutate({ code: promoCode }, {
       onSuccess: () => {
-        toast.success("Promo code applied successfully");
-        setShowInput(false);
-        setPromoCode("");
+        toast.success("Promo code applied successfully")
+        setShowInput(false)
+        setPromoCode("")
       },
       onError: () => {
-        toast.error("Failed to apply promo code");
+        toast.error("Failed to apply promo code")
       },
     })
   }

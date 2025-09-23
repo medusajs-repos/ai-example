@@ -1,7 +1,7 @@
-import Hero from "@/components/layout/hero";
-import { lazy } from "react";
+import Hero from "@/components/layout/hero"
+import { lazy } from "react"
 
-const FeaturedProducts = lazy(() => import("@/components/product/featured-products"));
+const FeaturedProducts = lazy(() => import("@/components/product/featured-products"))
 
 const Home = () => {
   return (
@@ -9,7 +9,7 @@ const Home = () => {
       <Hero />
       <FeaturedProducts />
     </>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

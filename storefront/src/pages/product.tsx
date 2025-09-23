@@ -1,20 +1,20 @@
-import { lazy, Suspense } from "react";
-import { useLoaderData } from "@tanstack/react-router";
-import { Loading } from "@/components/common";
-import ProductDetailsLoading from "../components/product/product-details-loading";
-import ErrorBoundary from "@/components/common/error-boundary";
+import { lazy, Suspense } from "react"
+import { useLoaderData } from "@tanstack/react-router"
+import Loading from "@/components/common/loading"
+import ProductDetailsLoading from "@/components/product/product-details-loading"
+import ErrorBoundary from "@/components/common/error-boundary"
 
 // Dynamic imports for heavy components
-const ImageGallery = lazy(() => import("@/components/common/image-gallery"));
-const ProductActions = lazy(() => import("@/components/product/product-actions"));
-const ProductInfo = lazy(() => import("@/components/product/product-info"));
-const ProductTabs = lazy(() => import("@/components/product/product-tabs"));
-const RelatedProducts = lazy(() => import("@/components/product/related-products"));
+const ImageGallery = lazy(() => import("@/components/common/image-gallery"))
+const ProductActions = lazy(() => import("@/components/product/product-actions"))
+const ProductInfo = lazy(() => import("@/components/product/product-info"))
+const ProductTabs = lazy(() => import("@/components/product/product-tabs"))
+const RelatedProducts = lazy(() => import("@/components/product/related-products"))
 
 const ProductDetails = () => {
   const { product, region } = useLoaderData({
     from: "/$countryCode/products/$handle"
-  });
+  })
 
   return (
     <Suspense fallback={<ProductDetailsLoading />}>
@@ -90,7 +90,7 @@ const ProductDetails = () => {
         </div>
       </ErrorBoundary>
     </Suspense>
-  );
-};
+  )
+}
 
-export default ProductDetails;
+export default ProductDetails

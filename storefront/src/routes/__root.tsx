@@ -1,29 +1,29 @@
-import Layout from "@/components/layout/layout";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Layout from "@/components/layout/layout"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import {
   HeadContent,
   Scripts,
   createRootRouteWithContext,
-} from "@tanstack/react-router";
-import appCss from "@/styles/app.css?url";
-import { listRegions } from "@/lib/data/regions";
-import { lazy } from "react";
+} from "@tanstack/react-router"
+import appCss from "@/styles/app.css?url"
+import { listRegions } from "@/lib/data/regions"
+import { lazy } from "react"
 
-const NotFound = lazy(() => import("@/components/common/not-found"));
+const NotFound = lazy(() => import("@/components/common/not-found"))
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
 }>()({
   loader: async ({ context }) => {
-    const { queryClient } = context;
+    const { queryClient } = context
     
     // Pre-populate regions cache
     await queryClient.ensureQueryData({
       queryKey: ["regions"],
       queryFn: () => listRegions(),
-    });
+    })
     
-    return {};
+    return {}
   },
   head: () => ({
     links: [
@@ -42,10 +42,10 @@ export const Route = createRootRouteWithContext<{
   }),
   notFoundComponent: NotFound,
   component: RootComponent,
-});
+})
 
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
+  const { queryClient } = Route.useRouteContext()
 
   return (
     <html lang="en">
@@ -60,5 +60,5 @@ function RootComponent() {
         <Scripts />
       </body>
     </html>
-  );
+  )
 }

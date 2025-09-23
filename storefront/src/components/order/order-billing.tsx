@@ -1,15 +1,15 @@
-import { HttpTypes } from "@medusajs/types";
-import { Heading, Text } from "@medusajs/ui";
-import Address from "../common/address";
-import PaymentMethodInfo from "../common/payment-method-info";
-import { isPaidWithGiftCard } from "@/lib/utils/checkout/is-paid-with-gift-card";
+import { HttpTypes } from "@medusajs/types"
+import { Heading, Text } from "@medusajs/ui"
+import Address from "@/components/common/address"
+import PaymentMethodInfo from "@/components/common/payment-method-info"
+import { isPaidWithGiftCard } from "@/lib/utils/checkout/is-paid-with-gift-card"
 
 type OrderBillingProps = {
   order: HttpTypes.StoreOrder;
 }
 
 const OrderBilling = ({ order }: OrderBillingProps) => {
-  const paidByGiftcard = isPaidWithGiftCard(order);
+  const paidByGiftcard = isPaidWithGiftCard(order)
 
   return (
     <div>
@@ -41,4 +41,4 @@ const OrderBilling = ({ order }: OrderBillingProps) => {
   )
 }
 
-export default OrderBilling;
+export default OrderBilling

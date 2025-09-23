@@ -1,4 +1,4 @@
-import { HttpTypes } from "@medusajs/types";
+import { HttpTypes } from "@medusajs/types"
 
 export default function isVariantInStock(variant: HttpTypes.StoreProductVariant) {
   return !variant.manage_inventory || variant.allow_backorder || (

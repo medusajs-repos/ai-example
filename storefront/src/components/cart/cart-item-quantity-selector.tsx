@@ -1,7 +1,7 @@
-import { HttpTypes } from "@medusajs/types";
-import { useDeleteLineItem, useUpdateLineItem } from "@/lib/hooks/dynamic/use-cart";
-import { Minus, Plus } from "@medusajs/icons";
-import { clx, IconButton } from "@medusajs/ui";
+import { HttpTypes } from "@medusajs/types"
+import { useDeleteLineItem, useUpdateLineItem } from "@/lib/hooks/dynamic/use-cart"
+import { Minus, Plus } from "@medusajs/icons"
+import { clx, IconButton } from "@medusajs/ui"
 
 type CartItemQuantitySelectorProps = {
   item: HttpTypes.StoreCartLineItem;
@@ -12,21 +12,21 @@ type CartItemQuantitySelectorProps = {
 const CartItemQuantitySelector = ({ item, type = "default", fields }: CartItemQuantitySelectorProps) => {
   const updateLineItemMutation = useUpdateLineItem({
     fields
-  });
+  })
   const deleteLineItemMutation = useDeleteLineItem({
     fields
-  });
+  })
   
   const handleQuantityChange = (newQuantity: number) => {
     if (newQuantity === 0) {
-      deleteLineItemMutation.mutate({ line_id: item.id });
+      deleteLineItemMutation.mutate({ line_id: item.id })
     } else {
       updateLineItemMutation.mutate({
         line_id: item.id,
         quantity: newQuantity,
-      });
+      })
     }
-  };
+  }
 
   return (
     <div className="flex items-center">

@@ -1,10 +1,10 @@
-import { HttpTypes } from "@medusajs/types";
-import { Heading } from "@medusajs/ui";
-import OrderLineItem from "./order-line-item";
-import OrderShipping from "./order-shipping";
-import OrderBilling from "./order-billing";
-import OrderSummary from "./order-summary";
-import OrderInfo from "./order-info";
+import { HttpTypes } from "@medusajs/types"
+import { Heading } from "@medusajs/ui"
+import OrderLineItem from "@/components/order/order-line-item"
+import OrderShipping from "@/components/order/order-shipping"
+import OrderBilling from "@/components/order/order-billing"
+import OrderSummary from "@/components/order/order-summary"
+import OrderInfo from "@/components/order/order-info"
 
 interface OrderDetailsProps {
   order: HttpTypes.StoreOrder;
@@ -39,7 +39,7 @@ const OrderDetails = ({ order }: OrderDetailsProps) => {
         <OrderSummary order={order} />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default OrderDetails;
+export default OrderDetails

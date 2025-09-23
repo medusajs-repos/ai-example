@@ -10,7 +10,7 @@ import ReactCountryFlag from "react-country-flag"
 import { useNavigate, useLocation } from "@tanstack/react-router"
 
 import { HttpTypes } from "@medusajs/types"
-import { getCountryCodeFromPath } from "@/lib/utils/regions"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
 import { setStoredCountryCode } from "@/lib/utils/regions/stored-country-code"
 import { clx, useToggleState } from "@medusajs/ui"
 import { ArrowRightMini } from "@medusajs/icons"
@@ -34,7 +34,7 @@ const CountrySelect = ({ regions }: CountrySelectProps) => {
   const navigate = useNavigate()
   const location = useLocation()
   const countryCode = getCountryCodeFromPath(location.pathname)
-  const currentPath = location.pathname.replace(`/${countryCode}`, '') || '/'
+  const currentPath = location.pathname.replace(`/${countryCode}`, "") || "/"
 
   const [isToggled, toggleOpen, toggleClose] = useToggleState()
 
@@ -71,8 +71,8 @@ const CountrySelect = ({ regions }: CountrySelectProps) => {
     // Navigate to the new country path
     const searchParams = Object.keys(location.search || {}).length > 0 
       ? `?${new URLSearchParams(location.search as any).toString()}` 
-      : ''
-    const newPath = `/${option.country}${currentPath === '/' ? '' : currentPath}${searchParams}`
+      : ""
+    const newPath = `/${option.country}${currentPath === "/" ? "" : currentPath}${searchParams}`
     navigate({ to: newPath as any })
     
     toggleClose()

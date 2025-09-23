@@ -1,9 +1,9 @@
-import { useUpdateCustomer } from "@/lib/hooks/dynamic/use-auth";
-import { HttpTypes } from "@medusajs/types";
-import { Button, Input } from "@medusajs/ui";
-import { useState } from "react";
-import AccountInfo from "@/components/account/account-info";
-import AccountContainer from "@/components/account/account-container";
+import { useUpdateCustomer } from "@/lib/hooks/dynamic/use-auth"
+import { HttpTypes } from "@medusajs/types"
+import { Button, Input } from "@medusajs/ui"
+import { useState } from "react"
+import AccountInfo from "@/components/account/account-info"
+import AccountContainer from "@/components/account/account-container"
 
 interface ProfileTemplateProps {
   customer: HttpTypes.StoreCustomer;
@@ -19,25 +19,25 @@ const ProfileTemplate = ({ customer }: ProfileTemplateProps) => {
       <ProfileEmail customer={customer} />
       <ProfilePhone customer={customer} />
     </AccountContainer>
-  );
-};
+  )
+}
 
 const ProfileName = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
-  const [firstName, setFirstName] = useState(customer.first_name || "");
-  const [lastName, setLastName] = useState(customer.last_name || "");
-  const [error, setError] = useState<string>("");
-  const [success, setSuccess] = useState<string>("");
+  const [firstName, setFirstName] = useState(customer.first_name || "")
+  const [lastName, setLastName] = useState(customer.last_name || "")
+  const [error, setError] = useState<string>("")
+  const [success, setSuccess] = useState<string>("")
 
-  const updateCustomer = useUpdateCustomer();
+  const updateCustomer = useUpdateCustomer()
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
+    e.preventDefault()
+    setError("")
+    setSuccess("")
 
     if (!firstName.trim() || !lastName.trim()) {
-      setError("First name and last name are required");
-      return;
+      setError("First name and last name are required")
+      return
     }
 
     try {
@@ -46,21 +46,21 @@ const ProfileName = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
           first_name: firstName.trim(),
           last_name: lastName.trim(),
         },
-      });
-      setSuccess("Name updated successfully");
+      })
+      setSuccess("Name updated successfully")
       // Clear success message after 3 seconds
-      setTimeout(() => setSuccess(""), 3000);
+      setTimeout(() => setSuccess(""), 3000)
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to update name");
+      setError(err instanceof Error ? err.message : "Failed to update name")
     }
-  };
+  }
 
   const clearState = () => {
-    setError("");
-    setSuccess("");
-    setFirstName(customer.first_name || "");
-    setLastName(customer.last_name || "");
-  };
+    setError("")
+    setSuccess("")
+    setFirstName(customer.first_name || "")
+    setLastName(customer.last_name || "")
+  }
 
   return (
     <AccountInfo
@@ -113,8 +113,8 @@ const ProfileName = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
         </div>
       </form>
     </AccountInfo>
-  );
-};
+  )
+}
 
 const ProfileEmail = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
   return (
@@ -144,26 +144,26 @@ const ProfileEmail = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
         </p>
       </div>
     </AccountInfo>
-  );
-};
+  )
+}
 
 const ProfilePhone = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
-  const [phone, setPhone] = useState(customer.phone || "");
-  const [error, setError] = useState<string>("");
-  const [success, setSuccess] = useState<string>("");
+  const [phone, setPhone] = useState(customer.phone || "")
+  const [error, setError] = useState<string>("")
+  const [success, setSuccess] = useState<string>("")
 
-  const updateCustomer = useUpdateCustomer();
+  const updateCustomer = useUpdateCustomer()
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
+    e.preventDefault()
+    setError("")
+    setSuccess("")
 
     // Basic phone validation
-    const phoneRegex = /^\+?[\d\s\-\(\)]{10,}$/;
+    const phoneRegex = /^\+?[\d\s\-()]{10,}$/
     if (phone && !phoneRegex.test(phone)) {
-      setError("Please enter a valid phone number");
-      return;
+      setError("Please enter a valid phone number")
+      return
     }
 
     try {
@@ -171,22 +171,22 @@ const ProfilePhone = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
         updates: {
           phone: phone.trim(),
         },
-      });
-      setSuccess("Phone number updated successfully");
+      })
+      setSuccess("Phone number updated successfully")
       // Clear success message after 3 seconds
-      setTimeout(() => setSuccess(""), 3000);
+      setTimeout(() => setSuccess(""), 3000)
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Failed to update phone number"
-      );
+      )
     }
-  };
+  }
 
   const clearState = () => {
-    setError("");
-    setSuccess("");
-    setPhone(customer.phone || "");
-  };
+    setError("")
+    setSuccess("")
+    setPhone(customer.phone || "")
+  }
 
   return (
     <AccountInfo
@@ -227,7 +227,7 @@ const ProfilePhone = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
         </div>
       </form>
     </AccountInfo>
-  );
-};
+  )
+}
 
-export default ProfileTemplate;
+export default ProfileTemplate

@@ -1,5 +1,5 @@
-import { sdk } from "@/lib/sdk";
-import { HttpTypes } from "@medusajs/types";
+import { sdk } from "@/lib/sdk"
+import { HttpTypes } from "@medusajs/types"
 
 export const listCategories = async (options?: {
   fields?: string;
@@ -8,10 +8,10 @@ export const listCategories = async (options?: {
   const { product_categories } = await sdk.store.category.list({
     fields: options?.fields,
     ...options?.queryParams,
-  });
+  })
 
   return product_categories
-};
+}
 
 export const retrieveCategory = async ({
   handle,
@@ -25,11 +25,11 @@ export const retrieveCategory = async ({
       handle,
       fields
     },
-  });
+  })
 
   if (!product_categories.length) {
-    throw new Error(`Category with handle ${handle} not found`);
+    throw new Error(`Category with handle ${handle} not found`)
   }
 
-  return product_categories[0];
-};
+  return product_categories[0]
+}

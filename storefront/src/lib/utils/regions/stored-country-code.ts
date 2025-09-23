@@ -3,5 +3,5 @@ export function getStoredCountryCode() {
 }
 
 export function setStoredCountryCode(countryCode: string) {
-  localStorage.setItem("medusa_country_code", countryCode);
+  localStorage.setItem("medusa_country_code", countryCode)
 }

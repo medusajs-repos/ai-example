@@ -1,7 +1,7 @@
-import { HttpTypes } from "@medusajs/types";
-import { Thumbnail } from "../common/thumbnail";
-import { Text } from "@medusajs/ui";
-import { Price } from "../common/price";
+import { HttpTypes } from "@medusajs/types"
+import { Thumbnail } from "@/components/common/thumbnail"
+import { Text } from "@medusajs/ui"
+import { Price } from "@/components/common/price"
 
 type OrderLineItemProps = {
   item: HttpTypes.StoreOrderLineItem;
@@ -31,7 +31,7 @@ const OrderLineItem = ({ item, order }: OrderLineItemProps) => {
         />
       </div>
     </div>
-  );
+  )
 }
 
-export default OrderLineItem;
+export default OrderLineItem

@@ -13,7 +13,7 @@ const AccountLayout = ({ children, customer }: AccountLayoutProps) => {
       <div className="flex-1 content-container h-full max-w-5xl mx-auto bg-white flex flex-col">
         <div className="grid grid-cols-1 small:grid-cols-[240px_1fr] py-12">
           <div>
-            {customer && <AccountNav customer={customer} />}
+            {customer && <AccountNav />}
           </div>
           <div className="flex-1">
             {children}

@@ -1,6 +1,6 @@
-import { clx } from "@medusajs/ui";
-import { useMemo } from "react";
-import { convertToLocale } from "@/lib/utils/money";
+import { clx } from "@medusajs/ui"
+import { useMemo } from "react"
+import { convertToLocale } from "@/lib/utils/money"
 
 type PriceProps = {
   price: number | string;
@@ -59,4 +59,4 @@ export const Price = ({
       </span>
     </div>
   )
-};
+}

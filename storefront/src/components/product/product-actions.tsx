@@ -1,21 +1,21 @@
 
-import { useAddToCart } from "@/lib/hooks/dynamic/use-cart";
-import { useIntersection } from "@/lib/hooks/lib/use-intersection";
-import { getCountryCodeFromPath } from "@/lib/utils/regions";
-import { HttpTypes } from "@medusajs/types";
-import { Button, toast } from "@medusajs/ui";
-import { useLocation } from "@tanstack/react-router";
-import { isEqual } from 'lodash-es';
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { useProductDynamic } from "@/lib/hooks/dynamic/use-products";
-import { Loading } from "@/components/common";
-import getVariantOptionsKeymap from "@/lib/utils/products/get-variant-options-keymap";
-import isVariantInStock from "@/lib/utils/products/is-variant-in-stock";
-import { DEFAULT_CART_DROPDOWN_FIELDS } from "../cart/cart-dropdown";
+import { useAddToCart } from "@/lib/hooks/dynamic/use-cart"
+import { useIntersection } from "@/lib/hooks/lib/use-intersection"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
+import { HttpTypes } from "@medusajs/types"
+import { Button, toast } from "@medusajs/ui"
+import { useLocation } from "@tanstack/react-router"
+import { isEqual } from "lodash-es"
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react"
+import { useProductDynamic } from "@/lib/hooks/dynamic/use-products"
+import Loading from "@/components/common/loading"
+import getVariantOptionsKeymap from "@/lib/utils/products/get-variant-options-keymap"
+import isVariantInStock from "@/lib/utils/products/is-variant-in-stock"
+import { DEFAULT_CART_DROPDOWN_FIELDS } from "@/components/cart/cart-dropdown"
 
-const ProductMobileActions = lazy(() => import("@/components/product/product-mobile-actions"));
-const ProductPrice = lazy(() => import("@/components/product/product-price"));
-const ProductOptionSelect = lazy(() => import("@/components/product/product-option-select"));
+const ProductMobileActions = lazy(() => import("@/components/product/product-mobile-actions"))
+const ProductPrice = lazy(() => import("@/components/product/product-price"))
+const ProductOptionSelect = lazy(() => import("@/components/product/product-option-select"))
 
 type ProductActionsProps = {
   handle: string;
@@ -34,28 +34,28 @@ export default function ProductActions({
    })
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string | undefined>>(
     {}
-  );
-  const location = useLocation();
-  const countryCode = getCountryCodeFromPath(location.pathname) || "dk";
+  )
+  const location = useLocation()
+  const countryCode = getCountryCodeFromPath(location.pathname) || "dk"
 
   const addToCartMutation = useAddToCart({
     fields: DEFAULT_CART_DROPDOWN_FIELDS
-  });
+  })
 
-  const actionsRef = useRef<HTMLDivElement>(null);
-  const inView = useIntersection(actionsRef, "0px");
+  const actionsRef = useRef<HTMLDivElement>(null)
+  const inView = useIntersection(actionsRef, "0px")
 
   // If there is only 1 variant, preselect the options
   useEffect(() => {
     if (product?.variants?.length === 1) {
-      const optionsKeymap = getVariantOptionsKeymap(product?.variants?.[0]?.options ?? []);
-      setSelectedOptions(optionsKeymap ?? {});
+      const optionsKeymap = getVariantOptionsKeymap(product?.variants?.[0]?.options ?? [])
+      setSelectedOptions(optionsKeymap ?? {})
     }
-  }, [product?.variants]);
+  }, [product?.variants])
 
   const selectedVariant = useMemo(() => {
     if (!product?.variants || product?.variants.length === 0) {
-      return;
+      return
     }
 
     // If there's only one variant and no options, select it directly
@@ -63,51 +63,51 @@ export default function ProductActions({
       product?.variants.length === 1 &&
       (!product?.options || product?.options.length === 0)
     ) {
-      return product?.variants[0];
+      return product?.variants[0]
     }
 
     const variant = product?.variants.find((v) => {
-      const optionsKeymap = getVariantOptionsKeymap(v?.options ?? []);
-      const matches = isEqual(optionsKeymap, selectedOptions);
+      const optionsKeymap = getVariantOptionsKeymap(v?.options ?? [])
+      const matches = isEqual(optionsKeymap, selectedOptions)
 
-      return matches;
-    });
+      return matches
+    })
 
-    return variant;
-  }, [product?.variants, product?.options, selectedOptions]);
+    return variant
+  }, [product?.variants, product?.options, selectedOptions])
 
   // update the options when a variant is selected
   const setOptionValue = (optionId: string, value: string) => {
     setSelectedOptions((prev) => ({
       ...prev,
       [optionId]: value,
-    }));
-  };
+    }))
+  }
 
   //check if the selected options produce a valid variant
   const isValidVariant = useMemo(() => {
     return product?.variants?.some((v) => {
-      const optionsKeymap = getVariantOptionsKeymap(v?.options ?? []);
-      return isEqual(optionsKeymap, selectedOptions);
-    });
-  }, [product?.variants, selectedOptions]);
+      const optionsKeymap = getVariantOptionsKeymap(v?.options ?? [])
+      return isEqual(optionsKeymap, selectedOptions)
+    })
+  }, [product?.variants, selectedOptions])
 
   // check if the selected variant is in stock
   const inStock = useMemo(() => {
     // If no variant is selected, we can't add to cart
     if (!selectedVariant) {
-      return false;
+      return false
     }
 
-    return isVariantInStock(selectedVariant);
-  }, [selectedVariant]);
+    return isVariantInStock(selectedVariant)
+  }, [selectedVariant])
 
   // add the selected variant to the cart
   const handleAddToCart = async () => {
-    if (!selectedVariant?.id) return null;
+    if (!selectedVariant?.id) return null
 
     // optimistic success message
-    toast.success("Item added to cart");
+    toast.success("Item added to cart")
 
     addToCartMutation.mutateAsync({
       variant_id: selectedVariant.id,
@@ -117,10 +117,10 @@ export default function ProductActions({
       variant: selectedVariant,
     }, {
       onError: () => {
-        toast.error("Failed to add item to cart. Please try again.");
+        toast.error("Failed to add item to cart. Please try again.")
       },
-    });
-  };
+    })
+  }
 
 
   if (!product) {
@@ -146,7 +146,7 @@ export default function ProductActions({
                     />
                   </Suspense>
                 </div>
-              );
+              )
             })}
             <div className="border-t border-ui-border-base my-4" />
           </div>
@@ -188,5 +188,5 @@ export default function ProductActions({
         />
       </Suspense>
     </div>
-  );
+  )
 }

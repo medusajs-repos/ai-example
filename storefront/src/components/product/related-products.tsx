@@ -1,6 +1,6 @@
 import { HttpTypes } from "@medusajs/types"
 import ProductCard from "@/components/product/product-card"
-import { Loading } from "../common"
+import Loading from "@/components/common/loading"
 import { useRelatedProducts } from "@/lib/hooks/static/use-products"
 
 type RelatedProductsProps = {

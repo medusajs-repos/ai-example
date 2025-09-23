@@ -1,15 +1,15 @@
 export const getCookie = (name: string): string | null => {
   if (typeof document === "undefined") {
-    return null;
+    return null
   }
 
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
   if (parts.length === 2) {
-    return parts.pop()?.split(";").shift() || null;
+    return parts.pop()?.split(";").shift() || null
   }
-  return null;
-};
+  return null
+}
 
 export const setCookie = (
   name: string,
@@ -22,7 +22,7 @@ export const setCookie = (
   } = {}
 ) => {
   if (typeof document === "undefined") {
-    return;
+    return
   }
 
   const {
@@ -30,58 +30,42 @@ export const setCookie = (
     secure = true,
     sameSite = "lax",
     path = "/",
-  } = options;
+  } = options
 
-  let cookieString = `${name}=${value}; path=${path}; max-age=${maxAge}; samesite=${sameSite}`;
+  let cookieString = `${name}=${value}; path=${path}; max-age=${maxAge}; samesite=${sameSite}`
 
   if (secure) {
-    cookieString += "; secure";
+    cookieString += "; secure"
   }
 
-  document.cookie = cookieString;
-};
+  document.cookie = cookieString
+}
 
 export const removeCookie = (name: string) => {
   if (typeof document === "undefined") {
-    return;
+    return
   }
 
   // More aggressive cookie removal
-  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
-  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; secure`;
-  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=${window.location.hostname}`;
-};
-
-export const getAuthToken = (): string | null => {
-  return getCookie("_medusa_jwt");
-};
-
-export const setAuthToken = (token: string) => {
-  setCookie("_medusa_jwt", token, {
-    maxAge: 60 * 60 * 24 * 7,
-    secure: true,
-    sameSite: "lax",
-  });
-};
-
-export const removeAuthToken = () => {
-  removeCookie("_medusa_jwt");
-};
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; secure`
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=${window.location.hostname}`
+}
 
 export const getCartId = (): string | null => {
-  const cartId = getCookie("_medusa_cart_id");
+  const cartId = getCookie("_medusa_cart_id")
 
-  return cartId;
-};
+  return cartId
+}
 
 export const setCartId = (cartId: string) => {
   setCookie("_medusa_cart_id", cartId, {
     maxAge: 60 * 60 * 24 * 7,
     secure: location.protocol === "https:", // Only secure in production
     sameSite: "lax",
-  });
-};
+  })
+}
 
 export const removeCartId = () => {
-  removeCookie("_medusa_cart_id");
-};
+  removeCookie("_medusa_cart_id")
+}

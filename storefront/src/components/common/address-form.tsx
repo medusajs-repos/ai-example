@@ -1,7 +1,7 @@
 import { HttpTypes } from "@medusajs/types"
 import { Button, Input, Label, Select, clx } from "@medusajs/ui"
 import { useMemo, useState } from "react"
-import { countries } from "../../lib/constants/countries"
+import { countries } from "@/lib/constants/countries"
 
 interface AddressFormProps {
   addressFormData: HttpTypes.StoreCreateCustomerAddress | HttpTypes.StoreAddAddress
@@ -84,7 +84,7 @@ const AddressForm = ({
             type="text"
             autoComplete="given-name"
             value={addressFormData.first_name}
-            onChange={(e) => handleChange('first_name', e.target.value)}
+            onChange={(e) => handleChange("first_name", e.target.value)}
             placeholder="First name"
           />
           {errors.first_name && (
@@ -101,7 +101,7 @@ const AddressForm = ({
             type="text"
             autoComplete="family-name"
             value={addressFormData.last_name}
-            onChange={(e) => handleChange('last_name', e.target.value)}
+            onChange={(e) => handleChange("last_name", e.target.value)}
             placeholder="Last name"
           />
           {errors.last_name && (
@@ -121,7 +121,7 @@ const AddressForm = ({
           type="text"
           autoComplete="organization"
           value={addressFormData.company}
-          onChange={(e) => handleChange('company', e.target.value)}
+          onChange={(e) => handleChange("company", e.target.value)}
           placeholder="Company name"
         />
       </div>
@@ -137,7 +137,7 @@ const AddressForm = ({
           type="text"
           autoComplete="street-address"
           value={addressFormData.address_1}
-          onChange={(e) => handleChange('address_1', e.target.value)}
+          onChange={(e) => handleChange("address_1", e.target.value)}
           placeholder="Address line 1"
         />
         {errors.address_1 && (
@@ -154,7 +154,7 @@ const AddressForm = ({
           id="address_2"
           type="text"
           value={addressFormData.address_2}
-          onChange={(e) => handleChange('address_2', e.target.value)}
+          onChange={(e) => handleChange("address_2", e.target.value)}
           placeholder="Address line 2"
         />
       </div>
@@ -171,7 +171,7 @@ const AddressForm = ({
             type="text"
             autoComplete="address-level2"
             value={addressFormData.city}
-            onChange={(e) => handleChange('city', e.target.value)}
+            onChange={(e) => handleChange("city", e.target.value)}
             placeholder="City"
           />
           {errors.city && (
@@ -188,7 +188,7 @@ const AddressForm = ({
             type="text"
             autoComplete="address-level1"
             value={addressFormData.province}
-            onChange={(e) => handleChange('province', e.target.value)}
+            onChange={(e) => handleChange("province", e.target.value)}
             placeholder="State / Province"
           />
         </div>
@@ -202,7 +202,7 @@ const AddressForm = ({
             type="text"
             autoComplete="postal-code"
             value={addressFormData.postal_code}
-            onChange={(e) => handleChange('postal_code', e.target.value)}
+            onChange={(e) => handleChange("postal_code", e.target.value)}
             placeholder="Postal code"
           />
           {errors.postal_code && (
@@ -219,7 +219,7 @@ const AddressForm = ({
         <Select
           name="country_code"
           value={addressFormData.country_code}
-          onValueChange={(value) => handleChange('country_code', value)}
+          onValueChange={(value) => handleChange("country_code", value)}
         >
           <Select.Trigger>
             <Select.Value placeholder="Select country" />
@@ -248,7 +248,7 @@ const AddressForm = ({
           type="tel"
           autoComplete="tel"
           value={addressFormData.phone}
-          onChange={(e) => handleChange('phone', e.target.value)}
+          onChange={(e) => handleChange("phone", e.target.value)}
           placeholder="Phone number"
         />
       </div>

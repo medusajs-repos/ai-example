@@ -1,9 +1,9 @@
 import { Link, useLocation } from "@tanstack/react-router"
 import { HttpTypes } from "@medusajs/types"
-import { getCountryCodeFromPath } from "@/lib/utils/regions"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
 import { Text } from "@medusajs/ui"
-import ProductPrice from "./product-price"
-import { Thumbnail } from "../common/thumbnail"
+import ProductPrice from "@/components/product/product-price"
+import { Thumbnail } from "@/components/common/thumbnail"
 
 interface ProductCardProps {
   product: HttpTypes.StoreProduct
@@ -12,7 +12,7 @@ interface ProductCardProps {
 const ProductCard = ({ product }: ProductCardProps) => {
   const location = useLocation()
   const countryCode = getCountryCodeFromPath(location.pathname)
-  const baseHref = countryCode ? `/${countryCode}` : ''
+  const baseHref = countryCode ? `/${countryCode}` : ""
 
   return (
     <Link

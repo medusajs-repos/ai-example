@@ -1,4 +1,4 @@
-import { clx } from "@medusajs/ui";
+import { clx } from "@medusajs/ui"
 
 /**
  * A simple skeleton loading component that shows rows of pulsing divs
@@ -53,7 +53,7 @@ const Loading = ({
         />
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default Loading;
+export default Loading

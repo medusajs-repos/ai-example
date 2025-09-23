@@ -1,7 +1,7 @@
-import { HttpTypes } from "@medusajs/types";
-import { Heading, Text } from "@medusajs/ui";
-import Address from "../common/address";
-import { Price } from "../common/price";
+import { HttpTypes } from "@medusajs/types"
+import { Heading, Text } from "@medusajs/ui"
+import Address from "@/components/common/address"
+import { Price } from "@/components/common/price"
 
 type OrderShippingProps = {
   order: HttpTypes.StoreOrder;
@@ -37,4 +37,4 @@ const OrderShipping = ({ order }: OrderShippingProps) => {
   )
 }
 
-export default OrderShipping;
+export default OrderShipping

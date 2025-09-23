@@ -1,8 +1,8 @@
-import { Outlet } from "@tanstack/react-router";
-import ErrorBoundary from "@/components/common/error-boundary";
-import Footer from "@/components/layout/footer";
+import { Outlet } from "@tanstack/react-router"
+import ErrorBoundary from "@/components/common/error-boundary"
+import Footer from "@/components/layout/footer"
 import { Navbar } from "@/components/layout/navbar"
-import { Toaster } from "@medusajs/ui";
+import { Toaster } from "@medusajs/ui"
 
 const Layout = () => {
 
@@ -19,7 +19,7 @@ const Layout = () => {
       <Footer />
       <Toaster />
     </div>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

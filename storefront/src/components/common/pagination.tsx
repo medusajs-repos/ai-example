@@ -1,17 +1,17 @@
-import React from 'react'
+import React from "react"
 
 type PaginationProps = {
   page: number
   totalPages: number
   onPageChange: (page: number) => void
-  'data-testid'?: string
+  "data-testid"?: string
 }
 
 const Pagination = ({
   page,
   totalPages,
   onPageChange,
-  'data-testid': dataTestId,
+  "data-testid": dataTestId,
 }: PaginationProps) => {
   const getPageNumbers = () => {
     const pageNumbers = []
@@ -56,8 +56,8 @@ const Pagination = ({
             onClick={() => onPageChange(pageNum)}
             className={`px-3 py-2 txt-small font-medium rounded-md border ${
               pageNum === page
-                ? 'bg-black text-white border-black'
-                : 'text-ui-fg-subtle bg-white border-ui-border-base hover:bg-ui-bg-subtle'
+                ? "bg-black text-white border-black"
+                : "text-ui-fg-subtle bg-white border-ui-border-base hover:bg-ui-bg-subtle"
             }`}
           >
             {pageNum}

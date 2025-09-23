@@ -1,7 +1,7 @@
 import { getProductPrice } from "@/lib/utils/get-product-price"
 import { HttpTypes } from "@medusajs/types"
-import { Loading } from "../common"
-import { Price } from "../common/price"
+import Loading from "@/components/common/loading"
+import { Price } from "@/components/common/price"
 
 export default function ProductPrice({
   product,

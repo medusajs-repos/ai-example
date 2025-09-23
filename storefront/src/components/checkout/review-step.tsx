@@ -2,8 +2,8 @@ import { HttpTypes } from "@medusajs/types"
 import { Button, Heading, Text } from "@medusajs/ui"
 import PaymentButton from "@/components/checkout/payment-button"
 import { Price } from "@/components/common/price"
-import { isPaidWithGiftCard } from "@/lib/utils/checkout/is-paid-with-gift-card";
-import { getActiveSession } from "@/lib/utils/checkout/get-active-session";
+import { isPaidWithGiftCard } from "@/lib/utils/checkout/is-paid-with-gift-card"
+import { getActiveSession } from "@/lib/utils/checkout/get-active-session"
 import { lazy } from "react"
 
 const PaymentMethodInfo = lazy(() => import("../common/payment-method-info"))
@@ -15,8 +15,8 @@ interface ReviewStepProps {
 }
 
 const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
-  const paidByGiftcard = isPaidWithGiftCard(cart);
-  const activeSession = getActiveSession(cart);
+  const paidByGiftcard = isPaidWithGiftCard(cart)
+  const activeSession = getActiveSession(cart)
 
   return (
     <div>

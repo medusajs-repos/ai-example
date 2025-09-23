@@ -1,22 +1,22 @@
-import { useCustomerOrders } from "@/lib/hooks/static/use-orders";
-import { getCountryCodeFromPath } from "@/lib/utils/regions";
-import { HttpTypes } from "@medusajs/types";
-import { Link, useLocation } from "@tanstack/react-router";
-import AccountContainer from "@/components/account/account-container";
-import { Price } from "@/components/common/price";
+import { useCustomerOrders } from "@/lib/hooks/static/use-orders"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
+import { HttpTypes } from "@medusajs/types"
+import { Link, useLocation } from "@tanstack/react-router"
+import AccountContainer from "@/components/account/account-container"
+import { Price } from "@/components/common/price"
 
 interface OverviewProps {
   customer: HttpTypes.StoreCustomer;
 }
 
 const Overview = ({ customer }: OverviewProps) => {
-  const location = useLocation();
-  const countryCode = getCountryCodeFromPath(location.pathname);
-  const baseHref = countryCode ? `/${countryCode}` : "";
-  const { data: orders } = useCustomerOrders();
-  const profileCompletion = getProfileCompletion(customer);
-  const addressCount = customer.addresses?.length || 0;
-  const recentOrders = orders?.slice(0, 5) || [];
+  const location = useLocation()
+  const countryCode = getCountryCodeFromPath(location.pathname)
+  const baseHref = countryCode ? `/${countryCode}` : ""
+  const { data: orders } = useCustomerOrders()
+  const profileCompletion = getProfileCompletion(customer)
+  const addressCount = customer.addresses?.length || 0
+  const recentOrders = orders?.slice(0, 5) || []
 
   return (
     <AccountContainer
@@ -127,31 +127,31 @@ const Overview = ({ customer }: OverviewProps) => {
         )}
       </div>
     </AccountContainer>
-  );
-};
+  )
+}
 
 const getProfileCompletion = (customer: HttpTypes.StoreCustomer): number => {
-  let filledFields = 0;
-  const totalFields = 5;
+  let filledFields = 0
+  const totalFields = 5
 
   // Email (always exists for registered users)
-  if (customer.email) filledFields++;
+  if (customer.email) filledFields++
 
   // Full name
-  if (customer.first_name && customer.last_name) filledFields++;
+  if (customer.first_name && customer.last_name) filledFields++
 
   // Phone number
-  if (customer.phone) filledFields++;
+  if (customer.phone) filledFields++
 
   // Billing address
   if (
     customer.addresses.length
   ) {
-    filledFields++;
+    filledFields++
   }
 
-  return Math.round((filledFields / totalFields) * 100);
-};
+  return Math.round((filledFields / totalFields) * 100)
+}
 
 const RecentOrderItem = ({
   order,
@@ -162,17 +162,17 @@ const RecentOrderItem = ({
 }) => {
   const getOrderStatus = () => {
     if (order.fulfillment_status === "shipped")
-      return { label: "Shipped", color: "text-blue-600" };
+      return { label: "Shipped", color: "text-blue-600" }
     if (order.fulfillment_status === "delivered")
-      return { label: "Delivered", color: "text-green-600" };
+      return { label: "Delivered", color: "text-green-600" }
     if (order.payment_status === "captured")
-      return { label: "Processing", color: "text-yellow-600" };
-    return { label: "Confirmed", color: "text-ui-fg-base" };
-  };
+      return { label: "Processing", color: "text-yellow-600" }
+    return { label: "Confirmed", color: "text-ui-fg-base" }
+  }
 
-  const status = getOrderStatus();
+  const status = getOrderStatus()
   const numberOfItems =
-    order.items?.reduce((acc, item) => acc + item.quantity, 0) || 0;
+    order.items?.reduce((acc, item) => acc + item.quantity, 0) || 0
 
   return (
     <Link
@@ -213,7 +213,7 @@ const RecentOrderItem = ({
         </div>
       </div>
     </Link>
-  );
-};
+  )
+}
 
-export default Overview;
+export default Overview

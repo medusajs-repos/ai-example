@@ -1,43 +1,43 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
-import { retrieveProduct } from "@/lib/data/products";
-import { getRegion } from "@/lib/data/regions";
-import ProductDetails from "@/pages/product";
-import { createServerFn } from "@tanstack/react-start";
-import { HttpTypes } from "@medusajs/types";
+import { createFileRoute, notFound } from "@tanstack/react-router"
+import { retrieveProduct } from "@/lib/data/products"
+import { getRegion } from "@/lib/data/regions"
+import ProductDetails from "@/pages/product"
+import { createServerFn } from "@tanstack/react-start"
+import { HttpTypes } from "@medusajs/types"
 
 const getProductStatic = createServerFn({
   type: "static"
 })
 .validator((data: { handle: string; region_id: string }) => {
-  return data;
+  return data
 })
 .handler(async ({ data }) => {
-  const { handle, region_id } = data;
+  const { handle, region_id } = data
   try {
     const product = await retrieveProduct({ 
       handle, 
       region_id,
       fields: "*variants, *images, *options, *options.values, *collection, *tags"
-    });
+    })
     // Use type assertion to bypass strict typing
-    return product as any;
-  } catch (error) {
+    return product as any
+  } catch {
     throw notFound()
   }
-});
+})
 
 export const Route = createFileRoute("/$countryCode/products/$handle")({
   loader: async ({ params, context }) => {
-    const { countryCode, handle } = params;
-    const { queryClient } = context;
+    const { countryCode, handle } = params
+    const { queryClient } = context
 
     const region = await queryClient.ensureQueryData({
-      queryKey: ['region', countryCode],
+      queryKey: ["region", countryCode],
       queryFn: () => getRegion({ country_code: countryCode }),
-    });
+    })
 
     if (!region || !handle) {
-      throw notFound();
+      throw notFound()
     }
 
     const product = await queryClient.ensureQueryData({
@@ -48,13 +48,13 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
           region_id: region.id
         }
       }),
-    });
+    })
 
     return {
       countryCode,
       region,
       product: product as HttpTypes.StoreProduct,
-    };
+    }
   },
   head: ({ loaderData }) => {
     const { product, region } = loaderData || {}
@@ -66,7 +66,7 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
             title: "Product Not Found | Medusa Store",
           },
         ],
-      };
+      }
     }
 
     // Create structured data for SEO
@@ -88,7 +88,7 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
           ? product.variants[0].calculated_price.calculated_amount.toFixed(2)
           : undefined,
       },
-    };
+    }
 
     return {
       meta: [
@@ -119,7 +119,7 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
           children: JSON.stringify(structuredData),
         },
       ],
-    };
+    }
   },
   component: ProductDetails,
-});
+})

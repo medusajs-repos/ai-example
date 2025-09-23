@@ -1,35 +1,81 @@
-import { sdk } from "@/lib/sdk";
-import { getRegion } from "@/lib/data/regions";
-import { getCartId, removeCartId, setCartId } from "@/lib/utils/cookies";
-import { HttpTypes } from "@medusajs/types";
-import { Query, QueryClient } from "@tanstack/react-query";
-import { queryKeys } from "@/lib/query-keys";
-import { sendPostRequest } from "./custom";
-import { sendDeleteRequest } from "./custom";
+import { sdk } from "@/lib/sdk"
+import { getRegion } from "@/lib/data/regions"
+import { getCartId, setCartId } from "@/lib/utils/cookies"
+import { HttpTypes } from "@medusajs/types"
+import { 
+  sendPostRequest, 
+  sendDeleteRequest 
+} from "@/lib/data/custom"
 
-const DEFAULT_CART_FIELDS = "+items.total, shipping_methods.name";
+const DEFAULT_CART_FIELDS = "+items.total, shipping_methods.name"
 
+/**
+ * Retrieves a cart by ID or from stored ID. Returns null if no cart is found.
+ * 
+ * @param cart_id - Optional cart ID. If not provided, will use stored cart ID.
+ * @param fields - Optional fields to include in the response
+ * @returns Promise that resolves to the cart data or null if not found
+ * 
+ * @example
+ * ```typescript
+ * // Get current cart from cookies
+ * const cart = await retrieveCart();
+ * 
+ * // Get specific cart by ID
+ * const specificCart = await retrieveCart({ 
+ *   cart_id: 'cart_123',
+ *   fields: '*items, *items.variant, *items.variant.product'
+ * });
+ * 
+ * // Get cart with minimal fields
+ * const minimalCart = await retrieveCart({ 
+ *   fields: 'id, total, items.quantity'
+ * });
+ * ```
+ */
 export const retrieveCart = async ({
   cart_id,
-  fields,
+  fields = DEFAULT_CART_FIELDS,
 }: {
   cart_id?: string;
   fields?: string;
 }): Promise<HttpTypes.StoreCart | null> => {
-  const id = cart_id || getCartId();
+  const id = cart_id || getCartId()
 
   if (!id) {
-    return null;
+    return null
   }
 
   const { cart } = await sdk.store.cart.retrieve(id, {
     fields:
-      fields || DEFAULT_CART_FIELDS,
-  });
+      fields,
+  })
 
-  return cart;
-};
+  return cart
+}
 
+/**
+ * Creates a new cart for the specified region and stores the cart ID.
+ * 
+ * @param region_id - The region ID to create the cart for
+ * @param fields - Optional fields to include in the response (defaults to items total and shipping methods)
+ * @returns Promise that resolves to the newly created cart
+ * 
+ * @example
+ * ```typescript
+ * // Create cart for US region
+ * const newCart = await createCart({ 
+ *   region_id: 'reg_us',
+ *   fields: '*items, *items.variant, shipping_methods'
+ * });
+ * 
+ * // Create cart with minimal response
+ * const cart = await createCart({ 
+ *   region_id: 'reg_eu',
+ *   fields: 'id, total'
+ * });
+ * ```
+ */
 export const createCart = async ({
   region_id,
   fields = DEFAULT_CART_FIELDS,
@@ -39,11 +85,39 @@ export const createCart = async ({
 }): Promise<HttpTypes.StoreCart> => {
   const { cart } = await sdk.store.cart.create({ region_id }, {
     fields,
-  });
-  setCartId(cart.id);
-  return cart;
-};
+  })
+  setCartId(cart.id)
+  return cart
+}
 
+/**
+ * Adds a product variant to the cart. Creates a new cart if none exists.
+ * 
+ * @param variant_id - The product variant ID to add to the cart
+ * @param quantity - The quantity of the variant to add
+ * @param country_code - The country code to determine the region (used if creating new cart)
+ * @param fields - Optional fields to include in the response
+ * @returns Promise that resolves to the updated cart
+ * 
+ * @example
+ * ```typescript
+ * // Add single item to cart
+ * const updatedCart = await addToCart({
+ *   variant_id: 'variant_123',
+ *   quantity: 2,
+ *   country_code: 'us',
+ *   fields: '*items, *items.variant, *items.variant.product'
+ * });
+ * 
+ * // Add item with minimal response
+ * const cart = await addToCart({
+ *   variant_id: 'variant_456',
+ *   quantity: 1,
+ *   country_code: 'gb',
+ *   fields: 'id, total, items.quantity'
+ * });
+ * ```
+ */
 export const addToCart = async ({
   variant_id,
   quantity,
@@ -56,23 +130,23 @@ export const addToCart = async ({
   fields?: string;
 }): Promise<HttpTypes.StoreCart> => {
   if (!variant_id) {
-    throw new Error("Missing variant ID when adding to cart");
+    throw new Error("Missing variant ID when adding to cart")
   }
 
-  let cartId = getCartId();
+  let cartId = getCartId()
 
   if (!cartId) {
-    const region = await getRegion({ country_code });
+    const region = await getRegion({ country_code })
   
     if (!region) {
-      throw new Error(`Region not found for country code: ${country_code}`);
+      throw new Error(`Region not found for country code: ${country_code}`)
     }
     // Create new cart
     cartId = (await createCart({ region_id: region.id })).id
   }
 
   if (!cartId) {
-    throw new Error("Error retrieving or creating cart");
+    throw new Error("Error retrieving or creating cart")
   }
 
   const response = await sdk.store.cart.createLineItem(
@@ -84,11 +158,36 @@ export const addToCart = async ({
     {
       fields,
     }
-  );
+  )
 
-  return response.cart;
-};
+  return response.cart
+}
 
+/**
+ * Updates the quantity of a line item in the cart.
+ * 
+ * @param line_id - The line item ID to update
+ * @param quantity - The new quantity for the line item
+ * @param fields - Optional fields to include in the response
+ * @returns Promise that resolves to the updated cart
+ * 
+ * @example
+ * ```typescript
+ * // Update line item quantity
+ * const updatedCart = await updateLineItem({
+ *   line_id: 'li_123',
+ *   quantity: 3,
+ *   fields: '*items, *items.variant, shipping_methods'
+ * });
+ * 
+ * // Update with minimal response
+ * const cart = await updateLineItem({
+ *   line_id: 'li_456',
+ *   quantity: 0, // This effectively removes the item
+ *   fields: 'id, total'
+ * });
+ * ```
+ */
 export const updateLineItem = async ({
   line_id,
   quantity,
@@ -98,10 +197,10 @@ export const updateLineItem = async ({
   quantity: number;
   fields?: string;
 }): Promise<HttpTypes.StoreCart> => {
-  const cartId = getCartId();
+  const cartId = getCartId()
 
   if (!cartId) {
-    throw new Error("No cart found");
+    throw new Error("No cart found")
   }
 
   const { cart } = await sdk.store.cart.updateLineItem(
@@ -111,249 +210,74 @@ export const updateLineItem = async ({
     {
       fields,
     }
-  );
-  return cart;
-};
+  )
+  return cart
+}
 
+/**
+ * Deletes a line item from the cart.
+ * 
+ * @param line_id - The line item ID to delete
+ * @param fields - Optional fields
+ * @returns Promise that resolves when the line item is deleted
+ * 
+ * @example
+ * ```typescript
+ * // Delete a line item
+ * await deleteLineItem({ line_id: 'li_123' });
+ * 
+ * // Delete multiple line items (call multiple times)
+ * await Promise.all([
+ *   deleteLineItem({ line_id: 'li_123' }),
+ *   deleteLineItem({ line_id: 'li_456' })
+ * ]);
+ * ```
+ */
 export const deleteLineItem = async ({
   line_id,
-  fields = DEFAULT_CART_FIELDS,
+  // fields = DEFAULT_CART_FIELDS,
 }: {
   line_id: string;
   fields?: string;
 }): Promise<void> => {
-  const cartId = getCartId();
+  const cartId = getCartId()
 
   if (!cartId) {
-    throw new Error("No cart found");
+    throw new Error("No cart found")
   }
 
   // TODO pass fields when supported
-  await sdk.store.cart.deleteLineItem(cartId, line_id);
-};
+  await sdk.store.cart.deleteLineItem(cartId, line_id)
+}
 
-export const setAddresses = async ({
-  prev_state,
-  form_data, 
-}: {
-  prev_state: any;
-  form_data: FormData;
-}): Promise<HttpTypes.StoreCart> => {
-  const cartId = getCartId();
-
-  if (!cartId) {
-    throw new Error("No cart found");
-  }
-
-  const data = Object.fromEntries(form_data.entries());
-
-  const shippingAddress = {
-    first_name: data["shipping_address.first_name"] as string,
-    last_name: data["shipping_address.last_name"] as string,
-    address_1: data["shipping_address.address_1"] as string,
-    address_2: (data["shipping_address.address_2"] as string) || "",
-    company: (data["shipping_address.company"] as string) || "",
-    postal_code: data["shipping_address.postal_code"] as string,
-    city: data["shipping_address.city"] as string,
-    country_code: data["shipping_address.country_code"] as string,
-    province: (data["shipping_address.province"] as string) || "",
-    phone: (data["shipping_address.phone"] as string) || "",
-  };
-
-  const billingAddress = {
-    first_name: data["billing_address.first_name"] as string,
-    last_name: data["billing_address.last_name"] as string,
-    address_1: data["billing_address.address_1"] as string,
-    address_2: (data["billing_address.address_2"] as string) || "",
-    company: (data["billing_address.company"] as string) || "",
-    postal_code: data["billing_address.postal_code"] as string,
-    city: data["billing_address.city"] as string,
-    country_code: data["billing_address.country_code"] as string,
-    province: (data["billing_address.province"] as string) || "",
-    phone: (data["billing_address.phone"] as string) || "",
-  }
-
-  const email = data.email as string;
-
-  const { cart } = await sdk.store.cart.update(
-    cartId,
-    {
-      shipping_address: shippingAddress,
-      billing_address: billingAddress,
-      email,
-    },
-  );
-  return cart;
-};
-
-export const setShippingMethod = async ({
-  shipping_option_id,
-}: {
-  shipping_option_id: string;
-}): Promise<HttpTypes.StoreCart> => {
-  const cartId = getCartId();
-
-  if (!cartId) {
-    throw new Error("No cart found");
-  }
-
-  const { cart } = await sdk.store.cart.addShippingMethod(
-    cartId,
-    { option_id: shipping_option_id },
-  );
-  return cart;
-};
-
-export const initiatePaymentSession = async ({
-  provider_id,
-}: {
-  provider_id: string;
-}): Promise<HttpTypes.StorePaymentCollection> => {
-  const cartId = getCartId();
-
-  if (!cartId) {
-    throw new Error("No cart found");
-  }
-
-  // First retrieve the cart to pass to the payment API
-  const cart = await retrieveCart({ cart_id: cartId });
-  if (!cart) {
-    throw new Error("Cart not found");
-  }
-
-  const { payment_collection } = await sdk.store.payment.initiatePaymentSession(
-    cart,
-    { provider_id },
-  );
-  return payment_collection
-};
-
-export const completeCart = async (): Promise<HttpTypes.StoreOrder> => {
-  const cartId = getCartId();
-
-  if (!cartId) {
-    throw new Error("No cart found");
-  }
-
-  const cartRes = await sdk.store.cart.complete(cartId, {});
-
-  if (cartRes.type !== "order") {
-    throw new Error("Order creation failed");
-  }
-
-  // Clear the cart from storage after successful completion
-  removeCartId();
-  return cartRes.order;
-};
-
-export const clearAllCartCache = ({
-  query_client,
-  cart_id,
-  region_id,
-}: {
-  query_client: QueryClient;
-  cart_id: string;
-  region_id?: string;
-}) => {
-  // Immediately set cart data to null to clear the UI
-  query_client.setQueryData(queryKeys.cart.current(), null);
-
-  // Remove all cart-related queries from cache
-  query_client.removeQueries({ queryKey: queryKeys.cart.current() });
-
-  // Clear payment methods cache
-  if (region_id) {
-    query_client.removeQueries({ queryKey: queryKeys.payments.sessions(region_id) });
-  }
-  query_client.removeQueries({ queryKey: queryKeys.payments.sessions() });
-
-  // Clear shipping options cache
-  query_client.removeQueries({ queryKey: queryKeys.shipping.options(cart_id, region_id) });
-
-  // Clear any other cart-related caches
-  query_client.removeQueries({
-    predicate: (query) => {
-      const queryKey = query.queryKey;
-      return (
-        queryKey &&
-        (queryKey.includes("cart") ||
-          queryKey.includes("payment") ||
-          queryKey.includes("shipping") ||
-          queryKey.includes("checkout"))
-      );
-    },
-  });
-
-  // Invalidate cart queries to trigger a fresh fetch with no cart ID
-  query_client.invalidateQueries({ queryKey: queryKeys.cart.current() });
-};
-
-export const clearAllStorageData = () => {
-  // Clear all cart-related cookies
-  removeCartId();
-
-  // Clear all cart-related localStorage items
-  if (typeof localStorage !== "undefined") {
-    const keysToRemove = [];
-
-    // Collect all cart-related localStorage keys
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (
-        key &&
-        (key.includes("cart") ||
-          key.includes("checkout") ||
-          key.includes("payment") ||
-          key.includes("shipping") ||
-          key.startsWith("medusa_cart") ||
-          key.startsWith("_medusa_cart"))
-      ) {
-        keysToRemove.push(key);
-      }
-    }
-
-    // Remove collected keys
-    keysToRemove.forEach((key) => {
-      localStorage.removeItem(key);
-    });
-  }
-
-  // Clear all cart-related sessionStorage items
-  if (typeof sessionStorage !== "undefined") {
-    const keysToRemove = [];
-
-    // Collect all cart-related sessionStorage keys
-    for (let i = 0; i < sessionStorage.length; i++) {
-      const key = sessionStorage.key(i);
-      if (
-        key &&
-        (key.includes("cart") ||
-          key.includes("checkout") ||
-          key.includes("payment") ||
-          key.includes("shipping") ||
-          key.startsWith("medusa_cart") ||
-          key.startsWith("_medusa_cart"))
-      ) {
-        keysToRemove.push(key);
-      }
-    }
-
-    // Remove collected keys
-    keysToRemove.forEach((key) => {
-      sessionStorage.removeItem(key);
-    });
-  }
-};
-
+/**
+ * Applies a promotion code to the current cart.
+ * 
+ * @param code - The promotion code to apply
+ * @returns Promise that resolves to the updated cart with applied promotion
+ * 
+ * @example
+ * ```typescript
+ * // Apply a discount code
+ * const cartWithDiscount = await applyPromoCode({ 
+ *   code: 'SAVE20' 
+ * });
+ * 
+ * // Apply a free shipping code
+ * const cartWithFreeShipping = await applyPromoCode({ 
+ *   code: 'FREESHIP' 
+ * });
+ * ```
+ */
 export const applyPromoCode = async ({
   code,
 }: {
   code: string;
 }): Promise<HttpTypes.StoreCart> => {
-  const cartId = getCartId();
+  const cartId = getCartId()
 
   if (!cartId) {
-    throw new Error("No cart found");
+    throw new Error("No cart found")
   }
 
   const { cart } = await sendPostRequest<{ cart: HttpTypes.StoreCart }>(
@@ -365,18 +289,37 @@ export const applyPromoCode = async ({
     },
   )
 
-  return cart;
-};
+  return cart
+}
 
+/**
+ * Removes a promotion code from the current cart.
+ * 
+ * @param code - The promotion code to remove
+ * @returns Promise that resolves to the updated cart without the promotion
+ * 
+ * @example
+ * ```typescript
+ * // Remove a discount code
+ * const cartWithoutDiscount = await removePromoCode({ 
+ *   code: 'SAVE20' 
+ * });
+ * 
+ * // Remove a free shipping code
+ * const cartWithoutFreeShipping = await removePromoCode({ 
+ *   code: 'FREESHIP' 
+ * });
+ * ```
+ */
 export const removePromoCode = async ({
   code,
 }: {
   code: string;
 }): Promise<HttpTypes.StoreCart> => {
-  const cartId = getCartId();
+  const cartId = getCartId()
 
   if (!cartId) {
-    throw new Error("No cart found");
+    throw new Error("No cart found")
   }
 
   const { cart } = await sendDeleteRequest<
@@ -385,7 +328,7 @@ export const removePromoCode = async ({
     body: {
       promo_codes: [code],
     },
-  });
+  })
 
-  return cart;
-};
+  return cart
+}

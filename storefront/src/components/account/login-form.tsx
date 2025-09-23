@@ -1,7 +1,7 @@
-import { getCountryCodeFromPath } from "@/lib/utils/regions";
-import { useLogin } from "@/lib/hooks/dynamic/use-auth";
-import { useLocation, useRouter } from "@tanstack/react-router";
-import { useState } from "react";
+import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
+import { useLogin } from "@/lib/hooks/dynamic/use-auth"
+import { useLocation, useRouter } from "@tanstack/react-router"
+import { useState } from "react"
 
 interface LoginFormProps {
   onSuccess?: () => void;
@@ -9,22 +9,22 @@ interface LoginFormProps {
 }
 
 const LoginForm = ({ onSuccess, onSwitchToRegister }: LoginFormProps) => {
-  const location = useLocation();
-  const countryCode = getCountryCodeFromPath(location.pathname) || "dk";
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const location = useLocation()
+  const countryCode = getCountryCodeFromPath(location.pathname) || "dk"
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
 
-  const router = useRouter();
-  const login = useLogin();
+  const router = useRouter()
+  const login = useLogin()
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
+    e.preventDefault()
+    setError("")
 
     if (!email || !password) {
-      setError("Please fill in all fields");
-      return;
+      setError("Please fill in all fields")
+      return
     }
 
     login.mutate(
@@ -34,16 +34,16 @@ const LoginForm = ({ onSuccess, onSwitchToRegister }: LoginFormProps) => {
           router.navigate({
             to: "/$countryCode/account",
             params: { countryCode },
-          });
-          onSuccess?.();
+          })
+          onSuccess?.()
         },
         onError: (error) => {
-          setError("Invalid email or password");
-          console.error("Login error:", error);
+          setError("Invalid email or password")
+          console.error("Login error:", error)
         },
       }
-    );
-  };
+    )
+  }
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -106,7 +106,7 @@ const LoginForm = ({ onSuccess, onSwitchToRegister }: LoginFormProps) => {
         )}
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm

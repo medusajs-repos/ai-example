@@ -10,7 +10,7 @@ interface AccountInfoProps {
   successMessage?: string
   clearState?: () => void
   children?: ReactNode
-  'data-testid'?: string
+  "data-testid"?: string
 }
 
 const AccountInfo = ({

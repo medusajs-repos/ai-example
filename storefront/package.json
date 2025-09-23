@@ -11,8 +11,7 @@
     "start:local": "PORT=8000 node .output/server/index.mjs",
     "preview": "vite preview",
     "debug": "node --inspect-brk node_modules/.bin/vite dev",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "lint:fix": "eslint . --ext ts,tsx --fix",
+    "lint": "eslint . --ext ts,tsx --fix --quiet",
     "analyze": "pnpm build && npx vite-bundle-analyzer .tanstack/start/build/client-dist"
   },
   "dependencies": {

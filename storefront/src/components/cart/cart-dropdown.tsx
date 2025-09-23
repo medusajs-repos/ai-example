@@ -1,28 +1,28 @@
 import {
   useCart,
-} from "@/lib/hooks/dynamic/use-cart";
-import { getCountryCodeFromPath } from "@/lib/utils/regions";
-import { ShoppingCart } from "@medusajs/icons";
-import { Button } from "@medusajs/ui";
-import { Link, useLocation } from "@tanstack/react-router";
-import { NavbarLink } from "@/components/layout/navbar-link";
-import { Price } from "@/components/common/price";
-import CartLineItem from "./cart-line-item";
-import { sortCartItems } from "@/lib/utils/cart/sort-cart-items";
+} from "@/lib/hooks/dynamic/use-cart"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
+import { ShoppingCart } from "@medusajs/icons"
+import { Button } from "@medusajs/ui"
+import { Link, useLocation } from "@tanstack/react-router"
+import { NavbarLink } from "@/components/layout/navbar-link"
+import { Price } from "@/components/common/price"
+import CartLineItem from "@/components/cart/cart-line-item"
+import { sortCartItems } from "@/lib/utils/cart/sort-cart-items"
 
-export const DEFAULT_CART_DROPDOWN_FIELDS = "id, *items, total, currency_code, item_subtotal";
+export const DEFAULT_CART_DROPDOWN_FIELDS = "id, *items, total, currency_code, item_subtotal"
 
 const CartDropdown = () => {
   const { data: cart } = useCart({
     fields: DEFAULT_CART_DROPDOWN_FIELDS
-  });
-  const location = useLocation();
-  const countryCode = getCountryCodeFromPath(location.pathname);
-  const baseHref = countryCode ? `/${countryCode}` : "";
+  })
+  const location = useLocation()
+  const countryCode = getCountryCodeFromPath(location.pathname)
+  const baseHref = countryCode ? `/${countryCode}` : ""
 
-  const sortedItems = sortCartItems(cart?.items || []);
+  const sortedItems = sortCartItems(cart?.items || [])
   const itemCount =
-    sortedItems?.reduce((total, item) => total + item.quantity, 0) || 0;
+    sortedItems?.reduce((total, item) => total + item.quantity, 0) || 0
 
   return (
     <div className="relative group">
@@ -80,7 +80,7 @@ const CartDropdown = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CartDropdown;
+export default CartDropdown

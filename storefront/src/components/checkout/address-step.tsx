@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { Button, Heading, Input, Label, Checkbox } from "@medusajs/ui"
 import { HttpTypes } from "@medusajs/types"
-import { useSetAddresses } from "@/lib/hooks/dynamic/use-cart"
-import AddressForm from "../common/address-form"
+import { useSetCartAddresses } from "@/lib/hooks/dynamic/checkout/use-addresses"
+import AddressForm from "@/components/common/address-form"
 
 interface AddressStepProps {
   cart: HttpTypes.StoreCart
@@ -10,7 +10,7 @@ interface AddressStepProps {
 }
 
 const AddressStep = ({ cart, onNext }: AddressStepProps) => {
-  const setAddresses = useSetAddresses()
+  const setAddressesMutation = useSetCartAddresses()
   const [sameAsBilling, setSameAsBilling] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [email, setEmail] = useState(cart.email || "")
@@ -50,7 +50,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
       const submitData = new FormData()
       
       // Add email
-      submitData.append('email', email)
+      submitData.append("email", email)
       
       // Add shipping address
       Object.entries(shippingAddress).forEach(([key, value]) => {
@@ -63,7 +63,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
         submitData.append(`billing_address.${key}`, value)
       })
       
-      await setAddresses.mutateAsync(submitData)
+      await setAddressesMutation.mutateAsync(submitData)
       onNext()
     } catch (error) {
       console.error("Failed to set addresses:", error)
@@ -74,10 +74,10 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
 
   const isFormValid = () => {
     const shipping = shippingAddress
-    const required = ['first_name', 'last_name', 'address_1', 'city', 'postal_code', 'country_code']
+    const required = ["first_name", "last_name", "address_1", "city", "postal_code", "country_code"]
     
     const shippingValid = required.every(field => shipping[field as keyof typeof shipping]?.trim())
-    const emailValid = email.trim() && email.includes('@')
+    const emailValid = email.trim() && email.includes("@")
     let billingValid = true
     
     if (!sameAsBilling) {

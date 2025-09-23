@@ -1,4 +1,4 @@
-import { paymentInfoMap } from "../../lib/constants/constants";
+import { paymentInfoMap } from "@/lib/constants/constants"
 
 type PaymentMethodInfoProps = {
   provider_id: string;
@@ -13,4 +13,4 @@ const PaymentMethodInfo = ({ provider_id }: PaymentMethodInfoProps) => {
   )
 }
 
-export default PaymentMethodInfo;
+export default PaymentMethodInfo

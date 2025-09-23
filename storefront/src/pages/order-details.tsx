@@ -1,18 +1,18 @@
-import AccountLayout from "@/components/account/account-layout";
-import OrderDetails from "@/components/order/order-details";
-import { useCustomer } from "@/lib/hooks/dynamic/use-auth";
-import { useLoaderData, useLocation } from "@tanstack/react-router";
-import AccountContainer from "../components/account/account-container";
-import { getCountryCodeFromPath } from "../lib/utils/regions";
+import AccountLayout from "@/components/account/account-layout"
+import OrderDetails from "@/components/order/order-details"
+import { useCustomer } from "@/lib/hooks/dynamic/use-auth"
+import { useLoaderData, useLocation } from "@tanstack/react-router"
+import AccountContainer from "@/components/account/account-container"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
 
 const OrderDetailsPage = () => {
   const { order } = useLoaderData({
     from: "/$countryCode/account/orders/details/$id"
-  });
-  const { data: customer } = useCustomer();
-  const location = useLocation();
-  const countryCode = getCountryCodeFromPath(location.pathname);
-  const baseHref = countryCode ? `/${countryCode}` : "";
+  })
+  const { data: customer } = useCustomer()
+  const location = useLocation()
+  const countryCode = getCountryCodeFromPath(location.pathname)
+  const baseHref = countryCode ? `/${countryCode}` : ""
 
   return (
     <AccountLayout customer={customer}>
@@ -34,7 +34,7 @@ const OrderDetailsPage = () => {
         <OrderDetails order={order} />
       </AccountContainer>
     </AccountLayout>
-  );
-};
+  )
+}
 
-export default OrderDetailsPage;
+export default OrderDetailsPage

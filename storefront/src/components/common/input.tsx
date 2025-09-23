@@ -24,8 +24,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             w-full px-3 py-2 border border-ui-border-base rounded
             focus:outline-none focus:border-ui-border-interactive
             disabled:bg-ui-bg-disabled disabled:text-ui-fg-disabled
-            ${error ? 'border-red-500' : ''}
-            ${className || ''}
+            ${error ? "border-red-500" : ""}
+            ${className || ""}
           `}
           {...props}
         />

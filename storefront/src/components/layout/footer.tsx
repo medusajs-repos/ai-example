@@ -1,10 +1,10 @@
 import { Link, useLocation } from "@tanstack/react-router"
-import { getCountryCodeFromPath } from "@/lib/utils/regions"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
 
 const Footer = () => {
   const location = useLocation()
   const countryCode = getCountryCodeFromPath(location.pathname)
-  const baseHref = countryCode ? `/${countryCode}` : ''
+  const baseHref = countryCode ? `/${countryCode}` : ""
 
   return (
     <footer
@@ -15,7 +15,7 @@ const Footer = () => {
         <div className="flex flex-col gap-y-12 lg:flex-row items-start justify-between py-16">
           <div className="lg:w-1/3">
             <Link
-              to={baseHref || '/' as any}
+              to={baseHref || "/" as any}
               className="text-2xl font-bold text-ui-fg-base hover:text-ui-fg-base transition-colors"
             >
               Medusa Store

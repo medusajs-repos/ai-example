@@ -1,8 +1,8 @@
-import { Button, Heading } from "@medusajs/ui";
-import { Link, useLocation } from "@tanstack/react-router";
+import { Button, Heading } from "@medusajs/ui"
+import { Link, useLocation } from "@tanstack/react-router"
 
 const NotFound = () => {
-  const location = useLocation();
+  const location = useLocation()
 
   return (
     <div className="content-container py-12">
@@ -38,7 +38,7 @@ const NotFound = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default NotFound;
+export default NotFound

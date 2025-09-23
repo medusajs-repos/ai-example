@@ -1,6 +1,6 @@
-import { HttpTypes } from "@medusajs/types";
-import { QueryClient } from "@tanstack/react-query";
-import { queryKeys } from "@/lib/query-keys";
+import { HttpTypes } from "@medusajs/types"
+import { QueryClient } from "@tanstack/react-query"
+import { queryKeys } from "@/lib/query-keys"
 
 /**
  * Utility functions for optimistic cart updates
@@ -37,7 +37,7 @@ export const createOptimisticCartItem = (
   product: HttpTypes.StoreProduct,
   quantity: number = 1
 ): OptimisticCartItem => {
-  const unitPrice = variant.calculated_price?.calculated_amount || 0;
+  const unitPrice = variant.calculated_price?.calculated_amount || 0
   
   return {
     id: `optimistic-${variant.id}-${Date.now()}`, // Temporary ID
@@ -56,8 +56,8 @@ export const createOptimisticCartItem = (
     unit_price: unitPrice,
     total: unitPrice * quantity,
     isOptimistic: true,
-  };
-};
+  }
+}
 
 /**
  * Adds an item to the cart optimistically
@@ -69,30 +69,30 @@ export const addItemOptimistically = (
 ): HttpTypes.StoreCart | null => {
   const currentCart = queryClient.getQueryData<HttpTypes.StoreCart | null>(
     queryKeys.cart.current(fields)
-  );
+  )
 
   if (!currentCart) {
     // If no cart exists, we can't add optimistically
     // The mutation will handle creating a new cart
-    return null;
+    return null
   }
 
   // Check if item already exists in cart
   const existingItemIndex = currentCart.items?.findIndex(
     item => item.variant_id === newItem.variant_id
-  );
+  )
 
-  let updatedItems: HttpTypes.StoreCartLineItem[];
+  let updatedItems: HttpTypes.StoreCartLineItem[]
 
   if (existingItemIndex !== undefined && existingItemIndex >= 0) {
     // Update existing item quantity
-    updatedItems = [...(currentCart.items || [])];
-    const existingItem = updatedItems[existingItemIndex];
+    updatedItems = [...(currentCart.items || [])]
+    const existingItem = updatedItems[existingItemIndex]
     updatedItems[existingItemIndex] = {
       ...existingItem,
       quantity: existingItem.quantity + newItem.quantity,
       total: (existingItem.unit_price || 0) * (existingItem.quantity + newItem.quantity),
-    };
+    }
   } else {
     // Add new item - cast to StoreCartLineItem for compatibility
     const optimisticLineItem = {
@@ -120,25 +120,25 @@ export const addItemOptimistically = (
       requires_shipping: true,
       is_discountable: true,
       is_tax_inclusive: false,
-    } as HttpTypes.StoreCartLineItem;
+    } as HttpTypes.StoreCartLineItem
     
     updatedItems = [...(currentCart.items || []), optimisticLineItem]
   }
 
-  const newItemSubtotal = updatedItems.reduce((sum, item) => sum + (item.total || 0), 0);
+  const newItemSubtotal = updatedItems.reduce((sum, item) => sum + (item.total || 0), 0)
 
   const optimisticCart: OptimisticCart = {
     ...currentCart,
     items: updatedItems,
     item_subtotal: newItemSubtotal,
     isOptimistic: true,
-  };
+  }
 
   // Update the cache optimistically
-  queryClient.setQueryData(queryKeys.cart.current(fields), optimisticCart);
+  queryClient.setQueryData(queryKeys.cart.current(fields), optimisticCart)
 
-  return optimisticCart;
-};
+  return optimisticCart
+}
 
 /**
  * Updates a line item quantity optimistically
@@ -151,10 +151,10 @@ export const updateLineItemOptimistically = (
 ): HttpTypes.StoreCart | null => {
   const currentCart = queryClient.getQueryData<HttpTypes.StoreCart | null>(
     queryKeys.cart.current(fields)
-  );
+  )
 
   if (!currentCart) {
-    return null;
+    return null
   }
 
   const updatedItems = (currentCart.items || []).map(item => {
@@ -164,22 +164,22 @@ export const updateLineItemOptimistically = (
         quantity,
         total: (item.unit_price || 0) * quantity,
         original_total: (item.unit_price || 0) * quantity,
-      };
+      }
     }
-    return item;
-  });
+    return item
+  })
 
   const optimisticCart: OptimisticCart = {
     ...currentCart,
     items: updatedItems,
     item_subtotal: updatedItems.reduce((sum, item) => sum + (item.total || 0), 0),
     isOptimistic: true,
-  };
+  }
 
-  queryClient.setQueryData(queryKeys.cart.current(fields), optimisticCart);
+  queryClient.setQueryData(queryKeys.cart.current(fields), optimisticCart)
 
-  return optimisticCart;
-};
+  return optimisticCart
+}
 
 /**
  * Removes a line item optimistically
@@ -191,25 +191,25 @@ export const removeLineItemOptimistically = (
 ): HttpTypes.StoreCart | null => {
   const currentCart = queryClient.getQueryData<HttpTypes.StoreCart | null>(
     queryKeys.cart.current(fields)
-  );
+  )
 
   if (!currentCart) {
-    return null;
+    return null
   }
 
-  const updatedItems = (currentCart.items || []).filter(item => item.id !== lineId);
+  const updatedItems = (currentCart.items || []).filter(item => item.id !== lineId)
 
   const optimisticCart: OptimisticCart = {
     ...currentCart,
     items: updatedItems,
     item_subtotal: updatedItems.reduce((sum, item) => sum + (item.total || 0), 0),
     isOptimistic: true,
-  };
+  }
 
-  queryClient.setQueryData(queryKeys.cart.current(fields), optimisticCart);
+  queryClient.setQueryData(queryKeys.cart.current(fields), optimisticCart)
 
-  return optimisticCart;
-};
+  return optimisticCart
+}
 
 /**
  * Rolls back optimistic changes on error
@@ -219,8 +219,8 @@ export const rollbackOptimisticCart = (
   previousCart: HttpTypes.StoreCart | null,
   fields?: string
 ) => {
-  queryClient.setQueryData(queryKeys.cart.current(fields), previousCart);
-};
+  queryClient.setQueryData(queryKeys.cart.current(fields), previousCart)
+}
 
 /**
  * Gets the current cart state from cache
@@ -229,5 +229,5 @@ export const getCurrentCart = (queryClient: QueryClient, fields?: string): HttpT
   return queryClient.getQueryData<HttpTypes.StoreCart | null>(queryKeys.cart.current(fields)) || 
     queryClient.getQueriesData<HttpTypes.StoreCart | null>({
       predicate: queryKeys.cart.predicate
-    })[0]?.[1] || null;
-};
+    })[0]?.[1] || null
+}

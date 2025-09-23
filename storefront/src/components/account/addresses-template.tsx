@@ -2,10 +2,10 @@ import { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
 import { useState } from "react"
 import { Plus, EllipsisHorizontal } from "@medusajs/icons"
-import { useCreateAddress, useUpdateAddress, useDeleteAddress } from "@/lib/hooks/dynamic/use-address"
+import { useCreateCustomerAddress, useCustomerUpdateAddress, useCustomerDeleteAddress } from "@/lib/hooks/dynamic/use-customer-address"
 import AccountContainer from "@/components/account/account-container"
 import Address from "@/components/common/address"
-import AddressForm from "../common/address-form"
+import AddressForm from "@/components/common/address-form"
 
 interface AddressesTemplateProps {
   customer: HttpTypes.StoreCustomer
@@ -72,13 +72,13 @@ interface AddressCardProps {
 const AddressCard = ({ address, customer }: AddressCardProps) => {
   const [isEditing, setIsEditing] = useState(false)
   const [showMenu, setShowMenu] = useState(false)
-  const deleteAddress = useDeleteAddress()
+  const deleteAddress = useCustomerDeleteAddress()
 
   const isDefaultBilling = address.id === customer.default_billing_address_id
   const isDefaultShipping = address.id === customer.default_shipping_address_id
 
   const handleDelete = () => {
-    if (confirm('Are you sure you want to delete this address?')) {
+    if (confirm("Are you sure you want to delete this address?")) {
       deleteAddress.mutate({ address_id: address.id })
     }
   }
@@ -119,7 +119,7 @@ const AddressCard = ({ address, customer }: AddressCardProps) => {
                 disabled={deleteAddress.isPending}
                 className="w-full text-left px-3 py-2 txt-smallall-regular text-red-500 hover:bg-ui-bg-subtle last:rounded-b-rounded disabled:opacity-50"
               >
-                {deleteAddress.isPending ? 'Deleting...' : 'Delete'}
+                {deleteAddress.isPending ? "Deleting..." : "Delete"}
               </button>
             </div>
           )}
@@ -160,14 +160,14 @@ interface AddAddressFormProps {
 
 const AddAddressForm = ({ onSuccess, onCancel }: AddAddressFormProps) => {
   const [addressFormData, setAddressFormData] = useState<Record<string, any>>({})
-  const createAddress = useCreateAddress()
+  const createAddress = useCreateCustomerAddress()
 
   const handleSubmit = async (addressData: HttpTypes.StoreCreateCustomerAddress) => {
     try {
       await createAddress.mutateAsync({ address: addressData })
       onSuccess()
     } catch (error) {
-      console.error('Failed to create address:', error)
+      console.error("Failed to create address:", error)
     }
   }
 
@@ -202,7 +202,7 @@ const EditAddressForm = ({ address, onSuccess, onCancel }: EditAddressFormProps)
     country_code: address.country_code || "",
     phone: address.phone || "",
   })
-  const updateAddress = useUpdateAddress()
+  const updateAddress = useCustomerUpdateAddress()
 
   const handleSubmit = async (addressData: HttpTypes.StoreCreateCustomerAddress) => {
     try {
@@ -212,7 +212,7 @@ const EditAddressForm = ({ address, onSuccess, onCancel }: EditAddressFormProps)
       })
       onSuccess()
     } catch (error) {
-      console.error('Failed to update address:', error)
+      console.error("Failed to update address:", error)
     }
   }
 

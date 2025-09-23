@@ -1,10 +1,10 @@
-import AccountLayout from "@/components/account/account-layout";
-import OrdersTemplate from "@/components/account/orders-template";
-import { useCustomer } from "@/lib/hooks/dynamic/use-auth";
-import { Navigate } from "@tanstack/react-router";
+import AccountLayout from "@/components/account/account-layout"
+import OrdersTemplate from "@/components/account/orders-template"
+import { useCustomer } from "@/lib/hooks/dynamic/use-auth"
+import { Navigate } from "@tanstack/react-router"
 
 const AccountOrders = () => {
-  const { data: customer, isLoading } = useCustomer();
+  const { data: customer, isLoading } = useCustomer()
 
   if (isLoading) {
     return (
@@ -13,18 +13,18 @@ const AccountOrders = () => {
           <div className="text-lg text-ui-fg-muted">Loading account...</div>
         </div>
       </div>
-    );
+    )
   }
 
   if (!customer) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" />
   }
 
   return (
     <AccountLayout customer={customer}>
       <OrdersTemplate />
     </AccountLayout>
-  );
-};
+  )
+}
 
-export default AccountOrders;
+export default AccountOrders

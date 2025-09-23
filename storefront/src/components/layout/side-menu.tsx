@@ -4,27 +4,27 @@ import {
   PopoverButton,
   PopoverPanel,
   Transition,
-} from "@headlessui/react";
-import { XMark } from "@medusajs/icons";
-import { Text } from "@medusajs/ui";
-import { Link, useLocation } from "@tanstack/react-router";
-import { Fragment } from "react";
+} from "@headlessui/react"
+import { XMark } from "@medusajs/icons"
+import { Text } from "@medusajs/ui"
+import { Link, useLocation } from "@tanstack/react-router"
+import { Fragment } from "react"
 
-import { getCountryCodeFromPath } from "@/lib/utils/regions";
-import { HttpTypes } from "@medusajs/types";
-import CountrySelect from "@/components/common/country-select";
+import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
+import { HttpTypes } from "@medusajs/types"
+import CountrySelect from "@/components/common/country-select"
 
 const SideMenuItems = {
   Home: "/",
   Store: "/store",
   Account: "/account",
   Cart: "/cart",
-};
+}
 
 const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
-  const location = useLocation();
-  const countryCode = getCountryCodeFromPath(location.pathname);
-  const baseHref = countryCode ? `/${countryCode}` : "";
+  const location = useLocation()
+  const countryCode = getCountryCodeFromPath(location.pathname)
+  const baseHref = countryCode ? `/${countryCode}` : ""
 
   return (
     <div className="h-full">
@@ -64,7 +64,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                     <ul className="flex flex-col gap-6 items-start justify-start">
                       {Object.entries(SideMenuItems).map(([name, href]) => {
                         const linkHref =
-                          href === "/" ? baseHref || "/" : `${baseHref}${href}`;
+                          href === "/" ? baseHref || "/" : `${baseHref}${href}`
                         return (
                           <li key={name}>
                             <Link
@@ -76,7 +76,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
                               {name}
                             </Link>
                           </li>
-                        );
+                        )
                       })}
                     </ul>
                     <div className="flex flex-col gap-y-6">
@@ -94,7 +94,7 @@ const SideMenu = ({ regions }: { regions: HttpTypes.StoreRegion[] | null }) => {
         </Popover>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SideMenu;
+export default SideMenu

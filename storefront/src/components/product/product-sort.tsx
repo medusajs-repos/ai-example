@@ -1,10 +1,10 @@
-import FilterRadioGroup from '@/components/common/filter-radio-group'
-import { type ProductSortOptions } from '@/lib/utils/products/sort-products'
+import FilterRadioGroup from "@/components/common/filter-radio-group"
+import { type ProductSortOptions } from "@/lib/utils/products/sort-products"
 
 type SortProductsProps = {
   sortBy: ProductSortOptions
   setQueryParams: (name: string, value: ProductSortOptions) => void
-  'data-testid'?: string
+  "data-testid"?: string
 }
 
 const sortOptions = [
@@ -23,7 +23,7 @@ const sortOptions = [
 ]
 
 const ProductSort = ({
-  'data-testid': dataTestId,
+  "data-testid": dataTestId,
   sortBy,
   setQueryParams,
 }: SortProductsProps) => {

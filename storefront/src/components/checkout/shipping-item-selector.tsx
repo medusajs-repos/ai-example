@@ -1,10 +1,10 @@
 import { HttpTypes } from "@medusajs/types"
 import { Badge, Text } from "@medusajs/ui"
 import { Price } from "@/components/common/price"
-import { Loading } from "@/components/common"
+import Loading from "@/components/common/loading"
 import { getShippingIcon } from "@/lib/utils/checkout/get-shipping-icon"
 import { useEffect, useState } from "react"
-import { calculatePriceForShippingOption } from "@/lib/data/fulfillment"
+import { calculatePriceForShippingOption } from "@/lib/data/checkout/shipping"
 
 type ShippingItemSelectorProps = {
   shippingOption: HttpTypes.StoreCartShippingOption
@@ -19,12 +19,12 @@ const ShippingItemSelector = ({
   isSelected, 
   handleSelect, 
 }: ShippingItemSelectorProps) => {
-  const [calculatedPrice, setCalculatedPrice] = useState<number | undefined>(undefined);
+  const [calculatedPrice, setCalculatedPrice] = useState<number | undefined>(undefined)
   const isDisabled = 
     shippingOption.price_type === "calculated" &&
-    typeof calculatedPrice !== "number";
-  const isFree = shippingOption.price_type === "flat" && (shippingOption.amount || 0) === 0;
-  const price = shippingOption.price_type === "calculated" ? calculatedPrice : shippingOption.amount;
+    typeof calculatedPrice !== "number"
+  const isFree = shippingOption.price_type === "flat" && (shippingOption.amount || 0) === 0
+  const price = shippingOption.price_type === "calculated" ? calculatedPrice : shippingOption.amount
 
   useEffect(() => {
     if (shippingOption.price_type !== "calculated") {
@@ -33,11 +33,10 @@ const ShippingItemSelector = ({
 
     calculatePriceForShippingOption({ 
       option_id: shippingOption.id, 
-      cart_id: cart.id
     }).then((option) => {
-      setCalculatedPrice(option.amount);
-    });
-  }, [shippingOption.price_type]);
+      setCalculatedPrice(option.amount)
+    })
+  }, [shippingOption.price_type])
 
   return (
     <label
@@ -107,7 +106,7 @@ const ShippingItemSelector = ({
         </div>
       </div>
     </label>
-  );
+  )
 }
 
 export default ShippingItemSelector

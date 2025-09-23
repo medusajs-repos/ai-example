@@ -1,4 +1,4 @@
-import { createServerFileRoute } from "@tanstack/react-start/server";
+import { createServerFileRoute } from "@tanstack/react-start/server"
 
 export const ServerRoute = createServerFileRoute("/health").methods({
   GET: async () => {
@@ -7,6 +7,6 @@ export const ServerRoute = createServerFileRoute("/health").methods({
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    })
   },
-});
+})

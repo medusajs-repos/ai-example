@@ -1,10 +1,4 @@
-import { HttpTypes } from "@medusajs/types"
-
-type ProductShippingInfoProps = {
-  product: HttpTypes.StoreProduct
-}
-
-const ProductShippingInfo = (props: ProductShippingInfoProps) => {
+const ProductShippingInfo = () => {
   const policies = [
     { label: "Delivery", value: "3-5 business days" },
     { label: "Returns", value: "30 days free returns" },

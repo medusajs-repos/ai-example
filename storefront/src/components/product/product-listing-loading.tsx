@@ -1,4 +1,4 @@
-import { Loading } from "@/components/common";
+import Loading from "@/components/common/loading"
 
 /**
  * Loading component that matches the product listing layout
@@ -78,7 +78,7 @@ const ProductListingLoading = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProductListingLoading;
+export default ProductListingLoading

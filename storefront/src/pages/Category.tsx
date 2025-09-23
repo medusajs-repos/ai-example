@@ -1,5 +1,5 @@
-import { useLoaderData } from "@tanstack/react-router";
-import ProductListing from "@/components/product/product-listing";
+import { useLoaderData } from "@tanstack/react-router"
+import ProductListing from "@/components/product/product-listing"
 
 const Category = () => {
   const {
@@ -7,11 +7,11 @@ const Category = () => {
     region
   } = useLoaderData({
     from: "/$countryCode/categories/$handle",
-  });
+  })
 
   const categoryDisplayName =
     category?.name ||
-    "Category";
+    "Category"
 
   return (
     <ProductListing 
@@ -22,6 +22,6 @@ const Category = () => {
       }}
     />
   )
-};
+}
 
-export default Category;
+export default Category

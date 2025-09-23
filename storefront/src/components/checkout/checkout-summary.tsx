@@ -1,11 +1,11 @@
-import { HttpTypes } from "@medusajs/types";
-import { Heading } from "@medusajs/ui";
-import { lazy, Suspense } from "react";
-import { Loading } from "../common";
+import { HttpTypes } from "@medusajs/types"
+import { Heading } from "@medusajs/ui"
+import { lazy, Suspense } from "react"
+import Loading from "@/components/common/loading"
 
-const CartSummary = lazy(() => import("@/components/cart/cart-summary"));
-const CartLineItem = lazy(() => import("@/components/cart/cart-line-item"));
-const CartPromo = lazy(() => import("@/components/cart/cart-promo"));
+const CartSummary = lazy(() => import("@/components/cart/cart-summary"))
+const CartLineItem = lazy(() => import("@/components/cart/cart-line-item"))
+const CartPromo = lazy(() => import("@/components/cart/cart-promo"))
 
 interface CheckoutSummaryProps {
   cart: HttpTypes.StoreCart;
@@ -36,7 +36,7 @@ const CheckoutSummary = ({ cart }: CheckoutSummaryProps) => {
         <CartPromo cart={cart} />
       </Suspense>
     </div>
-  );
-};
+  )
+}
 
-export default CheckoutSummary;
+export default CheckoutSummary

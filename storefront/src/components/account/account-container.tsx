@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import { type ReactNode } from "react"
 
 interface AccountContainerProps {
   title: string;
@@ -49,7 +49,7 @@ const AccountContainer = ({
 
       <div className="space-y-12">{children}</div>
     </div>
-  );
-};
+  )
+}
 
-export default AccountContainer;
+export default AccountContainer

@@ -1,5 +1,5 @@
-import { HttpTypes } from "@medusajs/types";
-import { Heading, Text } from "@medusajs/ui";
+import { HttpTypes } from "@medusajs/types"
+import { Heading, Text } from "@medusajs/ui"
 
 type OrderInfoProps = {
   order: HttpTypes.StoreOrder;
@@ -31,6 +31,6 @@ const OrderInfo = ({ order }: OrderInfoProps) => {
       </div>
     </div>
   )
-};
+}
 
-export default OrderInfo;
+export default OrderInfo

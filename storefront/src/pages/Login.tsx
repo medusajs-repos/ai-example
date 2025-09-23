@@ -1,16 +1,16 @@
-import LoginForm from "@/components/account/login-form";
-import RegisterForm from "@/components/account/register-form";
-import { useCustomer } from "@/lib/hooks/dynamic/use-auth";
-import { Navigate } from "@tanstack/react-router";
-import { useState } from "react";
+import LoginForm from "@/components/account/login-form"
+import RegisterForm from "@/components/account/register-form"
+import { useCustomer } from "@/lib/hooks/dynamic/use-auth"
+import { Navigate } from "@tanstack/react-router"
+import { useState } from "react"
 
 const Login = () => {
-  const [isLogin, setIsLogin] = useState(true);
-  const { data: customer } = useCustomer();
+  const [isLogin, setIsLogin] = useState(true)
+  const { data: customer } = useCustomer()
 
   // Redirect if already logged in
   if (customer) {
-    return <Navigate to="/account" />;
+    return <Navigate to="/account" />
   }
 
   return (
@@ -34,15 +34,15 @@ const Login = () => {
         ) : (
           <RegisterForm
             onSuccess={() => {
-              alert("Account created successfully! You can now sign in.");
-              setIsLogin(true);
+              alert("Account created successfully! You can now sign in.")
+              setIsLogin(true)
             }}
             onSwitchToLogin={() => setIsLogin(true)}
           />
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

@@ -1,13 +1,13 @@
 import {
-  useSetShippingMethod,
+  useSetCartShippingMethod,
   useShippingOptions,
-} from "@/lib/hooks/dynamic/use-shipping";
-import { MapPin, TruckFast } from "@medusajs/icons";
-import { HttpTypes } from "@medusajs/types";
-import { Button, Heading, Text, toast } from "@medusajs/ui";
-import { useEffect, useState } from "react";
-import ShippingItemSelector from "./shipping-item-selector";
-import Address from "../common/address";
+} from "@/lib/hooks/dynamic/checkout/use-shipping"
+import { MapPin } from "@medusajs/icons"
+import { HttpTypes } from "@medusajs/types"
+import { Button, Heading, Text, toast } from "@medusajs/ui"
+import { useEffect, useState } from "react"
+import ShippingItemSelector from "@/components/checkout/shipping-item-selector"
+import Address from "@/components/common/address"
 
 interface DeliveryStepProps {
   cart: HttpTypes.StoreCart;
@@ -18,40 +18,40 @@ interface DeliveryStepProps {
 const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
   const {
     data: shippingOptions,
-  } = useShippingOptions({ cart_id: cart.id });
-  const setShippingMethodMutation = useSetShippingMethod();
+  } = useShippingOptions({ cart_id: cart.id })
+  const setShippingMethodMutation = useSetCartShippingMethod()
   const [selectedOptionId, setSelectedOptionId] = useState<string>(
     cart.shipping_methods?.[0]?.shipping_option_id || ""
-  );
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  )
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     // Auto-select first option if none selected and options are available
     if (!selectedOptionId && shippingOptions && shippingOptions.length > 0) {
-      setSelectedOptionId(shippingOptions[0].id);
+      setSelectedOptionId(shippingOptions[0].id)
     }
-  }, [shippingOptions, selectedOptionId]);
+  }, [shippingOptions, selectedOptionId])
   
 
   const handleSubmit = async () => {
-    if (!selectedOptionId || isSubmitting) return;
+    if (!selectedOptionId || isSubmitting) return
 
-    setIsSubmitting(true);
+    setIsSubmitting(true)
     await setShippingMethodMutation.mutateAsync({ 
       shipping_option_id: selectedOptionId
     }, {
       onSuccess: () => {
-        onNext();
+        onNext()
       },
       onSettled: () => {
-        setIsSubmitting(false);
+        setIsSubmitting(false)
       },
       onError: (error) => {
-        console.error("Failed to set shipping method:", error);
-        toast.error("Failed to set shipping method. Please try again.");
+        console.error("Failed to set shipping method:", error)
+        toast.error("Failed to set shipping method. Please try again.")
       }
-    });
-  };
+    })
+  }
 
   return (
     <div>
@@ -97,7 +97,7 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
         </Button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DeliveryStep;
+export default DeliveryStep

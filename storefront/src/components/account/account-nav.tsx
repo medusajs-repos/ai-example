@@ -1,28 +1,23 @@
-import { useLogout } from "@/lib/hooks/dynamic/use-auth";
-import { getCountryCodeFromPath } from "@/lib/utils/regions";
-import { MapPin, ShoppingCart, User } from "@medusajs/icons";
-import { HttpTypes } from "@medusajs/types";
-import { clx } from "@medusajs/ui";
-import { Link, useLocation } from "@tanstack/react-router";
-import { useState } from "react";
+import { useLogout } from "@/lib/hooks/dynamic/use-auth"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
+import { MapPin, ShoppingCart, User } from "@medusajs/icons"
+import { clx } from "@medusajs/ui"
+import { Link, useLocation } from "@tanstack/react-router"
+import { useState } from "react"
 
-interface AccountNavProps {
-  customer: HttpTypes.StoreCustomer;
-}
+const AccountNav = () => {
+  const location = useLocation()
+  const logout = useLogout()
+  const [isOpen, setIsOpen] = useState(false)
 
-const AccountNav = ({ customer }: AccountNavProps) => {
-  const location = useLocation();
-  const logout = useLogout();
-  const [isOpen, setIsOpen] = useState(false);
-
-  const countryCode = getCountryCodeFromPath(location.pathname);
-  const baseHref = countryCode ? `/${countryCode}` : "";
+  const countryCode = getCountryCodeFromPath(location.pathname)
+  const baseHref = countryCode ? `/${countryCode}` : ""
 
   const handleLogout = () => {
-    logout.mutate();
-  };
+    logout.mutate()
+  }
 
-  const route = location.pathname.split("/").pop();
+  const route = location.pathname.split("/").pop()
 
   const navigation = [
     {
@@ -49,7 +44,7 @@ const AccountNav = ({ customer }: AccountNavProps) => {
       icon: ShoppingCart,
       current: route === "orders",
     },
-  ];
+  ]
 
   return (
     <div>
@@ -105,7 +100,7 @@ const AccountNav = ({ customer }: AccountNavProps) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AccountNav;
+export default AccountNav

@@ -1,6 +1,6 @@
-import { Component, ErrorInfo, ReactNode } from "react";
-import { terminal } from "virtual:terminal";
-import ErrorFallback from "@/components/common/error-fallback";
+import { Component, ErrorInfo, ReactNode } from "react"
+import { terminal } from "virtual:terminal"
+import ErrorFallback from "@/components/common/error-fallback"
 
 interface Props {
   children: ReactNode;
@@ -15,19 +15,19 @@ interface State {
 export class ErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false,
-  };
+  }
 
   public static getDerivedStateFromError(error: Error): State {
-    return { hasError: true, error };
+    return { hasError: true, error }
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error("ErrorBoundary caught an error:", error, errorInfo);
+    console.error("ErrorBoundary caught an error:", error, errorInfo)
   }
 
   private reset = () => {
-    this.setState({ hasError: false, error: undefined });
-  };
+    this.setState({ hasError: false, error: undefined })
+  }
 
   public render() {
     if (this.state.hasError && this.state.error) {
@@ -35,17 +35,17 @@ export class ErrorBoundary extends Component<Props, State> {
         ...this.state.error,
         errorMessage: this.state.error.message,
         errorStackTrace: this.state.error.stack,
-      });
+      })
 
       if (this.props.fallback) {
-        return this.props.fallback;
+        return this.props.fallback
       }
 
-      return <ErrorFallback error={this.state.error} reset={this.reset} />;
+      return <ErrorFallback error={this.state.error} reset={this.reset} />
     }
 
-    return this.props.children;
+    return this.props.children
   }
 }
 
-export default ErrorBoundary;
+export default ErrorBoundary

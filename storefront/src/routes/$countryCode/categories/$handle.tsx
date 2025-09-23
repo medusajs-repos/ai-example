@@ -1,60 +1,60 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
-import { retrieveCategory } from "@/lib/data/categories";
-import { getRegion } from "@/lib/data/regions";
-import Category from "@/pages/category";
-import { createServerFn } from "@tanstack/react-start";
-import { HttpTypes } from "@medusajs/types";
+import { createFileRoute, notFound } from "@tanstack/react-router"
+import { retrieveCategory } from "@/lib/data/categories"
+import { getRegion } from "@/lib/data/regions"
+import Category from "@/pages/category"
+import { createServerFn } from "@tanstack/react-start"
+import { HttpTypes } from "@medusajs/types"
 
 const getCategoryStatic = createServerFn({
   type: "static"
 })
 .validator((data: { handle: string }) => {
-  return data;
+  return data
 })
 .handler(async ({ data }) => {
-  const { handle } = data;
+  const { handle } = data
   try {
-    const category = await retrieveCategory({ handle });
-    return category as any;
-  } catch (error) {
+    const category = await retrieveCategory({ handle })
+    return category as any
+  } catch {
     throw notFound()
   }
-});
+})
 
 export const Route = createFileRoute("/$countryCode/categories/$handle")({
   loader: async ({ params, context }) => {
-    const { countryCode, handle } = params;
-    const { queryClient } = context;
+    const { countryCode, handle } = params
+    const { queryClient } = context
 
     // Pre-fetch region data
     const region = await queryClient.ensureQueryData({
       queryKey: ["region", countryCode],
       queryFn: () => getRegion({ country_code: countryCode }),
-    });
+    })
 
     if (!region || !handle) {
-      throw notFound();
+      throw notFound()
     }
 
     // Fetch category by handle
     const category = await queryClient.ensureQueryData({
       queryKey: ["category", handle],
       queryFn: () => getCategoryStatic({ data: { handle } }),
-    });
+    })
 
     return {
       countryCode,
       region,
       category: category as HttpTypes.StoreProductCategory,
-    };
+    }
   },
   head: ({ loaderData }) => {
     const { region, countryCode, category } =
-      loaderData || {};
-    const regionName = region?.name || countryCode?.toUpperCase();
-    const categoryName = category?.name || "Category";
-    const title = `${categoryName} - ${regionName} | Medusa Store`;
-    const description = `Shop our ${categoryName.toLowerCase()} category available in ${regionName}. Free shipping and easy returns.`;
+      loaderData || {}
+    const regionName = region?.name || countryCode?.toUpperCase()
+    const categoryName = category?.name || "Category"
+    const title = `${categoryName} - ${regionName} | Medusa Store`
+    const description = `Shop our ${categoryName.toLowerCase()} category available in ${regionName}. Free shipping and easy returns.`
 
     return {
       meta: [
@@ -93,4 +93,4 @@ export const Route = createFileRoute("/$countryCode/categories/$handle")({
     }
   },
   component: Category,
-});
+})

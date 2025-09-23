@@ -1,6 +1,6 @@
-import { getPercentageDiff } from "@/lib/utils/get-precentage-diff";
-import { HttpTypes } from "@medusajs/types";
-import { Price } from "@/components/common/price";
+import { getPercentageDiff } from "@/lib/utils/get-precentage-diff"
+import { HttpTypes } from "@medusajs/types"
+import { Price } from "@/components/common/price"
 
 type LineItemPriceProps = {
   item: HttpTypes.StoreCartLineItem | HttpTypes.StoreOrderLineItem;
@@ -13,10 +13,10 @@ const LineItemPrice = ({
   currencyCode,
   className,
 }: LineItemPriceProps) => {
-  const { total, original_total } = item;
-  const originalPrice = original_total;
-  const currentPrice = total;
-  const hasReducedPrice = currentPrice < originalPrice;
+  const { total, original_total } = item
+  const originalPrice = original_total
+  const currentPrice = total
+  const hasReducedPrice = currentPrice < originalPrice
 
   return (
     <Price
@@ -29,6 +29,6 @@ const LineItemPrice = ({
       className={className}
     />
   )
-};
+}
 
-export default LineItemPrice;
+export default LineItemPrice

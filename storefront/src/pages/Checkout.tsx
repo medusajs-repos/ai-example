@@ -1,7 +1,7 @@
 import { useEffect, lazy, Suspense, useMemo } from "react"
 import { useLoaderData, useNavigate, useLocation } from "@tanstack/react-router"
 import { useCart } from "@/lib/hooks/dynamic/use-cart"
-import { Loading } from "../components/common"
+import Loading from "@/components/common/loading"
 
 const DeliveryStep = lazy(() => import("@/components/checkout/delivery-step"))
 const AddressStep = lazy(() => import("@/components/checkout/address-step"))

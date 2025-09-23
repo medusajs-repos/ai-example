@@ -1,12 +1,15 @@
-import PaymentContainer from "@/components/checkout/payment-container";
-import StripeCardContainer from "@/components/checkout/stripe-card-container";
-import { isStripe as isStripeFunc } from "@/lib/constants/constants";
-import { useInitiatePaymentSession, usePaymentMethods } from "@/lib/hooks/dynamic/use-payment";
-import { HttpTypes } from "@medusajs/types";
-import { Button, Heading, Text } from "@medusajs/ui";
-import { useCallback, useEffect, useState } from "react";
-import { getActiveSession } from "@/lib/utils/checkout/get-active-session";
-import { isPaidWithGiftCard } from "../../lib/utils/checkout/is-paid-with-gift-card";
+import PaymentContainer from "@/components/checkout/payment-container"
+import StripeCardContainer from "@/components/checkout/stripe-card-container"
+import { isStripe as isStripeFunc } from "@/lib/constants/constants"
+import { 
+  useInitiateCartPaymentSession, 
+  useCartPaymentMethods
+} from "@/lib/hooks/dynamic/checkout/use-payment"
+import { HttpTypes } from "@medusajs/types"
+import { Button, Heading, Text } from "@medusajs/ui"
+import { useCallback, useEffect, useState } from "react"
+import { getActiveSession } from "@/lib/utils/checkout/get-active-session"
+import { isPaidWithGiftCard } from "@/lib/utils/checkout/is-paid-with-gift-card"
 
 interface PaymentStepProps {
   cart: HttpTypes.StoreCart;
@@ -17,52 +20,52 @@ interface PaymentStepProps {
 const PaymentStep = ({ cart, onNext, onBack }: PaymentStepProps) => {
   const {
     data: availablePaymentMethods = [],
-  } = usePaymentMethods({ region_id: cart.region?.id });
-  const initiatePaymentSessionMutation = useInitiatePaymentSession();
+  } = useCartPaymentMethods({ region_id: cart.region?.id })
+  const initiatePaymentSessionMutation = useInitiateCartPaymentSession()
 
-  const activeSession = getActiveSession(cart);
+  const activeSession = getActiveSession(cart)
 
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null)
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
     activeSession?.provider_id ?? ""
-  );
+  )
 
   // Update selected payment method when payment methods are loaded
   useEffect(() => {
     if (!selectedPaymentMethod && availablePaymentMethods?.length > 0) {
-      setSelectedPaymentMethod(availablePaymentMethods[0].id);
-      handlePaymentMethodChange(availablePaymentMethods[0].id);
+      setSelectedPaymentMethod(availablePaymentMethods[0].id)
+      handlePaymentMethodChange(availablePaymentMethods[0].id)
     }
-  }, [availablePaymentMethods, selectedPaymentMethod]);
+  }, [availablePaymentMethods, selectedPaymentMethod])
 
-  const isStripe = isStripeFunc(selectedPaymentMethod);
+  const isStripe = isStripeFunc(selectedPaymentMethod)
 
-  const paidByGiftcard = isPaidWithGiftCard(cart);
+  const paidByGiftcard = isPaidWithGiftCard(cart)
 
   const initiatePaymentSession = useCallback(async (method: string) => {
     initiatePaymentSessionMutation.mutateAsync({ provider_id: method }, {
       onError: (error) => {
-        setError(error instanceof Error ? error.message : "An error occurred");
+        setError(error instanceof Error ? error.message : "An error occurred")
       }
-    });
-  }, [initiatePaymentSessionMutation]);
+    })
+  }, [initiatePaymentSessionMutation])
 
   const handlePaymentMethodChange = async (method: string) => {
-    setError(null);
-    setSelectedPaymentMethod(method);
+    setError(null)
+    setSelectedPaymentMethod(method)
 
-    initiatePaymentSession(method);
-  };
+    initiatePaymentSession(method)
+  }
 
   const handleSubmit = useCallback(async () => {
-    if (!selectedPaymentMethod) return;
+    if (!selectedPaymentMethod) return
 
     if (!activeSession) {
-      await initiatePaymentSession(selectedPaymentMethod);
+      await initiatePaymentSession(selectedPaymentMethod)
     }
 
     onNext()
-  }, [selectedPaymentMethod, activeSession, onNext, initiatePaymentSession]);
+  }, [selectedPaymentMethod, activeSession, onNext, initiatePaymentSession])
 
   return (
     <div>
@@ -153,7 +156,7 @@ const PaymentStep = ({ cart, onNext, onBack }: PaymentStepProps) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PaymentStep;
+export default PaymentStep

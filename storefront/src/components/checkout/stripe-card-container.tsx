@@ -25,46 +25,46 @@ const StripeCardContainer: React.FC<StripeCardContainerProps> = ({
   const isSelected = selectedPaymentOptionId === paymentProviderId
 
   const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value.replace(/\D/g, '')
-    value = value.replace(/(\d{4})(?=\d)/g, '$1 ')
+    let value = e.target.value.replace(/\D/g, "")
+    value = value.replace(/(\d{4})(?=\d)/g, "$1 ")
     setCardNumber(value)
     
     // Simulate card brand detection
-    if (value.startsWith('4')) {
-      setCardBrand('Visa')
-    } else if (value.startsWith('5')) {
-      setCardBrand('Mastercard')
+    if (value.startsWith("4")) {
+      setCardBrand("Visa")
+    } else if (value.startsWith("5")) {
+      setCardBrand("Mastercard")
     } else {
-      setCardBrand('')
+      setCardBrand("")
     }
     
     // Simulate validation
-    const isComplete = value.replace(/\s/g, '').length >= 16 && expiryDate.length >= 5 && cvv.length >= 3
+    const isComplete = value.replace(/\s/g, "").length >= 16 && expiryDate.length >= 5 && cvv.length >= 3
     if (isComplete) {
       onCardComplete?.()
     }
   }
 
   const handleExpiryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value.replace(/\D/g, '')
+    let value = e.target.value.replace(/\D/g, "")
     if (value.length >= 2) {
-      value = value.slice(0, 2) + '/' + value.slice(2, 4)
+      value = value.slice(0, 2) + "/" + value.slice(2, 4)
     }
     setExpiryDate(value)
     
     // Simulate validation
-    const isComplete = cardNumber.replace(/\s/g, '').length >= 16 && value.length >= 5 && cvv.length >= 3
+    const isComplete = cardNumber.replace(/\s/g, "").length >= 16 && value.length >= 5 && cvv.length >= 3
     if (isComplete) {
       onCardComplete?.()
     }
   }
 
   const handleCvvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\D/g, '').slice(0, 4)
+    const value = e.target.value.replace(/\D/g, "").slice(0, 4)
     setCvv(value)
     
     // Simulate validation
-    const isComplete = cardNumber.replace(/\s/g, '').length >= 16 && expiryDate.length >= 5 && value.length >= 3
+    const isComplete = cardNumber.replace(/\s/g, "").length >= 16 && expiryDate.length >= 5 && value.length >= 3
     if (isComplete) {
       onCardComplete?.()
     }
@@ -85,6 +85,11 @@ const StripeCardContainer: React.FC<StripeCardContainerProps> = ({
               placeholder="1234 5678 9012 3456"
               maxLength={19}
             />
+            {cardBrand && (
+              <Text className="txt-small text-ui-fg-base">
+                {cardBrand}
+              </Text>
+            )}
             <div className="grid grid-cols-2 gap-4">
               <Input
                 label="Expiry date"

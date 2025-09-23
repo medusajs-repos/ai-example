@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useRegister } from "@/lib/hooks/dynamic/use-auth";
+import { useState } from "react"
+import { useRegister } from "@/lib/hooks/dynamic/use-auth"
 
 interface RegisterFormProps {
   onSuccess?: () => void
@@ -8,13 +8,13 @@ interface RegisterFormProps {
 
 const RegisterForm = ({ onSuccess, onSwitchToLogin }: RegisterFormProps) => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
   })
-  const [error, setError] = useState('')
+  const [error, setError] = useState("")
   
   const register = useRegister()
 
@@ -27,20 +27,20 @@ const RegisterForm = ({ onSuccess, onSwitchToLogin }: RegisterFormProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setError('')
+    setError("")
 
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.password) {
-      setError('Please fill in all fields')
+      setError("Please fill in all fields")
       return
     }
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match')
+      setError("Passwords do not match")
       return
     }
 
     if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters')
+      setError("Password must be at least 6 characters")
       return
     }
 
@@ -56,8 +56,8 @@ const RegisterForm = ({ onSuccess, onSwitchToLogin }: RegisterFormProps) => {
           onSuccess?.()
         },
         onError: (error) => {
-          setError('Registration failed. Email may already be in use.')
-          console.error('Registration error:', error)
+          setError("Registration failed. Email may already be in use.")
+          console.error("Registration error:", error)
         }
       }
     )
@@ -152,12 +152,12 @@ const RegisterForm = ({ onSuccess, onSwitchToLogin }: RegisterFormProps) => {
           disabled={register.isPending}
           className="w-full bg-black text-white py-2 rounded-md hover:bg-black/80 disabled:opacity-50"
         >
-          {register.isPending ? 'Creating Account...' : 'Create Account'}
+          {register.isPending ? "Creating Account..." : "Create Account"}
         </button>
 
         {onSwitchToLogin && (
           <p className="text-center txt-small text-ui-fg-subtle">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <button
               type="button"
               onClick={onSwitchToLogin}

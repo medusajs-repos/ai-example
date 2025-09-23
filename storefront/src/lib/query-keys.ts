@@ -5,100 +5,100 @@
  * It ensures consistency and makes it easier to invalidate related queries.
  */
 
-import { Query } from "@tanstack/react-query";
+import { Query } from "@tanstack/react-query"
 
 // Generic domain factory function
 const createDomainKeys = (domain: string) => ({
   all: [domain] as const,
-  list: (...params: any[]) => [domain, 'list', ...params] as const,
-  detail: (id: string, ...params: any[]) => [domain, 'detail', id, ...params] as const,
+  list: (...params: any[]) => [domain, "list", ...params] as const,
+  detail: (id: string, ...params: any[]) => [domain, "detail", id, ...params] as const,
   // Dynamic property for custom keys
-  [Symbol.for('dynamic')]: (key: string, ...params: any[]) => [domain, key, ...params] as const,
+  [Symbol.for("dynamic")]: (key: string, ...params: any[]) => [domain, key, ...params] as const,
   predicate: (
     query: Query,
     excludeKeys?: string[],
   ): boolean => {
-    let hasExcludedKeys = false;
+    let hasExcludedKeys = false
     if (excludeKeys) {
-      hasExcludedKeys = excludeKeys.some(key => query.queryKey?.includes(key));
+      hasExcludedKeys = excludeKeys.some(key => query.queryKey?.includes(key))
     }
-    return !hasExcludedKeys && query.queryKey?.includes(domain);
+    return !hasExcludedKeys && query.queryKey?.includes(domain)
   },
-});
+})
 
 // Helper function to create dynamic keys
 const createDynamicKey = (domain: string, key: string, ...params: any[]) => 
-  [domain, key, ...params] as const;
+  [domain, key, ...params] as const
 
 export const queryKeys = {
   // Cart related queries
   cart: {
-    ...createDomainKeys('cart'),
+    ...createDomainKeys("cart"),
     current: (fields?: string) => [...queryKeys.cart.all, fields] as const,
   },
 
   // Customer related queries
   customer: {
-    ...createDomainKeys('customer'),
+    ...createDomainKeys("customer"),
     current: () => [...queryKeys.customer.all] as const,
-    orders: () => createDynamicKey('customer', 'orders'),
+    orders: () => createDynamicKey("customer", "orders"),
   },
 
   // Product related queries
   products: {
-    ...createDomainKeys('products'),
+    ...createDomainKeys("products"),
     related: (productId: string, regionId?: string) => 
-      createDynamicKey('products', 'related', productId, regionId),
+      createDynamicKey("products", "related", productId, regionId),
     latest: (limit?: number, regionId?: string) => 
-      createDynamicKey('products', 'latest', limit, regionId),
+      createDynamicKey("products", "latest", limit, regionId),
   },
 
   // Order related queries
   orders: {
-    ...createDomainKeys('orders'),
+    ...createDomainKeys("orders"),
   },
 
   // Region related queries
   regions: {
-    ...createDomainKeys('regions'),
+    ...createDomainKeys("regions"),
   },
 
   // Custom API queries
   custom: {
-    ...createDomainKeys('custom'),
-    get: (url: string) => createDynamicKey('custom', 'get', url),
+    ...createDomainKeys("custom"),
+    get: (url: string) => createDynamicKey("custom", "get", url),
   },
 
   // Collections related queries
   collections: {
-    ...createDomainKeys('collections'),
+    ...createDomainKeys("collections"),
   },
 
   // Categories related queries
   categories: {
-    ...createDomainKeys('categories'),
+    ...createDomainKeys("categories"),
   },
 
   // Brands related queries
   brands: {
-    ...createDomainKeys('brands'),
+    ...createDomainKeys("brands"),
   },
 
   // Payment related queries
   payments: {
-    ...createDomainKeys('payments'),
-    sessions: (regionId?: string) => createDynamicKey('payments', 'sessions', regionId),
+    ...createDomainKeys("payments"),
+    sessions: (regionId?: string) => createDynamicKey("payments", "sessions", regionId),
     session: (sessionId: string) => 
-      createDynamicKey('payments', 'session', sessionId),
+      createDynamicKey("payments", "session", sessionId),
   },
 
   // Shipping related queries
   shipping: {
-    ...createDomainKeys('shipping'),
+    ...createDomainKeys("shipping"),
     options: (cartId: string, regionId?: string) => 
-      createDynamicKey('shipping', 'options', cartId, regionId),
+      createDynamicKey("shipping", "options", cartId, regionId),
   },
-} as const;
+} as const
 
 /**
  * Helper function to get all query keys for a specific domain
@@ -116,14 +116,14 @@ export const getDomainKeys = {
   brands: () => queryKeys.brands.all,
   payments: () => queryKeys.payments.all,
   shipping: () => queryKeys.shipping.all,
-} as const;
+} as const
 
 /**
  * Utility function to create dynamic query keys for any domain
  * This allows you to create custom keys on the fly
  */
 export const createQueryKey = (domain: string, key: string, ...params: any[]) => 
-  [domain, key, ...params] as const;
+  [domain, key, ...params] as const
 
 /**
  * Type definitions for better TypeScript support

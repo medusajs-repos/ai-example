@@ -1,7 +1,7 @@
 import { HttpTypes } from "@medusajs/types"
 import { Heading, Text } from "@medusajs/ui"
 import { Link, useLocation } from "@tanstack/react-router"
-import { getCountryCodeFromPath } from "@/lib/utils/regions"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
 
 type ProductInfoProps = {
   product: HttpTypes.StoreProduct
@@ -10,7 +10,7 @@ type ProductInfoProps = {
 const ProductInfo = ({ product }: ProductInfoProps) => {
   const location = useLocation()
   const countryCode = getCountryCodeFromPath(location.pathname)
-  const baseHref = countryCode ? `/${countryCode}` : ''
+  const baseHref = countryCode ? `/${countryCode}` : ""
 
   return (
     <div id="product-info">

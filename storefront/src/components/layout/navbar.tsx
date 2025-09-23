@@ -1,16 +1,16 @@
-import SideMenu from "@/components/layout/side-menu";
-import { NavbarLink } from "@/components/layout/navbar-link";
-import { Link, useLocation } from "@tanstack/react-router";
-import { getCountryCodeFromPath } from "@/lib/utils/regions";
-import { useRegions } from "@/lib/hooks/static/use-region";
-import CartDropdown from "@/components/cart/cart-dropdown";
+import SideMenu from "@/components/layout/side-menu"
+import { NavbarLink } from "@/components/layout/navbar-link"
+import { Link, useLocation } from "@tanstack/react-router"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
+import { useRegions } from "@/lib/hooks/static/use-region"
+import CartDropdown from "@/components/cart/cart-dropdown"
 
 export const Navbar = () => {
-  const location = useLocation();
-  const { data: regions } = useRegions();
+  const location = useLocation()
+  const { data: regions } = useRegions()
   // Get country code from URL path
-  const countryCode = getCountryCodeFromPath(location.pathname);
-  const baseHref = countryCode ? `/${countryCode}` : "";
+  const countryCode = getCountryCodeFromPath(location.pathname)
+  const baseHref = countryCode ? `/${countryCode}` : ""
   return (
     <div className="sticky top-0 inset-x-0 z-50">
       <header className="relative h-16 mx-auto border-b duration-200 bg-ui-bg-base border-ui-border-base">
@@ -44,5 +44,5 @@ export const Navbar = () => {
         </nav>
       </header>
     </div>
-  );
-};
+  )
+}

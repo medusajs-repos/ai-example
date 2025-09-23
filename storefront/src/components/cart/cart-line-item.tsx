@@ -1,10 +1,10 @@
-import { HttpTypes } from "@medusajs/types";
-import LineItemPrice from "@/components/cart/line-item-price";
-import { clx, Text } from "@medusajs/ui";
-import { Price } from "@/components/common/price";
-import { Thumbnail } from "@/components/common/thumbnail";
-import CartItemQuantitySelector from "./cart-item-quantity-selector";
-import CartDeleteItem from "./cart-delete-item";
+import { HttpTypes } from "@medusajs/types"
+import LineItemPrice from "@/components/cart/line-item-price"
+import { clx, Text } from "@medusajs/ui"
+import { Price } from "@/components/common/price"
+import { Thumbnail } from "@/components/common/thumbnail"
+import CartItemQuantitySelector from "@/components/cart/cart-item-quantity-selector"
+import CartDeleteItem from "@/components/cart/cart-delete-item"
 
 interface CartLineItemProps {
   item: HttpTypes.StoreCartLineItem;
@@ -15,11 +15,11 @@ interface CartLineItemProps {
 
 const CartLineItem = ({ item, cart, type = "default", fields }: CartLineItemProps) => {
   if (type === "compact") {
-    return <CompactCartLineItem item={item} cart={cart} fields={fields} />;
+    return <CompactCartLineItem item={item} cart={cart} fields={fields} />
   }
 
   if (type === "display") {
-    return <DisplayCartLineItem item={item} cart={cart} />;
+    return <DisplayCartLineItem item={item} cart={cart} />
   }
 
   return (
@@ -61,8 +61,8 @@ const CartLineItem = ({ item, cart, type = "default", fields }: CartLineItemProp
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
 const CompactCartLineItem = ({ item, cart, fields }: CartLineItemProps) => {
   return (
@@ -102,8 +102,8 @@ const CompactCartLineItem = ({ item, cart, fields }: CartLineItemProps) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const DisplayCartLineItem = ({ item, cart }: CartLineItemProps) => {
   return (
@@ -128,7 +128,7 @@ const DisplayCartLineItem = ({ item, cart }: CartLineItemProps) => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CartLineItem;
+export default CartLineItem

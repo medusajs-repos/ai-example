@@ -1,17 +1,17 @@
 
-import { useCustomerOrders } from "@/lib/hooks/static/use-orders";
-import { getCountryCodeFromPath } from "@/lib/utils/regions";
-import { HttpTypes } from "@medusajs/types";
-import { Link, useLocation } from "@tanstack/react-router";
-import AccountContainer from "@/components/account/account-container";
-import { Price } from "@/components/common/price";
-import { Thumbnail } from "@/components/common/thumbnail";
+import { useCustomerOrders } from "@/lib/hooks/static/use-orders"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
+import { HttpTypes } from "@medusajs/types"
+import { Link, useLocation } from "@tanstack/react-router"
+import AccountContainer from "@/components/account/account-container"
+import { Price } from "@/components/common/price"
+import { Thumbnail } from "@/components/common/thumbnail"
 
 const OrdersTemplate = () => {
-  const { data: orders, isLoading } = useCustomerOrders();
-  const location = useLocation();
-  const countryCode = getCountryCodeFromPath(location.pathname);
-  const baseHref = countryCode ? `/${countryCode}` : "";
+  const { data: orders, isLoading } = useCustomerOrders()
+  const location = useLocation()
+  const countryCode = getCountryCodeFromPath(location.pathname)
+  const baseHref = countryCode ? `/${countryCode}` : ""
 
   if (isLoading) {
     return (
@@ -34,7 +34,7 @@ const OrdersTemplate = () => {
           </div>
         ))}
       </AccountContainer>
-    );
+    )
   }
 
   return (
@@ -78,8 +78,8 @@ const OrdersTemplate = () => {
         </div>
       )}
     </AccountContainer>
-  );
-};
+  )
+}
 
 interface OrderCardProps {
   order: HttpTypes.StoreOrder;
@@ -88,21 +88,21 @@ interface OrderCardProps {
 
 const OrderItem = ({ order, baseHref }: OrderCardProps) => {
   const numberOfLines =
-    order.items?.reduce((acc, item) => acc + item.quantity, 0) || 0;
+    order.items?.reduce((acc, item) => acc + item.quantity, 0) || 0
 
-  const numberOfProducts = order.items?.length || 0;
+  const numberOfProducts = order.items?.length || 0
 
   const getOrderStatus = () => {
     if (order.fulfillment_status === "shipped")
-      return { label: "Shipped", color: "text-blue-600" };
+      return { label: "Shipped", color: "text-blue-600" }
     if (order.fulfillment_status === "delivered")
-      return { label: "Delivered", color: "text-green-600" };
+      return { label: "Delivered", color: "text-green-600" }
     if (order.payment_status === "captured")
-      return { label: "Processing", color: "text-yellow-600" };
-    return { label: "Confirmed", color: "text-ui-fg-base" };
-  };
+      return { label: "Processing", color: "text-yellow-600" }
+    return { label: "Confirmed", color: "text-ui-fg-base" }
+  }
 
-  const status = getOrderStatus();
+  const status = getOrderStatus()
 
   return (
     <div className="border-b border-ui-border-base pb-8 last:border-b-0">
@@ -144,7 +144,7 @@ const OrderItem = ({ order, baseHref }: OrderCardProps) => {
                     </div>
                   )}
                 </div>
-              );
+              )
             })}
             {numberOfProducts > 5 && (
               <div className="w-12 h-12 rounded-lg border border-ui-border-base bg-ui-bg-subtle flex items-center justify-center txt-xsmall text-ui-fg-muted">
@@ -162,7 +162,7 @@ const OrderItem = ({ order, baseHref }: OrderCardProps) => {
         </Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default OrdersTemplate;
+export default OrdersTemplate

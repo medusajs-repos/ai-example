@@ -2,10 +2,10 @@ import { Dialog, Transition } from "@headlessui/react"
 import { Button, clx, useToggleState } from "@medusajs/ui"
 import React, { Fragment, lazy, Suspense } from "react"
 
-import { isSimpleProduct } from "@/lib/utils/product"
+import { isSimpleProduct } from "@/lib/utils/products/product"
 import { HttpTypes } from "@medusajs/types"
-import { Loading } from "@/components/common"
-import ProductPrice from "./product-price"
+import Loading from "@/components/common/loading"
+import ProductPrice from "@/components/product/product-price"
 
 const ProductOptionSelect = lazy(() => import("@/components/product/product-option-select"))
 

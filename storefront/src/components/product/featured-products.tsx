@@ -1,16 +1,16 @@
-import { Link, useLocation } from "@tanstack/react-router";
-import ProductCard from "@/components/product/product-card";
-import { useLatestProducts } from "@/lib/hooks/static/use-products";
-import { getCountryCodeFromPath } from "@/lib/utils/regions";
-import { useRegion } from "@/lib/hooks/static/use-region";
+import { Link, useLocation } from "@tanstack/react-router"
+import ProductCard from "@/components/product/product-card"
+import { useLatestProducts } from "@/lib/hooks/static/use-products"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
+import { useRegion } from "@/lib/hooks/static/use-region"
 
 const FeaturedProducts = () => {
-  const location = useLocation();
-  const countryCode = getCountryCodeFromPath(location.pathname);
-  const { data: region } = useRegion({ country_code: countryCode || "" });
+  const location = useLocation()
+  const countryCode = getCountryCodeFromPath(location.pathname)
+  const { data: region } = useRegion({ country_code: countryCode || "" })
   const { data: latestProducts } = useLatestProducts({
     region_id: region?.id,
-  });
+  })
 
   if (!latestProducts?.products.length) {
     return <></>
@@ -61,7 +61,7 @@ const FeaturedProducts = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default FeaturedProducts;
+export default FeaturedProducts

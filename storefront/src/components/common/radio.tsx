@@ -21,7 +21,7 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
               checked
                 ? "border-ui-fg-interactive bg-ui-fg-interactive"
                 : "border-ui-border-base bg-white"
-            } ${className || ''}`}
+            } ${className || ""}`}
           >
             {checked && (
               <div className="w-2 h-2 bg-white rounded-full"></div>

@@ -1,7 +1,7 @@
-import { HttpTypes } from "@medusajs/types";
-import { useDeleteLineItem } from "../../lib/hooks/dynamic/use-cart";
-import { clx, IconButton } from "@medusajs/ui";
-import { Trash } from "@medusajs/icons";
+import { HttpTypes } from "@medusajs/types"
+import { useDeleteLineItem } from "@/lib/hooks/dynamic/use-cart"
+import { clx, IconButton } from "@medusajs/ui"
+import { Trash } from "@medusajs/icons"
 
 type CartDeleteItemProps = {
   item: HttpTypes.StoreCartLineItem;
@@ -12,7 +12,7 @@ type CartDeleteItemProps = {
 const CartDeleteItem = ({ item, type = "default", fields }: CartDeleteItemProps) => {
   const deleteLineItemMutation = useDeleteLineItem({
     fields
-  });
+  })
   return (
     <IconButton
       onClick={() => deleteLineItemMutation.mutate({ line_id: item.id })}

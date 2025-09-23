@@ -1,9 +1,9 @@
-import { getCountryCodeFromPath } from "@/lib/utils/regions"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
 import { Link, useLocation } from "@tanstack/react-router"
 
 const CartEmpty = () => {
-  const location = useLocation();
-  const countryCode = getCountryCodeFromPath(location.pathname);
+  const location = useLocation()
+  const countryCode = getCountryCodeFromPath(location.pathname)
 
   return (
     <div className="text-center py-16">

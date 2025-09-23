@@ -1,7 +1,7 @@
 import { HttpTypes } from "@medusajs/types"
 import { useState } from "react"
 import { clx } from "@medusajs/ui"
-import ProductShippingInfo from "./product-shipping-info"
+import ProductShippingInfo from "@/components/product/product-shipping-info"
 
 type ProductTabsProps = {
   product: HttpTypes.StoreProduct
@@ -19,7 +19,7 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
     {
       id: "shipping",
       label: "Shipping",
-      component: <ProductShippingInfo product={product} />,
+      component: <ProductShippingInfo />,
     },
   ]
 
@@ -55,7 +55,7 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
   )
 }
 
-const ProductInfoTab = ({ product }: { product: HttpTypes.StoreProduct }) => {
+const ProductInfoTab = ({ product }: ProductTabsProps) => {
   const details = [
     { label: "Material", value: product.material },
     { label: "Origin", value: product.origin_country },

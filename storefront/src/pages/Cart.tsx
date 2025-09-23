@@ -1,32 +1,32 @@
-import { useCart, useCreateCart } from "@/lib/hooks/dynamic/use-cart";
-import { Link, useLoaderData } from "@tanstack/react-router";
-import CartDetailsLoading from "@/components/cart/cart-details-loading";
-import { lazy, Suspense } from "react";
-import { Button } from "@medusajs/ui";
-import { sortCartItems } from "@/lib/utils/cart/sort-cart-items";
+import { useCart, useCreateCart } from "@/lib/hooks/dynamic/use-cart"
+import { Link, useLoaderData } from "@tanstack/react-router"
+import CartDetailsLoading from "@/components/cart/cart-details-loading"
+import { lazy, Suspense } from "react"
+import { Button } from "@medusajs/ui"
+import { sortCartItems } from "@/lib/utils/cart/sort-cart-items"
 
-const CartItem = lazy(() => import("@/components/cart/cart-line-item"));
-const CartSummary = lazy(() => import("@/components/cart/cart-summary"));
-const CartEmpty = lazy(() => import("@/components/cart/cart-empty"));
-const CartPromo = lazy(() => import("@/components/cart/cart-promo"));
+const CartItem = lazy(() => import("@/components/cart/cart-line-item"))
+const CartSummary = lazy(() => import("@/components/cart/cart-summary"))
+const CartEmpty = lazy(() => import("@/components/cart/cart-empty"))
+const CartPromo = lazy(() => import("@/components/cart/cart-promo"))
 
-const DEFAULT_CART_FIELDS = "id, *items, total, currency_code, subtotal, shipping_total, discount_total, tax_total, *promotions";
+const DEFAULT_CART_FIELDS = "id, *items, total, currency_code, subtotal, shipping_total, discount_total, tax_total, *promotions"
 
 const Cart = () => {
   const { region, countryCode } = useLoaderData({
     from: "/$countryCode/cart"
-  });
+  })
   const { data: cart, isLoading: cartLoading } = useCart({
     fields: DEFAULT_CART_FIELDS
-  });
-  const createCartMutation = useCreateCart();
+  })
+  const createCartMutation = useCreateCart()
 
   // Auto-create cart if none exists
   if (!cart && !cartLoading && !createCartMutation.isPending) {
-    createCartMutation.mutate({ region_id: region.id });
+    createCartMutation.mutate({ region_id: region.id })
   }
 
-  const cartItems = sortCartItems(cart?.items || []);
+  const cartItems = sortCartItems(cart?.items || [])
 
   return (
     <Suspense fallback={<CartDetailsLoading />}>
@@ -77,7 +77,7 @@ const Cart = () => {
         )}
       </div>
     </Suspense>
-  );
-};
+  )
+}
 
-export default Cart;
+export default Cart

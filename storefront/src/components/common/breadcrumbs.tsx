@@ -1,7 +1,7 @@
-import { ChevronRight } from "@medusajs/icons";
-import { Text, clx } from "@medusajs/ui";
-import { Link } from "@tanstack/react-router";
-import { ReactNode } from "react";
+import { ChevronRight } from "@medusajs/icons"
+import { Text, clx } from "@medusajs/ui"
+import { Link } from "@tanstack/react-router"
+import { ReactNode } from "react"
 
 export interface BreadcrumbItem {
   label: string;
@@ -48,11 +48,11 @@ const Breadcrumbs = ({
 }: BreadcrumbsProps) => {
   const defaultSeparator = (
     <ChevronRight className="text-ui-fg-muted" />
-  );
+  )
 
   const allItems = showHome
     ? [{ label: homeLabel, href: homeHref }, ...items]
-    : items;
+    : items
 
   return (
     <nav
@@ -64,8 +64,8 @@ const Breadcrumbs = ({
     >
       <ol className="flex items-center space-x-2">
         {allItems.map((item, index) => {
-          const isLast = index === allItems.length - 1;
-          const isCurrent = item.current || isLast;
+          const isLast = index === allItems.length - 1
+          const isCurrent = item.current || isLast
 
           return (
             <li key={index} className="flex items-center">
@@ -95,11 +95,11 @@ const Breadcrumbs = ({
                 </Text>
               )}
             </li>
-          );
+          )
         })}
       </ol>
     </nav>
-  );
-};
+  )
+}
 
-export default Breadcrumbs;
+export default Breadcrumbs

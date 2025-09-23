@@ -1,10 +1,10 @@
-import Home from "@/pages/home";
-import { createFileRoute } from "@tanstack/react-router";
+import Home from "@/pages/home"
+import { createFileRoute } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/$countryCode/")({
   head: () => {
-    const title = `Welcome to Medusa Store`;
-    const description = `Discover our curated collection of products. Browse our latest featured items and shop with confidence.`;
+    const title = `Welcome to Medusa Store`
+    const description = `Discover our curated collection of products. Browse our latest featured items and shop with confidence.`
 
     return {
       meta: [
@@ -40,7 +40,7 @@ export const Route = createFileRoute("/$countryCode/")({
           content: description,
         },
       ]
-    };
+    }
   },
   component: Home,
-});
+})

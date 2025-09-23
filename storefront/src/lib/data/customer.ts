@@ -1,9 +1,9 @@
-import { sdk } from "@/lib/sdk";
+import { sdk } from "@/lib/sdk"
 import {
   getCartId,
   removeCartId,
-} from "@/lib/utils/cookies";
-import { HttpTypes } from "@medusajs/types";
+} from "@/lib/utils/cookies"
+import { HttpTypes } from "@medusajs/types"
 
 export const loginCustomer = async ({
   email,
@@ -18,20 +18,20 @@ export const loginCustomer = async ({
   })
 
   if (typeof token !== "string") {
-    throw new Error("Login failed");
+    throw new Error("Login failed")
   }
 
   // Transfer anonymous cart to authenticated user
-  const cartId = getCartId();
+  const cartId = getCartId()
   if (cartId && token) {
-    await sdk.store.cart.transferCart(cartId, {});
-    removeCartId();
+    await sdk.store.cart.transferCart(cartId, {})
+    removeCartId()
   }
 
   return {
     token,
-  };
-};
+  }
+}
 
 export const registerCustomer = async ({
   email,
@@ -49,13 +49,13 @@ export const registerCustomer = async ({
     password,
     first_name,
     last_name,
-  };
+  }
 
   // Step 1: Register via auth
   await sdk.auth.register("customer", "emailpass", {
     email: customerForm.email,
     password: password,
-  });
+  })
 
   // Step 2: Create customer record (without password)
   const { customer: createdCustomer } = await sdk.store.customer.create(
@@ -64,7 +64,7 @@ export const registerCustomer = async ({
       last_name,
       email,
     },
-  );
+  )
 
   // Step 3: Login to get proper session token
   const { token } = await loginCustomer({
@@ -72,40 +72,40 @@ export const registerCustomer = async ({
     password: password,
   })
 
-  return { customer: createdCustomer, token };
-};
+  return { customer: createdCustomer, token }
+}
 
 export const retrieveCustomer = async ({
   fields,
 }: {
   fields?: string;
 }): Promise<HttpTypes.StoreCustomer | null> => {
-  const response = await sdk.store.customer.retrieve({ fields });
-  return response.customer;
-};
+  const response = await sdk.store.customer.retrieve({ fields })
+  return response.customer
+}
 
 export const logoutCustomer = async (): Promise<void> => {
-  await sdk.auth.logout();
-};
+  await sdk.auth.logout()
+}
 
 export const updateCustomer = async ({
   updates,
 }: {
   updates: HttpTypes.StoreUpdateCustomer;
 }): Promise<HttpTypes.StoreCustomer> => {
-  const { customer } = await sdk.store.customer.update(updates);
+  const { customer } = await sdk.store.customer.update(updates)
 
-  return customer;
-};
+  return customer
+}
 
 export const createCustomerAddress = async ({
   address,
 }: {
   address: HttpTypes.StoreCreateCustomerAddress;
 }): Promise<HttpTypes.StoreCustomer> => {
-  const { customer } = await sdk.store.customer.createAddress(address);
-  return customer;
-};
+  const { customer } = await sdk.store.customer.createAddress(address)
+  return customer
+}
 
 export const updateCustomerAddress = async ({
   address_id,
@@ -117,16 +117,16 @@ export const updateCustomerAddress = async ({
   const { customer } = await sdk.store.customer.updateAddress(
     address_id,
     address
-  );
-  return customer;
-};
+  )
+  return customer
+}
 
 export const deleteCustomerAddress = async ({
   address_id,
 }: {
   address_id: string;
 }): Promise<HttpTypes.StoreCustomer | undefined> => {
-  const { parent: customer } = await sdk.store.customer.deleteAddress(address_id);
+  const { parent: customer } = await sdk.store.customer.deleteAddress(address_id)
 
-  return customer;
-};
+  return customer
+}

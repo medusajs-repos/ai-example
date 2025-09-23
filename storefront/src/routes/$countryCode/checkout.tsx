@@ -1,13 +1,12 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
-import Checkout from "@/pages/checkout";
-import { getRegion } from "../../lib/data/regions";
-import { CheckoutStep } from "@/pages/checkout";
+import { createFileRoute, notFound } from "@tanstack/react-router"
+import Checkout, { CheckoutStep } from "@/pages/checkout"
+import { getRegion } from "@/lib/data/regions"
 
 export const Route = createFileRoute("/$countryCode/checkout")({
   validateSearch: (search) => {
     let step = search.step
     if (!Object.values(CheckoutStep).includes(step as CheckoutStep)) {
-      step = "addresses";
+      step = "addresses"
     }
     return {
       step,
@@ -19,17 +18,17 @@ export const Route = createFileRoute("/$countryCode/checkout")({
     }
   },
   loader: async ({ params, context, deps }) => {
-    const { countryCode } = params;
-    const { queryClient } = context;
-    const { step } = deps;
+    const { countryCode } = params
+    const { queryClient } = context
+    const { step } = deps
 
     const region = await queryClient.ensureQueryData({
       queryKey: ["region", countryCode],
       queryFn: () => getRegion({ country_code: countryCode }),
-    });
+    })
 
     if (!region) {
-      throw notFound();
+      throw notFound()
     }
 
     return {
@@ -39,4 +38,4 @@ export const Route = createFileRoute("/$countryCode/checkout")({
     }
   },
   component: Checkout,
-});
+})

@@ -5,7 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['dist', 'node_modules', '*.config.js', '.netlify', '.nitro', '.vercel', 'static-routes.json', 'scripts/'] },
+  { ignores: ['dist', 'node_modules', '*.config.js', '*.config.ts', '.netlify', '.nitro', '.vercel', 'static-routes.json', 'scripts/', 'dist', '.output'] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
@@ -48,6 +48,10 @@ export default tseslint.config(
       'no-var': 'error',
       'no-duplicate-imports': 'error',
       'no-unused-expressions': 'error',
+      // Enforce double quotes or template literals
+      'quotes': ['error', 'double', { avoidEscape: true, allowTemplateLiterals: true }],
+      // Disallow semicolons
+      'semi': ['error', 'never'],
     },
     settings: {
       'import/resolver': {

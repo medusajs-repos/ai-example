@@ -1,6 +1,6 @@
 import { HttpTypes } from "@medusajs/types"
 import { Price } from "@/components/common/price"
-import { Loading } from "@/components/common";
+import Loading from "@/components/common/loading"
 
 interface CartSummaryProps {
   cart: HttpTypes.StoreCart
@@ -8,7 +8,7 @@ interface CartSummaryProps {
 
 const CartSummary = ({ cart }: CartSummaryProps) => {
   if ("isOptimistic" in cart && cart.isOptimistic) {
-    return <Loading />;
+    return <Loading />
   }
   return (
     <div className="space-y-4">
