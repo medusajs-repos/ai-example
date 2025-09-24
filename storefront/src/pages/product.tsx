@@ -26,12 +26,12 @@ const ProductDetails = () => {
         >
           {/* Left Column - Product Info & Details */}
           <div className="flex-1 flex flex-col gap-y-6">
-            <ErrorBoundary fallback={<div className="text-ui-fg-muted">Failed to load product info</div>}>
+            <ErrorBoundary fallback={<div className="text-secondary-text">Failed to load product info</div>}>
               <Suspense fallback={<Loading />}>
                 <ProductInfo product={product} />
               </Suspense>
             </ErrorBoundary>
-            <ErrorBoundary fallback={<div className="text-ui-fg-muted">Failed to load product details</div>}>
+            <ErrorBoundary fallback={<div className="text-secondary-text">Failed to load product details</div>}>
               <Suspense fallback={<Loading />}>
                 <ProductTabs product={product} />
               </Suspense>
@@ -42,13 +42,13 @@ const ProductDetails = () => {
           <div className="flex-[2]">
             <ErrorBoundary
               fallback={
-                <div className="aspect-[29/34] w-full bg-ui-bg-subtle flex items-center justify-center">
-                  <span className="text-ui-fg-muted">Failed to load images</span>
+                <div className="aspect-[29/34] w-full bg-secondary-bg flex items-center justify-center">
+                  <span className="text-secondary-text">Failed to load images</span>
                 </div>
               }
             >
               <Suspense fallback={
-                <div className="aspect-[29/34] w-full bg-ui-bg-subtle flex items-center justify-center">
+                <div className="aspect-[29/34] w-full bg-secondary-bg flex items-center justify-center">
                   <Loading height="h-8" width="w-8" />
                 </div>
               }>
@@ -61,7 +61,7 @@ const ProductDetails = () => {
           <div className="flex-1 flex flex-col gap-y-6">
             <ErrorBoundary
               fallback={
-                <div className="text-ui-fg-muted">
+                <div className="text-secondary-text">
                   Failed to load product actions
                 </div>
               }
@@ -80,7 +80,7 @@ const ProductDetails = () => {
         >
           <ErrorBoundary
             fallback={
-              <div className="text-center text-ui-fg-muted">
+              <div className="text-center text-secondary-text">
                 Failed to load related products
               </div>
             }

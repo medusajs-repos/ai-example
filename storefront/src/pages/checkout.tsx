@@ -2,6 +2,7 @@ import { useEffect, lazy, Suspense, useMemo } from "react"
 import { useLoaderData, useNavigate, useLocation } from "@tanstack/react-router"
 import { useCart } from "@/lib/hooks/dynamic/use-cart"
 import Loading from "@/components/common/loading"
+import { CheckoutStep } from "@/lib/types/global"
 
 const DeliveryStep = lazy(() => import("@/components/checkout/delivery-step"))
 const AddressStep = lazy(() => import("@/components/checkout/address-step"))
@@ -9,13 +10,6 @@ const PaymentStep = lazy(() => import("@/components/checkout/payment-step"))
 const ReviewStep = lazy(() => import("@/components/checkout/review-step"))
 const CheckoutSummary = lazy(() => import("@/components/checkout/checkout-summary"))
 const CartEmpty = lazy(() => import("@/components/cart/cart-empty"))
-
-export enum CheckoutStep {
-  ADDRESSES = "addresses",
-  DELIVERY = "delivery",
-  PAYMENT = "payment",
-  REVIEW = "review",
-}
 
 const Checkout = () => {
   const { step } = useLoaderData({
@@ -103,7 +97,7 @@ const Checkout = () => {
         {/* Left Column - Checkout Steps */}
         <div className="space-y-6">
           {/* Progress Steps */}
-          <div className="bg-ui-bg-base p-6 rounded-lg border border-ui-border-base">
+          <div className="bg-primary-bg p-6 rounded-lg border border-primary-border">
             <div className="flex flex-wrap gap-y-4 items-center">
               {steps.map((step, index) => (
                 <div key={step.key} className="flex items-center">
@@ -111,22 +105,22 @@ const Checkout = () => {
                     onClick={() => goToStep(step.key)}
                     className={`w-8 h-8 rounded-full flex items-center justify-center txt-small-plus transition-colors cursor-pointer ${
                       index <= currentStepIndex
-                        ? "bg-ui-fg-interactive text-white hover:bg-ui-fg-interactive-hover"
+                        ? "bg-accent-400 text-white hover:bg-accent-500"
                         : step.completed
                         ? "bg-green-500 text-white hover:bg-green-600"
-                        : "bg-ui-bg-subtle text-ui-fg-subtle hover:bg-ui-bg-subtle-hover"
+                        : "bg-secondary-bg text-secondary-text hover:bg-secondary-text-hover"
                     }`}
                   >
                     {step.completed ? "✓" : index + 1}
                   </button>
                   <button
                     onClick={() => goToStep(step.key)}
-                    className="ml-2 txt-small-plus hover:text-ui-fg-interactive transition-colors"
+                    className="ml-2 txt-small-plus hover:text-accent-400 transition-colors"
                   >
                     {step.title}
                   </button>
                   {index < steps.length - 1 && (
-                    <div className="w-8 h-px bg-ui-border-base mx-4" />
+                    <div className="w-8 h-px bg-primary-border mx-4" />
                   )}
                 </div>
               ))}
@@ -135,7 +129,7 @@ const Checkout = () => {
 
           <Suspense fallback={<Loading />}>
             {cart && (
-              <div className="bg-ui-bg-base p-6 rounded-lg border border-ui-border-base">
+              <div className="bg-primary-bg p-6 rounded-lg border border-primary-border">
                 {/* Address Step */}
                 {step === CheckoutStep.ADDRESSES && (
                   <AddressStep

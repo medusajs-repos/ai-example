@@ -22,3 +22,10 @@ export type StoreFreeShippingPrice = StorePrice & {
   target_remaining: number;
   remaining_percentage: number;
 };
+
+export enum CheckoutStep {
+  ADDRESSES = "addresses",
+  DELIVERY = "delivery",
+  PAYMENT = "payment",
+  REVIEW = "review",
+}

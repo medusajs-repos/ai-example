@@ -10,7 +10,7 @@ const AccountOrders = () => {
     return (
       <div className="content-container py-8">
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg text-ui-fg-muted">Loading account...</div>
+          <div className="txt-large text-primary-text">Loading account...</div>
         </div>
       </div>
     )

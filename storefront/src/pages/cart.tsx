@@ -32,11 +32,11 @@ const Cart = () => {
     <Suspense fallback={<CartDetailsLoading />}>
       <div className="content-container py-12 max-w-4xl">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-medium text-ui-fg-base">Cart</h1>
+          <h1 className="txt-xlarge-plus text-primary-text">Cart</h1>
           {cartItems.length > 0 && (
             <Link
               to={`/${countryCode}/store` as any}
-              className="text-ui-fg-muted hover:text-ui-fg-base txt-small underline"
+              className="text-secondary-text hover:text-secondary-text-hover txt-small underline"
             >
               Continue shopping
             </Link>
@@ -52,18 +52,20 @@ const Cart = () => {
                 <div key={item.id}>
                   <CartItem item={item} cart={cart!} fields={DEFAULT_CART_FIELDS} />
                   {index < cartItems.length - 1 && (
-                    <hr className="border-ui-border-base mt-6" />
+                    <hr className="bg-primary-border mt-6" />
                   )}
                 </div>
               ))}
             </div>
 
             {cart && (
-              <div className="border-t border-ui-border-base pt-8">
+              <div className="border-t border-primary-border pt-8">
                 <div className="max-w-sm ml-auto flex flex-col gap-y-4">
                   <CartSummary cart={cart} />
 
                   <CartPromo cart={cart} />
+
+                  <hr className="bg-primary-border" />
 
                   <Button asChild className="w-full">
                     <Link to={`/${countryCode}/checkout` as any}>

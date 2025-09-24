@@ -40,7 +40,7 @@ const CartDetailsLoading = () => {
           </div>
 
           {/* Divider */}
-          <hr className="border-secondary-border" />
+          <hr className="bg-secondary-border" />
 
           {/* Cart Item 2 */}
           <div className="space-y-4">
@@ -66,7 +66,7 @@ const CartDetailsLoading = () => {
           </div>
 
           {/* Divider */}
-          <hr className="border-secondary-border" />
+          <hr className="bg-secondary-border" />
 
           {/* Cart Item 3 */}
           <div className="space-y-4">
@@ -107,7 +107,7 @@ const CartDetailsLoading = () => {
               <Loading rows={1} height="h-4" width="w-16" />
               <Loading rows={1} height="h-4" width="w-16" />
             </div>
-            <hr className="border-secondary-border" />
+            <hr className="bg-secondary-border" />
             <div className="flex justify-between">
               <Loading rows={1} height="h-6" width="w-20" />
               <Loading rows={1} height="h-6" width="w-20" />

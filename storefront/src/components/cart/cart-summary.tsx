@@ -47,7 +47,7 @@ const CartSummary = ({ cart }: CartSummaryProps) => {
         </div>
       </div>
       
-      <hr className="border-primary-border" />
+      <hr className="bg-primary-border" />
       
       <div className="flex justify-between">
         <span className="text-primary-text">Total</span>
