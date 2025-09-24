@@ -58,6 +58,15 @@
   --color-success-text: rgba(6, 95, 70, 1);
   --color-success-bg: rgba(209, 250, 229, 1);
   --color-success-border: rgba(167, 243, 208, 1);
+
+  /* Other */
+  --color-loading-bg: rgba(228, 228, 231, 1);
+  --color-overlay-bg: rgba(24, 24, 27, 0.4);
+
+  /* Transparent colors */
+  --color-transparent: transparent;
+  --color-transparent-250: rgba(24, 24, 27, 0.1);
+  --color-transparent-400: rgba(24, 24, 27, 0.24);
   
   /* Primary colors */
   --color-primary-bg: var(--color-primary-100);
@@ -94,10 +103,6 @@
   --color-button-error-text: var(--color-error-on-color);
   --color-button-error-hover: var(--color-error-bg-hover);
   --color-button-error-pressed: var(--color-error-text);
-
-  /* Other */
-  --color-loading-bg: rgba(228, 228, 231, 1);
-  --color-overlay-bg: rgba(24, 24, 27, 0.4);
 
   /* White colors */
   --color-white: rgba(255, 255, 255, 1);
@@ -182,11 +187,6 @@
   --color-purple-200: rgba(221, 214, 254, 1);
   --color-purple-300: rgba(167, 139, 250, 1);
   --color-purple-400: rgba(91, 33, 182, 1);
-
-  /* Transparent colors */
-  --color-transparent: transparent;
-  --color-transparent-250: rgba(24, 24, 27, 0.1);
-  --color-transparent-400: rgba(24, 24, 27, 0.24);
 
   /* Border Radius */
   --radius-none: 0px;
