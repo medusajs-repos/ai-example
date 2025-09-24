@@ -1,8 +1,8 @@
 import { sdk } from "@/lib/sdk"
 import {
-  getCartId,
-  removeCartId,
-} from "@/lib/utils/cookies"
+  getStoredCart,
+  removeStoredCart,
+} from "@/lib/utils/cart/stored-cart"
 import { HttpTypes } from "@medusajs/types"
 
 export const loginCustomer = async ({
@@ -22,10 +22,10 @@ export const loginCustomer = async ({
   }
 
   // Transfer anonymous cart to authenticated user
-  const cartId = getCartId()
+  const cartId = getStoredCart()
   if (cartId && token) {
     await sdk.store.cart.transferCart(cartId, {})
-    removeCartId()
+    removeStoredCart()
   }
 
   return {

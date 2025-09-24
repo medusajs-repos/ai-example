@@ -1,5 +1,5 @@
 import { HttpTypes } from "@medusajs/types"
-import { getCartId, removeCartId } from "@/lib/utils/cookies"
+import { getStoredCart, removeStoredCart } from "@/lib/utils/cart/stored-cart"
 import { sdk } from "@/lib/sdk"
 import { QueryClient } from "@tanstack/react-query"
 import { queryKeys } from "@/lib/query-keys"
@@ -46,7 +46,7 @@ import { queryKeys } from "@/lib/query-keys"
  * ```
  */
 export const completeCartOrder = async (): Promise<HttpTypes.StoreOrder> => {
-  const cartId = getCartId()
+  const cartId = getStoredCart()
 
   if (!cartId) {
     throw new Error("No cart found")
@@ -59,7 +59,7 @@ export const completeCartOrder = async (): Promise<HttpTypes.StoreOrder> => {
   }
 
   // Clear the cart from storage after successful completion
-  removeCartId()
+  removeStoredCart()
   return cartRes.order
 }
 

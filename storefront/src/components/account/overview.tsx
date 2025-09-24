@@ -1,5 +1,5 @@
 import { useCustomerOrders } from "@/lib/hooks/static/use-orders"
-import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/get-country-code-from-path"
 import { HttpTypes } from "@medusajs/types"
 import { Link, useLocation } from "@tanstack/react-router"
 import AccountContainer from "@/components/account/account-container"

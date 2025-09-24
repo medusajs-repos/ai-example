@@ -15,7 +15,7 @@ const Checkout = () => {
   const { step } = useLoaderData({
     from: "/$countryCode/checkout"
   })
-  const { data: cart } = useCart()
+  const { data: cart, isLoading: cartLoading } = useCart()
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -128,6 +128,7 @@ const Checkout = () => {
           </div>
 
           <Suspense fallback={<Loading />}>
+            {cartLoading && <Loading />}
             {cart && (
               <div className="bg-primary-bg p-6 rounded-lg border border-primary-border">
                 {/* Address Step */}
@@ -170,12 +171,13 @@ const Checkout = () => {
 
         {/* Right Column - Order Summary */}
         <Suspense fallback={<Loading />}>
+          {cartLoading && <Loading />}
           {cart && (
             <CheckoutSummary
               cart={cart}
             />
           )}
-          {!cart && (
+          {!cart && !cartLoading && (
             <CartEmpty />
           )}
         </Suspense>

@@ -1,5 +1,5 @@
 import { useLogout } from "@/lib/hooks/dynamic/use-auth"
-import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/get-country-code-from-path"
 import { MapPin, ShoppingCart, User } from "@medusajs/icons"
 import { clx } from "@medusajs/ui"
 import { Link, useLocation } from "@tanstack/react-router"

@@ -1,7 +1,7 @@
 import SideMenu from "@/components/layout/side-menu"
 import { NavbarLink } from "@/components/layout/navbar-link"
 import { Link, useLocation } from "@tanstack/react-router"
-import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/get-country-code-from-path"
 import { useRegions } from "@/lib/hooks/static/use-region"
 import CartDropdown from "@/components/cart/cart-dropdown"
 

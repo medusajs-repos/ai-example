@@ -1,7 +1,7 @@
 import { HttpTypes } from "@medusajs/types"
-import { getCartId } from "@/lib/utils/cookies"
 import { retrieveCart } from "@/lib/data/cart"
 import { sdk } from "@/lib/sdk"
+import { getStoredCart } from "@/lib/utils/cart/stored-cart"
 
 /**
  * Lists available payment methods for a specific region. This is typically used in the third step of the checkout process to list the payment methods, allowing the customer to select a payment method.
@@ -110,7 +110,7 @@ export const initiateCartPaymentSession = async ({
   provider_id: string;
   data?: Record<string, any>;
 }): Promise<HttpTypes.StorePaymentCollection> => {
-  const cartId = getCartId()
+  const cartId = getStoredCart()
 
   if (!cartId) {
     throw new Error("No cart found")

@@ -5,6 +5,7 @@ import {
   deleteLineItem,
   removePromoCode,
   retrieveCart,
+  updateCart,
   updateLineItem,
 } from "@/lib/data/cart"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
@@ -57,6 +58,55 @@ export const useCart = ({ fields }: { fields?: string } = {}) => {
     queryKey: queryKeys.cart.current(fields),
     queryFn: () => retrieveCart({ fields }),
     staleTime: 0
+  })
+}
+
+/**
+ * React hook to update the cart with automatic cache invalidation.
+ * Uses Tanstack Query's useMutation for handling cart updates.
+ * 
+ * @returns Tanstack Query mutation object with mutate function and state
+ * 
+ * @example
+ * ```typescript
+ * // Basic usage
+ * const updateCartMutation = useUpdateCart();
+ * 
+ * // Usage in component
+ * function UpdateCartButton() {
+ *   const updateCartMutation = useUpdateCart();
+ *   
+ *   const handleUpdateCart = () => {
+ *     updateCartMutation.mutate({
+ *       region_id: 'reg_us'
+ *     }, {
+ *       onSuccess: (cart) => {
+ *         console.log('Cart updated:', cart);
+ *       },
+ *       onError: (error) => {
+ *         console.error('Failed to update cart:', error);
+ *       }
+ *     });
+ *   };
+ *   
+ *   return (
+ *     <button 
+ *       onClick={handleUpdateCart}
+ *       disabled={updateCartMutation.isPending}
+ *     >
+ *       {updateCartMutation.isPending ? 'Updating...' : 'Update Cart'}
+ *     </button>
+ *   );
+ * }
+ * ```
+ */
+export const useUpdateCart = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: updateCart,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ predicate: queryKeys.cart.predicate })
+    }
   })
 }
 

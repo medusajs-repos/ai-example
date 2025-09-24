@@ -1,6 +1,6 @@
 import { HttpTypes } from "@medusajs/types"
-import { getCartId } from "@/lib/utils/cookies"
-import { sdk } from "@/lib/sdk"
+import { getStoredCart } from "@/lib/utils/cart/stored-cart"
+import { updateCart } from "@/lib/data/cart"
 
 /**
  * Sets shipping and billing addresses for the current cart from form data.
@@ -47,7 +47,7 @@ export const setCartAddresses = async ({
 }: {
   form_data: FormData;
 }): Promise<HttpTypes.StoreCart> => {
-  const cartId = getCartId()
+  const cartId = getStoredCart()
 
   if (!cartId) {
     throw new Error("No cart found")
@@ -83,8 +83,7 @@ export const setCartAddresses = async ({
 
   const email = data.email as string
 
-  const { cart } = await sdk.store.cart.update(
-    cartId,
+  const cart = await updateCart(
     {
       shipping_address: shippingAddress,
       billing_address: billingAddress,

@@ -10,10 +10,11 @@ import ReactCountryFlag from "react-country-flag"
 import { useNavigate, useLocation } from "@tanstack/react-router"
 
 import { HttpTypes } from "@medusajs/types"
-import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/get-country-code-from-path"
 import { setStoredCountryCode } from "@/lib/utils/regions/stored-country-code"
 import { clx, useToggleState } from "@medusajs/ui"
 import { ArrowRightMini } from "@medusajs/icons"
+import { useUpdateCart } from "@/lib/hooks/dynamic/use-cart"
 
 type CountryOption = {
   country: string
@@ -37,6 +38,8 @@ const CountrySelect = ({ regions }: CountrySelectProps) => {
   const currentPath = location.pathname.replace(`/${countryCode}`, "") || "/"
 
   const [isToggled, toggleOpen, toggleClose] = useToggleState()
+
+  const updateCartMutation = useUpdateCart()
 
   const options = useMemo(() => {
     const countryMap = new Map<string, CountryOption>()
@@ -64,11 +67,9 @@ const CountrySelect = ({ regions }: CountrySelectProps) => {
     }
   }, [options, countryCode])
 
-  const handleChange = (option: CountryOption) => {
+  const handleChange = async (option: CountryOption) => {
     // Update stored country code
     setStoredCountryCode(option.country)
-
-    // TODO update cart's region
     
     // Navigate to the new country path
     const searchParams = Object.keys(location.search || {}).length > 0 
@@ -78,6 +79,12 @@ const CountrySelect = ({ regions }: CountrySelectProps) => {
     navigate({ to: newPath as any })
     
     toggleClose()
+
+    if (current?.region !== option.region) {
+      await updateCartMutation.mutateAsync({
+        region_id: option.region
+      })
+    }
   }
 
   return (

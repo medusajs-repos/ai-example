@@ -1,6 +1,6 @@
 import { sdk } from "@/lib/sdk"
 import { getRegion } from "@/lib/data/regions"
-import { getCartId, setCartId } from "@/lib/utils/cookies"
+import { getStoredCart, setStoredCart } from "@/lib/utils/cart/stored-cart"
 import { HttpTypes } from "@medusajs/types"
 import { 
   sendPostRequest, 
@@ -40,7 +40,7 @@ export const retrieveCart = async ({
   cart_id?: string;
   fields?: string;
 }): Promise<HttpTypes.StoreCart | null> => {
-  const id = cart_id || getCartId()
+  const id = cart_id || getStoredCart()
 
   if (!id) {
     return null
@@ -86,7 +86,38 @@ export const createCart = async ({
   const { cart } = await sdk.store.cart.create({ region_id }, {
     fields,
   })
-  setCartId(cart.id)
+  setStoredCart(cart.id)
+  return cart
+}
+
+/**
+ * Updates the current cart with the provided updates.
+ * 
+ * @param updates - The updates to apply to the cart
+ * @param fields - Optional fields to include in the response
+ * @returns Promise that resolves to the updated cart
+ * 
+ * @example
+ * ```typescript
+ * // Update cart with region
+ * const updatedCart = await updateCart({
+ *   region_id: 'reg_us'
+ * });
+ * ```
+ */
+export const updateCart = async ({
+  fields = DEFAULT_CART_FIELDS,
+  ...updates
+}: HttpTypes.StoreUpdateCart & {
+  fields?: string;
+}): Promise<HttpTypes.StoreCart> => {
+  const cartId = getStoredCart()
+  if (!cartId) {
+    throw new Error("No cart found")
+  }
+  const { cart } = await sdk.store.cart.update(cartId, updates, {
+    fields,
+  })
   return cart
 }
 
@@ -133,7 +164,7 @@ export const addToCart = async ({
     throw new Error("Missing variant ID when adding to cart")
   }
 
-  let cartId = getCartId()
+  let cartId = getStoredCart()
 
   if (!cartId) {
     const region = await getRegion({ country_code })
@@ -197,7 +228,7 @@ export const updateLineItem = async ({
   quantity: number;
   fields?: string;
 }): Promise<HttpTypes.StoreCart> => {
-  const cartId = getCartId()
+  const cartId = getStoredCart()
 
   if (!cartId) {
     throw new Error("No cart found")
@@ -240,7 +271,7 @@ export const deleteLineItem = async ({
   line_id: string;
   fields?: string;
 }): Promise<void> => {
-  const cartId = getCartId()
+  const cartId = getStoredCart()
 
   if (!cartId) {
     throw new Error("No cart found")
@@ -274,7 +305,7 @@ export const applyPromoCode = async ({
 }: {
   code: string;
 }): Promise<HttpTypes.StoreCart> => {
-  const cartId = getCartId()
+  const cartId = getStoredCart()
 
   if (!cartId) {
     throw new Error("No cart found")
@@ -316,7 +347,7 @@ export const removePromoCode = async ({
 }: {
   code: string;
 }): Promise<HttpTypes.StoreCart> => {
-  const cartId = getCartId()
+  const cartId = getStoredCart()
 
   if (!cartId) {
     throw new Error("No cart found")

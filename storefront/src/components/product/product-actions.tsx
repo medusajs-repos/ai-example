@@ -1,7 +1,7 @@
 
 import { useAddToCart } from "@/lib/hooks/dynamic/use-cart"
 import { useIntersection } from "@/lib/hooks/lib/use-intersection"
-import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/get-country-code-from-path"
 import { HttpTypes } from "@medusajs/types"
 import { toast } from "@medusajs/ui"
 import { Button } from "@/components/common/button"

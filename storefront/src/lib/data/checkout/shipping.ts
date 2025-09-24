@@ -1,6 +1,6 @@
 import { HttpTypes } from "@medusajs/types"
-import { getCartId } from "@/lib/utils/cookies"
 import { sdk } from "@/lib/sdk"
+import { getStoredCart } from "@/lib/utils/cart/stored-cart"
 
 /**
  * Retrieves available shipping options for the current cart.
@@ -27,7 +27,7 @@ import { sdk } from "@/lib/sdk"
  * ```
  */
 export const getCartShippingOptions = async (): Promise<HttpTypes.StoreCartShippingOption[]> => {
-  const cartId = getCartId()
+  const cartId = getStoredCart()
   if (!cartId) {
     throw new Error("No cart found")
   }
@@ -92,7 +92,7 @@ export const calculatePriceForShippingOption = async ({
   option_id: string;
   data?: Record<string, unknown>;
 }): Promise<HttpTypes.StoreCartShippingOption> => {
-  const cartId = getCartId()
+  const cartId = getStoredCart()
 
   if (!cartId) {
     throw new Error("No cart found")
@@ -162,7 +162,7 @@ export const setCartShippingMethod = async ({
   shipping_option_id: string;
   data?: Record<string, unknown>;
 }): Promise<HttpTypes.StoreCart> => {
-  const cartId = getCartId()
+  const cartId = getStoredCart()
 
   if (!cartId) {
     throw new Error("No cart found")

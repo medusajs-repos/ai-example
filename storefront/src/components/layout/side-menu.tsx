@@ -10,7 +10,7 @@ import { Text } from "@medusajs/ui"
 import { Link, useLocation } from "@tanstack/react-router"
 import { Fragment } from "react"
 
-import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/get-country-code-from-path"
 import { HttpTypes } from "@medusajs/types"
 import CountrySelect from "@/components/common/country-select"
 

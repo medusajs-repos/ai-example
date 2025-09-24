@@ -1,4 +1,4 @@
-import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
+import { getCountryCodeFromPath } from "@/lib/utils/regions/get-country-code-from-path"
 import { Button } from "@/components/common/button"
 import { Link, useLocation } from "@tanstack/react-router"
 

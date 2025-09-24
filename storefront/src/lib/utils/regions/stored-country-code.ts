@@ -1,7 +1,9 @@
+const COUNTRY_CODE_KEY = "medusa_country_code"
+
 export function getStoredCountryCode() {
-  return localStorage.getItem("medusa_country_code") || undefined
+  return localStorage.getItem(COUNTRY_CODE_KEY) || undefined
 }
 
 export function setStoredCountryCode(countryCode: string) {
-  localStorage.setItem("medusa_country_code", countryCode)
+  localStorage.setItem(COUNTRY_CODE_KEY, countryCode)
 }

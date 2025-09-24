@@ -3,7 +3,7 @@ import {
   getCartShippingOptions, 
   setCartShippingMethod 
 } from "@/lib/data/checkout/shipping"
-import { getCartId } from "@/lib/utils/cookies"
+import { getStoredCart } from "@/lib/utils/cart/stored-cart"
 import { 
   useQuery, 
   useQueryClient, 
@@ -58,7 +58,7 @@ export const useShippingOptions = ({
   return useQuery({
     queryKey: queryKeys.shipping.options(cart_id || ""),
     queryFn: getCartShippingOptions,
-    enabled: !!cart_id || !!getCartId(),
+    enabled: !!cart_id || !!getStoredCart(),
     staleTime: 0
   })
 }
