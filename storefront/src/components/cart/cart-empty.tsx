@@ -1,4 +1,5 @@
 import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
+import { Button } from "@medusajs/ui"
 import { Link, useLocation } from "@tanstack/react-router"
 
 const CartEmpty = () => {
@@ -7,15 +8,16 @@ const CartEmpty = () => {
 
   return (
     <div className="text-center py-16">
-      <h2 className="text-lg font-medium text-ui-fg-base mb-2">
+      <h2 className="txt-large-plus text-primary-text mb-2">
         Your cart is empty
       </h2>
-      <p className="text-ui-fg-muted mb-8">Start by adding some products</p>
+      <p className="text-secondary-text mb-8">Start by adding some products</p>
       <Link
         to={`/${countryCode}/store` as any}
-        className="bg-ui-fg-base text-ui-fg-on-color px-6 py-3 rounded txt-small hover:bg-ui-fg-subtle transition-colors"
       >
-        Continue shopping
+        <Button variant="primary">
+          Continue shopping
+        </Button>
       </Link>
     </div>
   )

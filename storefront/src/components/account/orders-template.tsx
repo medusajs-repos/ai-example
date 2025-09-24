@@ -47,10 +47,10 @@ const OrdersTemplate = () => {
           <OrderItem key={order.id} order={order} baseHref={baseHref} />
         ))
       ) : (
-        <div className="border-b border-ui-border-base pb-8 text-center py-12">
+        <div className="border-b border-primary-border pb-8 text-center py-12">
           <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-ui-bg-subtle flex items-center justify-center">
             <svg
-              className="w-6 h-6 text-ui-fg-muted"
+              className="w-6 h-6 text-secondary-text"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -63,10 +63,10 @@ const OrdersTemplate = () => {
               />
             </svg>
           </div>
-          <h3 className="text-lg font-medium text-ui-fg-base mb-3">
+          <h3 className="txt-large-plus text-primary-text mb-3">
             No orders yet
           </h3>
-          <p className="text-ui-fg-subtle mb-8 leading-relaxed max-w-md mx-auto">
+          <p className="txt-medium text-secondary-text mb-8 leading-relaxed max-w-md mx-auto">
             When you place your first order, it will appear here for easy
             tracking and management.
           </p>
@@ -105,13 +105,13 @@ const OrderItem = ({ order, baseHref }: OrderCardProps) => {
   const status = getOrderStatus()
 
   return (
-    <div className="border-b border-ui-border-base pb-8 last:border-b-0">
+    <div className="border-b border-primary-border pb-8 last:border-b-0">
       <div className="flex items-start justify-between mb-4">
         <div className="flex flex-col flex-1">
-          <h3 className="text-lg font-medium text-ui-fg-base mb-3">
+          <h3 className="txt-large-plus text-primary-text mb-3">
             Order #{order.display_id}
           </h3>
-          <div className="flex items-center gap-x-4 text-ui-fg-subtle mb-4">
+          <div className="flex items-center gap-x-4 text-secondary-text mb-4">
             <span>
               {new Date(order.created_at!).toLocaleDateString("en-US", {
                 year: "numeric",
@@ -119,7 +119,7 @@ const OrderItem = ({ order, baseHref }: OrderCardProps) => {
                 day: "numeric",
               })}
             </span>
-            <span className={`txt-small font-medium ${status.color}`}>
+            <span className={`txt-small-plus ${status.color}`}>
               {status.label}
             </span>
             <span>
@@ -128,7 +128,7 @@ const OrderItem = ({ order, baseHref }: OrderCardProps) => {
             <Price
               price={order.total}
               currencyCode={order.currency_code}
-              textClassName="txt-small"
+              textSize="small"
             />
           </div>
 
@@ -139,7 +139,7 @@ const OrderItem = ({ order, baseHref }: OrderCardProps) => {
                 <div key={item.id} className="relative">
                   <Thumbnail thumbnail={item.thumbnail} alt={item.title} />
                   {item.quantity > 1 && (
-                    <div className="absolute -top-1 -right-1 bg-ui-fg-base text-white txt-xsmall rounded-full w-4 h-4 flex items-center justify-center">
+                    <div className="absolute -top-1 -right-1 bg-primary-text text-white txt-xsmall rounded-full w-4 h-4 flex items-center justify-center">
                       {item.quantity}
                     </div>
                   )}
@@ -147,7 +147,7 @@ const OrderItem = ({ order, baseHref }: OrderCardProps) => {
               )
             })}
             {numberOfProducts > 5 && (
-              <div className="w-12 h-12 rounded-lg border border-ui-border-base bg-ui-bg-subtle flex items-center justify-center txt-xsmall text-ui-fg-muted">
+              <div className="w-12 h-12 rounded-lg border border-primary-border bg-secondary-bg flex items-center justify-center txt-xsmall text-secondary-text">
                 +{numberOfProducts - 5}
               </div>
             )}
@@ -156,7 +156,7 @@ const OrderItem = ({ order, baseHref }: OrderCardProps) => {
 
         <Link
           to={`${baseHref}/account/orders/details/${order.id}` as any}
-          className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-small font-medium px-0 h-auto"
+          className="text-accent-text hover:text-accent-text-hover txt-small px-0 h-auto"
         >
           View details
         </Link>

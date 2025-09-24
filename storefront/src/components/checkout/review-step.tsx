@@ -34,19 +34,20 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
             </Heading>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <Text className="txt-medium-plus text-ui-fg-base mb-2">Shipping Address</Text>
+                <Text className="txt-medium-plus text-primary-text mb-2">Shipping Address</Text>
                 <Address address={cart.shipping_address} />
               </div>
               
               {cart.shipping_methods?.[0] && (
                 <div>
-                  <Text className="txt-medium-plus text-ui-fg-base mb-2">Shipping Method</Text>
-                  <div className="txt-small text-ui-fg-subtle flex items-center justify-between">
+                  <Text className="txt-medium-plus text-primary-text mb-2">Shipping Method</Text>
+                  <div className="txt-small text-secondary-text flex items-center justify-between">
                     <div>{cart.shipping_methods[0].name}</div>
                     <Price
                       price={cart.shipping_methods[0].amount}
                       currencyCode={cart.currency_code}
-                      textClassName="txt-medium-plus text-ui-fg-subtle"
+                      textWeight="plus"
+                      className="text-secondary-text"
                     />
                   </div>
                 </div>
@@ -62,8 +63,8 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
           </Heading>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <Text className="txt-medium-plus text-ui-fg-base mb-2">Billing Address</Text>
-              <div className="txt-small text-ui-fg-subtle">
+              <Text className="txt-medium-plus text-primary-text mb-2">Billing Address</Text>
+              <div className="txt-small text-secondary-text">
                 {cart.billing_address ? (
                   <Address address={cart.billing_address} />
                 ) : (
@@ -72,8 +73,8 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
               </div>
             </div>
             <div>
-              <Text className="txt-medium-plus text-ui-fg-base mb-2">Payment Method</Text>
-              <div className="txt-small text-ui-fg-subtle">
+              <Text className="txt-medium-plus text-primary-text mb-2">Payment Method</Text>
+              <div className="txt-small text-secondary-text">
                 {activeSession && (
                   <PaymentMethodInfo provider_id={activeSession.provider_id} />
                 )}

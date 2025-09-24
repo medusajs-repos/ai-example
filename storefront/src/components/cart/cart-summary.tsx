@@ -14,7 +14,7 @@ const CartSummary = ({ cart }: CartSummaryProps) => {
     <div className="space-y-4">
       <div className="space-y-2">
         <div className="flex justify-between txt-small">
-          <span className="text-ui-fg-muted">Subtotal</span>
+          <span className="text-secondary-text">Subtotal</span>
           <Price
             price={cart.subtotal}
             currencyCode={cart.currency_code}
@@ -22,7 +22,7 @@ const CartSummary = ({ cart }: CartSummaryProps) => {
         </div>
         
         <div className="flex justify-between txt-small">
-          <span className="text-ui-fg-muted">Shipping</span>
+          <span className="text-secondary-text">Shipping</span>
           <Price
             price={cart.shipping_total}
             currencyCode={cart.currency_code}
@@ -30,7 +30,7 @@ const CartSummary = ({ cart }: CartSummaryProps) => {
         </div>
 
         <div className="flex justify-between txt-small">
-          <span className="text-ui-fg-muted">Discount</span>
+          <span className="text-secondary-text">Discount</span>
           <Price
             price={cart.discount_total}
             currencyCode={cart.currency_code}
@@ -39,7 +39,7 @@ const CartSummary = ({ cart }: CartSummaryProps) => {
         </div>
         
         <div className="flex justify-between txt-small">
-          <span className="text-ui-fg-muted">Tax</span>
+          <span className="text-secondary-text">Tax</span>
           <Price
             price={cart.tax_total}
             currencyCode={cart.currency_code}
@@ -47,10 +47,10 @@ const CartSummary = ({ cart }: CartSummaryProps) => {
         </div>
       </div>
       
-      <hr className="border-ui-border-base" />
+      <hr className="border-primary-border" />
       
       <div className="flex justify-between">
-        <span className="text-ui-fg-base">Total</span>
+        <span className="text-primary-text">Total</span>
         <Price
           price={cart.total}
           currencyCode={cart.currency_code}

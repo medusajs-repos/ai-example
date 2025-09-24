@@ -15,19 +15,20 @@ const OrderShipping = ({ order }: OrderShippingProps) => {
       </Heading>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <Text className="txt-medium-plus text-ui-fg-base mb-2">Shipping Address</Text>
+          <Text className="txt-medium-plus text-primary-text mb-2">Shipping Address</Text>
           {order.shipping_address && <Address address={order.shipping_address} />}
         </div>
         
         {order.shipping_methods?.[0] && (
           <div>
-            <Text className="txt-medium-plus text-ui-fg-base mb-2">Shipping Method</Text>
-            <div className="txt-small text-ui-fg-subtle flex items-center justify-between">
+            <Text className="txt-medium-plus text-primary-text mb-2">Shipping Method</Text>
+            <div className="txt-small text-secondary-text flex items-center justify-between">
               <div>{order.shipping_methods[0].name}</div>
               <Price
                 price={order.shipping_methods[0].amount}
                 currencyCode={order.currency_code}
-                textClassName="txt-medium-plus text-ui-fg-subtle"
+                textWeight="plus"
+                className="text-secondary-text"
               />
             </div>
           </div>

@@ -78,7 +78,7 @@ const PaymentStep = ({ cart, onNext, onBack }: PaymentStepProps) => {
           <>
             <div className="space-y-3 mb-6">
               {availablePaymentMethods.length === 0 && (
-                <Text className="txt-medium text-ui-fg-subtle">
+                <Text className="txt-medium text-secondary-text">
                   No payment methods available
                 </Text>
               )}
@@ -111,11 +111,11 @@ const PaymentStep = ({ cart, onNext, onBack }: PaymentStepProps) => {
 
         {paidByGiftcard && (
           <div className="flex flex-col w-1/3 mb-6">
-            <Text className="txt-medium-plus text-ui-fg-base mb-1">
+            <Text className="txt-medium-plus text-primary-text mb-1">
               Payment method
             </Text>
             <Text
-              className="txt-medium text-ui-fg-subtle"
+              className="txt-medium text-secondary-text"
               data-testid="payment-method-summary"
             >
               Gift card
@@ -125,7 +125,7 @@ const PaymentStep = ({ cart, onNext, onBack }: PaymentStepProps) => {
 
         {error && (
           <div
-            className="text-red-500 txt-small mb-4"
+            className="text-error-text txt-small mb-4"
             data-testid="payment-method-error-message"
           >
             {error}
@@ -145,12 +145,11 @@ const PaymentStep = ({ cart, onNext, onBack }: PaymentStepProps) => {
             }
             isLoading={initiatePaymentSessionMutation.isPending}
             data-testid="submit-payment-button"
-            className="min-w-[180px]"
           >
             {!activeSession && isStripeFunc(selectedPaymentMethod) ? (
               "Enter card details"
             ) : (
-              "Continue to review →"
+              "Continue to review"
             )}
           </Button>
         </div>

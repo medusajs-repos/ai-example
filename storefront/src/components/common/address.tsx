@@ -11,7 +11,7 @@ type AddressProps = {
 const Address = ({ address, className }: AddressProps) => {
   return (
     <Text className={clx(
-      "txt-small text-ui-fg-subtle",
+      "txt-small text-secondary-text",
       className
     )}>
       {address.first_name} {address.last_name}

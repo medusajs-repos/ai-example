@@ -1,6 +1,5 @@
-import { Text } from "@medusajs/ui"
+import { Input, Label, Text } from "@medusajs/ui"
 import { useState } from "react"
-import Input from "@/components/common/input"
 
 type StripeCardContainerProps = {
   paymentProviderId: string
@@ -74,46 +73,58 @@ const StripeCardContainer: React.FC<StripeCardContainerProps> = ({
     <>
       {isSelected && (
         <div className="my-4 transition-all duration-150 ease-in-out">
-          <Text className="txt-medium-plus text-ui-fg-base mb-4">
+          <Text className="txt-medium-plus text-primary-text mb-4">
             Enter your card details:
           </Text>
-          <div className="space-y-4">
-            <Input
-              label="Card number"
-              value={cardNumber}
-              onChange={handleCardNumberChange}
-              placeholder="1234 5678 9012 3456"
-              maxLength={19}
-            />
-            {cardBrand && (
-              <Text className="txt-small text-ui-fg-base">
-                {cardBrand}
-              </Text>
-            )}
-            <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-4 flex flex-wrap">
+            <div>
+              <Label htmlFor="card-number">Card number</Label>
               <Input
-                label="Expiry date"
-                value={expiryDate}
-                onChange={handleExpiryChange}
-                placeholder="MM/YY"
-                maxLength={5}
+                id="card-number"
+                value={cardNumber}
+                onChange={handleCardNumberChange}
+                placeholder="1234 5678 9012 3456"
+                maxLength={19}
               />
+              {cardBrand && (
+                <Text className="txt-small text-primary-text">
+                  {cardBrand}
+                </Text>
+              )}
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="expiry-date">Expiry date</Label>
+                <Input
+                  id="expiry-date"
+                  value={expiryDate}
+                  onChange={handleExpiryChange}
+                  placeholder="MM/YY"
+                  maxLength={5}
+                />
+              </div>
+              <div>
+                <Label htmlFor="cvv">CVV</Label>
+                <Input
+                  id="cvv"
+                  value={cvv}
+                  onChange={handleCvvChange}
+                  placeholder="123"
+                  maxLength={4}
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="cardholder-name">Cardholder name</Label>
               <Input
-                label="CVV"
-                value={cvv}
-                onChange={handleCvvChange}
-                placeholder="123"
-                maxLength={4}
+                id="cardholder-name"
+                value={cardholderName}
+                onChange={(e) => setCardholderName(e.target.value)}
+                placeholder="John Doe"
               />
             </div>
-            <Input
-              label="Cardholder name"
-              value={cardholderName}
-              onChange={(e) => setCardholderName(e.target.value)}
-              placeholder="John Doe"
-            />
           </div>
-          <div className="mt-3 txt-xsmall text-ui-fg-subtle">
+          <div className="mt-3 txt-xsmall text-secondary-text">
             This is a demo form. In production, use Stripe Elements for secure card input.
           </div>
         </div>

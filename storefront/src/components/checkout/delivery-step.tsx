@@ -73,10 +73,10 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
 
       {/* Shipping Address Summary */}
       {cart.shipping_address && (
-        <div className="mb-8 p-4 bg-ui-bg-subtle rounded-lg">
+        <div className="mb-8 p-4 bg-secondary-bg rounded-lg">
           <div className="flex items-center gap-2 mb-2">
-            <MapPin className="text-ui-fg-subtle" />
-            <Text className="txt-small-plus text-ui-fg-base">
+            <MapPin className="text-secondary-text" />
+            <Text className="txt-small-plus text-primary-text">
               Delivering to:
             </Text>
           </div>

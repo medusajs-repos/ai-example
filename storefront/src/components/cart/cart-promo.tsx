@@ -47,7 +47,7 @@ const CartPromo = ({ cart }: CartPromoProps) => {
               {promotion.code}
               <XMark 
                 onClick={() => handleRemove(promotion.code || "")} 
-                className="ml-2 text-ui-tag-neutral-icon hover:text-ui-tag-neutral-icon-hover cursor-pointer"
+                className="ml-2 text-secondary-text hover:text-secondary-text-hover cursor-pointer"
               />
             </Badge>
           ))}

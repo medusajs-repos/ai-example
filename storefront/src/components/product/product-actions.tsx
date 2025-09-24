@@ -148,13 +148,19 @@ export default function ProductActions({
                 </div>
               )
             })}
-            <div className="border-t border-ui-border-base my-4" />
+            <hr className="bg-primary-border my-4" />
           </div>
         )}
       </div>
 
-      <Suspense fallback={<Loading />}>
-        <ProductPrice product={product as HttpTypes.StoreProduct} variant={selectedVariant} />
+      <Suspense fallback={<Loading rows={1} />}>
+        <ProductPrice 
+          product={product as HttpTypes.StoreProduct} 
+          variant={selectedVariant} 
+          priceProps={{
+            textSize: "large",
+          }}
+        />
       </Suspense>
 
       <Button
@@ -166,7 +172,7 @@ export default function ProductActions({
           !isValidVariant
         }
         variant="primary"
-        className="w-full h-10"
+        className="w-full"
         data-testid="add-product-button"
       >
         {!selectedVariant && !selectedOptions
@@ -175,7 +181,7 @@ export default function ProductActions({
           ? "Out of stock"
           : "Add to cart"}
       </Button>
-      <Suspense fallback={<Loading />}>
+      <Suspense fallback={<Loading className="lg:hidden" />}>
         <ProductMobileActions
           product={product}
           variant={selectedVariant}

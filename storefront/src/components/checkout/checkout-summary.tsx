@@ -13,7 +13,7 @@ interface CheckoutSummaryProps {
 
 const CheckoutSummary = ({ cart }: CheckoutSummaryProps) => {
   return (
-    <div className="bg-white p-6 rounded-lg border border-ui-border-base h-fit sticky top-6">
+    <div className="bg-primary-bg p-6 rounded-lg border border-primary-border h-fit sticky top-6">
       <Heading level="h3" className="mb-6">
         Order Summary
       </Heading>
@@ -30,7 +30,7 @@ const CheckoutSummary = ({ cart }: CheckoutSummaryProps) => {
         <CartSummary cart={cart} />
       </Suspense>
 
-      <hr className="my-4 border-ui-border-base" />
+      <hr className="my-4 border-primary-border" />
 
       <Suspense fallback={<Loading />}>
         <CartPromo cart={cart} />

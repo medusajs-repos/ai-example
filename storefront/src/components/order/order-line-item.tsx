@@ -10,16 +10,16 @@ type OrderLineItemProps = {
 
 const OrderLineItem = ({ item, order }: OrderLineItemProps) => {
   return (
-    <div className="flex items-center gap-4 py-3 border-b border-ui-border-base last:border-b-0">
+    <div className="flex items-center gap-4 py-3 border-b border-primary-border last:border-b-0">
       <Thumbnail thumbnail={item.thumbnail} alt={item.product_title || item.title} className="w-16 h-16" />
       <div className="flex-1">
-        <Text className="txt-medium-plus text-ui-fg-base">{item.product_title}</Text>
+        <Text className="txt-medium-plus text-primary-text">{item.product_title}</Text>
         {item.variant_title && item.variant_title !== "Default Variant" && (
-          <Text className="txt-small text-ui-fg-subtle">
+          <Text className="txt-small text-secondary-text">
             {item.variant_title}
           </Text>
         )}
-        <Text className="txt-small text-ui-fg-subtle">
+        <Text className="txt-small text-secondary-text">
           Quantity: {item.quantity}
         </Text>
       </div>
@@ -27,7 +27,8 @@ const OrderLineItem = ({ item, order }: OrderLineItemProps) => {
         <Price
           price={item.total}
           currencyCode={order.currency_code}
-          textClassName="txt-medium-plus"
+          textWeight="plus"
+          className="text-secondary-text"
         />
       </div>
     </div>

@@ -34,11 +34,11 @@ const AccountInfo = ({
   }
 
   return (
-    <div className="border-b border-ui-border-base pb-8 last:border-b-0" {...props}>
+    <div className="border-b border-primary-border pb-8 last:border-b-0" {...props}>
       <div className="flex items-start justify-between mb-4">
         <div className="flex flex-col flex-1">
-          <h3 className="text-lg font-medium text-ui-fg-base mb-3">{label}</h3>
-          <div className="text-ui-fg-subtle">
+          <h3 className="txt-large-plus text-primary-text mb-3">{label}</h3>
+          <div className="text-secondary-text">
             {typeof currentInfo === "string" ? (
               <span data-testid="current-info">
                 {currentInfo}
@@ -50,7 +50,7 @@ const AccountInfo = ({
         </div>
         <Button
           variant="transparent"
-          className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-small font-medium px-0 h-auto"
+          className="text-accent-text hover:text-accent-text-hover txt-small-plus px-0 h-auto"
           onClick={handleEdit}
           type={isEditing ? "reset" : "button"}
         >
@@ -62,12 +62,12 @@ const AccountInfo = ({
       {(isSuccess || isError) && (
         <div className="mb-4">
           {isSuccess && successMessage && (
-            <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg txt-small">
+            <div className="bg-success-bg border border-success-border text-success-text px-4 py-3 rounded-lg txt-small">
               {successMessage}
             </div>
           )}
           {isError && errorMessage && (
-            <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg txt-small">
+            <div className="bg-error-bg border border-error-border text-error-text px-4 py-3 rounded-lg txt-small">
               {errorMessage}
             </div>
           )}
@@ -76,7 +76,7 @@ const AccountInfo = ({
 
       {/* Edit Form */}
       {isEditing && (
-        <div className="mt-6 bg-ui-bg-subtle p-6 rounded-xl border border-ui-border-base">
+        <div className="mt-6 bg-secondary-bg p-6 rounded-xl border border-secondary-border">
           {children}
         </div>
       )}

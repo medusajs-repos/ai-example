@@ -30,10 +30,10 @@ export default function RelatedProducts({
   return (
     <div className="product-page-constraint">
       <div className="flex flex-col items-center text-center mb-16">
-        <span className="txt-xlarge text-ui-fg-base mb-6">
+        <span className="txt-xlarge text-primary-text mb-6">
           Related products
         </span>
-        <p className="txt-medium text-ui-fg-subtle max-w-lg">
+        <p className="txt-medium text-secondary-text max-w-lg">
           You might also want to check out these products.
         </p>
       </div>

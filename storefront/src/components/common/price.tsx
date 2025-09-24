@@ -2,7 +2,7 @@ import { clx } from "@medusajs/ui"
 import { useMemo } from "react"
 import { convertToLocale } from "@/lib/utils/money"
 
-type PriceProps = {
+export type PriceProps = {
   price: number | string;
   type?: "default" | "range" | "discount"
   originalPrice?: {
@@ -11,7 +11,8 @@ type PriceProps = {
   }
   className?: string
   currencyCode: string;
-  textClassName?: string;
+  textSize?: "small" | "base" | "large" | "xlarge"
+  textWeight?: "regular" | "plus"
 };
 
 export const Price = ({ 
@@ -20,7 +21,8 @@ export const Price = ({
   originalPrice, 
   className,
   currencyCode,
-  textClassName
+  textSize = "base",
+  textWeight = "regular"
 }: PriceProps) => {
   const { formattedPrice, formattedSalePrice } = useMemo(() => {
     if (!currencyCode) {
@@ -39,17 +41,25 @@ export const Price = ({
     }
   }, [price, originalPrice, currencyCode])
   return (
-    <div className={clx("flex flex-col text-ui-fg-base", className)}>
+    <div className={clx("flex flex-col text-primary-text", className)}>
       {originalPrice && (
         <p>
-          <span className="line-through">
+          <span className="line-through text-secondary-text">
             {formattedSalePrice}
           </span>
         </p>
       )}
       <span
-        className={clx(textClassName || "txt-xlarge-semi", {
-          "text-ui-fg-interactive": originalPrice,
+        className={clx({
+          "txt-small": textSize === "small" && textWeight === "regular",
+          "txt-small-plus": textSize === "small" && textWeight === "plus",
+          "txt-medium": textSize === "base" && textWeight === "regular",
+          "txt-medium-plus": textSize === "base" && textWeight === "plus",
+          "txt-large": textSize === "large" && textWeight === "regular",
+          "txt-large-plus": textSize === "large" && textWeight === "plus",
+          "txt-xlarge": textSize === "xlarge" && textWeight === "regular",
+          "txt-xlarge-plus": textSize === "xlarge" && textWeight === "plus",
+          "text-accent-text": originalPrice,
         })}
       >
         {type === "range" && "From "}

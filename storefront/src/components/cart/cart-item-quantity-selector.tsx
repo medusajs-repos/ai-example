@@ -33,21 +33,21 @@ const CartItemQuantitySelector = ({ item, type = "default", fields }: CartItemQu
       <IconButton
         onClick={() => handleQuantityChange(item.quantity - 1)}
         className={clx(
-          type === "compact" && "text-ui-fg-subtle hover:text-ui-fg-base transition-colors p-1 ml-2"
+          type === "compact" && "text-secondary-text hover:text-secondary-text-hover transition-colors p-1 ml-2"
         )}
         variant={type === "compact" ? "transparent" : "primary"}
       >
         <Minus />
       </IconButton>
       <span className={clx(
-        type === "compact" ? "txt-small text-ui-fg-base text-center px-3" : "text-center txt-small px-6"
+        type === "compact" ? "txt-small text-primary-text text-center px-3" : "text-center txt-small px-6"
       )}>
         {item.quantity}
       </span>
       <IconButton
         onClick={() => handleQuantityChange(item.quantity + 1)}
         className={clx(
-          type === "compact" && "text-ui-fg-subtle hover:text-ui-fg-base transition-colors p-1 ml-2"
+          type === "compact" && "text-secondary-text hover:text-secondary-text-hover transition-colors p-1 ml-2"
         )}
         variant={type === "compact" ? "transparent" : "primary"}
       >

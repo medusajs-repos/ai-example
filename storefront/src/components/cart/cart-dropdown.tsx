@@ -33,13 +33,13 @@ const CartDropdown = () => {
       </NavbarLink>
 
       <div className="absolute top-full right-0 z-50 pt-2 group-hover:block hidden">
-        <div className="bg-white shadow-elevation-flyout rounded-rounded border border-ui-border-base w-[420px] max-h-[402px] overflow-hidden">
+        <div className="bg-white shadow-elevation-flyout rounded-rounded border border-primary-border w-[420px] max-h-[402px] overflow-hidden">
           {(!cart || itemCount === 0) && (
             <div className="flex flex-col items-center justify-center py-8">
-              <div className="text-ui-fg-subtle mb-4">
+              <div className="text-secondary-text mb-4">
                 <ShoppingCart />
               </div>
-              <span className="txt-smallall-regular text-ui-fg-subtle">
+              <span className="txt-smallall-regular text-secondary-text">
                 Your cart is empty
               </span>
               <div className="mt-4">
@@ -59,18 +59,17 @@ const CartDropdown = () => {
                 ))}
               </div>
 
-              <div className="p-4 border-t border-ui-border-base">
+              <div className="p-4 border-t border-secondary-border">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="txt-medium-regular text-ui-fg-subtle">Subtotal</span>
+                  <span className="txt-medium text-secondary-text">Subtotal</span>
                   <Price
                     price={cart.item_subtotal}
                     currencyCode={cart.currency_code}
-                    textClassName="txt-medium"
                   />
                 </div>
 
                 <Link to={`${baseHref}/cart` as any}>
-                  <Button className="w-full" size="base">
+                  <Button className="w-full" variant="primary">
                     Go to cart
                   </Button>
                 </Link>

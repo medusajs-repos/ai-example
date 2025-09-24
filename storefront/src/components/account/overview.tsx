@@ -24,51 +24,51 @@ const Overview = ({ customer }: OverviewProps) => {
       description={`Welcome back to your account. Manage your profile, view orders, and update your preferences all in one place. Signed in as ${customer.email}`}
     >
       {/* Account Stats */}
-      <div className="border-b border-ui-border-base pb-8">
-        <h3 className="text-lg font-medium text-ui-fg-base mb-4">
+      <div className="border-b border-primary-border pb-8">
+        <h3 className="txt-large-plus text-primary-text mb-4">
           Account Summary
         </h3>
         <div className="grid grid-cols-1 small:grid-cols-2 gap-6">
-          <div className="bg-ui-bg-subtle/50 rounded-lg p-6 border border-ui-border-base">
+          <div className="bg-secondary-bg rounded-lg p-6 border border-primary-border">
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="txt-small font-medium text-ui-fg-subtle mb-1">
+                <h4 className="txt-small-plus text-secondary-text mb-1">
                   Profile Completion
                 </h4>
                 <div className="flex items-baseline gap-x-2">
-                  <span className="text-2xl font-light text-ui-fg-base">
+                  <span className="text-2xl font-light text-primary-text">
                     {profileCompletion}%
                   </span>
-                  <span className="txt-small text-ui-fg-subtle">Complete</span>
+                  <span className="txt-small text-secondary-text">Complete</span>
                 </div>
               </div>
               <Link
                 to={`${baseHref}/account/profile` as any}
-                className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-small font-medium"
+                className="text-accent-text hover:text-accent-text-hover txt-small-plus"
               >
                 Edit profile
               </Link>
             </div>
           </div>
 
-          <div className="bg-ui-bg-subtle/50 rounded-lg p-6 border border-ui-border-base">
+          <div className="bg-secondary-bg rounded-lg p-6 border border-primary-border">
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="txt-small font-medium text-ui-fg-subtle mb-1">
+                <h4 className="txt-small-plus text-secondary-text mb-1">
                   Saved Addresses
                 </h4>
                 <div className="flex items-baseline gap-x-2">
-                  <span className="text-2xl font-light text-ui-fg-base">
+                  <span className="text-2xl font-light text-primary-text">
                     {addressCount}
                   </span>
-                  <span className="txt-small text-ui-fg-subtle">
+                  <span className="txt-small text-secondary-text">
                     {addressCount === 1 ? "Address" : "Addresses"}
                   </span>
                 </div>
               </div>
               <Link
                 to={`${baseHref}/account/addresses` as any}
-                className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-small font-medium"
+                className="text-accent-text hover:text-accent-text-hover txt-small-plus"
               >
                 Manage
               </Link>
@@ -78,12 +78,12 @@ const Overview = ({ customer }: OverviewProps) => {
       </div>
 
       {/* Recent Orders */}
-      <div className="border-b border-ui-border-base pb-8 last:border-b-0">
+      <div className="border-b border-primary-border pb-8 last:border-b-0">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-medium text-ui-fg-base">Recent Orders</h3>
+          <h3 className="txt-large-plus text-primary-text">Recent Orders</h3>
           <Link
             to={`${baseHref}/account/orders` as any}
-            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-small font-medium"
+            className="text-accent-text hover:text-accent-text-hover txt-small-plus"
           >
             View all orders
           </Link>
@@ -100,10 +100,10 @@ const Overview = ({ customer }: OverviewProps) => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-8 bg-ui-bg-subtle/30 rounded-lg border border-ui-border-base">
-            <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-ui-bg-subtle flex items-center justify-center">
+          <div className="text-center py-8 bg-secondary-bg rounded-lg border border-primary-border">
+            <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-secondary-bg flex items-center justify-center">
               <svg
-                className="w-5 h-5 text-ui-fg-muted"
+                className="w-5 h-5 text-secondary-text"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -116,10 +116,10 @@ const Overview = ({ customer }: OverviewProps) => {
                 />
               </svg>
             </div>
-            <p className="text-ui-fg-subtle txt-small mb-4">No orders yet</p>
+            <p className="txt-medium text-secondary-text mb-4">No orders yet</p>
             <Link
               to={`${baseHref}/store` as any}
-              className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover txt-small font-medium"
+              className="text-accent-text hover:text-accent-text-hover txt-small-plus"
             >
               Start shopping
             </Link>
@@ -162,12 +162,12 @@ const RecentOrderItem = ({
 }) => {
   const getOrderStatus = () => {
     if (order.fulfillment_status === "shipped")
-      return { label: "Shipped", color: "text-blue-600" }
+      return { label: "Shipped", color: "text-accent-text" }
     if (order.fulfillment_status === "delivered")
-      return { label: "Delivered", color: "text-green-600" }
+      return { label: "Delivered", color: "text-success-text" }
     if (order.payment_status === "captured")
-      return { label: "Processing", color: "text-yellow-600" }
-    return { label: "Confirmed", color: "text-ui-fg-base" }
+      return { label: "Processing", color: "text-orange-400" }
+    return { label: "Confirmed", color: "text-primary-text" }
   }
 
   const status = getOrderStatus()
@@ -177,23 +177,23 @@ const RecentOrderItem = ({
   return (
     <Link
       to={`${baseHref}/account/orders/details/${order.id}` as any}
-      className="block bg-white border border-ui-border-base rounded-lg p-4 hover:shadow-sm transition-shadow group"
+      className="block bg-primary-bg border border-primary-border rounded-lg p-4 hover:shadow-sm transition-shadow group"
     >
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-x-3">
-          <span className="font-medium text-ui-fg-base">
+          <span className="text-medium-plus text-primary-text">
             Order #{order.display_id}
           </span>
-          <span className={`txt-xsmall font-medium ${status.color}`}>
+          <span className={`txt-xsmall-plus ${status.color}`}>
             {status.label}
           </span>
         </div>
-        <span className="text-ui-fg-interactive group-hover:text-ui-fg-interactive-hover txt-small font-medium">
+        <span className="text-accent-text group-hover:text-accent-text-hover txt-small-plus">
           View details →
         </span>
       </div>
 
-      <div className="flex items-center justify-between txt-small text-ui-fg-subtle">
+      <div className="flex items-center justify-between txt-small text-secondary-text">
         <span>
           {new Date(order.created_at!).toLocaleDateString("en-US", {
             month: "short",
@@ -208,7 +208,7 @@ const RecentOrderItem = ({
           <Price
             price={order.total}
             currencyCode={order.currency_code}
-            textClassName="txt-small"
+            textSize="small"
           />
         </div>
       </div>

@@ -14,10 +14,10 @@ const ErrorFallback = ({ error, reset }: ErrorFallbackProps) => {
   return (
     <div className="content-container py-16">
       <div className="max-w-2xl mx-auto">
-        <div className="bg-white border border-ui-border-base rounded-lg shadow-sm p-8">
-          <div className="w-16 h-16 mx-auto mb-6 bg-red-50 rounded-full flex items-center justify-center">
+        <div className="bg-primary-bg border border-primary-border rounded-lg shadow-sm p-8">
+          <div className="w-16 h-16 mx-auto mb-6 bg-error-bg rounded-full flex items-center justify-center">
             <svg
-              className="w-8 h-8 text-red-500"
+              className="w-8 h-8 text-error-text"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -32,17 +32,17 @@ const ErrorFallback = ({ error, reset }: ErrorFallbackProps) => {
           </div>
 
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-medium text-ui-fg-base mb-3">
+            <h2 className="txt-xlarge-plus text-primary-text mb-3">
               Oops! Something went wrong
             </h2>
-            <p className="text-ui-fg-muted text-lg">
+            <p className="text-secondary-text text-lg">
               We encountered an unexpected error.
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
+          <div className="flex flex-col small:flex-row gap-3 justify-center mb-6">
             {reset && (
-              <Button variant="secondary" onClick={reset} className="sm:w-auto">
+              <Button variant="secondary" onClick={reset} className="small:w-auto">
                 <svg
                   className="w-4 h-4 mr-2"
                   fill="none"
@@ -60,7 +60,7 @@ const ErrorFallback = ({ error, reset }: ErrorFallbackProps) => {
               </Button>
             )}
             <Link to="/">
-              <Button className="w-full sm:w-auto">
+              <Button className="w-full small:w-auto">
                 <svg
                   className="w-4 h-4 mr-2"
                   fill="none"
@@ -80,10 +80,10 @@ const ErrorFallback = ({ error, reset }: ErrorFallbackProps) => {
           </div>
 
           {isDev && (
-            <div className="border-t border-ui-border-base pt-6">
-              <button
+            <div className="border-t border-primary-border pt-6">
+              <Button
                 onClick={() => setShowDetails(!showDetails)}
-                className="flex items-center justify-center w-full txt-small text-ui-fg-muted hover:text-ui-fg-base transition-colors"
+                variant="secondary"
               >
                 <svg
                   className={`w-4 h-4 mr-2 transition-transform ${
@@ -101,26 +101,26 @@ const ErrorFallback = ({ error, reset }: ErrorFallbackProps) => {
                   />
                 </svg>
                 {showDetails ? "Hide" : "Show"} error details
-              </button>
+              </Button>
 
               {showDetails && (
-                <div className="mt-4 p-4 bg-ui-bg-subtle rounded-md">
+                <div className="mt-4 p-4 bg-secondary-bg rounded-md">
                   <div className="text-left space-y-3">
                     <div>
-                      <p className="txt-xsmall font-medium text-ui-fg-base uppercase tracking-wide mb-1">
+                      <p className="txt-xsmall-plus text-primary-text uppercase tracking-wide mb-1">
                         Error Message
                       </p>
-                      <code className="txt-small text-red-600 break-all">
+                      <code className="txt-small text-error-text break-all">
                         {error.message}
                       </code>
                     </div>
 
                     {error.stack && (
                       <div>
-                        <p className="txt-xsmall font-medium text-ui-fg-base uppercase tracking-wide mb-1">
+                        <p className="txt-xsmall-plus text-primary-text uppercase tracking-wide mb-1">
                           Stack Trace
                         </p>
-                        <pre className="txt-xsmall text-ui-fg-muted bg-white border border-ui-border-base rounded p-3 overflow-auto max-h-40">
+                        <pre className="txt-xsmall text-secondary-text bg-white border border-secondary-border rounded p-3 overflow-auto max-h-40">
                           {error.stack}
                         </pre>
                       </div>

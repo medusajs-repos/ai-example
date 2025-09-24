@@ -9,14 +9,14 @@ const ProductShippingInfo = () => {
     <div className="space-y-3">
       {policies.map((policy, index) => (
         <div key={index} className="flex justify-between items-center py-1">
-          <span className="text-ui-fg-muted txt-small">{policy.label}</span>
-          <span className="text-ui-fg-base txt-small font-medium">{policy.value}</span>
+          <span className="text-secondary-text txt-small">{policy.label}</span>
+          <span className="text-primary-text txt-small-plus">{policy.value}</span>
         </div>
       ))}
       
-      <div className="pt-4 mt-6 border-t border-ui-border-base">
-        <p className="text-ui-fg-subtle txt-small">
-          Questions about shipping or returns? <a href="/contact" className="text-ui-fg-interactive hover:underline">Contact us</a>
+      <div className="pt-4 mt-6 border-t border-secondary-border">
+        <p className="text-secondary-text txt-small">
+          Questions about shipping or returns? <a href="/contact" className="text-accent-text hover:underline">Contact us</a>
         </p>
       </div>
     </div>

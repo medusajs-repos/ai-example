@@ -17,7 +17,7 @@ const OrderDetails = ({ order }: OrderDetailsProps) => {
       <div className="flex flex-col gap-8">
         <OrderInfo order={order} />
 
-        <hr className="border-ui-border-base" />
+        <hr className="border-primary-border" />
       
         <div className="flex flex-col gap-4">
           <Heading level="h3" className="mb-4">Items</Heading>
@@ -26,15 +26,15 @@ const OrderDetails = ({ order }: OrderDetailsProps) => {
           ))}
         </div>
 
-        <hr className="border-ui-border-base" />
+        <hr className="border-primary-border" />
 
         <OrderShipping order={order} />
 
-        <hr className="border-ui-border-base" />
+        <hr className="border-primary-border" />
 
         <OrderBilling order={order} />
 
-        <hr className="border-ui-border-base" />
+        <hr className="border-primary-border" />
 
         <OrderSummary order={order} />
       </div>

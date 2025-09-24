@@ -78,20 +78,20 @@ const ProductListing = ({ region, title, queryParams }: ProductListProps) => {
         <div className="mb-8">
           <h1
             data-testid="products-page-title"
-            className="txt-xlarge-plus font-medium text-ui-fg-base mb-1"
+            className="txt-xlarge-plus text-primary-text mb-1"
           >
             {title}
           </h1>
-          <p className="text-ui-fg-subtle">{sortedData.length} items</p>
+          <p className="text-secondary-text">{sortedData.length} items</p>
         </div>
         {sortedData.length === 0 ? (
           <div className="flex items-center justify-center h-64">
-            <div className="text-lg text-ui-fg-subtle">No products available</div>
+            <div className="txt-xlarge text-secondary-text">No products available</div>
           </div>
         ) : (
           <>
             <div
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-x-6 gap-y-8"
+              className="grid grid-cols-1 small:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-x-6 gap-y-8"
               data-testid="products-list"
             >
               {sortedData.map((product) => (

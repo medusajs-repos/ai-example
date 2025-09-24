@@ -14,7 +14,7 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
       </Heading>
       <div className="space-y-2">
         <div className="flex justify-between txt-small">
-          <span className="text-ui-fg-muted">Subtotal</span>
+          <span className="text-secondary-text">Subtotal</span>
           <Price
             price={order.subtotal}
             currencyCode={order.currency_code}
@@ -22,7 +22,7 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
         </div>
         
         <div className="flex justify-between txt-small">
-          <span className="text-ui-fg-muted">Shipping</span>
+          <span className="text-secondary-text">Shipping</span>
           <Price
             price={order.shipping_total}
             currencyCode={order.currency_code}
@@ -30,7 +30,7 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
         </div>
 
         <div className="flex justify-between txt-small">
-          <span className="text-ui-fg-muted">Discount</span>
+          <span className="text-secondary-text">Discount</span>
           <Price
             price={order.discount_total}
             currencyCode={order.currency_code}
@@ -39,7 +39,7 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
         </div>
         
         <div className="flex justify-between txt-small">
-          <span className="text-ui-fg-muted">Tax</span>
+          <span className="text-secondary-text">Tax</span>
           <Price
             price={order.tax_total}
             currencyCode={order.currency_code}
@@ -47,10 +47,10 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
         </div>
       </div>
       
-      <hr className="border-ui-border-base" />
+      <hr className="border-primary-border" />
       
       <div className="flex justify-between">
-        <span className="text-ui-fg-base">Total</span>
+        <span className="text-primary-text">Total</span>
         <Price
           price={order.total}
           currencyCode={order.currency_code}

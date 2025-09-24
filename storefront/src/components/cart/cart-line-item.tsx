@@ -30,12 +30,12 @@ const CartLineItem = ({ item, cart, type = "default", fields }: CartLineItemProp
 
       <div className="flex-1 min-w-0 flex flex-col gap-y-1">
         <span className={clx(
-          "text-ui-fg-base",
+          "text-primary-text",
           "txt-medium-plus",
         )}>{item.product_title}</span>
         {item.variant_title && item.variant_title !== "Default Variant" && (
           <span className={clx(
-            "text-ui-fg-muted txt-small",
+            "text-secondary-text txt-small",
           )}>{item.variant_title}</span>
         )}
       </div>
@@ -71,10 +71,10 @@ const CompactCartLineItem = ({ item, cart, fields }: CartLineItemProps) => {
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <h4 className="txt-medium-semi line-clamp-1">
+            <h4 className="txt-medium line-clamp-1 text-primary-text">
               {item.product_title}
             </h4>
-            <div className="txt-smallall-regular text-ui-fg-subtle">
+            <div className="txt-small text-secondary-text">
               {item.variant_title &&
                 item.variant_title !== "Default Variant" && (
                   <span>{item.variant_title}</span>
@@ -97,7 +97,7 @@ const CompactCartLineItem = ({ item, cart, fields }: CartLineItemProps) => {
           <Price
             price={item.total}
             currencyCode={cart.currency_code}
-            textClassName="txt-small"
+            textSize="small"
           />
         </div>
       </div>
@@ -107,16 +107,16 @@ const CompactCartLineItem = ({ item, cart, fields }: CartLineItemProps) => {
 
 const DisplayCartLineItem = ({ item, cart }: CartLineItemProps) => {
   return (
-    <div className="flex items-center gap-4 py-3 border-b border-ui-border-base last:border-b-0">
+    <div className="flex items-center gap-4 py-3 border-b border-secondary-border last:border-b-0">
       <Thumbnail thumbnail={item.thumbnail} alt={item.product_title || item.title} className="w-16 h-16" />
       <div className="flex-1">
-        <Text className="txt-medium-plus text-ui-fg-base">{item.product_title}</Text>
+        <Text className="txt-medium-plus text-primary-text">{item.product_title}</Text>
         {item.variant_title && item.variant_title !== "Default Variant" && (
-          <Text className="txt-small text-ui-fg-subtle">
+          <Text className="txt-small text-secondary-text">
             {item.variant_title}
           </Text>
         )}
-        <Text className="txt-small text-ui-fg-subtle">
+        <Text className="txt-small text-secondary-text">
           Quantity: {item.quantity}
         </Text>
       </div>
@@ -124,7 +124,7 @@ const DisplayCartLineItem = ({ item, cart }: CartLineItemProps) => {
         <Price
           price={item.total}
           currencyCode={cart.currency_code}
-          textClassName="txt-medium-plus"
+          textWeight="plus"
         />
       </div>
     </div>

@@ -2,6 +2,7 @@ import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
 import { useLogin } from "@/lib/hooks/dynamic/use-auth"
 import { useLocation, useRouter } from "@tanstack/react-router"
 import { useState } from "react"
+import { Button, Input, Label } from "@medusajs/ui"
 
 interface LoginFormProps {
   onSuccess?: () => void;
@@ -49,56 +50,54 @@ const LoginForm = ({ onSuccess, onSwitchToRegister }: LoginFormProps) => {
     <div className="w-full max-w-md mx-auto">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label
+          <Label
             htmlFor="email"
-            className="block txt-small font-medium text-ui-fg-subtle mb-2"
+            className="block txt-small-plus text-secondary-text mb-2"
           >
             Email
-          </label>
-          <input
+          </Label>
+          <Input
             id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-3 py-2 border border-ui-border-base rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
             required
           />
         </div>
 
         <div>
-          <label
+          <Label
             htmlFor="password"
-            className="block txt-small font-medium text-ui-fg-subtle mb-2"
+            className="block txt-small-plus text-secondary-text mb-2"
           >
             Password
-          </label>
-          <input
+          </Label>
+          <Input
             id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-3 py-2 border border-ui-border-base rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
             required
           />
         </div>
 
-        {error && <div className="text-red-600 txt-small">{error}</div>}
+        {error && <div className="text-error-text txt-small">{error}</div>}
 
-        <button
+        <Button
           type="submit"
           disabled={login.isPending}
-          className="w-full bg-black text-white py-2 rounded-md hover:bg-black/80 disabled:opacity-50"
+          variant="primary"
         >
           {login.isPending ? "Signing in..." : "Sign In"}
-        </button>
+        </Button>
 
         {onSwitchToRegister && (
-          <p className="text-center txt-small text-ui-fg-subtle">
+          <p className="text-center txt-small text-secondary-text">
             Don't have an account?{" "}
             <button
               type="button"
               onClick={onSwitchToRegister}
-              className="text-blue-600 hover:underline"
+              className="text-accent-text hover:text-accent-text-hover"
             >
               Sign up
             </button>

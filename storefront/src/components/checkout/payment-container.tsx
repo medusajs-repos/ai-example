@@ -22,10 +22,10 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
 
   return (
     <div
-      className={`flex flex-col gap-y-2 txt-small cursor-pointer py-4 border rounded px-8 mb-2 hover:border-ui-border-strong transition-colors ${
+      className={`flex flex-col gap-y-2 txt-small cursor-pointer py-4 border rounded px-8 mb-2 hover:border-primary-border-strong transition-colors ${
         isSelected
-          ? "border-ui-fg-interactive bg-ui-bg-subtle"
-          : "border-ui-border-base"
+          ? "border-accent-text bg-secondary-bg"
+          : "border-primary-border"
       } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
       onClick={disabled ? undefined : onClick}
     >
@@ -36,12 +36,12 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
             {paymentInfoMap[paymentProviderId]?.title || paymentProviderId}
           </Text>
           {isManual(paymentProviderId) && (
-            <span className="txt-xsmall bg-ui-tag-orange-bg-hover text-ui-tag-orange-text px-2 py-1 rounded hidden small:block">
+            <span className="txt-xsmall bg-orange-100 text-orange-400 px-2 py-1 rounded hidden small:block">
               Test Mode
             </span>
           )}
         </div>
-        <span className="justify-self-end text-ui-fg-base">
+        <span className="justify-self-end text-primary-text">
           {paymentInfoMap[paymentProviderId]?.icon}
         </span>
       </div>

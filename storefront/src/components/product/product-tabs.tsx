@@ -26,22 +26,22 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
   return (
     <div className="w-full">
       {/* Minimal tab headers */}
-      <div className="flex border-b border-ui-border-base">
+      <div className="flex border-b border-secondary-border">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             className={clx(
-              "px-4 py-3 txt-small font-medium transition-colors relative",
+              "px-4 py-3 txt-small-plus transition-colors relative",
               {
-                "text-ui-fg-base": activeTab === tab.id,
-                "text-ui-fg-muted hover:text-ui-fg-subtle": activeTab !== tab.id,
+                "text-primary-text": activeTab === tab.id,
+                "text-secondary-text hover:text-secondary-text-hover": activeTab !== tab.id,
               }
             )}
             onClick={() => setActiveTab(tab.id)}
           >
             {tab.label}
             {activeTab === tab.id && (
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-ui-fg-base" />
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-text" />
             )}
           </button>
         ))}
@@ -71,7 +71,7 @@ const ProductInfoTab = ({ product }: ProductTabsProps) => {
 
   if (details.length === 0) {
     return (
-      <div className="text-ui-fg-subtle txt-small">
+      <div className="text-secondary-text txt-small">
         No additional product details available.
       </div>
     )
@@ -81,8 +81,8 @@ const ProductInfoTab = ({ product }: ProductTabsProps) => {
     <div className="space-y-3">
       {details.map((detail, index) => (
         <div key={index} className="flex justify-between items-center py-1">
-          <span className="text-ui-fg-muted txt-small">{detail.label}</span>
-          <span className="text-ui-fg-base txt-small font-medium">{detail.value}</span>
+          <span className="text-secondary-text txt-small">{detail.label}</span>
+          <span className="text-primary-text txt-small-plus">{detail.value}</span>
         </div>
       ))}
     </div>

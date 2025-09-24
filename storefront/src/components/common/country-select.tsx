@@ -67,6 +67,8 @@ const CountrySelect = ({ regions }: CountrySelectProps) => {
   const handleChange = (option: CountryOption) => {
     // Update stored country code
     setStoredCountryCode(option.country)
+
+    // TODO update cart's region
     
     // Navigate to the new country path
     const searchParams = Object.keys(location.search || {}).length > 0 
@@ -84,7 +86,7 @@ const CountrySelect = ({ regions }: CountrySelectProps) => {
       onMouseEnter={toggleOpen}
       onMouseLeave={toggleClose}
     >
-      <div>
+      <div className="w-full">
         <Listbox
           as="span"
           onChange={handleChange}
@@ -121,7 +123,7 @@ const CountrySelect = ({ regions }: CountrySelectProps) => {
               leaveTo="opacity-0"
             >
               <ListboxOptions
-                className="absolute -bottom-[calc(100%-36px)] left-0 xsmall:left-auto xsmall:right-0 max-h-[442px] overflow-y-scroll z-[900] bg-white drop-shadow-md txt-small uppercase text-black no-scrollbar rounded-md w-full"
+                className="absolute -bottom-[calc(100%-36px)] left-0 xsmall:left-auto xsmall:right-0 max-h-[442px] overflow-y-scroll z-[900] bg-white drop-shadow-md txt-small uppercase text-primary-text no-scrollbar rounded-md w-full"
                 static
               >
                 {options?.map((o, index) => {
@@ -129,7 +131,7 @@ const CountrySelect = ({ regions }: CountrySelectProps) => {
                     <ListboxOption
                       key={index}
                       value={o}
-                      className="py-2 hover:bg-ui-bg-subtle px-3 cursor-pointer flex items-center gap-x-2"
+                      className="py-2 hover:bg-secondary-bg px-3 cursor-pointer flex items-center gap-x-2"
                     >
                       <ReactCountryFlag
                         svg

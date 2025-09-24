@@ -18,21 +18,21 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         {product.collection && (
           <Link
             to={`${baseHref}/collections/${product.collection.handle}` as any}
-            className="text-medium text-ui-fg-muted hover:text-ui-fg-subtle"
+            className="txt-medium text-secondary-text hover:text-secondary-text-hover"
           >
             {product.collection.title}
           </Link>
         )}
         <Heading
           level="h2"
-          className="txt-xlarge-plus leading-10 text-ui-fg-base"
+          className="txt-xlarge-plus text-primary-text"
           data-testid="product-title"
         >
           {product.title}
         </Heading>
 
         <Text
-          className="text-medium text-ui-fg-subtle whitespace-pre-line"
+          className="txt-medium text-secondary-text whitespace-pre-line"
           data-testid="product-description"
         >
           {product.description}

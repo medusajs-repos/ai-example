@@ -45,10 +45,10 @@ const ShippingItemSelector = ({
       }`}
     >
       <div
-        className={`flex items-center justify-between p-5 border rounded-lg hover:border-ui-border-strong transition-colors ${
+        className={`flex items-center justify-between p-5 border rounded-lg hover:border-primary-border-strong transition-colors ${
           isSelected
-            ? "border-ui-fg-interactive bg-ui-bg-subtle"
-            : "border-ui-border-base"
+            ? "border-accent-text bg-secondary-bg"
+            : "border-primary-border"
         }`}
       >
         <div className="flex items-center gap-4">
@@ -65,12 +65,12 @@ const ShippingItemSelector = ({
             <div
               className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
                 isSelected
-                  ? "border-ui-fg-interactive bg-ui-fg-interactive"
-                  : "border-ui-border-base bg-white"
+                  ? "border-accent-text bg-accent-text"
+                  : "border-primary-border bg-primary-bg"
               }`}
             >
               {isSelected && (
-                <div className="w-2 h-2 bg-white rounded-full"></div>
+                <div className="w-2 h-2 bg-primary-bg rounded-full"></div>
               )}
             </div>
           </div>
@@ -79,7 +79,7 @@ const ShippingItemSelector = ({
 
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
-              <Text className="txt-medium-plus text-ui-fg-base">
+              <Text className="txt-medium-plus text-primary-text">
                 {shippingOption.name}
               </Text>
               {isFree && (
@@ -89,7 +89,7 @@ const ShippingItemSelector = ({
               )}
             </div>
             {shippingOption.data?.description !== undefined && (
-              <Text className="txt-xsmall text-ui-fg-muted mt-1">
+              <Text className="txt-xsmall text-secondary-text mt-1">
                 {shippingOption.data.description as string}
               </Text>
             )}
@@ -101,7 +101,7 @@ const ShippingItemSelector = ({
             <Price
               price={price} 
               currencyCode={cart.currency_code} 
-              textClassName="txt-medium-plus"
+              textWeight="plus"
             /> : <Loading className="w-4 h-4" rows={1} />}
         </div>
       </div>

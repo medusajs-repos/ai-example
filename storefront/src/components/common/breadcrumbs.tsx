@@ -47,7 +47,7 @@ const Breadcrumbs = ({
   homeHref = "/",
 }: BreadcrumbsProps) => {
   const defaultSeparator = (
-    <ChevronRight className="text-ui-fg-muted" />
+    <ChevronRight className="text-secondary-text" />
   )
 
   const allItems = showHome
@@ -78,7 +78,7 @@ const Breadcrumbs = ({
               {item.href && !isCurrent ? (
                 <Link
                   to={item.href}
-                  className="text-ui-fg-subtle hover:text-ui-fg-base transition-colors duration-200"
+                  className="text-secondary-text hover:text-secondary-text-hover transition-colors duration-200"
                 >
                   <Text className="txt-small">{item.label}</Text>
                 </Link>
@@ -86,8 +86,8 @@ const Breadcrumbs = ({
                 <Text
                   className={clx(
                     isCurrent
-                      ? "text-ui-fg-base txt-small-plus"
-                      : "text-ui-fg-subtle txt-small"
+                      ? "text-primary-text txt-small-plus"
+                      : "text-secondary-text txt-small"
                   )}
                   aria-current={isCurrent ? "page" : undefined}
                 >

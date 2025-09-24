@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useRegister } from "@/lib/hooks/dynamic/use-auth"
+import { Button, Input, Label } from "@medusajs/ui"
 
 interface RegisterFormProps {
   onSuccess?: () => void
@@ -68,100 +69,95 @@ const RegisterForm = ({ onSuccess, onSwitchToLogin }: RegisterFormProps) => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label htmlFor="firstName" className="block txt-small font-medium text-ui-fg-subtle mb-2">
+            <Label htmlFor="firstName" className="block txt-small-plus text-secondary-text mb-2">
               First Name
-            </label>
-            <input
+            </Label>
+            <Input
               id="firstName"
               name="firstName"
               type="text"
               value={formData.firstName}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-ui-border-base rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="lastName" className="block txt-small font-medium text-ui-fg-subtle mb-2">
+            <Label htmlFor="lastName" className="block txt-small-plus text-secondary-text mb-2">
               Last Name
-            </label>
-            <input
+            </Label>
+            <Input
               id="lastName"
               name="lastName"
               type="text"
               value={formData.lastName}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-ui-border-base rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
               required
             />
           </div>
         </div>
 
         <div>
-          <label htmlFor="email" className="block txt-small font-medium text-ui-fg-subtle mb-2">
+          <Label htmlFor="email" className="block txt-small-plus text-secondary-text mb-2">
             Email
-          </label>
-          <input
+          </Label>
+          <Input
             id="email"
             name="email"
             type="email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-ui-border-base rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
             required
           />
         </div>
 
         <div>
-          <label htmlFor="password" className="block txt-small font-medium text-ui-fg-subtle mb-2">
+          <Label htmlFor="password" className="block txt-small-plus text-secondary-text mb-2">
             Password
-          </label>
-          <input
+          </Label>
+          <Input
             id="password"
             name="password"
             type="password"
             value={formData.password}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-ui-border-base rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
             required
           />
         </div>
 
         <div>
-          <label htmlFor="confirmPassword" className="block txt-small font-medium text-ui-fg-subtle mb-2">
+          <Label htmlFor="confirmPassword" className="block txt-small-plus text-secondary-text mb-2">
             Confirm Password
-          </label>
-          <input
+          </Label>
+          <Input
             id="confirmPassword"
             name="confirmPassword"
             type="password"
             value={formData.confirmPassword}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-ui-border-base rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
             required
           />
         </div>
 
         {error && (
-          <div className="text-red-600 txt-small">{error}</div>
+          <div className="text-error-text txt-small">{error}</div>
         )}
 
-        <button
+        <Button
           type="submit"
           disabled={register.isPending}
-          className="w-full bg-black text-white py-2 rounded-md hover:bg-black/80 disabled:opacity-50"
+          variant="primary"
         >
           {register.isPending ? "Creating Account..." : "Create Account"}
-        </button>
+        </Button>
 
         {onSwitchToLogin && (
-          <p className="text-center txt-small text-ui-fg-subtle">
+          <p className="text-center txt-small text-secondary-text">
             Already have an account?{" "}
             <button
               type="button"
               onClick={onSwitchToLogin}
-              className="text-blue-600 hover:underline"
+              className="text-accent-text hover:text-accent-text-hover"
             >
               Sign in
             </button>

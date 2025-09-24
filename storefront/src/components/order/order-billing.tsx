@@ -18,8 +18,8 @@ const OrderBilling = ({ order }: OrderBillingProps) => {
       </Heading>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <Text className="txt-medium-plus text-ui-fg-base mb-2">Billing Address</Text>
-          <div className="txt-small text-ui-fg-subtle">
+          <Text className="txt-medium-plus text-primary-text mb-2">Billing Address</Text>
+          <div className="txt-small text-secondary-text">
             {order.billing_address ? (
               <Address address={order.billing_address} />
             ) : (
@@ -28,8 +28,8 @@ const OrderBilling = ({ order }: OrderBillingProps) => {
           </div>
         </div>
         <div>
-          <Text className="txt-medium-plus text-ui-fg-base mb-2">Payment Method</Text>
-          <div className="txt-small text-ui-fg-subtle">
+          <Text className="txt-medium-plus text-primary-text mb-2">Payment Method</Text>
+          <div className="txt-small text-secondary-text">
             {order.payment_collections?.[0].payment_sessions?.[0] && (
               <PaymentMethodInfo provider_id={order.payment_collections[0].payment_sessions[0].provider_id} />
             )}

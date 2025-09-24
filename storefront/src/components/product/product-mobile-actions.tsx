@@ -54,10 +54,10 @@ const ProductMobileActions: React.FC<ProductMobileActionsProps> = ({
           leaveTo="opacity-0"
         >
           <div
-            className="bg-ui-bg-base flex flex-col gap-y-3 justify-center items-center txt-large-regular p-4 h-full w-full border-t border-ui-border-base"
+            className="bg-primary-bg flex flex-col gap-y-3 justify-center items-center txt-large p-4 h-full w-full border-t border-primary-border"
             data-testid="mobile-actions"
           >
-            <span data-testid="mobile-title" className="text-ui-fg-base">{product.title}</span>
+            <span data-testid="mobile-title" className="text-primary-text">{product.title}</span>
             <ProductPrice
               product={product}
               variant={variant}
@@ -80,7 +80,7 @@ const ProductMobileActions: React.FC<ProductMobileActionsProps> = ({
                         ? Object.values(options).join(" / ")
                         : "Select Options"}
                     </span>
-                    <span className="text-ui-fg-muted">▼</span>
+                    <span className="text-secondary-text">▼</span>
                   </div>
                 </Button>
               )}
@@ -112,7 +112,7 @@ const ProductMobileActions: React.FC<ProductMobileActionsProps> = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-ui-bg-overlay backdrop-blur-sm" />
+            <div className="fixed inset-0 bg-overlay-bg backdrop-blur-sm" />
           </Transition.Child>
 
           <div className="fixed bottom-0 inset-x-0">
@@ -133,13 +133,13 @@ const ProductMobileActions: React.FC<ProductMobileActionsProps> = ({
                   <div className="w-full flex justify-end pr-6">
                     <button
                       onClick={close}
-                      className="bg-ui-bg-base w-12 h-12 rounded-full text-ui-fg-base flex justify-center items-center shadow-lg"
+                      className="bg-primary-bg w-12 h-12 rounded-full text-primary-text flex justify-center items-center shadow-lg"
                       data-testid="close-modal-button"
                     >
                       ✕
                     </button>
                   </div>
-                  <div className="bg-ui-bg-base px-6 py-12 rounded-t-lg">
+                  <div className="bg-primary-bg px-6 py-12 rounded-t-lg">
                     {(product.variants?.length ?? 0) > 1 && (
                       <div className="flex flex-col gap-y-6">
                         {(product.options || []).map((option) => {

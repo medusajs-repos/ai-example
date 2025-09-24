@@ -18,7 +18,7 @@ const CartDeleteItem = ({ item, type = "default", fields }: CartDeleteItemProps)
       onClick={() => deleteLineItemMutation.mutate({ line_id: item.id })}
       disabled={deleteLineItemMutation.isPending}
       className={clx(
-        type === "compact" && "text-ui-fg-subtle hover:text-ui-fg-base transition-colors ml-2"
+        type === "compact" && "text-secondary-text hover:text-secondary-text-hover transition-colors ml-2"
       )}
       variant={type === "compact" ? "transparent" : "primary"}
     >

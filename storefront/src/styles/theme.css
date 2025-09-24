@@ -1,0 +1,265 @@
+@theme {
+  /* Colors */
+  --color-white: var(--bg-base);
+  --color-white-hover: var(--bg-field-component-hover);
+
+  --color-gray-50: var(--bg-subtle);
+  --color-gray-100: var(--bg-field-component);
+  --color-gray-200: var(--bg-component);
+  --color-gray-300: var(--bg-disabled);
+  --color-gray-400: var(--bg-base-hover);
+  --color-gray-500: var(--bg-overlay);
+  --color-gray-600: #6b7280;
+  --color-gray-700: #4b5563;
+  --color-gray-800: #374151;
+  --color-gray-900: #1f2937;
+  --color-gray-950: #111827;
+
+  /* Blue colors */
+  --color-blue-50: var(--bg-highlight);
+  --color-blue-100: var(--bg-highlight-hover);
+  --color-blue-200: var(--bg-interactive);
+  --color-blue-300: var(--border-interactive);
+  --color-blue-400: var(--fg-interactive);
+  --color-blue-500: var(--fg-interactive-hover);
+  --color-blue-600: var(--tag-blue-text);
+  --color-blue-700: var(--tag-blue-icon);
+  --color-blue-800: var(--tag-blue-bg);
+  --color-blue-900: var(--tag-blue-bg-hover);
+  --color-blue-950: var(--tag-blue-border);
+
+  /* Black colors */
+  --color-black-100: var(--fg-muted);
+  --color-black-200: var(--fg-subtle);
+  --color-black-300: var(--contrast-bg-subtle);
+  --color-black-400: var(--fg-base);
+  --color-black-500: var(--contrast-bg-base-pressed);
+
+  /* Zinc colors */
+  --color-zinc-50: var(--border-base);
+  --color-zinc-100: var(--border-menu-top);
+  --color-zinc-200: var(--bg-switch-off);
+  --color-zinc-300: var(--border-strong);
+  --color-zinc-400: var(--bg-switch-off-hover);
+  --color-zinc-500: var(--tag-neutral-border);
+  --color-zinc-600: var(--tag-neutral-bg-hover);
+  --color-zinc-700: var(--border-menu-bot);
+  --color-zinc-800: var(--border-transparent);
+  --color-zinc-900: var(--contrast-border-base);
+  --color-zinc-950: var(--contrast-border-bot);
+
+  /* Neutral colors */
+  --color-neutral-50: var(--button-neutral);
+  --color-neutral-100: var(--button-neutral-hover);
+  --color-neutral-200: var(--button-neutral-pressed);
+  --color-neutral-300: var(--button-transparent-hover);
+  --color-neutral-400: var(--button-transparent-pressed);
+  --color-neutral-500: var(--button-inverted);
+  --color-neutral-600: var(--contrast-bg-subtle);
+  --color-neutral-700: var(--contrast-bg-base-pressed);
+  --color-neutral-800: var(--button-transparent);
+  --color-neutral-900: var(--alpha-250);
+  --color-neutral-950: var(--alpha-400);
+
+  /* Red colors */
+  --color-red-50: var(--tag-red-bg);
+  --color-red-100: var(--tag-red-bg-hover);
+  --color-red-200: var(--tag-red-border);
+  --color-red-300: var(--tag-red-icon);
+  --color-red-400: var(--tag-red-text);
+  --color-red-500: var(--border-error);
+  --color-red-600: var(--button-danger);
+  --color-red-700: var(--fg-error);
+  --color-red-800: var(--border-danger);
+  --color-red-900: var(--button-danger-hover);
+  --color-red-950: var(--button-danger-pressed);
+
+  /* Green colors */
+  --color-green-50: var(--tag-green-bg);
+  --color-green-100: var(--tag-green-bg-hover);
+  --color-green-200: var(--tag-green-border);
+  --color-green-300: var(--tag-green-icon);
+  --color-green-400: var(--tag-green-text);
+
+  /* Orange colors */
+  --color-orange-50: var(--tag-orange-bg);
+  --color-orange-100: var(--tag-orange-bg-hover);
+  --color-orange-200: var(--tag-orange-border);
+  --color-orange-300: var(--tag-orange-icon);
+  --color-orange-400: var(--tag-orange-text);
+
+  /* Purple colors */
+  --color-purple-50: var(--tag-purple-bg);
+  --color-purple-100: var(--tag-purple-bg-hover);
+  --color-purple-200: var(--tag-purple-border);
+  --color-purple-300: var(--tag-purple-icon);
+  --color-purple-400: var(--tag-purple-text);
+
+  /* Stone colors */
+  --color-stone-50: var(--tag-neutral-bg);
+  --color-stone-100: var(--tag-neutral-bg-hover);
+  --color-stone-200: var(--tag-neutral-text);
+  --color-stone-300: var(--tag-neutral-border);
+  --color-stone-400: var(--tag-neutral-icon);
+
+  /* Transparent colors */
+  --color-transparent: transparent;
+  --color-transparent-250: var(--alpha-250);
+  --color-transparent-400: var(--alpha-400);
+
+  /* Border Radius */
+  --radius-none: 0px;
+  --radius-soft: 2px;
+  --radius-base: 4px;
+  --radius-rounded: 8px;
+  --radius-large: 16px;
+  --radius-circle: 9999px;
+
+  /* Breakpoints */
+  --breakpoint-2xsmall: 320px;
+  --breakpoint-xsmall: 512px;
+  --breakpoint-small: 1024px;
+  --breakpoint-medium: 1280px;
+  --breakpoint-large: 1440px;
+  --breakpoint-xlarge: 1680px;
+  --breakpoint-2xlarge: 1920px;
+
+  /* Font Family */
+  --font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif;
+
+  /* Animation */
+  --animation-ring: ring 2.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  --animation-fade-in-right: fade-in-right 0.3s cubic-bezier(0.5, 0, 0.5, 1) forwards;
+  --animation-fade-in-top: fade-in-top 0.2s cubic-bezier(0.5, 0, 0.5, 1) forwards;
+  --animation-fade-out-top: fade-out-top 0.2s cubic-bezier(0.5, 0, 0.5, 1) forwards;
+  --animation-accordion-open: accordion-slide-down 300ms cubic-bezier(0.87, 0, 0.13, 1) forwards;
+  --animation-accordion-close: accordion-slide-up 300ms cubic-bezier(0.87, 0, 0.13, 1) forwards;
+  --animation-enter: enter 200ms ease-out;
+  --animation-slide-in: slide-in 1.2s cubic-bezier(.41,.73,.51,1.02);
+  --animation-leave: leave 150ms ease-in forwards;
+
+
+  /* Keyframes definitions */
+  @keyframes ring {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes fade-in-right {
+    0% {
+      opacity: 0;
+      transform: translateX(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes fade-in-top {
+    0% {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-out-top {
+    0% {
+      height: 100%;
+    }
+    99% {
+      height: 0;
+    }
+    100% {
+      visibility: hidden;
+    }
+  }
+
+  @keyframes accordion-slide-up {
+    0% {
+      height: var(--radix-accordion-content-height);
+      opacity: 1;
+    }
+    100% {
+      height: 0;
+      opacity: 0;
+    }
+  }
+
+  @keyframes accordion-slide-down {
+    0% {
+      min-height: 0;
+      max-height: 0;
+      opacity: 0;
+    }
+    100% {
+      min-height: var(--radix-accordion-content-height);
+      max-height: none;
+      opacity: 1;
+    }
+  }
+
+  @keyframes enter {
+    0% { transform: scale(0.9); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes leave {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0.9); opacity: 0; }
+  }
+
+  @keyframes slide-in {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(0); }
+  }
+}
+
+@theme inline {
+  /* Primary colors */
+  --color-primary-bg: var(--color-white);
+  --color-primary-button: var(--color-black-400);
+  --color-primary-hover: var(--color-black-300);
+  --color-primary-pressed: var(--color-black-500);
+  --color-primary-disabled: var(--color-neutral-200);
+  --color-primary-border: var(--color-zinc-50);
+  --color-primary-border-strong: var(--color-zinc-300);
+  --color-primary-text: var(--color-black-400);
+  --color-primary-text-hover: var(--color-black-200);
+  --color-primary-on-color: var(--color-white);
+
+  /* Secondary colors */
+  --color-secondary-bg: var(--color-gray-50);
+  --color-secondary-button: var(--color-white);
+  --color-secondary-hover: var(--color-white-hover);
+  --color-secondary-pressed: var(--color-neutral-200);
+  --color-secondary-disabled: var(--color-neutral-200);
+  --color-secondary-border: var(--color-zinc-50);
+  --color-secondary-border-strong: var(--color-zinc-300);
+  --color-secondary-text: var(--color-black-200);
+  --color-secondary-text-hover: var(--color-black-100);
+  --color-secondary-on-color: var(--color-black-400);
+
+  /* Accent colors */
+  --color-accent-text: var(--color-blue-400);
+  --color-accent-text-hover: var(--color-blue-500);
+  --color-accent-pressed: var(--color-blue-600);
+  --color-accent-disabled: var(--color-blue-50);
+  --color-accent-border: var(--color-blue-300);
+
+  /* State colors */
+  --color-error-text: var(--color-red-400);
+  --color-error-bg: var(--color-red-50);
+  --color-error-border: var(--color-red-200);
+  --color-success-text: var(--color-green-400);
+  --color-success-bg: var(--color-green-50);
+  --color-success-border: var(--color-green-200);
+
+  /* Other */
+  --color-loading-bg: var(--color-zinc-200);
+  --color-overlay-bg: var(--color-gray-500);
+}

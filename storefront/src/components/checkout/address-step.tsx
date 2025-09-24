@@ -97,7 +97,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Email */}
         <div>
-          <Label htmlFor="email" className="block txt-small font-medium mb-2">
+          <Label htmlFor="email" className="block txt-small-plus mb-2">
             Email Address
           </Label>
           <Input

@@ -75,7 +75,7 @@ const AddressForm = ({
       {/* Name fields */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <Label htmlFor="first_name" className="block txt-small font-medium mb-2">
+          <Label htmlFor="first_name" className="block txt-small-plus mb-2">
             First Name
           </Label>
           <Input
@@ -88,11 +88,11 @@ const AddressForm = ({
             placeholder="First name"
           />
           {errors.first_name && (
-            <div className="text-red-500 txt-small mt-1">{errors.first_name}</div>
+            <div className="text-error-text txt-small mt-1">{errors.first_name}</div>
           )}
         </div>
         <div>
-          <Label htmlFor="last_name" className="block txt-small font-medium mb-2">
+          <Label htmlFor="last_name" className="block txt-small-plus mb-2">
             Last Name
           </Label>
           <Input
@@ -105,14 +105,14 @@ const AddressForm = ({
             placeholder="Last name"
           />
           {errors.last_name && (
-            <div className="text-red-500 txt-small mt-1">{errors.last_name}</div>
+            <div className="text-error-text txt-small mt-1">{errors.last_name}</div>
           )}
         </div>
       </div>
 
       {/* Company */}
       <div>
-        <Label htmlFor="company" className="block txt-small font-medium mb-2">
+        <Label htmlFor="company" className="block txt-small-plus mb-2">
           Company
         </Label>
         <Input
@@ -128,7 +128,7 @@ const AddressForm = ({
 
       {/* Address fields */}
       <div>
-        <Label htmlFor="address_1" className="block txt-small font-medium mb-2">
+        <Label htmlFor="address_1" className="block txt-small-plus mb-2">
           Address Line 1
         </Label>
         <Input
@@ -141,12 +141,12 @@ const AddressForm = ({
           placeholder="Address line 1"
         />
         {errors.address_1 && (
-          <div className="text-red-500 txt-small mt-1">{errors.address_1}</div>
+          <div className="text-error-text txt-small mt-1">{errors.address_1}</div>
         )}
       </div>
 
       <div>
-        <Label htmlFor="address_2" className="block txt-small font-medium mb-2">
+        <Label htmlFor="address_2" className="block txt-small-plus mb-2">
           Address Line 2
         </Label>
         <Input
@@ -162,7 +162,7 @@ const AddressForm = ({
       {/* City, Province, Postal Code */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <Label htmlFor="city" className="block txt-small font-medium mb-2">
+          <Label htmlFor="city" className="block txt-small-plus mb-2">
             City
           </Label>
           <Input
@@ -175,11 +175,11 @@ const AddressForm = ({
             placeholder="City"
           />
           {errors.city && (
-            <div className="text-red-500 txt-small mt-1">{errors.city}</div>
+            <div className="text-error-text txt-small mt-1">{errors.city}</div>
           )}
         </div>
         <div>
-          <Label htmlFor="province" className="block txt-small font-medium mb-2">
+          <Label htmlFor="province" className="block txt-small-plus mb-2">
             State / Province
           </Label>
           <Input
@@ -193,7 +193,7 @@ const AddressForm = ({
           />
         </div>
         <div>
-          <Label htmlFor="postal_code" className="block txt-small font-medium mb-2">
+          <Label htmlFor="postal_code" className="block txt-small-plus mb-2">
             Postal Code
           </Label>
           <Input
@@ -206,14 +206,14 @@ const AddressForm = ({
             placeholder="Postal code"
           />
           {errors.postal_code && (
-            <div className="text-red-500 txt-small mt-1">{errors.postal_code}</div>
+            <div className="text-error-text txt-small mt-1">{errors.postal_code}</div>
           )}
         </div>
       </div>
 
       {/* Country */}
       <div>
-        <label className="block txt-small text-ui-fg-base mb-2">
+        <label className="block txt-small-plus text-primary-text mb-2">
           Country
         </label>
         <Select
@@ -233,13 +233,13 @@ const AddressForm = ({
           </Select.Content>
         </Select>
         {errors.country_code && (
-          <div className="text-red-500 txt-small mt-1">{errors.country_code}</div>
+          <div className="text-error-text txt-small mt-1">{errors.country_code}</div>
         )}
       </div>
 
       {/* Phone */}
       <div>
-        <Label htmlFor="phone" className="block txt-small font-medium mb-2">
+        <Label htmlFor="phone" className="block txt-small-plus mb-2">
           Phone
         </Label>
         <Input
@@ -267,7 +267,7 @@ const AddressForm = ({
           <Button
             onClick={handleSubmit}
             isLoading={isLoading}
-            className="min-w-[100px]"
+            variant="primary"
           >
             Save
           </Button>

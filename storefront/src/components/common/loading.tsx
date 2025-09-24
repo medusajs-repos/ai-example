@@ -46,7 +46,7 @@ const Loading = ({
         <div
           key={index}
           className={clx(
-            "animate-pulse rounded bg-ui-bg-switch-off",
+            "animate-pulse rounded bg-loading-bg",
             height,
             width
           )}

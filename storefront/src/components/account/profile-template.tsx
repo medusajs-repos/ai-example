@@ -127,7 +127,7 @@ const ProfileEmail = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
       }
       data-testid="account-email-editor"
     >
-      <div className="text-ui-fg-subtle space-y-3 leading-relaxed">
+      <div className="text-secondary-text space-y-3 leading-relaxed">
         <p>
           Email changes are currently not supported through this interface for
           security reasons.
@@ -136,7 +136,7 @@ const ProfileEmail = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
           If you need to update your email address, please{" "}
           <a
             href="/customer-service"
-            className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover underline decoration-1 underline-offset-2"
+            className="text-accent-text hover:text-accent-text-hover underline decoration-1 underline-offset-2"
           >
             contact customer service
           </a>{" "}
@@ -211,7 +211,7 @@ const ProfilePhone = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
             data-testid="phone-input"
             className="w-full"
           />
-          <p className="txt-small text-ui-fg-subtle leading-relaxed">
+          <p className="txt-small text-secondary-text leading-relaxed">
             We'll use this number to contact you about your orders if needed.
           </p>
         </div>

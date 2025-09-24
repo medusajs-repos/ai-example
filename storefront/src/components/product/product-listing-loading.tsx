@@ -46,13 +46,13 @@ const ProductListingLoading = () => {
 
         {/* Product Grid */}
         <div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-x-6 gap-y-8"
+          className="grid grid-cols-1 small:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-x-6 gap-y-8"
           data-testid="products-list"
         >
           {Array.from({ length: 12 }, (_, index) => (
             <div key={index} className="space-y-3">
               {/* Product Image */}
-              <div className="aspect-square bg-ui-bg-subtle rounded-lg flex items-center justify-center">
+              <div className="aspect-square bg-secondary-bg rounded-lg flex items-center justify-center">
                 <Loading rows={1} height="h-8" width="w-8" />
               </div>
               
