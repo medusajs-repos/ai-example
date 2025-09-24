@@ -1,5 +1,5 @@
 import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
-import { Button } from "@medusajs/ui"
+import { Button } from "@/components/common/button"
 import { Link, useLocation } from "@tanstack/react-router"
 
 const CartEmpty = () => {

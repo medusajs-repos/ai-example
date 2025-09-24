@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { Button, Heading, Input, Label, Checkbox } from "@medusajs/ui"
+import { Heading, Input, Label, Checkbox } from "@medusajs/ui"
+import { Button } from "@/components/common/button"
 import { HttpTypes } from "@medusajs/types"
 import { useSetCartAddresses } from "@/lib/hooks/dynamic/checkout/use-addresses"
 import AddressForm from "@/components/common/address-form"

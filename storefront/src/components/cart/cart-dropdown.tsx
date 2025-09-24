@@ -3,7 +3,7 @@ import {
 } from "@/lib/hooks/dynamic/use-cart"
 import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
 import { ShoppingCart } from "@medusajs/icons"
-import { Button } from "@medusajs/ui"
+import { Button } from "@/components/common/button"
 import { Link, useLocation } from "@tanstack/react-router"
 import { NavbarLink } from "@/components/layout/navbar-link"
 import { Price } from "@/components/common/price"

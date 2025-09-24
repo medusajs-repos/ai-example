@@ -1,6 +1,7 @@
 import { useUpdateCustomer } from "@/lib/hooks/dynamic/use-auth"
 import { HttpTypes } from "@medusajs/types"
-import { Button, Input } from "@medusajs/ui"
+import { Input } from "@medusajs/ui"
+import { Button } from "@/components/common/button"
 import { useState } from "react"
 import AccountInfo from "@/components/account/account-info"
 import AccountContainer from "@/components/account/account-container"

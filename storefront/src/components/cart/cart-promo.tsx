@@ -1,5 +1,6 @@
 import { HttpTypes } from "@medusajs/types"
-import { Badge, Button, Input, toast } from "@medusajs/ui"
+import { Badge, Input, toast } from "@medusajs/ui"
+import { Button } from "@/components/common/button"
 import { useState } from "react"
 import { useApplyPromoCode, useRemovePromoCode } from "@/lib/hooks/dynamic/use-cart"
 import { XMark } from "@medusajs/icons"

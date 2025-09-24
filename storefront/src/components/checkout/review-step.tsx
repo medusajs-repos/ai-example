@@ -1,5 +1,6 @@
 import { HttpTypes } from "@medusajs/types"
-import { Button, Heading, Text } from "@medusajs/ui"
+import { Heading, Text } from "@medusajs/ui"
+import { Button } from "@/components/common/button"
 import PaymentButton from "@/components/checkout/payment-button"
 import { Price } from "@/components/common/price"
 import { isPaidWithGiftCard } from "@/lib/utils/checkout/is-paid-with-gift-card"

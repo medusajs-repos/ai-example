@@ -2,7 +2,7 @@ import { isManual, isStripe } from "@/lib/constants/constants"
 import { useCompleteCartOrder } from "@/lib/hooks/dynamic/checkout/use-complete-cart"
 import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
 import { HttpTypes } from "@medusajs/types"
-import { Button } from "@medusajs/ui"
+import { Button } from "@/components/common/button"
 import { useLocation, useNavigate } from "@tanstack/react-router"
 import { useState } from "react"
 

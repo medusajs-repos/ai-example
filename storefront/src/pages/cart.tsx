@@ -2,7 +2,7 @@ import { useCart, useCreateCart } from "@/lib/hooks/dynamic/use-cart"
 import { Link, useLoaderData } from "@tanstack/react-router"
 import CartDetailsLoading from "@/components/cart/cart-details-loading"
 import { lazy, Suspense } from "react"
-import { Button } from "@medusajs/ui"
+import { Button } from "@/components/common/button"
 import { sortCartItems } from "@/lib/utils/cart/sort-cart-items"
 
 const CartItem = lazy(() => import("@/components/cart/cart-line-item"))

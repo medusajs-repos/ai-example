@@ -2,7 +2,8 @@ import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
 import { useLogin } from "@/lib/hooks/dynamic/use-auth"
 import { useLocation, useRouter } from "@tanstack/react-router"
 import { useState } from "react"
-import { Button, Input, Label } from "@medusajs/ui"
+import { Input, Label } from "@medusajs/ui"
+import { Button } from "@/components/common/button"
 
 interface LoginFormProps {
   onSuccess?: () => void;

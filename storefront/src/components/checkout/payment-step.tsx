@@ -6,7 +6,8 @@ import {
   useCartPaymentMethods
 } from "@/lib/hooks/dynamic/checkout/use-payment"
 import { HttpTypes } from "@medusajs/types"
-import { Button, Heading, Text } from "@medusajs/ui"
+import { Heading, Text } from "@medusajs/ui"
+import { Button } from "@/components/common/button"
 import { useCallback, useEffect, useState } from "react"
 import { getActiveSession } from "@/lib/utils/checkout/get-active-session"
 import { isPaidWithGiftCard } from "@/lib/utils/checkout/is-paid-with-gift-card"

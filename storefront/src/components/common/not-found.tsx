@@ -1,4 +1,5 @@
-import { Button, Heading } from "@medusajs/ui"
+import { Heading } from "@medusajs/ui"
+import { Button } from "@/components/common/button"
 import { Link, useLocation } from "@tanstack/react-router"
 
 const NotFound = () => {

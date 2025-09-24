@@ -1,4 +1,4 @@
-import { Button } from "@medusajs/ui"
+import { Button } from "@/components/common/button"
 
 type PaginationProps = {
   page: number

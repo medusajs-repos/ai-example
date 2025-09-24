@@ -1,5 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react"
-import { Button, clx, useToggleState } from "@medusajs/ui"
+import { clx, useToggleState } from "@medusajs/ui"
+import { Button } from "@/components/common/button"
 import React, { Fragment, lazy, Suspense } from "react"
 
 import { isSimpleProduct } from "@/lib/utils/products/product"

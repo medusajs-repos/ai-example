@@ -4,7 +4,7 @@ import { useLatestProducts } from "@/lib/hooks/static/use-products"
 import { getCountryCodeFromPath } from "@/lib/utils/regions/regions"
 import { useRegion } from "@/lib/hooks/static/use-region"
 import Loading from "@/components/common/loading"
-import { Button } from "@medusajs/ui"
+import { Button } from "@/components/common/button"
 import { ChevronRight } from "@medusajs/icons"
 
 const FeaturedProducts = () => {

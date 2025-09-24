@@ -1,5 +1,5 @@
 import { HttpTypes } from "@medusajs/types"
-import { Button } from "@medusajs/ui"
+import { Button } from "@/components/common/button"
 import { useState } from "react"
 import { Plus, EllipsisHorizontal } from "@medusajs/icons"
 import { useCreateCustomerAddress, useCustomerUpdateAddress, useCustomerDeleteAddress } from "@/lib/hooks/dynamic/use-customer-address"

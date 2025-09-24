@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useRegister } from "@/lib/hooks/dynamic/use-auth"
-import { Button, Input, Label } from "@medusajs/ui"
+import { Input, Label } from "@medusajs/ui"
+import { Button } from "@/components/common/button"
 
 interface RegisterFormProps {
   onSuccess?: () => void
