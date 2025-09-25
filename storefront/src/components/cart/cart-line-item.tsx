@@ -11,15 +11,16 @@ interface CartLineItemProps {
   cart: HttpTypes.StoreCart;
   type?: "default" | "compact" | "display"
   fields?: string
+  className?: string
 }
 
-const CartLineItem = ({ item, cart, type = "default", fields }: CartLineItemProps) => {
+const CartLineItem = ({ item, cart, type = "default", fields, className }: CartLineItemProps) => {
   if (type === "compact") {
-    return <CompactCartLineItem item={item} cart={cart} fields={fields} />
+    return <CompactCartLineItem item={item} cart={cart} fields={fields} className={className} />
   }
 
   if (type === "display") {
-    return <DisplayCartLineItem item={item} cart={cart} />
+    return <DisplayCartLineItem item={item} cart={cart} className={className} />
   }
 
   return (
@@ -105,9 +106,9 @@ const CompactCartLineItem = ({ item, cart, fields }: CartLineItemProps) => {
   )
 }
 
-const DisplayCartLineItem = ({ item, cart }: CartLineItemProps) => {
+const DisplayCartLineItem = ({ item, cart, className }: CartLineItemProps) => {
   return (
-    <div className="flex items-center gap-4 py-3 border-b border-secondary-border last:border-b-0">
+    <div className={clx("flex items-center gap-4 py-3 border-b border-secondary-border last:border-b-0", className)}>
       <Thumbnail thumbnail={item.thumbnail} alt={item.product_title || item.title} className="w-16 h-16" />
       <div className="flex-1">
         <Text className="txt-medium-plus text-primary-text">{item.product_title}</Text>

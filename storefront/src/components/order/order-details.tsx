@@ -13,7 +13,7 @@ interface OrderDetailsProps {
 const OrderDetails = ({ order }: OrderDetailsProps) => {
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div>
       <div className="flex flex-col gap-8">
         <OrderInfo order={order} />
 

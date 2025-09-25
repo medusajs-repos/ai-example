@@ -1,5 +1,5 @@
 import { HttpTypes } from "@medusajs/types"
-import { Heading, Text } from "@medusajs/ui"
+import { Heading } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
 import PaymentButton from "@/components/checkout/payment-button"
 import { Price } from "@/components/common/price"
@@ -20,79 +20,64 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
   const activeSession = getActiveSession(cart)
 
   return (
-    <div>
-      <Heading level="h2" className="mb-6">
-        Review
-      </Heading>
-
-      <div className="space-y-8">
-
-        {/* Delivery Information */}
-        {cart.shipping_address && (
-          <div>
-            <Heading level="h3" className="mb-4">
-              Delivery Information
-            </Heading>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <Text className="txt-medium-plus text-primary-text mb-2">Shipping Address</Text>
-                <Address address={cart.shipping_address} />
-              </div>
-              
-              {cart.shipping_methods?.[0] && (
-                <div>
-                  <Text className="txt-medium-plus text-primary-text mb-2">Shipping Method</Text>
-                  <div className="txt-small text-secondary-text flex items-center justify-between">
-                    <div>{cart.shipping_methods[0].name}</div>
-                    <Price
-                      price={cart.shipping_methods[0].amount}
-                      currencyCode={cart.currency_code}
-                      textWeight="plus"
-                      className="text-secondary-text"
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
+    <div className="flex flex-col gap-8">
+      {/* Delivery Information */}
+      {cart.shipping_address && (
+        <>
+          <div className="flex flex-col gap-2">
+            <Heading level="h3" className="text-primary-text !txt-medium-plus">Shipping Address</Heading>
+            <Address address={cart.shipping_address} />
           </div>
-        )}
-
-        {/* Payment Information */}
-        <div>
-          <Heading level="h3" className="mb-4">
-            Billing Information
-          </Heading>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <Text className="txt-medium-plus text-primary-text mb-2">Billing Address</Text>
-              <div className="txt-small text-secondary-text">
-                {cart.billing_address ? (
-                  <Address address={cart.billing_address} />
-                ) : (
-                  <span>Same as shipping address</span>
-                )}
+            
+          {cart.shipping_methods?.[0] && (
+            <div className="flex flex-col gap-2">
+              <Heading level="h3" className="text-primary-text !txt-medium-plus">Shipping Method</Heading>
+              <div className="txt-small text-secondary-text flex items-center gap-2">
+                <div>{cart.shipping_methods[0].name}</div>
+                <Price
+                  price={cart.shipping_methods[0].amount}
+                  currencyCode={cart.currency_code}
+                  textWeight="plus"
+                  className="text-secondary-text"
+                />
               </div>
             </div>
-            <div>
-              <Text className="txt-medium-plus text-primary-text mb-2">Payment Method</Text>
-              <div className="txt-small text-secondary-text">
-                {activeSession && (
-                  <PaymentMethodInfo provider_id={activeSession.provider_id} />
-                )}
-                {paidByGiftcard && <span>Gift Card</span>}
-              </div>
-            </div>
-          </div>
-        </div>
+          )}
+        </>
+      )}
 
-        {/* Action Buttons */}
-        <div className="flex items-center justify-between pt-4">
-          <Button variant="secondary" onClick={onBack}>
-            Back to Payment
-          </Button>
-          
-          <PaymentButton cart={cart} />
+      {/* Payment Information */}
+      <div className="flex flex-col gap-2">
+        <Heading level="h3" className="text-primary-text !txt-medium-plus">Billing Address</Heading>
+        <div className="txt-small text-secondary-text">
+          {cart.billing_address ? (
+            <Address address={cart.billing_address} />
+          ) : (
+            <span>Same as shipping address</span>
+          )}
         </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <Heading level="h3" className="text-primary-text !txt-medium-plus">Payment Method</Heading>
+        <div className="txt-small text-secondary-text flex items-center gap-2">
+          {activeSession && (
+            <PaymentMethodInfo provider_id={activeSession.provider_id} />
+          )}
+          {paidByGiftcard && <span>Gift Card</span>}
+        </div>
+      </div>
+
+      <p className="txt-small text-secondary-text">
+        When you place your order, your payment will be authorized and we'll start processing your order.
+      </p>
+
+      {/* Action Buttons */}
+      <div className="flex items-center gap-4">
+        <Button variant="secondary" onClick={onBack}>
+          Back
+        </Button>
+        
+        <PaymentButton cart={cart} />
       </div>
     </div>
   )

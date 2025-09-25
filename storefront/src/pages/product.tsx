@@ -75,7 +75,7 @@ const ProductDetails = () => {
 
         {/* Related Products Section */}
         <div
-          className="content-container my-16 small:my-32"
+          className="content-container my-16 sm:my-32"
           data-testid="related-products-container"
         >
           <ErrorBoundary

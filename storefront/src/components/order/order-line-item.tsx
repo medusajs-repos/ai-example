@@ -27,7 +27,6 @@ const OrderLineItem = ({ item, order }: OrderLineItemProps) => {
         <Price
           price={item.total}
           currencyCode={order.currency_code}
-          textWeight="plus"
           className="text-secondary-text"
         />
       </div>

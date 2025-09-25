@@ -9,9 +9,9 @@ interface AccountLayoutProps {
 
 const AccountLayout = ({ children, customer }: AccountLayoutProps) => {
   return (
-    <div className="flex-1 small:py-12">
+    <div className="flex-1 sm:py-12">
       <div className="flex-1 content-container h-full max-w-5xl mx-auto bg-primary-bg flex flex-col">
-        <div className="grid grid-cols-1 small:grid-cols-[240px_1fr] py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-[240px_1fr] py-12">
           <div>
             {customer && <AccountNav />}
           </div>
@@ -21,7 +21,7 @@ const AccountLayout = ({ children, customer }: AccountLayoutProps) => {
         </div>
         
         {/* Customer Service Footer */}
-        <div className="flex flex-col small:flex-row items-end justify-between small:border-t border-primary-border py-12 gap-8">
+        <div className="flex flex-col sm:flex-row items-end justify-between sm:border-t border-primary-border py-12 gap-8">
           <div>
             <h3 className="txt-xlarge-plus mb-4">Got questions?</h3>
             <p className="txt-medium">

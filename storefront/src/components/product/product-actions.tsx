@@ -1,6 +1,5 @@
 
 import { useAddToCart } from "@/lib/hooks/dynamic/use-cart"
-import { useIntersection } from "@/lib/hooks/lib/use-intersection"
 import { getCountryCodeFromPath } from "@/lib/utils/regions/get-country-code-from-path"
 import { HttpTypes } from "@medusajs/types"
 import { toast } from "@medusajs/ui"
@@ -14,7 +13,6 @@ import getVariantOptionsKeymap from "@/lib/utils/products/get-variant-options-ke
 import isVariantInStock from "@/lib/utils/products/is-variant-in-stock"
 import { DEFAULT_CART_DROPDOWN_FIELDS } from "@/components/cart/cart-dropdown"
 
-const ProductMobileActions = lazy(() => import("@/components/product/product-mobile-actions"))
 const ProductPrice = lazy(() => import("@/components/product/product-price"))
 const ProductOptionSelect = lazy(() => import("@/components/product/product-option-select"))
 
@@ -44,7 +42,6 @@ export default function ProductActions({
   })
 
   const actionsRef = useRef<HTMLDivElement>(null)
-  const inView = useIntersection(actionsRef, "0px")
 
   // If there is only 1 variant, preselect the options
   useEffect(() => {
@@ -182,18 +179,6 @@ export default function ProductActions({
           ? "Out of stock"
           : "Add to cart"}
       </Button>
-      <Suspense fallback={<Loading className="lg:hidden" />}>
-        <ProductMobileActions
-          product={product}
-          variant={selectedVariant}
-          options={selectedOptions}
-          updateOptions={setOptionValue}
-          inStock={inStock}
-          handleAddToCart={handleAddToCart}
-          show={!inView}
-          optionsDisabled={!!disabled}
-        />
-      </Suspense>
     </div>
   )
 }

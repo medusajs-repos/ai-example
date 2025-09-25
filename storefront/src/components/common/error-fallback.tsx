@@ -14,10 +14,10 @@ const ErrorFallback = ({ error, reset }: ErrorFallbackProps) => {
   return (
     <div className="content-container py-16">
       <div className="max-w-2xl mx-auto">
-        <div className="bg-primary-bg border border-primary-border rounded-lg shadow-sm p-8">
+        <div className="bg-primary-bg border border-primary-border rounded-md shadow-sm p-8">
           <div className="w-16 h-16 mx-auto mb-6 bg-error-bg rounded-full flex items-center justify-center">
             <svg
-              className="w-8 h-8 text-error-text"
+              className="w-8 h-8 text-error-on-color"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -40,9 +40,9 @@ const ErrorFallback = ({ error, reset }: ErrorFallbackProps) => {
             </p>
           </div>
 
-          <div className="flex flex-col small:flex-row gap-3 justify-center mb-6">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
             {reset && (
-              <Button variant="secondary" onClick={reset} className="small:w-auto">
+              <Button variant="secondary" onClick={reset} className="sm:w-auto">
                 <svg
                   className="w-4 h-4 mr-2"
                   fill="none"
@@ -60,7 +60,7 @@ const ErrorFallback = ({ error, reset }: ErrorFallbackProps) => {
               </Button>
             )}
             <Link to="/">
-              <Button className="w-full small:w-auto">
+              <Button className="w-full sm:w-auto">
                 <svg
                   className="w-4 h-4 mr-2"
                   fill="none"

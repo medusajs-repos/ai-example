@@ -49,7 +49,7 @@ const AccountNav = () => {
   return (
     <div>
       {/* Mobile menu button */}
-      <div className="small:hidden">
+      <div className="sm:hidden">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="flex items-center gap-x-2 txt-small py-2"
@@ -60,9 +60,9 @@ const AccountNav = () => {
       </div>
 
       {/* Navigation */}
-      <div className={clx("small:block", { hidden: !isOpen })}>
-        <div className="pb-12 small:pb-0">
-          <h3 className="txt-medium-plus text-primary-text mb-4 small:mb-8">
+      <div className={clx("sm:block", { hidden: !isOpen })}>
+        <div className="pb-12 sm:pb-0">
+          <h3 className="txt-medium-plus text-primary-text mb-4 sm:mb-8">
             Account
           </h3>
           <div className="txt-medium">

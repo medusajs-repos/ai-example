@@ -24,7 +24,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       </div>
       
       <div className="flex txt-compact-medium mt-4 justify-between">
-        <Text className="text-secondary-text">
+        <Text className="text-primary-text">
           {product.title}
         </Text>
         <ProductPrice 

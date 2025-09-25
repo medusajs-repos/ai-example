@@ -79,7 +79,7 @@ const ProfileName = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
       data-testid="account-name-editor"
     >
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 small:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <Input
             name="first_name"
             type="text"

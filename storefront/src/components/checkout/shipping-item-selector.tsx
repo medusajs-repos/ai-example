@@ -2,7 +2,6 @@ import { HttpTypes } from "@medusajs/types"
 import { Badge, Text } from "@medusajs/ui"
 import { Price } from "@/components/common/price"
 import Loading from "@/components/common/loading"
-import { getShippingIcon } from "@/lib/utils/checkout/get-shipping-icon"
 import { useEffect, useState } from "react"
 import { calculatePriceForShippingOption } from "@/lib/data/checkout/shipping"
 
@@ -40,15 +39,15 @@ const ShippingItemSelector = ({
 
   return (
     <label
-      className={`block transition-all duration-200 rounded-lg ${
+      className={`block transition-all duration-200 rounded-md ${
         isDisabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
       }`}
     >
       <div
-        className={`flex items-center justify-between p-5 border rounded-lg hover:border-primary-border-strong transition-colors ${
+        className={`flex items-center justify-between p-5 border rounded-md transition-colors ${
           isSelected
             ? "border-accent-text bg-secondary-bg"
-            : "border-primary-border"
+            : "border-primary-border hover:border-primary-border-strong"
         }`}
       >
         <div className="flex items-center gap-4">
@@ -73,9 +72,7 @@ const ShippingItemSelector = ({
                 <div className="w-2 h-2 bg-primary-bg rounded-full"></div>
               )}
             </div>
-          </div>
-
-          {getShippingIcon(shippingOption)}
+          </div>  
 
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">

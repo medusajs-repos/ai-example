@@ -20,7 +20,7 @@ const CartDetailsLoading = () => {
           <div className="space-y-4">
             <div className="flex gap-4">
               {/* Product Image */}
-              <div className="w-20 h-20 bg-secondary-bg rounded-lg flex items-center justify-center">
+              <div className="w-20 h-20 bg-secondary-bg rounded-md flex items-center justify-center">
                 <Loading rows={1} height="h-6" width="w-6" />
               </div>
               
@@ -46,7 +46,7 @@ const CartDetailsLoading = () => {
           <div className="space-y-4">
             <div className="flex gap-4">
               {/* Product Image */}
-              <div className="w-20 h-20 bg-secondary-bg rounded-lg flex items-center justify-center">
+              <div className="w-20 h-20 bg-secondary-bg rounded-md flex items-center justify-center">
                 <Loading rows={1} height="h-6" width="w-6" />
               </div>
               
@@ -72,7 +72,7 @@ const CartDetailsLoading = () => {
           <div className="space-y-4">
             <div className="flex gap-4">
               {/* Product Image */}
-              <div className="w-20 h-20 bg-secondary-bg rounded-lg flex items-center justify-center">
+              <div className="w-20 h-20 bg-secondary-bg rounded-md flex items-center justify-center">
                 <Loading rows={1} height="h-6" width="w-6" />
               </div>
               

@@ -17,7 +17,7 @@ const AccountContainer = ({
   backLink,
 }: AccountContainerProps) => {
   return (
-    <div className="px-6 py-2 small:px-8 small:py-2 max-w-4xl mx-auto">
+    <div className="px-6 py-2 sm:px-8 sm:py-2 max-w-4xl mx-auto">
       <div className="mb-12 flex flex-col gap-y-6">
         {backLink && (
           <a

@@ -36,7 +36,7 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
             {paymentInfoMap[paymentProviderId]?.title || paymentProviderId}
           </Text>
           {isManual(paymentProviderId) && (
-            <span className="txt-xsmall bg-orange-100 text-orange-400 px-2 py-1 rounded hidden small:block">
+            <span className="txt-xsmall bg-orange-100 text-orange-400 px-2 py-1 rounded hidden sm:block">
               Test Mode
             </span>
           )}

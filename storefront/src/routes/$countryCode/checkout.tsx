@@ -1,12 +1,12 @@
 import { createFileRoute, notFound } from "@tanstack/react-router"
 import Checkout from "@/pages/checkout"
 import { getRegion } from "@/lib/data/regions"
-import { CheckoutStep } from "@/lib/types/global"
+import { CheckoutStepKey } from "@/lib/types/global"
 
 export const Route = createFileRoute("/$countryCode/checkout")({
   validateSearch: (search) => {
     let step = search.step
-    if (!Object.values(CheckoutStep).includes(step as CheckoutStep)) {
+    if (!Object.values(CheckoutStepKey).includes(step as CheckoutStepKey)) {
       step = "addresses"
     }
     return {

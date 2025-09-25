@@ -4,6 +4,7 @@ import CartDetailsLoading from "@/components/cart/cart-details-loading"
 import { lazy, Suspense } from "react"
 import { Button } from "@/components/common/button"
 import { sortCartItems } from "@/lib/utils/cart/sort-cart-items"
+import { Heading } from "@medusajs/ui"
 
 const CartItem = lazy(() => import("@/components/cart/cart-line-item"))
 const CartSummary = lazy(() => import("@/components/cart/cart-summary"))
@@ -29,56 +30,57 @@ const Cart = () => {
   const cartItems = sortCartItems(cart?.items || [])
 
   return (
-    <div className="content-container py-12 max-w-4xl">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="txt-xlarge-plus text-primary-text">Cart</h1>
-          {cartItems.length > 0 && (
-            <Link
-              to={`/${countryCode}/store` as any}
-              className="text-secondary-text hover:text-secondary-text-hover txt-small underline"
-            >
-              Continue shopping
-            </Link>
-          )}
-        </div>
-
-        {cartLoading ? <CartDetailsLoading /> : cartItems.length === 0 ? (
-          <CartEmpty />
-        ) : (
-          <Suspense fallback={<CartDetailsLoading />}>
-            <div className="space-y-8">
-              <div className="space-y-6">
-                {cartItems.map((item, index) => (
-                  <div key={item.id}>
-                    <CartItem item={item} cart={cart!} fields={DEFAULT_CART_FIELDS} />
-                    {index < cartItems.length - 1 && (
-                      <hr className="bg-primary-border mt-6" />
-                    )}
-                  </div>
-                ))}
+    <div className="content-container py-12">
+      {cartLoading ? <CartDetailsLoading /> : cartItems.length === 0 ? (
+        <CartEmpty />
+      ) : (
+        <Suspense fallback={<CartDetailsLoading />}>
+          <div className="flex flex-col md:flex-row gap-8">
+            <div className="space-y-6 w-full md:w-2/3">
+              <div className="flex items-center justify-between mb-8">
+                <Heading level="h1">Cart</Heading>
+                {cartItems.length > 0 && (
+                  <Link
+                    to={`/${countryCode}/store` as any}
+                    className="text-secondary-text hover:text-secondary-text-hover txt-small underline"
+                  >
+                    Continue shopping
+                  </Link>
+                )}
               </div>
-
-              {cart && (
-                <div className="border-t border-primary-border pt-8">
-                  <div className="max-w-sm ml-auto flex flex-col gap-y-4">
-                    <CartSummary cart={cart} />
-
-                    <CartPromo cart={cart} />
-
-                    <hr className="bg-primary-border" />
-
-                    <Button asChild className="w-full">
-                      <Link to={`/${countryCode}/checkout` as any}>
-                        Checkout
-                      </Link>
-                    </Button>
-                  </div>
+              {cartItems.map((item, index) => (
+                <div key={item.id}>
+                  <CartItem item={item} cart={cart!} fields={DEFAULT_CART_FIELDS} />
+                  {index < cartItems.length - 1 && (
+                    <hr className="bg-primary-border mt-6" />
+                  )}
                 </div>
-              )}
+              ))}
             </div>
-          </Suspense>
-        )}
-      </div>
+
+            {cart && (
+              <div className="flex flex-col gap-y-8 w-full md:w-1/3">
+                <div>
+                  <Heading level="h2">Cart Summary</Heading>
+                </div>
+                
+                <div className="flex flex-col gap-y-4">
+                  <CartSummary cart={cart} />
+
+                  <CartPromo cart={cart} />
+                </div>
+
+                <Button asChild className="w-full">
+                  <Link to={`/${countryCode}/checkout` as any}>
+                    Checkout
+                  </Link>
+                </Button>
+              </div>
+            )}
+          </div>
+        </Suspense>
+      )}
+    </div>
   )
 }
 

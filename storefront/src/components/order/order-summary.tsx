@@ -18,6 +18,7 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
           <Price
             price={order.subtotal}
             currencyCode={order.currency_code}
+            className="text-secondary-text"
           />
         </div>
         
@@ -26,6 +27,7 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
           <Price
             price={order.shipping_total}
             currencyCode={order.currency_code}
+            className="text-secondary-text"
           />
         </div>
 
@@ -35,6 +37,7 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
             price={order.discount_total}
             currencyCode={order.currency_code}
             type="discount"
+            className="text-secondary-text"
           />
         </div>
         
@@ -43,6 +46,7 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
           <Price
             price={order.tax_total}
             currencyCode={order.currency_code}
+          className="text-secondary-text"
           />
         </div>
       </div>
@@ -50,7 +54,7 @@ const OrderSummary = ({ order }: OrderSummaryProps) => {
       <hr className="bg-primary-border" />
       
       <div className="flex justify-between">
-        <span className="text-primary-text">Total</span>
+        <span className="text-primary-text txt-small">Total</span>
         <Price
           price={order.total}
           currencyCode={order.currency_code}

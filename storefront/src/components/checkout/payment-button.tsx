@@ -8,9 +8,10 @@ import { useState } from "react"
 
 type PaymentButtonProps = {
   cart: HttpTypes.StoreCart;
+  className?: string;
 };
 
-const PaymentButton = ({ cart }: PaymentButtonProps) => {
+const PaymentButton = ({ cart, className }: PaymentButtonProps) => {
   const notReady =
     !cart ||
     !cart.shipping_address ||
@@ -23,9 +24,9 @@ const PaymentButton = ({ cart }: PaymentButtonProps) => {
 
   switch (true) {
     case isStripe(paymentSession?.provider_id):
-      return <StripePaymentButton notReady={notReady} />
+      return <StripePaymentButton notReady={notReady} className={className} />
     case isManual(paymentSession?.provider_id):
-      return <ManualPaymentButton notReady={notReady} />
+      return <ManualPaymentButton notReady={notReady} className={className} />
     default:
       return <Button disabled>Select a payment method</Button>
   }
@@ -33,8 +34,10 @@ const PaymentButton = ({ cart }: PaymentButtonProps) => {
 
 const StripePaymentButton = ({
   notReady,
+  className,
 }: {
   notReady: boolean;
+  className?: string;
 }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const navigate = useNavigate()
@@ -69,6 +72,7 @@ const StripePaymentButton = ({
         onClick={handlePayment}
         isLoading={completeOrderMutation.isPending}
         data-testid="place-order-button"
+        className={className}
       >
         Place Order
       </Button>
@@ -81,8 +85,10 @@ const StripePaymentButton = ({
 
 const ManualPaymentButton = ({
   notReady,
+  className,
 }: {
   notReady: boolean;
+  className?: string;
 }) => {
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
@@ -119,6 +125,7 @@ const ManualPaymentButton = ({
         isLoading={submitting}
         onClick={handlePayment}
         data-testid="place-order-button"
+        className={className}
       >
         Place Order
       </Button>

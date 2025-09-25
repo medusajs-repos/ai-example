@@ -147,7 +147,7 @@ const OrderItem = ({ order, baseHref }: OrderCardProps) => {
               )
             })}
             {numberOfProducts > 5 && (
-              <div className="w-12 h-12 rounded-lg border border-primary-border bg-secondary-bg flex items-center justify-center txt-xsmall text-secondary-text">
+              <div className="w-12 h-12 rounded-md border border-primary-border bg-secondary-bg flex items-center justify-center txt-xsmall text-secondary-text">
                 +{numberOfProducts - 5}
               </div>
             )}

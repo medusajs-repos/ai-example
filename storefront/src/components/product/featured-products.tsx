@@ -15,12 +15,8 @@ const FeaturedProducts = () => {
     region_id: region?.id,
   })
 
-  if (!latestProducts?.products.length && !isLoading) {
-    return <></>
-  }
-
   return (
-    <section className="py-20 bg-primary-bg mb-16">
+    <section className="py-20 bg-primary-bg">
       <div className="content-container">
         <div className="text-center mb-16">
           <h2 className="txt-xlarge-plus text-primary-text mb-4">
@@ -30,12 +26,12 @@ const FeaturedProducts = () => {
             Discover our newest arrivals, carefully curated just for you
           </p>
         </div>
-        {isLoading && <Loading rows={4} />}
-        <div className="grid grid-cols-1 small:grid-cols-2 lg:grid-cols-4 gap-8">
+        {isLoading && <Loading rows={10} columns={4} />}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {latestProducts?.products.map((product) => (
             <div
               key={product.id}
-              className="transform transition-transform duration-300"
+              className="transform transition-transform duration-300 w-full"
             >
               <ProductCard product={product} />
             </div>
@@ -44,7 +40,7 @@ const FeaturedProducts = () => {
 
         <div className="text-center mt-12">
           <Link to={`/${countryCode}/store` as any}>
-            <Button variant="primary">
+            <Button variant="transparent">
               View All Products
               <ChevronRight />
             </Button>

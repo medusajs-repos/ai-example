@@ -1,5 +1,4 @@
 import { HttpTypes } from "@medusajs/types"
-import { Heading } from "@medusajs/ui"
 import { lazy, Suspense } from "react"
 import Loading from "@/components/common/loading"
 
@@ -13,28 +12,24 @@ interface CheckoutSummaryProps {
 
 const CheckoutSummary = ({ cart }: CheckoutSummaryProps) => {
   return (
-    <div className="bg-primary-bg p-6 rounded-lg border border-primary-border h-fit sticky top-6">
-      <Heading level="h3" className="mb-6">
-        Order Summary
-      </Heading>
-      
-      <Suspense fallback={<Loading />}>
-        <div className="space-y-4 mb-6">
-          {cart.items?.map((item) => (
-            <CartLineItem key={item.id} item={item} cart={cart} type="display" />
-          ))}
-        </div>
-      </Suspense>
+    <div className="h-fit sticky lg:top-20">
+      <div className="flex flex-col gap-8">
+        <Suspense fallback={<Loading />}>
+          <div className="space-y-4">
+            {cart.items?.map((item) => (
+              <CartLineItem key={item.id} item={item} cart={cart} type="display" className="first:pt-0" />
+            ))}
+          </div>
+        </Suspense>
 
-      <Suspense fallback={<Loading />}>
-        <CartSummary cart={cart} />
-      </Suspense>
+        <Suspense fallback={<Loading />}>
+          <CartSummary cart={cart} />
+        </Suspense>
 
-      <hr className="my-4 border-primary-border" />
-
-      <Suspense fallback={<Loading />}>
-        <CartPromo cart={cart} />
-      </Suspense>
+        <Suspense fallback={<Loading />}>
+          <CartPromo cart={cart} />
+        </Suspense>
+      </div>
     </div>
   )
 }

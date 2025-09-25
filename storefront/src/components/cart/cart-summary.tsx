@@ -18,6 +18,7 @@ const CartSummary = ({ cart }: CartSummaryProps) => {
           <Price
             price={cart.subtotal}
             currencyCode={cart.currency_code}
+            className="text-secondary-text"
           />
         </div>
         
@@ -26,6 +27,7 @@ const CartSummary = ({ cart }: CartSummaryProps) => {
           <Price
             price={cart.shipping_total}
             currencyCode={cart.currency_code}
+            className="text-secondary-text"
           />
         </div>
 
@@ -35,6 +37,7 @@ const CartSummary = ({ cart }: CartSummaryProps) => {
             price={cart.discount_total}
             currencyCode={cart.currency_code}
             type="discount"
+            className="text-secondary-text"
           />
         </div>
         
@@ -43,17 +46,19 @@ const CartSummary = ({ cart }: CartSummaryProps) => {
           <Price
             price={cart.tax_total}
             currencyCode={cart.currency_code}
+            className="text-secondary-text"
           />
         </div>
       </div>
       
       <hr className="bg-primary-border" />
       
-      <div className="flex justify-between">
+      <div className="flex justify-between txt-small">
         <span className="text-primary-text">Total</span>
         <Price
           price={cart.total}
           currencyCode={cart.currency_code}
+          className="text-primary-text"
         />
       </div>
     </div>

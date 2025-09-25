@@ -1,13 +1,14 @@
 import { HttpTypes } from "@medusajs/types"
 import { Input, Label, Select, clx } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { countries } from "@/lib/constants/countries"
 
 interface AddressFormProps {
   addressFormData: HttpTypes.StoreCreateCustomerAddress | HttpTypes.StoreAddAddress
   setAddressFormData: React.Dispatch<React.SetStateAction<HttpTypes.StoreCreateCustomerAddress | HttpTypes.StoreAddAddress | Record<string, any>>>
   shouldHandleSubmit?: boolean
+  setIsFormValid?: (isValid: boolean) => void
   onSubmit?: ((
     address: HttpTypes.StoreCreateCustomerAddress
     ) => void) | ((
@@ -23,6 +24,7 @@ const AddressForm = ({
   addressFormData, 
   setAddressFormData, 
   shouldHandleSubmit = false, 
+  setIsFormValid,
   onSubmit, 
   onCancel, 
   isLoading,
@@ -30,6 +32,7 @@ const AddressForm = ({
   className
 }: AddressFormProps) => {
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
 
   const handleChange = (field: string, value: string) => {
     setAddressFormData(prev => ({ ...prev, [field]: value }))
@@ -37,7 +40,12 @@ const AddressForm = ({
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: "" }))
     }
+    setTouchedFields(prev => ({ ...prev, [field]: true }))
   }
+
+  useEffect(() => {
+    validateForm()
+  }, [addressFormData])
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
@@ -48,9 +56,13 @@ const AddressForm = ({
     if (!addressFormData.city?.trim()) newErrors.city = "City is required"
     if (!addressFormData.postal_code?.trim()) newErrors.postal_code = "Postal code is required"
     if (!addressFormData.country_code?.trim()) newErrors.country_code = "Country is required"
+    const countryCodeExists = countriesInput.some((country) => country.code === addressFormData.country_code)
+    if (!countryCodeExists) newErrors.country_code = "Country is invalid"
 
     setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
+    const isValid = Object.keys(newErrors).length === 0
+    setIsFormValid?.(isValid)
+    return isValid
   }
 
   const handleSubmit = () => {
@@ -75,8 +87,8 @@ const AddressForm = ({
     <div className={clx("space-y-4", className)}>
       {/* Name fields */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="first_name" className="block txt-small-plus mb-2">
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="first_name" className="block txt-small-plus">
             First Name
           </Label>
           <Input
@@ -88,12 +100,12 @@ const AddressForm = ({
             onChange={(e) => handleChange("first_name", e.target.value)}
             placeholder="First name"
           />
-          {errors.first_name && (
+          {errors.first_name && touchedFields.first_name && (
             <div className="text-error-text txt-small mt-1">{errors.first_name}</div>
           )}
         </div>
-        <div>
-          <Label htmlFor="last_name" className="block txt-small-plus mb-2">
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="last_name" className="block txt-small-plus">
             Last Name
           </Label>
           <Input
@@ -105,15 +117,15 @@ const AddressForm = ({
             onChange={(e) => handleChange("last_name", e.target.value)}
             placeholder="Last name"
           />
-          {errors.last_name && (
+          {errors.last_name && touchedFields.last_name && (
             <div className="text-error-text txt-small mt-1">{errors.last_name}</div>
           )}
         </div>
       </div>
 
       {/* Company */}
-      <div>
-        <Label htmlFor="company" className="block txt-small-plus mb-2">
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="company" className="block txt-small-plus">
           Company
         </Label>
         <Input
@@ -128,8 +140,8 @@ const AddressForm = ({
       </div>
 
       {/* Address fields */}
-      <div>
-        <Label htmlFor="address_1" className="block txt-small-plus mb-2">
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="address_1" className="block txt-small-plus">
           Address Line 1
         </Label>
         <Input
@@ -141,13 +153,13 @@ const AddressForm = ({
           onChange={(e) => handleChange("address_1", e.target.value)}
           placeholder="Address line 1"
         />
-        {errors.address_1 && (
+        {errors.address_1 && touchedFields.address_1 && (
           <div className="text-error-text txt-small mt-1">{errors.address_1}</div>
         )}
       </div>
 
-      <div>
-        <Label htmlFor="address_2" className="block txt-small-plus mb-2">
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="address_2" className="block txt-small-plus">
           Address Line 2
         </Label>
         <Input
@@ -162,8 +174,8 @@ const AddressForm = ({
 
       {/* City, Province, Postal Code */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div>
-          <Label htmlFor="city" className="block txt-small-plus mb-2">
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="city" className="block txt-small-plus">
             City
           </Label>
           <Input
@@ -175,12 +187,12 @@ const AddressForm = ({
             onChange={(e) => handleChange("city", e.target.value)}
             placeholder="City"
           />
-          {errors.city && (
+          {errors.city && touchedFields.city && (
             <div className="text-error-text txt-small mt-1">{errors.city}</div>
           )}
         </div>
-        <div>
-          <Label htmlFor="province" className="block txt-small-plus mb-2">
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="province" className="block txt-small-plus">
             State / Province
           </Label>
           <Input
@@ -193,8 +205,8 @@ const AddressForm = ({
             placeholder="State / Province"
           />
         </div>
-        <div>
-          <Label htmlFor="postal_code" className="block txt-small-plus mb-2">
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="postal_code" className="block txt-small-plus">
             Postal Code
           </Label>
           <Input
@@ -206,14 +218,14 @@ const AddressForm = ({
             onChange={(e) => handleChange("postal_code", e.target.value)}
             placeholder="Postal code"
           />
-          {errors.postal_code && (
+          {errors.postal_code && touchedFields.postal_code && (
             <div className="text-error-text txt-small mt-1">{errors.postal_code}</div>
           )}
         </div>
       </div>
 
       {/* Country */}
-      <div>
+      <div className="flex flex-col gap-2">
         <label className="block txt-small-plus text-primary-text mb-2">
           Country
         </label>
@@ -233,14 +245,14 @@ const AddressForm = ({
             ))}
           </Select.Content>
         </Select>
-        {errors.country_code && (
+        {errors.country_code && touchedFields.country_code && (
           <div className="text-error-text txt-small mt-1">{errors.country_code}</div>
         )}
       </div>
 
       {/* Phone */}
-      <div>
-        <Label htmlFor="phone" className="block txt-small-plus mb-2">
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="phone" className="block txt-small-plus">
           Phone
         </Label>
         <Input

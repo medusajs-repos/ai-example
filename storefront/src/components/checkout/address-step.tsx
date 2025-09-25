@@ -1,9 +1,10 @@
-import { useState } from "react"
-import { Heading, Input, Label, Checkbox } from "@medusajs/ui"
+import { useEffect, useState } from "react"
+import { Input, Label, Checkbox, Heading } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
 import { HttpTypes } from "@medusajs/types"
 import { useSetCartAddresses } from "@/lib/hooks/dynamic/checkout/use-addresses"
 import AddressForm from "@/components/common/address-form"
+import { getStoredCountryCode } from "@/lib/utils/regions/stored-country-code"
 
 interface AddressStepProps {
   cart: HttpTypes.StoreCart
@@ -14,7 +15,10 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
   const setAddressesMutation = useSetCartAddresses()
   const [sameAsBilling, setSameAsBilling] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isShippingAddressValid, setIsShippingAddressValid] = useState(false)
+  const [isBillingAddressValid, setIsBillingAddressValid] = useState(false)
   const [email, setEmail] = useState(cart.email || "")
+  const storedCountryCode = getStoredCountryCode()
   const [shippingAddress, setShippingAddress] = useState<Record<string, any>>({
     first_name: cart.shipping_address?.first_name || "",
     last_name: cart.shipping_address?.last_name || "",
@@ -24,7 +28,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
     city: cart.shipping_address?.city || "",
     postal_code: cart.shipping_address?.postal_code || "",
     province: cart.shipping_address?.province || "",
-    country_code: cart.shipping_address?.country_code || cart.region?.countries?.[0]?.iso_2 || "",
+    country_code: cart.shipping_address?.country_code || storedCountryCode || "",
     phone: cart.shipping_address?.phone || "",
   })
   const [billingAddress, setBillingAddress] = useState<Record<string, any>>({
@@ -36,7 +40,7 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
     city: cart.billing_address?.city || "",
     postal_code: cart.billing_address?.postal_code || "",
     province: cart.billing_address?.province || "",
-    country_code: cart.billing_address?.country_code || cart.region?.countries?.[0]?.iso_2 || "",
+    country_code: cart.billing_address?.country_code || storedCountryCode || "",
     phone: cart.billing_address?.phone || "",
   })
 
@@ -74,52 +78,55 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
   }
 
   const isFormValid = () => {
-    const shipping = shippingAddress
-    const required = ["first_name", "last_name", "address_1", "city", "postal_code", "country_code"]
-    
-    const shippingValid = required.every(field => shipping[field as keyof typeof shipping]?.trim())
     const emailValid = email.trim() && email.includes("@")
-    let billingValid = true
     
-    if (!sameAsBilling) {
-      const billing = billingAddress
-      billingValid = required.every(field => billing[field as keyof typeof billing]?.trim())
-    }
-    
-    return shippingValid && emailValid && billingValid
+    return emailValid && isShippingAddressValid && (isBillingAddressValid || sameAsBilling)
   }
 
+  useEffect(() => {
+    if (!cart.region) {
+      return
+    }
+
+    const isValidShippingAddressCountry = cart.region.countries?.some(
+      (country) => country.iso_2 === shippingAddress.country_code
+    )
+    if (!isValidShippingAddressCountry) {
+      setShippingAddress((prev) => ({
+        ...prev,
+        country_code: storedCountryCode || "",
+      }))
+    }
+
+    const isValidBillingAddressCountry = cart.region.countries?.some(
+      (country) => country.iso_2 === billingAddress.country_code
+    )
+    if (!isValidBillingAddressCountry) {
+      setBillingAddress((prev) => ({
+        ...prev,
+        country_code: storedCountryCode || "",
+      }))
+    }
+  }, [cart.region, storedCountryCode])
+
   return (
-    <div>
-      <Heading level="h2" className="mb-6">
-        Shipping
-      </Heading>
-      
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Email */}
-        <div>
-          <Label htmlFor="email" className="block txt-small-plus mb-2">
-            Email Address
-          </Label>
-          <Input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="your@email.com"
-            className="w-full"
+    <div className="flex flex-col gap-8">    
+      <form onSubmit={handleSubmit} className="flex flex-col gap-8">
+        <div className="flex flex-col gap-2">
+          <Heading level="h3" className="text-primary-text !txt-medium-plus">
+            Shipping Address
+          </Heading>
+          {/* Shipping Address */}
+          <AddressForm
+            addressFormData={shippingAddress}
+            setAddressFormData={setShippingAddress}
+            countries={cart.region?.countries}
+            setIsFormValid={setIsShippingAddressValid}
           />
         </div>
 
-        {/* Shipping Address */}
-        <AddressForm
-          addressFormData={shippingAddress}
-          setAddressFormData={setShippingAddress}
-          countries={cart.region?.countries}
-        />
-
         {/* Billing Address Checkbox */}
-        <div className="flex items-center gap-x-2 mb-0">
+        <div className="flex items-center gap-x-2">
           <Checkbox
             id="same_as_billing"
             checked={sameAsBilling}
@@ -132,21 +139,44 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
 
         {/* Billing Address (if different) */}
         {!sameAsBilling && (
-          <AddressForm
-            addressFormData={billingAddress}
-            setAddressFormData={setBillingAddress}
-            countries={cart.region?.countries}
-            className="mt-6"
-          />
+          <div className="flex flex-col gap-2">
+            <Heading level="h3" className="text-primary-text !txt-medium-plus">
+              Billing Address
+            </Heading>
+            <AddressForm
+              addressFormData={billingAddress}
+              setAddressFormData={setBillingAddress}
+              countries={cart.region?.countries}
+              setIsFormValid={setIsBillingAddressValid}
+            />
+          </div>
         )}
 
-        <div className="flex justify-end">
+        {/* Email */}
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="email" className="block txt-small-plus">
+            Email Address
+          </Label>
+          <Input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="your@email.com"
+            className="w-full"
+          />
+          <p className="txt-xsmall text-secondary-text">
+            You'll receive order updates to this email.
+          </p>
+        </div>
+
+        <div className="flex">
           <Button
             type="submit"
             disabled={!isFormValid() || isSubmitting}
             isLoading={isSubmitting}
           >
-            Continue to Delivery
+            Next
           </Button>
         </div>
       </form>

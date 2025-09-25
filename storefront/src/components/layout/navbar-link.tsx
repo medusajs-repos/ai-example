@@ -9,7 +9,7 @@ type NavbarLinkProps = {
 
 export const NavbarLink = ({ to, children, className }: NavbarLinkProps) => {
   return <Link to={to} className={clx(
-    "hover:text-primary-text-hover",
+    "text-secondary-text hover:text-secondary-text-hover",
     className
   )}>{children}</Link>
 }

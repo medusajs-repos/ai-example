@@ -38,7 +38,7 @@ export default function RelatedProducts({
         </p>
       </div>
 
-      <ul className="grid grid-cols-2 small:grid-cols-3 gap-x-6 gap-y-8">
+      <ul className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-8">
         {relatedProducts.slice(0, 8).map((relatedProduct) => (
           <li key={relatedProduct.id}>
             <ProductCard product={relatedProduct} />

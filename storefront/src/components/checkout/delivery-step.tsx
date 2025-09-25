@@ -2,13 +2,11 @@ import {
   useSetCartShippingMethod,
   useShippingOptions,
 } from "@/lib/hooks/dynamic/checkout/use-shipping"
-import { MapPin } from "@medusajs/icons"
 import { HttpTypes } from "@medusajs/types"
-import { Heading, Text, toast } from "@medusajs/ui"
+import { toast } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
 import { useEffect, useState } from "react"
 import ShippingItemSelector from "@/components/checkout/shipping-item-selector"
-import Address from "@/components/common/address"
 
 interface DeliveryStepProps {
   cart: HttpTypes.StoreCart;
@@ -55,12 +53,8 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
   }
 
   return (
-    <div>
-    <Heading level="h2" className="mb-6">
-      Delivery
-    </Heading>
-
-      <div className="space-y-3 mb-8">
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-3">
         {shippingOptions?.map((option) => (
           <ShippingItemSelector
             key={option.id}
@@ -70,22 +64,9 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
             cart={cart}
           />
         ))}
-      </div>
+      </div>  
 
-      {/* Shipping Address Summary */}
-      {cart.shipping_address && (
-        <div className="mb-8 p-4 bg-secondary-bg rounded-lg">
-          <div className="flex items-center gap-2 mb-2">
-            <MapPin className="text-secondary-text" />
-            <Text className="txt-small-plus text-primary-text">
-              Delivering to:
-            </Text>
-          </div>
-          <Address address={cart.shipping_address} />
-        </div>
-      )}
-
-      <div className="flex items-center justify-between">
+      <div className="flex items-center gap-4">
         <Button variant="secondary" onClick={onBack} disabled={isSubmitting}>
           Back
         </Button>
@@ -94,7 +75,7 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
           disabled={!selectedOptionId || isSubmitting}
           isLoading={isSubmitting}
         >
-          {isSubmitting ? "Saving..." : "Continue to Payment →"}
+          Next
         </Button>
       </div>
     </div>

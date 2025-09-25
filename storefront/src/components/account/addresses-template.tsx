@@ -33,7 +33,7 @@ const AddressesTemplate = ({ customer }: AddressesTemplateProps) => {
       </div>
 
       {isAdding && (
-        <div className="border border-secondary-border rounded-lg p-8 bg-secondary-bg">
+        <div className="border border-secondary-border rounded-md p-8 bg-secondary-bg">
           <h3 className="txt-large-plus text-primary-text mb-6">Add new address</h3>
           <AddAddressForm
             onSuccess={() => setIsAdding(false)}
@@ -43,7 +43,7 @@ const AddressesTemplate = ({ customer }: AddressesTemplateProps) => {
       )}
 
       {addresses.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 border border-secondary-border rounded-lg bg-secondary-bg">
+        <div className="flex flex-col items-center justify-center py-20 border border-secondary-border rounded-md bg-secondary-bg">
           <div className="text-center">
             <p className="txt-large text-secondary-text mb-2">You haven't saved any addresses yet.</p>
             <p className="txt-medium text-secondary-text">Add an address to make checkout faster.</p>
@@ -84,7 +84,7 @@ const AddressCard = ({ address, customer }: AddressCardProps) => {
   }
 
   return (
-    <div className="border border-secondary-border rounded-lg p-8 bg-secondary-bg hover:shadow-md transition-shadow">
+    <div className="border border-secondary-border rounded-md p-8 bg-secondary-bg hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between mb-6">
         <div className="flex flex-col gap-y-2">
           <div className="txt-large-plus text-primary-text">

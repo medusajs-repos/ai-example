@@ -40,11 +40,11 @@ const CartPromo = ({ cart }: CartPromoProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-wrap gap-2">
       {cart.promotions.length > 0 && (
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {cart.promotions.map((promotion) => (
-            <Badge key={promotion.code} color="grey">
+            <Badge key={promotion.code} color="grey" size="small">
               {promotion.code}
               <XMark 
                 onClick={() => handleRemove(promotion.code || "")} 
@@ -55,7 +55,11 @@ const CartPromo = ({ cart }: CartPromoProps) => {
         </div>
       )}
       {!showInput && (
-        <Button onClick={() => setShowInput(true)} variant="secondary">
+        <Button 
+          onClick={() => setShowInput(true)} 
+          variant="transparent" 
+          className="text-secondary-text p-0 underline hover:bg-transparent hover:text-secondary-text-hover"
+        >
           Add promo code
         </Button>
       )}
@@ -68,8 +72,14 @@ const CartPromo = ({ cart }: CartPromoProps) => {
             value={promoCode}
             onChange={(e) => setPromoCode(e.target.value)}
           />
-          <Button onClick={handleApply} variant="secondary">
+          <Button onClick={handleApply} variant="primary">
             Apply
+          </Button>
+          <Button
+            onClick={() => setShowInput(false)}
+            variant="secondary"
+          >
+            Cancel
           </Button>
         </div>
       )}

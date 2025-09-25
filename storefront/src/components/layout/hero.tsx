@@ -1,34 +1,40 @@
-import { Github } from "@medusajs/icons"
 import { Heading } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
+import { Link } from "@tanstack/react-router"
 
 const Hero = () => {
   return (
     <div className="h-[75vh] w-full border-b border-primary-border relative bg-secondary-bg">
-      <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center small:p-32 gap-8">
+      <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center sm:p-32 gap-8">
         <div>
           <Heading
             level="h1"
-            className="text-3xl small:text-4xl text-primary-text mb-4"
+            className="text-3xl sm:text-4xl text-primary-text mb-4"
           >
-            Ecommerce Starter Template
+            Medusa Store
           </Heading>
           <Heading
             level="h2"
-            className="!txt-xlarge small:text-2xl text-secondary-text"
+            className="!txt-xlarge sm:text-2xl text-secondary-text sm:max-w-sm text-pretty"
           >
-            Powered by Medusa and TanStack
+            Your modern commerce solution for exceptional shopping experiences.
           </Heading>
         </div>
-        <a
-          href="https://github.com/medusajs/nextjs-starter-medusa"
-          target="_blank"
-        >
-          <Button variant="secondary" className="px-6 py-3">
-            View on GitHub
-            <Github className="ml-2" />
-          </Button>
-        </a>
+        <div className="flex gap-4">
+          <Link to="/store">
+            <Button variant="primary">
+              View Products
+            </Button>
+          </Link>
+          <a
+            href="https://medusajs.com"
+            target="_blank"
+          >
+            <Button variant="secondary">
+              Learn about Medusa
+            </Button>
+          </a>
+        </div>
       </div>
     </div>
   )

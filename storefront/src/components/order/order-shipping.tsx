@@ -27,7 +27,6 @@ const OrderShipping = ({ order }: OrderShippingProps) => {
               <Price
                 price={order.shipping_methods[0].amount}
                 currencyCode={order.currency_code}
-                textWeight="plus"
                 className="text-secondary-text"
               />
             </div>

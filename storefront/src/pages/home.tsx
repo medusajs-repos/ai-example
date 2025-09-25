@@ -8,9 +8,11 @@ const Home = () => {
   return (
     <>
       <Hero />
-      <Suspense fallback={<Loading />}>
-        <FeaturedProducts />
-      </Suspense>
+      <div className="lg:min-h-[50vh]">
+        <Suspense fallback={<Loading />}>
+          <FeaturedProducts />
+        </Suspense>
+      </div>
     </>
   )
 }

@@ -2,7 +2,9 @@ import { useEffect, lazy, Suspense, useMemo } from "react"
 import { useLoaderData, useNavigate, useLocation } from "@tanstack/react-router"
 import { useCart } from "@/lib/hooks/dynamic/use-cart"
 import Loading from "@/components/common/loading"
-import { CheckoutStep } from "@/lib/types/global"
+import { CheckoutStep, CheckoutStepKey } from "@/lib/types/global"
+import CheckoutProgress from "@/components/checkout/checkout-progress"
+import { Heading } from "@medusajs/ui"
 
 const DeliveryStep = lazy(() => import("@/components/checkout/delivery-step"))
 const AddressStep = lazy(() => import("@/components/checkout/address-step"))
@@ -19,26 +21,30 @@ const Checkout = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const steps = useMemo(() => {
+  const steps: CheckoutStep[] = useMemo(() => {
     return [
       { 
-        key: CheckoutStep.ADDRESSES,
+        key: CheckoutStepKey.ADDRESSES,
         title: "Addresses", 
-        completed: !!(cart?.shipping_address && cart?.billing_address)
+        description: "Enter your shipping and billing addresses.",
+        completed: !!(cart?.shipping_address && cart?.billing_address),
       },
       { 
-        key: CheckoutStep.DELIVERY,
+        key: CheckoutStepKey.DELIVERY,
         title: "Delivery", 
+        description: "Select a shipping method.",
         completed: !!(cart?.shipping_methods?.length)
       },
       { 
-        key: CheckoutStep.PAYMENT,
+        key: CheckoutStepKey.PAYMENT,
         title: "Payment", 
+        description: "Select a payment method. You won't be charged until you place your order.",
         completed: !!(cart?.payment_collection?.payment_sessions?.length)
       },
       { 
-        key: CheckoutStep.REVIEW,
+        key: CheckoutStepKey.REVIEW,
         title: "Review", 
+        description: "Review your order details before placing your order.",
         completed: false
       },
     ]
@@ -48,7 +54,7 @@ const Checkout = () => {
     steps.findIndex((s) => s.key === step),
   [step, steps])
 
-  const goToStep = (step: CheckoutStep) => {
+  const goToStep = (step: CheckoutStepKey) => {
     navigate({
       to: `${location.pathname}?step=${step}`,
       replace: true,
@@ -61,18 +67,18 @@ const Checkout = () => {
       return
     }
     
-    if (step !== CheckoutStep.ADDRESSES && currentStepIndex >= 0 && !steps[0].completed) {
-      goToStep(CheckoutStep.ADDRESSES)
+    if (step !== CheckoutStepKey.ADDRESSES && currentStepIndex >= 0 && !steps[0].completed) {
+      goToStep(CheckoutStepKey.ADDRESSES)
       return
     }
 
-    if (step !== CheckoutStep.DELIVERY && currentStepIndex >= 1 && !steps[1].completed) {
-      goToStep(CheckoutStep.DELIVERY)
+    if (step !== CheckoutStepKey.DELIVERY && currentStepIndex >= 1 && !steps[1].completed) {
+      goToStep(CheckoutStepKey.DELIVERY)
       return
     }
 
-    if (step !== CheckoutStep.PAYMENT && currentStepIndex >= 2 && !steps[2].completed) {
-      goToStep(CheckoutStep.PAYMENT)
+    if (step !== CheckoutStepKey.PAYMENT && currentStepIndex >= 2 && !steps[2].completed) {
+      goToStep(CheckoutStepKey.PAYMENT)
       return
     }
   }, [cart, steps, location])
@@ -92,47 +98,38 @@ const Checkout = () => {
   }
 
   return (
-    <div className="content-container py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div className="content-container py-8 flex flex-col gap-8">
+      {/* Progress Steps */}
+      <CheckoutProgress
+        steps={steps}
+        currentStepIndex={currentStepIndex}
+        handleStepChange={goToStep}
+      />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-24">  
+        <div className="flex flex-col gap-1 lg:col-span-2">
+          <Heading level="h2" className="text-primary-text !txt-xlarge">
+            {steps[currentStepIndex].title}
+          </Heading>
+          <p className="txt-medium text-secondary-text">
+            {steps[currentStepIndex].description}
+          </p>
+        </div>
+        <div className="flex flex-col gap-1">
+          <Heading level="h2" className="text-primary-text !txt-xlarge">
+            Order Summary
+          </Heading>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-24">
         {/* Left Column - Checkout Steps */}
-        <div className="space-y-6">
-          {/* Progress Steps */}
-          <div className="bg-primary-bg p-6 rounded-lg border border-primary-border">
-            <div className="flex flex-wrap gap-y-4 items-center">
-              {steps.map((step, index) => (
-                <div key={step.key} className="flex items-center">
-                  <button
-                    onClick={() => goToStep(step.key)}
-                    className={`w-8 h-8 rounded-full flex items-center justify-center txt-small-plus transition-colors cursor-pointer ${
-                      index <= currentStepIndex
-                        ? "bg-accent-400 text-white hover:bg-accent-500"
-                        : step.completed
-                        ? "bg-green-500 text-white hover:bg-green-600"
-                        : "bg-secondary-bg text-secondary-text hover:bg-secondary-text-hover"
-                    }`}
-                  >
-                    {step.completed ? "✓" : index + 1}
-                  </button>
-                  <button
-                    onClick={() => goToStep(step.key)}
-                    className="ml-2 txt-small-plus hover:text-accent-400 transition-colors"
-                  >
-                    {step.title}
-                  </button>
-                  {index < steps.length - 1 && (
-                    <div className="w-8 h-px bg-primary-border mx-4" />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className="space-y-6 lg:col-span-2">
 
           <Suspense fallback={<Loading />}>
             {cartLoading && <Loading />}
             {cart && (
-              <div className="bg-primary-bg p-6 rounded-lg border border-primary-border">
+              <>
                 {/* Address Step */}
-                {step === CheckoutStep.ADDRESSES && (
+                {step === CheckoutStepKey.ADDRESSES && (
                   <AddressStep
                     cart={cart}
                     onNext={handleNext}
@@ -140,7 +137,7 @@ const Checkout = () => {
                 )}
 
                 {/* Delivery Step */}
-                {step === CheckoutStep.DELIVERY && (
+                {step === CheckoutStepKey.DELIVERY && (
                   <DeliveryStep
                     cart={cart}
                     onNext={handleNext}
@@ -149,7 +146,7 @@ const Checkout = () => {
                 )}
 
                 {/* Payment Step */}
-                {step === CheckoutStep.PAYMENT && (
+                {step === CheckoutStepKey.PAYMENT && (
                   <PaymentStep
                     cart={cart}
                     onNext={handleNext}
@@ -158,13 +155,13 @@ const Checkout = () => {
                 )}
 
                 {/* Review Step */}
-                {step === CheckoutStep.REVIEW && (
+                {step === CheckoutStepKey.REVIEW && (
                   <ReviewStep
                     cart={cart}
                     onBack={handleBack}
                   />
                 )}
-              </div>
+              </>
             )}
           </Suspense>
         </div>

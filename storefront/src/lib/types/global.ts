@@ -23,9 +23,16 @@ export type StoreFreeShippingPrice = StorePrice & {
   remaining_percentage: number;
 };
 
-export enum CheckoutStep {
+export enum CheckoutStepKey {
   ADDRESSES = "addresses",
   DELIVERY = "delivery",
   PAYMENT = "payment",
   REVIEW = "review",
+}
+
+export type CheckoutStep = {
+  key: CheckoutStepKey
+  title: string
+  description: string
+  completed: boolean
 }
