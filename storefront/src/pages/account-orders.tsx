@@ -1,23 +1,23 @@
 import AccountLayout from "@/components/account/account-layout"
 import OrdersTemplate from "@/components/account/orders-template"
 import { useCustomer } from "@/lib/hooks/dynamic/use-auth"
-import { Navigate } from "@tanstack/react-router"
+import { Navigate, useParams } from "@tanstack/react-router"
+import Loading from "@/components/common/loading"
 
 const AccountOrders = () => {
-  const { data: customer, isLoading } = useCustomer()
+  const { countryCode } = useParams({
+    from: "/$countryCode/account/orders/"
+  })
+  const { data: customer, isLoading } = useCustomer({
+    retry: false
+  })
 
   if (isLoading) {
-    return (
-      <div className="content-container py-8">
-        <div className="flex items-center justify-center h-64">
-          <div className="txt-large text-primary-text">Loading account...</div>
-        </div>
-      </div>
-    )
+    return <Loading className="max-w-sm mx-auto py-8" />
   }
 
   if (!customer) {
-    return <Navigate to="/login" />
+    return <Navigate to={`/${countryCode}/login` as any} />
   }
 
   return (

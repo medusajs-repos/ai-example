@@ -2,19 +2,25 @@ import { useLogout } from "@/lib/hooks/dynamic/use-auth"
 import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
 import { MapPin, ShoppingCart, User } from "@medusajs/icons"
 import { clx } from "@medusajs/ui"
-import { Link, useLocation } from "@tanstack/react-router"
+import { Link, useLocation, useNavigate } from "@tanstack/react-router"
 import { useState } from "react"
 
 const AccountNav = () => {
   const location = useLocation()
   const logout = useLogout()
   const [isOpen, setIsOpen] = useState(false)
-
+  const navigate = useNavigate()
   const countryCode = getCountryCodeFromPath(location.pathname)
   const baseHref = countryCode ? `/${countryCode}` : ""
 
   const handleLogout = () => {
-    logout.mutate()
+    logout.mutate(undefined, {
+      onSuccess: () => {
+        navigate({
+          to: `/${countryCode}/login` as any,
+        })
+      },
+    })
   }
 
   const route = location.pathname.split("/").pop()
@@ -61,43 +67,36 @@ const AccountNav = () => {
 
       {/* Navigation */}
       <div className={clx("sm:block", { hidden: !isOpen })}>
-        <div className="pb-12 sm:pb-0">
-          <h3 className="txt-medium-plus text-primary-text mb-4 sm:mb-8">
-            Account
-          </h3>
-          <div className="txt-medium">
-            <ul className="mb-8 gap-y-4 flex flex-col">
-              {navigation.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    to={item.href}
-                    className={clx(
-                      "flex items-center justify-between py-2 border-l pl-8 border-transparent",
-                      {
-                        "text-primary-text border-accent-text txt-medium-plus":
-                          item.current,
-                        "text-secondary-text hover:text-primary-text":
-                          !item.current,
-                      }
-                    )}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <div className="txt-small">
-              <button
-                type="button"
-                className="flex items-center justify-between py-2 border-l pl-8 border-transparent text-secondary-text hover:text-secondary-text-hover"
-                onClick={handleLogout}
-                disabled={logout.isPending}
+        <ul className="mb-8 gap-y-4 flex flex-col">
+          {navigation.map((item) => (
+            <li key={item.name}>
+              <Link
+                to={item.href}
+                className={clx(
+                  "flex items-center justify-between",
+                  {
+                    "text-primary-text hover:text-primary-text-hover txt-medium-plus":
+                      item.current,
+                    "text-secondary-text hover:text-secondary-text-hover txt-medium":
+                      !item.current,
+                  }
+                )}
               >
-                {logout.isPending ? "Logging out..." : "Log out"}
-              </button>
-            </div>
-          </div>
-        </div>
+                {item.name}
+              </Link>
+            </li>
+          ))}
+          <li>
+            <button
+              type="button"
+              className="flex items-center justify-between text-secondary-text hover:text-secondary-text-hover cursor-pointer txt-medium"
+              onClick={handleLogout}
+              disabled={logout.isPending}
+            >
+              Log out
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
   )

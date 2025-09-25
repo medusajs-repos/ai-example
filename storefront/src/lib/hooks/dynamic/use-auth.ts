@@ -8,11 +8,18 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { queryKeys } from "@/lib/utils/common/query-keys"
 
-export const useCustomer = (fields?: string) => {
+export const useCustomer = ({
+  fields,
+  retry,
+}: {
+  fields?: string;
+  retry?: boolean;
+} = {}) => {
   return useQuery({
     queryKey: queryKeys.customer.current(),
     queryFn: () => retrieveCustomer({ fields }),
     staleTime: 1000 * 60 * 10, // 10 minutes
+    retry: retry ?? true,
   })
 }
 

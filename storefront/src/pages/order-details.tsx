@@ -1,18 +1,25 @@
 import AccountLayout from "@/components/account/account-layout"
 import OrderDetails from "@/components/order/order-details"
 import { useCustomer } from "@/lib/hooks/dynamic/use-auth"
-import { useLoaderData, useLocation } from "@tanstack/react-router"
+import { Navigate, useLoaderData } from "@tanstack/react-router"
 import AccountContainer from "@/components/account/account-container"
-import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
+import Loading from "@/components/common/loading"
 
 const OrderDetailsPage = () => {
-  const { order } = useLoaderData({
+  const { countryCode, order } = useLoaderData({
     from: "/$countryCode/account/orders/details/$id"
   })
-  const { data: customer } = useCustomer()
-  const location = useLocation()
-  const countryCode = getCountryCodeFromPath(location.pathname)
-  const baseHref = countryCode ? `/${countryCode}` : ""
+  const { data: customer, isLoading } = useCustomer({
+    retry: false
+  })
+
+  if (isLoading) {
+    return <Loading className="max-w-sm mx-auto py-8" />
+  }
+
+  if (!customer) {
+    return <Navigate to={`/${countryCode}/login` as any} />
+  }
 
   return (
     <AccountLayout customer={customer}>
@@ -27,7 +34,7 @@ const OrderDetailsPage = () => {
           }
         )} • ${order.status}`}
         backLink={{
-          href: `${baseHref}/account/orders`,
+          href: `/${countryCode}/account/orders`,
           label: "Back to orders",
         }}
       >

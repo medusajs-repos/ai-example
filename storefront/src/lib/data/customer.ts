@@ -79,7 +79,7 @@ export const retrieveCustomer = async ({
   fields,
 }: {
   fields?: string;
-}): Promise<HttpTypes.StoreCustomer | null> => {
+} = {}): Promise<HttpTypes.StoreCustomer | null> => {
   const response = await sdk.store.customer.retrieve({ fields })
   return response.customer
 }

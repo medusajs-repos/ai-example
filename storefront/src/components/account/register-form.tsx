@@ -2,13 +2,16 @@ import { useState } from "react"
 import { useRegister } from "@/lib/hooks/dynamic/use-auth"
 import { Input, Label } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
+import { Link, useLocation, useNavigate } from "@tanstack/react-router"
+import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
 
 interface RegisterFormProps {
   onSuccess?: () => void
-  onSwitchToLogin?: () => void
 }
 
-const RegisterForm = ({ onSuccess, onSwitchToLogin }: RegisterFormProps) => {
+const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
+  const location = useLocation()
+  const countryCode = getCountryCodeFromPath(location.pathname) || ""
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -17,8 +20,9 @@ const RegisterForm = ({ onSuccess, onSwitchToLogin }: RegisterFormProps) => {
     confirmPassword: ""
   })
   const [error, setError] = useState("")
+  const navigate = useNavigate()
   
-  const register = useRegister()
+  const registerMutation = useRegister()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({
@@ -46,7 +50,7 @@ const RegisterForm = ({ onSuccess, onSwitchToLogin }: RegisterFormProps) => {
       return
     }
 
-    register.mutate(
+    registerMutation.mutate(
       {
         first_name: formData.firstName,
         last_name: formData.lastName,
@@ -55,6 +59,10 @@ const RegisterForm = ({ onSuccess, onSwitchToLogin }: RegisterFormProps) => {
       },
       {
         onSuccess: () => {
+          navigate({
+            to: `/${countryCode}/account` as any,
+            reloadDocument: true
+          })
           onSuccess?.()
         },
         onError: (error) => {
@@ -79,7 +87,6 @@ const RegisterForm = ({ onSuccess, onSwitchToLogin }: RegisterFormProps) => {
               type="text"
               value={formData.firstName}
               onChange={handleChange}
-              required
             />
           </div>
 
@@ -93,7 +100,6 @@ const RegisterForm = ({ onSuccess, onSwitchToLogin }: RegisterFormProps) => {
               type="text"
               value={formData.lastName}
               onChange={handleChange}
-              required
             />
           </div>
         </div>
@@ -108,7 +114,6 @@ const RegisterForm = ({ onSuccess, onSwitchToLogin }: RegisterFormProps) => {
             type="email"
             value={formData.email}
             onChange={handleChange}
-            required
           />
         </div>
 
@@ -122,7 +127,6 @@ const RegisterForm = ({ onSuccess, onSwitchToLogin }: RegisterFormProps) => {
             type="password"
             value={formData.password}
             onChange={handleChange}
-            required
           />
         </div>
 
@@ -136,7 +140,6 @@ const RegisterForm = ({ onSuccess, onSwitchToLogin }: RegisterFormProps) => {
             type="password"
             value={formData.confirmPassword}
             onChange={handleChange}
-            required
           />
         </div>
 
@@ -144,26 +147,26 @@ const RegisterForm = ({ onSuccess, onSwitchToLogin }: RegisterFormProps) => {
           <div className="text-error-text txt-small">{error}</div>
         )}
 
-        <Button
-          type="submit"
-          disabled={register.isPending}
-          variant="primary"
-        >
-          {register.isPending ? "Creating Account..." : "Create Account"}
-        </Button>
+        <div className="flex items-center justify-center">
+          <Button
+            type="submit"
+            disabled={registerMutation.isPending}
+            isLoading={registerMutation.isPending}
+            variant="primary"
+          >
+            Create Account
+          </Button>
+        </div>
 
-        {onSwitchToLogin && (
-          <p className="text-center txt-small text-secondary-text">
-            Already have an account?{" "}
-            <button
-              type="button"
-              onClick={onSwitchToLogin}
-              className="text-accent-text hover:text-accent-text-hover"
-            >
-              Sign in
-            </button>
-          </p>
-        )}
+        <p className="text-center txt-small text-secondary-text">
+          Already have an account?{" "}
+          <Link 
+            to={`/${countryCode}/login` as any} 
+            className="text-accent-text hover:text-accent-text-hover"
+          >
+            Sign in
+          </Link>
+        </p>
       </form>
     </div>
   )

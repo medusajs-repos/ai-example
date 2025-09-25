@@ -20,8 +20,8 @@ const Overview = ({ customer }: OverviewProps) => {
 
   return (
     <AccountContainer
-      title={`Hello ${customer.first_name}`}
-      description={`Welcome back to your account. Manage your profile, view orders, and update your preferences all in one place. Signed in as ${customer.email}`}
+      title={`Profile`}
+      description={`Manage your profile, view orders, and update your preferences all in one place. Signed in as ${customer.email}`}
     >
       {/* Account Stats */}
       <div className="border-b border-primary-border pb-8">
@@ -145,7 +145,7 @@ const getProfileCompletion = (customer: HttpTypes.StoreCustomer): number => {
 
   // Billing address
   if (
-    customer.addresses.length
+    customer.addresses?.length
   ) {
     filledFields++
   }

@@ -41,7 +41,7 @@ const AccountContainer = ({
           </a>
         )}
 
-        <h1 className="txt-xlarge-plus font-light text-primary-text">{title}</h1>
+        <h1 className="txt-xlarge text-primary-text">{title}</h1>
         <p className="txt-large text-secondary-text max-w-2xl leading-relaxed">
           {description}
         </p>

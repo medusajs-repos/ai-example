@@ -1,41 +1,41 @@
 import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
 import { useLogin } from "@/lib/hooks/dynamic/use-auth"
-import { useLocation, useRouter } from "@tanstack/react-router"
+import { Link, useLocation, useNavigate } from "@tanstack/react-router"
 import { useState } from "react"
 import { Input, Label } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
 
 interface LoginFormProps {
   onSuccess?: () => void;
-  onSwitchToRegister?: () => void;
 }
 
-const LoginForm = ({ onSuccess, onSwitchToRegister }: LoginFormProps) => {
+const LoginForm = ({ onSuccess }: LoginFormProps) => {
   const location = useLocation()
-  const countryCode = getCountryCodeFromPath(location.pathname) || "dk"
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const countryCode = getCountryCodeFromPath(location.pathname) || ""
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  })
   const [error, setError] = useState("")
-
-  const router = useRouter()
-  const login = useLogin()
+  const navigate = useNavigate()
+  const loginMutation = useLogin()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
 
-    if (!email || !password) {
+    if (!formData.email || !formData.password) {
       setError("Please fill in all fields")
       return
     }
 
-    login.mutate(
-      { email, password },
+    loginMutation.mutate(
+      { email: formData.email, password: formData.password },
       {
         onSuccess: () => {
-          router.navigate({
-            to: "/$countryCode/account",
-            params: { countryCode },
+          navigate({
+            to: `/${countryCode}/account` as any,
+            reloadDocument: true
           })
           onSuccess?.()
         },
@@ -60,9 +60,8 @@ const LoginForm = ({ onSuccess, onSwitchToRegister }: LoginFormProps) => {
           <Input
             id="email"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+            value={formData.email}
+            onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
           />
         </div>
 
@@ -76,34 +75,33 @@ const LoginForm = ({ onSuccess, onSwitchToRegister }: LoginFormProps) => {
           <Input
             id="password"
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
+            value={formData.password}
+            onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
           />
         </div>
 
         {error && <div className="text-error-text txt-small">{error}</div>}
 
-        <Button
-          type="submit"
-          disabled={login.isPending}
-          variant="primary"
-        >
-          {login.isPending ? "Signing in..." : "Sign In"}
-        </Button>
+        <div className="flex items-center justify-center">
+          <Button
+            type="submit"
+            disabled={loginMutation.isPending}
+            variant="primary"
+            isLoading={loginMutation.isPending}
+          >
+            Sign In
+          </Button>
+        </div>
 
-        {onSwitchToRegister && (
-          <p className="text-center txt-small text-secondary-text">
-            Don't have an account?{" "}
-            <button
-              type="button"
-              onClick={onSwitchToRegister}
-              className="text-accent-text hover:text-accent-text-hover"
-            >
-              Sign up
-            </button>
-          </p>
-        )}
+        <p className="text-center txt-small text-secondary-text">
+          Don't have an account?{" "}
+          <Link 
+            to={`/${countryCode}/register` as any} 
+            className="text-accent-text hover:text-accent-text-hover"
+          >
+            Sign up
+          </Link>
+        </p>
       </form>
     </div>
   )
