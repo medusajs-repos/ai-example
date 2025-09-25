@@ -1,4 +1,4 @@
-import { isManual, isStripe } from "@/lib/constants/constants"
+import { isManual, isStripe } from "@/lib/utils/checkout/check-payment-method"
 import { useCompleteCartOrder } from "@/lib/hooks/dynamic/checkout/use-complete-cart"
 import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
 import { HttpTypes } from "@medusajs/types"

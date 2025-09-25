@@ -1,6 +1,6 @@
 import PaymentContainer from "@/components/checkout/payment-container"
 import StripeCardContainer from "@/components/checkout/stripe-card-container"
-import { isStripe as isStripeFunc } from "@/lib/constants/constants"
+import { isStripe as isStripeFunc } from "@/lib/utils/checkout/check-payment-method"
 import { 
   useInitiateCartPaymentSession, 
   useCartPaymentMethods

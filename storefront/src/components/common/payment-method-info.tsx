@@ -1,4 +1,4 @@
-import { paymentInfoMap } from "@/lib/constants/constants"
+import { paymentMethodsData } from "@/lib/constants/payment-methods"
 
 type PaymentMethodInfoProps = {
   provider_id: string;
@@ -7,8 +7,8 @@ type PaymentMethodInfoProps = {
 const PaymentMethodInfo = ({ provider_id }: PaymentMethodInfoProps) => {
   return (
     <div className="flex items-center gap-2">
-      <span>{paymentInfoMap[provider_id]?.title || provider_id}</span>
-      {paymentInfoMap[provider_id]?.icon}
+      <span>{paymentMethodsData[provider_id]?.title || provider_id}</span>
+      {paymentMethodsData[provider_id]?.icon}
     </div>
   )
 }

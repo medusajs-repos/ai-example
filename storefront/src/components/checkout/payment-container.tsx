@@ -1,7 +1,8 @@
 import { Text } from "@medusajs/ui"
 import React from "react"
 import Radio from "@/components/common/radio"
-import { isManual, paymentInfoMap } from "@/lib/constants/constants"
+import { isManual } from "@/lib/utils/checkout/check-payment-method"
+import { paymentMethodsData } from "@/lib/constants/payment-methods"
 
 type PaymentContainerProps = {
   paymentProviderId: string
@@ -33,7 +34,7 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
         <div className="flex items-center gap-x-4">
           <Radio checked={isSelected} readOnly />
           <Text className="txt-medium">
-            {paymentInfoMap[paymentProviderId]?.title || paymentProviderId}
+            {paymentMethodsData[paymentProviderId]?.title || paymentProviderId}
           </Text>
           {isManual(paymentProviderId) && (
             <span className="txt-xsmall bg-orange-100 text-orange-400 px-2 py-1 rounded hidden sm:block">
@@ -42,7 +43,7 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
           )}
         </div>
         <span className="justify-self-end text-primary-text">
-          {paymentInfoMap[paymentProviderId]?.icon}
+          {paymentMethodsData[paymentProviderId]?.icon}
         </span>
       </div>
       {children}
