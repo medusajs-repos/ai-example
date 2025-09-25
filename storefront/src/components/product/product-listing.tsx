@@ -1,6 +1,6 @@
 import { HttpTypes } from "@medusajs/types"
 import { lazy, Suspense, useMemo, useState } from "react"
-import sortProducts, { type ProductSortOptions } from "@/lib/utils/products/sort-products"
+import sortProducts, { type ProductSortOptions } from "@/lib/utils/product/sort-products"
 import { useProducts } from "@/lib/hooks/static/use-products"
 import Loading from "@/components/common/loading"
 import ProductCard from "@/components/product/product-card"

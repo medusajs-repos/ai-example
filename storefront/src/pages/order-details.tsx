@@ -3,7 +3,7 @@ import OrderDetails from "@/components/order/order-details"
 import { useCustomer } from "@/lib/hooks/dynamic/use-auth"
 import { useLoaderData, useLocation } from "@tanstack/react-router"
 import AccountContainer from "@/components/account/account-container"
-import { getCountryCodeFromPath } from "@/lib/utils/regions/get-country-code-from-path"
+import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
 
 const OrderDetailsPage = () => {
   const { order } = useLoaderData({

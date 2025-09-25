@@ -1,7 +1,7 @@
 import {
   useCart,
 } from "@/lib/hooks/dynamic/use-cart"
-import { getCountryCodeFromPath } from "@/lib/utils/regions/get-country-code-from-path"
+import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
 import { ShoppingCart } from "@medusajs/icons"
 import { Button } from "@/components/common/button"
 import { Link, useLocation } from "@tanstack/react-router"

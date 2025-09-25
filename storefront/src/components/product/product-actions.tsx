@@ -1,6 +1,6 @@
 
 import { useAddToCart } from "@/lib/hooks/dynamic/use-cart"
-import { getCountryCodeFromPath } from "@/lib/utils/regions/get-country-code-from-path"
+import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
 import { HttpTypes } from "@medusajs/types"
 import { toast } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
@@ -9,8 +9,8 @@ import { isEqual } from "lodash-es"
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react"
 import { useProductDynamic } from "@/lib/hooks/dynamic/use-products"
 import Loading from "@/components/common/loading"
-import getVariantOptionsKeymap from "@/lib/utils/products/get-variant-options-keymap"
-import isVariantInStock from "@/lib/utils/products/is-variant-in-stock"
+import getVariantOptionsKeymap from "@/lib/utils/product/get-variant-options-keymap"
+import isVariantInStock from "@/lib/utils/product/is-variant-in-stock"
 import { DEFAULT_CART_DROPDOWN_FIELDS } from "@/components/cart/cart-dropdown"
 
 const ProductPrice = lazy(() => import("@/components/product/product-price"))

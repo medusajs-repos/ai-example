@@ -1,4 +1,4 @@
-import { sdk } from "@/lib/sdk"
+import { sdk } from "@/lib/utils/common/sdk"
 import {
   getStoredCart,
   removeStoredCart,

@@ -1,6 +1,6 @@
 import { HttpTypes } from "@medusajs/types"
 import { QueryClient } from "@tanstack/react-query"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKeys } from "@/lib/utils/common/query-keys"
 
 /**
  * Utility functions for optimistic cart updates
@@ -30,7 +30,19 @@ export interface OptimisticCart extends HttpTypes.StoreCart {
 }
 
 /**
- * Creates an optimistic cart item for add to cart operations
+ * Creates an optimistic cart item for immediate UI updates during add to cart operations.
+ * Generates a temporary item with calculated pricing before the server response.
+ * 
+ * @param variant - The product variant being added to cart
+ * @param product - The product object containing title and thumbnail
+ * @param quantity - The quantity to add (defaults to 1)
+ * @returns Optimistic cart item with temporary ID and calculated totals
+ * 
+ * @example
+ * ```typescript
+ * const optimisticItem = createOptimisticCartItem(variant, product, 2);
+ * // Returns item with temporary ID and calculated price for immediate UI update
+ * ```
  */
 export const createOptimisticCartItem = (
   variant: HttpTypes.StoreProductVariant,
@@ -60,7 +72,22 @@ export const createOptimisticCartItem = (
 }
 
 /**
- * Adds an item to the cart optimistically
+ * Adds an item to the cart optimistically by updating the query cache immediately.
+ * This provides instant UI feedback while the actual API call is in progress.
+ * 
+ * @param queryClient - TanStack Query client for cache management
+ * @param newItem - The optimistic cart item to add
+ * @param fields - Optional fields parameter for query key
+ * @returns Updated cart object or null if no current cart exists
+ * 
+ * @example
+ * ```typescript
+ * const updatedCart = addItemOptimistically(queryClient, optimisticItem);
+ * if (updatedCart) {
+ *   // UI immediately shows the new item
+ *   // Real API call happens in background
+ * }
+ * ```
  */
 export const addItemOptimistically = (
   queryClient: QueryClient,
@@ -141,7 +168,22 @@ export const addItemOptimistically = (
 }
 
 /**
- * Updates a line item quantity optimistically
+ * Updates a cart line item quantity optimistically in the query cache.
+ * Provides immediate UI feedback for quantity changes.
+ * 
+ * @param queryClient - TanStack Query client for cache management
+ * @param lineId - The ID of the line item to update
+ * @param quantity - The new quantity for the line item
+ * @param fields - Optional fields parameter for query key
+ * @returns Updated cart object or null if no current cart exists
+ * 
+ * @example
+ * ```typescript
+ * const updatedCart = updateLineItemOptimistically(queryClient, "line_123", 3);
+ * if (updatedCart) {
+ *   // UI immediately shows updated quantity and totals
+ * }
+ * ```
  */
 export const updateLineItemOptimistically = (
   queryClient: QueryClient,
@@ -182,7 +224,21 @@ export const updateLineItemOptimistically = (
 }
 
 /**
- * Removes a line item optimistically
+ * Removes a cart line item optimistically from the query cache.
+ * Provides immediate UI feedback for item removal.
+ * 
+ * @param queryClient - TanStack Query client for cache management
+ * @param lineId - The ID of the line item to remove
+ * @param fields - Optional fields parameter for query key
+ * @returns Updated cart object or null if no current cart exists
+ * 
+ * @example
+ * ```typescript
+ * const updatedCart = removeLineItemOptimistically(queryClient, "line_123");
+ * if (updatedCart) {
+ *   // UI immediately shows item removed and updated totals
+ * }
+ * ```
  */
 export const removeLineItemOptimistically = (
   queryClient: QueryClient,
@@ -212,7 +268,23 @@ export const removeLineItemOptimistically = (
 }
 
 /**
- * Rolls back optimistic changes on error
+ * Rolls back optimistic cart changes when an API call fails.
+ * Restores the cart to its previous state before the optimistic update.
+ * 
+ * @param queryClient - TanStack Query client for cache management
+ * @param previousCart - The cart state to restore to
+ * @param fields - Optional fields parameter for query key
+ * 
+ * @example
+ * ```typescript
+ * try {
+ *   await addToCart(variant);
+ * } catch (error) {
+ *   // Rollback optimistic changes on error
+ *   rollbackOptimisticCart(queryClient, previousCart);
+ *   showErrorMessage("Failed to add item to cart");
+ * }
+ * ```
  */
 export const rollbackOptimisticCart = (
   queryClient: QueryClient,
@@ -223,7 +295,21 @@ export const rollbackOptimisticCart = (
 }
 
 /**
- * Gets the current cart state from cache
+ * Gets the current cart state from the query cache.
+ * First tries to get the cart with specific fields, then falls back to any cart query.
+ * 
+ * @param queryClient - TanStack Query client for cache management
+ * @param fields - Optional fields parameter for query key
+ * @returns Current cart object or null if no cart found in cache
+ * 
+ * @example
+ * ```typescript
+ * const currentCart = getCurrentCart(queryClient);
+ * if (currentCart) {
+ *   // Use current cart state
+ *   console.log(`Cart has ${currentCart.items?.length} items`);
+ * }
+ * ```
  */
 export const getCurrentCart = (queryClient: QueryClient, fields?: string): HttpTypes.StoreCart | null => {
   return queryClient.getQueryData<HttpTypes.StoreCart | null>(queryKeys.cart.current(fields)) || 

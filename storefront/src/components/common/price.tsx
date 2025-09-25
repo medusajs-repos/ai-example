@@ -1,6 +1,6 @@
 import { clx } from "@medusajs/ui"
 import { useMemo } from "react"
-import { convertToLocale } from "@/lib/utils/money"
+import { formatPrice } from "@/lib/utils/price/format-price"
 
 export type PriceProps = {
   price: number | string;
@@ -32,10 +32,10 @@ export const Price = ({
       }
     }
     return {
-      formattedPrice: typeof price === "string" ? price : convertToLocale(
+      formattedPrice: typeof price === "string" ? price : formatPrice(
         { amount: price, currency_code: currencyCode }
       ),
-      formattedSalePrice: typeof originalPrice?.price === "string" ? originalPrice?.price : convertToLocale(
+      formattedSalePrice: typeof originalPrice?.price === "string" ? originalPrice?.price : formatPrice(
         { amount: originalPrice?.price || 0, currency_code: currencyCode }
       ),
     }

@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router"
-import { getCountryCodeFromPath } from "@/lib/utils/regions/get-country-code-from-path"
+import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
 import { useCategories } from "@/lib/hooks/static/use-categories"
 import { useRegions } from "@/lib/hooks/static/use-region"
 import CountrySelect from "@/components/common/country-select"

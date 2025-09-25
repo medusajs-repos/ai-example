@@ -1,7 +1,7 @@
 import { useQuery, useInfiniteQuery } from "@tanstack/react-query"
 import { listProducts, retrieveProduct } from "@/lib/data/products"
 import { HttpTypes } from "@medusajs/types"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKeys } from "@/lib/utils/common/query-keys"
 
 /**
  * React hook for fetching products with infinite scroll pagination.

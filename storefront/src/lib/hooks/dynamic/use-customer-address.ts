@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKeys } from "@/lib/utils/common/query-keys"
 import { createCustomerAddress, updateCustomerAddress, deleteCustomerAddress } from "@/lib/data/customer"
 
 export const useCreateCustomerAddress = () => {

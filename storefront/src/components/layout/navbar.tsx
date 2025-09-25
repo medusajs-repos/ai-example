@@ -1,6 +1,6 @@
 import { NavbarLink } from "@/components/layout/navbar-link"
 import { Link, useLocation } from "@tanstack/react-router"
-import { getCountryCodeFromPath } from "@/lib/utils/regions/get-country-code-from-path"
+import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
 import CartDropdown from "@/components/cart/cart-dropdown"
 
 export const Navbar = () => {

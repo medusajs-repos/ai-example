@@ -10,7 +10,7 @@ const ProductShippingInfo = () => {
       {policies.map((policy, index) => (
         <div key={index} className="flex justify-between items-center py-1">
           <span className="text-secondary-text txt-small">{policy.label}</span>
-          <span className="text-primary-text txt-small-plus">{policy.value}</span>
+          <span className="text-primary-text txt-small">{policy.value}</span>
         </div>
       ))}
       

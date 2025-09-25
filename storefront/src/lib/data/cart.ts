@@ -1,4 +1,4 @@
-import { sdk } from "@/lib/sdk"
+import { sdk } from "@/lib/utils/common/sdk"
 import { getRegion } from "@/lib/data/regions"
 import { getStoredCart, setStoredCart } from "@/lib/utils/cart/stored-cart"
 import { HttpTypes } from "@medusajs/types"

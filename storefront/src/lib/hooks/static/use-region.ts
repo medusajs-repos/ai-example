@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { getRegion, listRegions } from "@/lib/data/regions"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKeys } from "@/lib/utils/common/query-keys"
 
 /**
  * React hook for fetching all available regions.

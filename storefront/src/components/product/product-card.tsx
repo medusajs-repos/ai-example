@@ -1,6 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router"
 import { HttpTypes } from "@medusajs/types"
-import { getCountryCodeFromPath } from "@/lib/utils/regions/get-country-code-from-path"
+import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
 import { Text } from "@medusajs/ui"
 import ProductPrice from "@/components/product/product-price"
 import { Thumbnail } from "@/components/common/thumbnail"

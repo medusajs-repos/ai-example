@@ -4,7 +4,7 @@ import { Button } from "@/components/common/button"
 import PaymentButton from "@/components/checkout/payment-button"
 import { Price } from "@/components/common/price"
 import { isPaidWithGiftCard } from "@/lib/utils/checkout/is-paid-with-gift-card"
-import { getActiveSession } from "@/lib/utils/checkout/get-active-session"
+import { getActivePaymentSession } from "@/lib/utils/checkout/get-active-payment-session"
 import { lazy } from "react"
 
 const PaymentMethodInfo = lazy(() => import("../common/payment-method-info"))
@@ -17,7 +17,7 @@ interface ReviewStepProps {
 
 const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
   const paidByGiftcard = isPaidWithGiftCard(cart)
-  const activeSession = getActiveSession(cart)
+  const activeSession = getActivePaymentSession(cart)
 
   return (
     <div className="flex flex-col gap-8">

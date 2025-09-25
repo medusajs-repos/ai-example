@@ -1,4 +1,4 @@
-import { queryKeys } from "@/lib/query-keys"
+import { queryKeys } from "@/lib/utils/common/query-keys"
 import { 
   getCartShippingOptions, 
   setCartShippingMethod 

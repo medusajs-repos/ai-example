@@ -1,7 +1,7 @@
 import { createFileRoute, notFound } from "@tanstack/react-router"
 import OrderDetailsPage from "@/pages/order-details"
 import { retrieveOrder } from "@/lib/data/order"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKeys } from "@/lib/utils/common/query-keys"
 
 export const Route = createFileRoute("/$countryCode/account/orders/details/$id")({
   loader: async ({ params, context }) => {

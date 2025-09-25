@@ -1,5 +1,5 @@
 import FilterRadioGroup from "@/components/common/filter-radio-group"
-import { type ProductSortOptions } from "@/lib/utils/products/sort-products"
+import { type ProductSortOptions } from "@/lib/utils/product/sort-products"
 
 type SortProductsProps = {
   sortBy: ProductSortOptions

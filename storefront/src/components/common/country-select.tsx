@@ -3,11 +3,11 @@ import ReactCountryFlag from "react-country-flag"
 import { useNavigate, useLocation } from "@tanstack/react-router"
 
 import { HttpTypes } from "@medusajs/types"
-import { getCountryCodeFromPath } from "@/lib/utils/regions/get-country-code-from-path"
-import { setStoredCountryCode } from "@/lib/utils/regions/stored-country-code"
+import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
+import { setStoredCountryCode } from "@/lib/utils/region/stored-country-code"
 import { Select } from "@medusajs/ui"
 import { useUpdateCart } from "@/lib/hooks/dynamic/use-cart"
-import { buildPathWithCountryCode } from "@/lib/utils/regions/build-path-with-country-code"
+import { buildPathWithCountryCode } from "@/lib/utils/region/build-path-with-country-code"
 
 type CountryOption = {
   country_code: string

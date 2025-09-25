@@ -1,8 +1,8 @@
 import { HttpTypes } from "@medusajs/types"
 import { getStoredCart, removeStoredCart } from "@/lib/utils/cart/stored-cart"
-import { sdk } from "@/lib/sdk"
+import { sdk } from "@/lib/utils/common/sdk"
 import { QueryClient } from "@tanstack/react-query"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKeys } from "@/lib/utils/common/query-keys"
 
 /**
  * Completes the current cart and creates an order.

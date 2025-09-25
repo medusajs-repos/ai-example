@@ -82,7 +82,7 @@ const ProductInfoTab = ({ product }: ProductTabsProps) => {
       {details.map((detail, index) => (
         <div key={index} className="flex justify-between items-center py-1">
           <span className="text-secondary-text txt-small">{detail.label}</span>
-          <span className="text-primary-text txt-small-plus">{detail.value}</span>
+          <span className="text-primary-text txt-small">{detail.value}</span>
         </div>
       ))}
     </div>

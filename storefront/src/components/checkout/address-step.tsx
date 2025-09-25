@@ -4,7 +4,7 @@ import { Button } from "@/components/common/button"
 import { HttpTypes } from "@medusajs/types"
 import { useSetCartAddresses } from "@/lib/hooks/dynamic/checkout/use-addresses"
 import AddressForm from "@/components/common/address-form"
-import { getStoredCountryCode } from "@/lib/utils/regions/stored-country-code"
+import { getStoredCountryCode } from "@/lib/utils/region/stored-country-code"
 
 interface AddressStepProps {
   cart: HttpTypes.StoreCart

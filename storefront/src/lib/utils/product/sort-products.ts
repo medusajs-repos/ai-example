@@ -5,13 +5,43 @@ export type ProductSortOptions =
   | "price_desc"
   | "created_at";
 
+/**
+ * Sorts an array of products based on the specified sorting option.
+ * Uses the first variant's calculated price for price-based sorting.
+ * 
+ * @param params - Parameters object
+ * @param params.products - Array of products to sort
+ * @param params.sortBy - Sorting criteria (price ascending, price descending, or creation date)
+ * @returns Sorted array of products
+ * 
+ * @example
+ * ```typescript
+ * // Sort by price ascending
+ * const sortedProducts = sortProducts({ 
+ *   products, 
+ *   sortBy: "price_asc" 
+ * });
+ * 
+ * // Sort by price descending
+ * const expensiveFirst = sortProducts({ 
+ *   products, 
+ *   sortBy: "price_desc" 
+ * });
+ * 
+ * // Sort by creation date (default server order)
+ * const newestFirst = sortProducts({ 
+ *   products, 
+ *   sortBy: "created_at" 
+ * });
+ * ```
+ */
 export default function sortProducts ({
   products,
   sortBy,
 }: {
   products: HttpTypes.StoreProduct[];
   sortBy: ProductSortOptions;
-}) {
+}): HttpTypes.StoreProduct[] {
   const sorted = [...products]
 
   switch (sortBy) {

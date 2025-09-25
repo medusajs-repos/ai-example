@@ -1,4 +1,4 @@
-import { getPercentageDiff } from "@/lib/utils/get-precentage-diff"
+import { getPricePercentageDiff } from "@/lib/utils/price/get-price-precentage-diff"
 import { HttpTypes } from "@medusajs/types"
 import { Price } from "@/components/common/price"
 
@@ -24,7 +24,7 @@ const LineItemPrice = ({
       currencyCode={currencyCode}
       originalPrice={hasReducedPrice ? {
         price: originalPrice,
-        percentage: getPercentageDiff(originalPrice, currentPrice || 0),
+        percentage: getPricePercentageDiff(originalPrice, currentPrice || 0),
       } : undefined}
       className={className}
     />

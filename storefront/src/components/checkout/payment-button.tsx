@@ -1,6 +1,6 @@
 import { isManual, isStripe } from "@/lib/constants/constants"
 import { useCompleteCartOrder } from "@/lib/hooks/dynamic/checkout/use-complete-cart"
-import { getCountryCodeFromPath } from "@/lib/utils/regions/get-country-code-from-path"
+import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
 import { HttpTypes } from "@medusajs/types"
 import { Button } from "@/components/common/button"
 import { useLocation, useNavigate } from "@tanstack/react-router"

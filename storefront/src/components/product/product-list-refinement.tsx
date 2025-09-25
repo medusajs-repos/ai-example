@@ -1,5 +1,5 @@
 import ProductSort from "@/components/product/product-sort"
-import { type ProductSortOptions } from "@/lib/utils/products/sort-products"
+import { type ProductSortOptions } from "@/lib/utils/product/sort-products"
 
 type ProductListRefinementProps = {
   sortBy: ProductSortOptions

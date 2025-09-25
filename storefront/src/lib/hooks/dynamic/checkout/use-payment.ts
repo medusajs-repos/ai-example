@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { initiateCartPaymentSession, listCartPaymentMethods } from "@/lib/data/checkout/payment"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKeys } from "@/lib/utils/common/query-keys"
 
 /**
  * React hook for fetching available payment methods for a region. This is typically used in the third step of the checkout process to list the payment methods, allowing the customer to select a payment method.

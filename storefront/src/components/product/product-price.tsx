@@ -1,4 +1,4 @@
-import { getProductPrice } from "@/lib/utils/get-product-price"
+import { getProductPrice } from "@/lib/utils/price/get-product-price"
 import { HttpTypes } from "@medusajs/types"
 import Loading from "@/components/common/loading"
 import { Price, PriceProps } from "@/components/common/price"

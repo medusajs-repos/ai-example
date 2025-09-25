@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { clearAllCartData, completeCartOrder } from "@/lib/data/checkout/complete"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKeys } from "@/lib/utils/common/query-keys"
 
 /**
  * React hook for completing cart orders with automatic cache cleanup. This is used in the last step of the checkout process to complete the order.

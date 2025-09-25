@@ -1,10 +1,10 @@
-import getDefaultCountryCode from "@/lib/utils/regions/get-default-country-code"
+import getDefaultCountryCode from "@/lib/utils/region/get-default-country-code"
 import { useLocation, useNavigate } from "@tanstack/react-router"
 import { lazy, useEffect, useState } from "react"
 import { useRegions } from "@/lib/hooks/static/use-region"
-import { buildPathWithCountryCode } from "@/lib/utils/regions/build-path-with-country-code"
-import { getCountryCodeFromPath } from "@/lib/utils/regions/get-country-code-from-path"
-import { getStoredCountryCode, setStoredCountryCode } from "@/lib/utils/regions/stored-country-code"
+import { buildPathWithCountryCode } from "@/lib/utils/region/build-path-with-country-code"
+import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
+import { getStoredCountryCode, setStoredCountryCode } from "@/lib/utils/region/stored-country-code"
 
 const NotFound = lazy(() => import("./not-found"))
 

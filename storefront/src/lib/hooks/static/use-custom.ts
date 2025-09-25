@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { sendDeleteRequest, sendGetRequest, sendPostRequest } from "@/lib/data/custom"
-import { queryKeys } from "@/lib/query-keys"
+import { queryKeys } from "@/lib/utils/common/query-keys"
 import { FetchArgs } from "@medusajs/js-sdk"
 
 /**

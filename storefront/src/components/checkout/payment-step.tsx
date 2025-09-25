@@ -9,7 +9,7 @@ import { HttpTypes } from "@medusajs/types"
 import { Text } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
 import { useCallback, useEffect, useState } from "react"
-import { getActiveSession } from "@/lib/utils/checkout/get-active-session"
+import { getActivePaymentSession } from "@/lib/utils/checkout/get-active-payment-session"
 import { isPaidWithGiftCard } from "@/lib/utils/checkout/is-paid-with-gift-card"
 
 interface PaymentStepProps {
@@ -24,7 +24,7 @@ const PaymentStep = ({ cart, onNext, onBack }: PaymentStepProps) => {
   } = useCartPaymentMethods({ region_id: cart.region?.id })
   const initiatePaymentSessionMutation = useInitiateCartPaymentSession()
 
-  const activeSession = getActiveSession(cart)
+  const activeSession = getActivePaymentSession(cart)
 
   const [error, setError] = useState<string | null>(null)
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
