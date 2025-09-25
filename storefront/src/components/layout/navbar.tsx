@@ -14,7 +14,7 @@ export const Navbar = () => {
         <nav className="content-container txt-xsmall-plus text-secondary-text flex items-center justify-between w-full h-full">
           <div className="flex items-center h-full">
             <Link
-              to={"/"}
+              to={baseHref}
               className="txt-xlarge-plus hover:text-primary-text-hover uppercase"
               data-testid="nav-store-link"
             >

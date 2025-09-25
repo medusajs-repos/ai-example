@@ -12,6 +12,8 @@ export interface OptimisticCartItem {
   quantity: number;
   title: string;
   thumbnail?: string | null;
+  product_title?: string;
+  variant_title?: string;
   product?: {
     id: string;
     title: string;
@@ -61,10 +63,12 @@ export const createOptimisticCartItem = (
       id: product.id,
       title: product.title,
     },
+    product_title: product.title,
     variant: {
       id: variant.id,
       title: variant.title || "Default Variant",
     },
+    variant_title: variant.title || "Default Variant",
     unit_price: unitPrice,
     total: unitPrice * quantity,
     isOptimistic: true,
@@ -92,9 +96,10 @@ export const createOptimisticCartItem = (
 export const addItemOptimistically = (
   queryClient: QueryClient,
   newItem: OptimisticCartItem,
+  optimisticCart?: OptimisticCart,
   fields?: string
 ): HttpTypes.StoreCart | null => {
-  const currentCart = queryClient.getQueryData<HttpTypes.StoreCart | null>(
+  const currentCart = optimisticCart || queryClient.getQueryData<HttpTypes.StoreCart | null>(
     queryKeys.cart.current(fields)
   )
 
@@ -154,7 +159,7 @@ export const addItemOptimistically = (
 
   const newItemSubtotal = updatedItems.reduce((sum, item) => sum + (item.total || 0), 0)
 
-  const optimisticCart: OptimisticCart = {
+  const newOptimisticCart: OptimisticCart = {
     ...currentCart,
     items: updatedItems,
     item_subtotal: newItemSubtotal,
@@ -162,9 +167,9 @@ export const addItemOptimistically = (
   }
 
   // Update the cache optimistically
-  queryClient.setQueryData(queryKeys.cart.current(fields), optimisticCart)
+  queryClient.setQueryData(queryKeys.cart.current(fields), newOptimisticCart)
 
-  return optimisticCart
+  return newOptimisticCart
 }
 
 /**
@@ -292,6 +297,65 @@ export const rollbackOptimisticCart = (
   fields?: string
 ) => {
   queryClient.setQueryData(queryKeys.cart.current(fields), previousCart)
+}
+
+/**
+ * Creates an optimistic cart for immediate UI updates during cart creation operations.
+ * Generates a temporary cart with basic structure before the server response.
+ * 
+ * @param region_id - The region ID for the cart
+ * @param fields - Optional fields parameter for query key
+ * @returns Optimistic cart with temporary ID and basic structure
+ * 
+ * @example
+ * ```typescript
+ * const optimisticCart = createOptimisticCart('reg_us');
+ * // Returns cart with temporary ID for immediate UI update
+ * ```
+ */
+export const createOptimisticCart = (region: HttpTypes.StoreRegion): OptimisticCart => {
+  const tempId = `optimistic-cart-${Date.now()}`
+  
+  return {
+    id: tempId,
+    region_id: region.id,
+    items: [],
+    item_subtotal: 0,
+    item_tax_total: 0,
+    item_total: 0,
+    original_item_total: 0,
+    original_item_tax_total: 0,
+    original_item_subtotal: 0,
+    original_total: 0,
+    original_tax_total: 0,
+    original_subtotal: 0,
+    subtotal: 0,
+    tax_total: 0,
+    total: 0,
+    discount_total: 0,
+    discount_tax_total: 0,
+    gift_card_total: 0,
+    gift_card_tax_total: 0,
+    shipping_total: 0,
+    shipping_tax_total: 0,
+    shipping_subtotal: 0,
+    original_shipping_total: 0,
+    original_shipping_subtotal: 0,
+    original_shipping_tax_total: 0,
+    shipping_address: undefined,
+    billing_address: undefined,
+    shipping_methods: [],
+    payment_collection: undefined,
+    region: undefined,
+    customer_id: undefined,
+    sales_channel_id: undefined,
+    promotions: [],
+    currency_code: region.currency_code,
+    metadata: {},
+    created_at: new Date(),
+    updated_at: new Date(),
+    isOptimistic: true,
+  }
 }
 
 /**

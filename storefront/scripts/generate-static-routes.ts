@@ -34,6 +34,17 @@ const ROUTE_PRIORITIES = {
 // Routes that should not have country-specific variants
 const NO_COUNTRY_VARIANTS = ['/health'];
 
+// Routes to exclude from static generation (both country and non-country variants)
+const EXCLUDED_ROUTES: string[] = [
+  "/health",
+  "/checkout",
+  "/account",
+  "/login",
+  "/register",
+  "/cart",
+  "/order"
+];
+
 // Data-driven routes that need special handling
 const DATA_DRIVEN_ROUTES = ['/products', '/categories'];
 
@@ -104,6 +115,16 @@ function isDataDrivenRoute(path: string): boolean {
 }
 
 /**
+ * Check if a route should be excluded from static generation
+ */
+function isExcludedRoute(path: string): boolean {
+  return EXCLUDED_ROUTES.some(excludedRoute => {
+    // Check for exact match or if the path starts with the excluded route
+    return path === excludedRoute || path.startsWith(excludedRoute + '/');
+  });
+}
+
+/**
  * Recursively discover routes from the filesystem
  */
 function discoverRoutesFromFilesystem(): DiscoveredRoute[] {
@@ -139,7 +160,7 @@ function discoverRoutesFromFilesystem(): DiscoveredRoute[] {
                 .replace(/\/$/, '') || '/'; // Ensure root is '/'
               
               // Skip invalid paths
-              if (actualPath.includes('$') || actualPath === '') {
+              if (actualPath.includes('$') || actualPath === '' || isExcludedRoute(actualPath)) {
                 continue;
               }
               
@@ -262,13 +283,15 @@ function generateCountrySpecificStaticRoutes(
         continue;
       }
       
+      const countrySpecificPath = `/${countryCode}${route.path}`;
+      
       // Skip root route
-      if (route.path === '/') {
+      if (route.path === '/' || isExcludedRoute(route.path)) {
         continue;
       }
       
       routes.push({
-        path: `/${countryCode}${route.path}`,
+        path: countrySpecificPath,
         priority: route.priority,
         lastModified: new Date().toISOString()
       });
@@ -280,6 +303,7 @@ function generateCountrySpecificStaticRoutes(
 
 /**
  * Main function to generate all static routes
+ * Routes listed in EXCLUDED_ROUTES will be excluded from both country and non-country variants
  */
 async function generateStaticRoutes(options: RouteGenerationOptions = {}): Promise<StaticRoute[]> {
   const { outputFile = 'static-routes.json' } = options;

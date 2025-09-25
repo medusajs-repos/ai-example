@@ -17,6 +17,7 @@ import {
   rollbackOptimisticCart,
   updateLineItemOptimistically,
   removeLineItemOptimistically,
+  createOptimisticCart,
 } from "@/lib/utils/cart/optimistic-cart"
 import { HttpTypes } from "@medusajs/types"
 
@@ -224,26 +225,33 @@ export const useAddToCart = ({ fields }: { fields?: string } = {}) => {
       country_code: string;
       product?: HttpTypes.StoreProduct;
       variant?: HttpTypes.StoreProductVariant;
+      region?: HttpTypes.StoreRegion;
     }) => {
       // Cancel any outgoing refetches
       await queryClient.cancelQueries({ predicate: queryKeys.cart.predicate })
 
       // Snapshot the previous value
-      const previousCart = getCurrentCart(queryClient, fields)
+      let previousCart = getCurrentCart(queryClient, fields)
+      let didCartExist = true
+
+      if (!previousCart && variables.region) {
+        previousCart = createOptimisticCart(variables.region)
+        didCartExist = false
+      }
 
       // If we have a cart and product/variant data, we can add optimistically
-      if (previousCart && variables.product && variables.variant) {
+      if (previousCart && variables.product !== undefined && variables.variant !== undefined) {
         const optimisticItem = createOptimisticCartItem(
           variables.variant,
           variables.product,
           variables.quantity
         )
 
-        addItemOptimistically(queryClient, optimisticItem, fields)
+        addItemOptimistically(queryClient, optimisticItem, previousCart, fields)
       }
 
       // Return a context object with the snapshotted value
-      return { previousCart }
+      return { previousCart: didCartExist ? previousCart : undefined }
     },
     onError: (err, variables, context) => {
       // If the mutation fails, use the context returned from onMutate to roll back

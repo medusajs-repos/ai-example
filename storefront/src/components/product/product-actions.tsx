@@ -113,6 +113,7 @@ export default function ProductActions({
       country_code: countryCode,
       product,
       variant: selectedVariant,
+      region,
     }, {
       onError: () => {
         toast.error("Failed to add item to cart. Please try again.")
