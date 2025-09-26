@@ -4,6 +4,48 @@ import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from
 import ProductPrice from "@/components/product/product-price"
 import { Thumbnail } from "@/components/common/thumbnail"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for displaying products in grid layouts throughout the storefront
+ * - Product listings: show products in category and search results
+ * - Homepage: display featured products and recommendations
+ * - Related products: show similar or complementary products
+ * - Recently viewed: display customer's browsing history
+ * - Wishlist/favorites: show saved products
+ * - Cross-selling: display products that go well together
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Essential for product discovery and browsing
+ * - Critical for conversion optimization and sales
+ * - Used in recommendation systems and personalization
+ * - Important for cross-selling and upselling
+ * - Required for product comparison and selection
+ * - Used in marketing campaigns and promotions
+ * 
+ * DESIGN FEATURES:
+ * - Product image with aspect ratio [29/34] for consistent layout
+ * - Product title for identification
+ * - Price display with currency formatting
+ * - Clickable link to product detail page
+ * - Hover effects for better user interaction
+ * - Responsive design for mobile/desktop
+ * 
+ * COMMON PATTERNS:
+ * - Product grid layouts (3-4 columns on desktop)
+ * - Featured product sections
+ * - Related product recommendations
+ * - Search result listings
+ * - Category browsing
+ * - Recently viewed products
+ * 
+ * EXAMPLES:
+ * - <ProductCard product={featuredProduct} />
+ * - <ProductCard product={searchResult} />
+ * - <ProductCard product={relatedItem} />
+ */
+
 interface ProductCardProps {
   product: HttpTypes.StoreProduct
 }

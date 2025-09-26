@@ -1,6 +1,53 @@
 import { useState } from "react"
 import { Input } from "@/components/common/input"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ *
+ * WHEN TO USE:
+ * - Use for Stripe payment card input in the checkout flow
+ * - Checkout pages: secure card information collection
+ * - Payment processing: Stripe payment method integration
+ * - Mobile commerce: mobile-optimized card input
+ * - Payment security: secure card data collection
+ * - Payment validation: card information validation
+ *
+ * ECOMMERCE CONTEXT:
+ * - Critical for secure payment processing
+ * - Essential for Stripe payment integration
+ * - Important for payment security and compliance
+ * - Required for card payment processing
+ * - Used in payment method collection
+ * - Important for mobile commerce experience
+ *
+ * STRIPE CARD FEATURES:
+ * - Secure card number input with formatting
+ * - Card brand detection (Visa, Mastercard, etc.)
+ * - Expiry date and CVV collection
+ * - Cardholder name collection
+ * - Card validation and completion detection
+ * - Responsive design for mobile/desktop
+ *
+ * CARD INPUT FIELDS:
+ * - Card number: formatted with spaces
+ * - Expiry date: MM/YY format
+ * - CVV: security code input
+ * - Cardholder name: full name input
+ * - Card brand detection: automatic detection
+ *
+ * COMMON PATTERNS:
+ * - Stripe payment card input
+ * - Mobile card input
+ * - Payment method collection
+ * - Card validation
+ * - Payment security
+ *
+ * EXAMPLES:
+ * - <StripeCardContainer paymentProviderId="stripe" selectedPaymentOptionId="stripe" onCardComplete={handleComplete} />
+ * - Stripe payment card input
+ * - Mobile card input
+ * - Payment method collection
+ */
 type StripeCardContainerProps = {
   paymentProviderId: string
   selectedPaymentOptionId: string | null

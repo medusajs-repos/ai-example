@@ -4,6 +4,55 @@ import { Minus, Plus } from "@medusajs/icons"
 import { clx } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for quantity selection in cart items in the storefront
+ * - Cart pages: adjust item quantities in shopping cart
+ * - Cart dropdowns: quick quantity updates
+ * - Mobile commerce: mobile-optimized quantity selection
+ * - Cart management: quantity control and updates
+ * - User experience: easy quantity adjustment
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for cart management and user experience
+ * - Essential for quantity control and updates
+ * - Important for inventory management and stock
+ * - Required for cart state management
+ * - Used in cart abandonment prevention
+ * - Important for mobile commerce experience
+ * 
+ * QUANTITY SELECTOR FEATURES:
+ * - Quantity increment and decrement buttons
+ * - Current quantity display
+ * - Automatic item deletion when quantity reaches zero
+ * - Loading states during updates
+ * - Error handling and feedback
+ * - Responsive design for mobile/desktop
+ * 
+ * QUANTITY FUNCTIONALITY:
+ * - Increase item quantity
+ * - Decrease item quantity
+ * - Remove item when quantity reaches zero
+ * - Update cart totals and counts
+ * - Handle quantity errors gracefully
+ * - Maintain cart state consistency
+ * 
+ * COMMON PATTERNS:
+ * - Cart quantity selection
+ * - Mobile cart quantity
+ * - Cart dropdown quantity
+ * - Cart management quantity
+ * - Item quantity control
+ * 
+ * EXAMPLES:
+ * - <CartItemQuantitySelector item={cartItem} />
+ * - <CartItemQuantitySelector item={cartItem} type="compact" />
+ * - Cart page quantity selection
+ * - Mobile cart quantity selection
+ */
+
 type CartItemQuantitySelectorProps = {
   item: HttpTypes.StoreCartLineItem;
   type?: "default" | "compact"

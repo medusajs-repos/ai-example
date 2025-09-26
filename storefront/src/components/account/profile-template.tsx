@@ -6,6 +6,53 @@ import AccountInfo from "@/components/account/account-info"
 import AccountContainer from "@/components/account/account-container"
 import { Input } from "@/components/common/input"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ *
+ * WHEN TO USE:
+ * - Use for customer profile management in the storefront
+ * - Account pages: customer profile information and editing
+ * - Profile management: customer personal information updates
+ * - Mobile commerce: mobile-optimized profile management
+ * - Customer data: profile information display and editing
+ * - User experience: clear profile information management
+ *
+ * ECOMMERCE CONTEXT:
+ * - Critical for customer account management
+ * - Essential for user experience and data management
+ * - Important for customer retention and loyalty
+ * - Required for profile information display and editing
+ * - Used in customer service and support
+ * - Important for mobile commerce experience
+ *
+ * PROFILE MANAGEMENT FEATURES:
+ * - Customer profile information display
+ * - Profile editing with form validation
+ * - Name, email, and phone number management
+ * - Success/error feedback and notifications
+ * - Professional profile presentation
+ * - Responsive design for mobile/desktop
+ *
+ * PROFILE INFORMATION:
+ * - Name: first and last name editing
+ * - Email: email display (read-only for security)
+ * - Phone: phone number editing and validation
+ * - Profile data: customer information management
+ * - Security: email changes require customer service
+ *
+ * COMMON PATTERNS:
+ * - Customer profile management
+ * - Mobile profile editing
+ * - Profile information display
+ * - Customer data management
+ * - Account profile interface
+ *
+ * EXAMPLES:
+ * - <ProfileTemplate customer={customer} />
+ * - Mobile profile management
+ * - Customer profile editing
+ * - Account profile interface
+ */
 interface ProfileTemplateProps {
   customer: HttpTypes.StoreCustomer;
 }

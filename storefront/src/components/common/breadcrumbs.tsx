@@ -10,7 +10,43 @@ export interface BreadcrumbItem {
 }
 
 /**
- * Breadcrumbs component for navigation
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for navigation breadcrumbs in the storefront
+ * - Product pages: show navigation path to current product
+ * - Category pages: display category hierarchy
+ * - Search results: show search context and filters
+ * - Account pages: indicate current account section
+ * - Checkout pages: show checkout progress and steps
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for user navigation and orientation
+ * - Essential for SEO and search engine optimization
+ * - Important for user experience and site structure
+ * - Required for deep linking and bookmarking
+ * - Used in product discovery and browsing
+ * - Important for mobile commerce navigation
+ * 
+ * BREADCRUMB FEATURES:
+ * - Hierarchical navigation display
+ * - Clickable links for navigation
+ * - Current page indication
+ * - Custom separators and styling
+ * - Home link inclusion option
+ * - Accessible navigation structure
+ * 
+ * COMMON PATTERNS:
+ * - Product page breadcrumbs (Home > Category > Product)
+ * - Category navigation (Home > Category > Subcategory)
+ * - Search result breadcrumbs (Home > Search > Results)
+ * - Account section navigation (Home > Account > Profile)
+ * - Checkout progress breadcrumbs
+ * 
+ * EXAMPLES:
+ * - <Breadcrumbs items={[{label: "Home", href: "/"}, {label: "Store", href: "/store"}, {label: "Product", current: true}]} />
+ * - <Breadcrumbs items={categoryPath} showHome={false} />
+ * - <Breadcrumbs items={searchBreadcrumbs} separator={<span>/</span>} />
  * 
  * @example
  * // Basic usage

@@ -7,6 +7,53 @@ import AccountContainer from "@/components/account/account-container"
 import Address from "@/components/common/address"
 import AddressForm from "@/components/common/address-form"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ *
+ * WHEN TO USE:
+ * - Use for customer address management in the storefront
+ * - Account pages: customer address book management
+ * - Address management: add, edit, and delete customer addresses
+ * - Mobile commerce: mobile-optimized address management
+ * - Checkout optimization: saved addresses for faster checkout
+ * - Customer service: address management for support
+ *
+ * ECOMMERCE CONTEXT:
+ * - Critical for customer account management
+ * - Essential for checkout optimization and speed
+ * - Important for customer retention and loyalty
+ * - Required for address book management
+ * - Used in checkout flow optimization
+ * - Important for mobile commerce experience
+ *
+ * ADDRESS MANAGEMENT FEATURES:
+ * - Address book display and management
+ * - Add new addresses with form validation
+ * - Edit existing addresses with pre-filled forms
+ * - Delete addresses with confirmation
+ * - Default billing and shipping address indication
+ * - Responsive design for mobile/desktop
+ *
+ * ADDRESS OPERATIONS:
+ * - Add address: create new customer addresses
+ * - Edit address: update existing address information
+ * - Delete address: remove addresses with confirmation
+ * - Default addresses: mark billing and shipping defaults
+ * - Address validation: ensure complete address information
+ *
+ * COMMON PATTERNS:
+ * - Customer address book
+ * - Mobile address management
+ * - Checkout address selection
+ * - Address book management
+ * - Customer service address management
+ *
+ * EXAMPLES:
+ * - <AddressesTemplate customer={customer} />
+ * - Mobile address management
+ * - Customer address book
+ * - Checkout address optimization
+ */
 interface AddressesTemplateProps {
   customer: HttpTypes.StoreCustomer
 }

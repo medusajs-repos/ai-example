@@ -2,6 +2,45 @@ import { Check } from "@medusajs/icons"
 import { clx } from "@medusajs/ui"
 import { forwardRef } from "react"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for form inputs that require single or multiple selections
+ * - Checkout forms: terms and conditions, newsletter signup
+ * - Product filters: category, brand, feature selections
+ * - Account settings: notification preferences, privacy settings
+ * - Cart management: select multiple items for bulk actions
+ * - Search filters: advanced search option selections
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Essential for form validation and user input
+ * - Critical for checkout flow and terms acceptance
+ * - Important for product filtering and search
+ * - Required for account preferences and settings
+ * - Used in cart management and bulk operations
+ * - Important for compliance and legal requirements
+ * 
+ * CHECKBOX FEATURES:
+ * - Custom styled checkbox with check icon
+ * - Accessible keyboard navigation
+ * - Visual feedback for checked/unchecked states
+ * - Form integration with validation
+ * - Responsive design for mobile/desktop
+ * 
+ * COMMON PATTERNS:
+ * - Terms and conditions acceptance
+ * - Newsletter subscription opt-in
+ * - Product filter selections
+ * - Account preference settings
+ * - Bulk cart item selection
+ * 
+ * EXAMPLES:
+ * - <Checkbox checked={acceptedTerms} onChange={handleTermsChange} />
+ * - <Checkbox checked={newsletter} onChange={handleNewsletterChange} />
+ * - <Checkbox checked={filterActive} onChange={handleFilterChange} />
+ */
+
 type CheckboxProps = React.InputHTMLAttributes<HTMLInputElement>
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({

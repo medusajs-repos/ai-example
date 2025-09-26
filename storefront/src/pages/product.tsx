@@ -11,6 +11,61 @@ const ProductInfo = lazy(() => import("@/components/product/product-info"))
 const ProductTabs = lazy(() => import("@/components/product/product-tabs"))
 const RelatedProducts = lazy(() => import("@/components/product/related-products"))
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for individual product detail pages in the storefront
+ * - Product pages: detailed product information and purchase flow
+ * - SEO pages: optimized product pages for search engines
+ * - Marketing pages: product-specific landing pages
+ * - Mobile commerce: responsive product browsing
+ * - Social sharing: product pages for social media sharing
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for product conversion and sales
+ * - Essential for SEO and organic traffic
+ * - Important for product information and specifications
+ * - Required for variant selection and customization
+ * - Used in recommendation systems and cross-selling
+ * - Critical for mobile commerce experience
+ * 
+ * PAGE LAYOUT:
+ * - Three-column responsive layout
+ * - Left: Product info and details tabs
+ * - Center: Image gallery with zoom functionality
+ * - Right: Product actions and add-to-cart
+ * - Bottom: Related products for cross-selling
+ * 
+ * KEY FEATURES:
+ * - Product image gallery with zoom
+ * - Variant selection and customization
+ * - Add to cart functionality
+ * - Product information and specifications
+ * - Related products recommendations
+ * - Error handling and loading states
+ * - Performance optimization with lazy loading
+ * 
+ * PERFORMANCE OPTIMIZATION:
+ * - Lazy loading for heavy components
+ * - Suspense boundaries for better UX
+ * - Error boundaries for graceful failures
+ * - Optimized image loading
+ * 
+ * COMMON PATTERNS:
+ * - Product detail pages with variants
+ * - Mobile-optimized product browsing
+ * - SEO-friendly product pages
+ * - Social commerce integration
+ * - Personalization and recommendations
+ * 
+ * EXAMPLES:
+ * - Product page with multiple variants
+ * - Mobile product browsing experience
+ * - SEO-optimized product pages
+ * - Social commerce product sharing
+ */
+
 const ProductDetails = () => {
   const { product, region } = useLoaderData({
     from: "/$countryCode/products/$handle"

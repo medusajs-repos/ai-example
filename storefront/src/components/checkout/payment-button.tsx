@@ -6,6 +6,51 @@ import { Button } from "@/components/common/button"
 import { useLocation, useNavigate } from "@tanstack/react-router"
 import { useState } from "react"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ *
+ * WHEN TO USE:
+ * - Use for payment processing in the checkout flow
+ * - Checkout pages: final payment submission and order completion
+ * - Payment processing: secure payment method handling
+ * - Order completion: final step in the checkout process
+ * - Mobile commerce: mobile-optimized payment processing
+ * - Payment validation: ensure all required information is collected
+ *
+ * ECOMMERCE CONTEXT:
+ * - Critical for order completion and conversion
+ * - Essential for payment processing and security
+ * - Important for user experience and checkout flow
+ * - Required for order fulfillment and tracking
+ * - Used in payment method validation
+ * - Important for mobile commerce experience
+ *
+ * PAYMENT BUTTON FEATURES:
+ * - Payment method detection (Stripe, Manual, etc.)
+ * - Order completion and processing
+ * - Error handling and user feedback
+ * - Loading states during payment processing
+ * - Navigation to order confirmation
+ * - Payment validation and requirements
+ *
+ * PAYMENT METHODS:
+ * - Stripe payments: secure card processing
+ * - Manual payments: alternative payment methods
+ * - Payment validation: ensure all required fields
+ *
+ * COMMON PATTERNS:
+ * - Checkout payment processing
+ * - Mobile payment processing
+ * - Payment method selection
+ * - Order completion
+ * - Payment error handling
+ *
+ * EXAMPLES:
+ * - <PaymentButton cart={cart} />
+ * - <PaymentButton cart={cart} className="w-full" />
+ * - Checkout payment processing
+ * - Mobile payment processing
+ */
 type PaymentButtonProps = {
   cart: HttpTypes.StoreCart;
   className?: string;
@@ -68,9 +113,8 @@ const StripePaymentButton = ({
   return (
     <>
       <Button
-        disabled={notReady}
+        disabled={notReady || completeOrderMutation.isPending}
         onClick={handlePayment}
-        isLoading={completeOrderMutation.isPending}
         data-testid="place-order-button"
         className={className}
       >
@@ -121,8 +165,7 @@ const ManualPaymentButton = ({
   return (
     <>
       <Button
-        disabled={notReady}
-        isLoading={submitting}
+        disabled={notReady || submitting}
         onClick={handlePayment}
         data-testid="place-order-button"
         className={className}

@@ -2,6 +2,54 @@ import { CheckoutStep, CheckoutStepKey } from "@/lib/types/global"
 import { Button } from "@/components/common/button"
 import { clx } from "@medusajs/ui"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for checkout progress tracking in the storefront
+ * - Checkout pages: show checkout step progress and navigation
+ * - Multi-step checkout: track progress through checkout steps
+ * - Mobile commerce: mobile-optimized checkout progress
+ * - User experience: clear checkout step indication
+ * - Checkout navigation: allow users to navigate between steps
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for checkout flow and user experience
+ * - Essential for checkout step navigation and tracking
+ * - Important for user orientation and progress
+ * - Required for multi-step checkout processes
+ * - Used in checkout optimization and conversion
+ * - Important for mobile commerce experience
+ * 
+ * PROGRESS FEATURES:
+ * - Checkout step display and navigation
+ * - Current step highlighting and indication
+ * - Step completion and progress tracking
+ * - Step navigation and switching
+ * - Responsive design for mobile/desktop
+ * - Professional progress presentation
+ * 
+ * CHECKOUT STEPS:
+ * - Address: shipping and billing address collection
+ * - Delivery: shipping method selection
+ * - Payment: payment method and billing
+ * - Review: final order review and confirmation
+ * - Progress: step completion and navigation
+ * 
+ * COMMON PATTERNS:
+ * - Checkout progress tracking
+ * - Mobile checkout progress
+ * - Multi-step checkout navigation
+ * - Checkout step indication
+ * - Checkout flow optimization
+ * 
+ * EXAMPLES:
+ * - <CheckoutProgress steps={checkoutSteps} currentStepIndex={currentStep} handleStepChange={handleStepChange} />
+ * - Checkout page progress tracking
+ * - Mobile checkout progress
+ * - Multi-step checkout navigation
+ */
+
 type CheckoutProgressProps = {
   steps: CheckoutStep[]
   currentStepIndex: number

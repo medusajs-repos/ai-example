@@ -2,6 +2,43 @@ import { clx } from "@medusajs/ui"
 import { useMemo } from "react"
 import { formatPrice } from "@/lib/utils/price/format-price"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for displaying product prices throughout the storefront
+ * - Product cards: show current price with optional original price
+ * - Product detail pages: display pricing with discounts
+ * - Cart items: show individual item prices
+ * - Checkout summary: display totals, taxes, shipping costs
+ * - Order confirmations: show final pricing breakdown
+ * - Search results: display price ranges for filtered products
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Essential for product pricing display and comparison
+ * - Shows discounts and promotional pricing
+ * - Displays price ranges for product variants
+ * - Critical for checkout flow (totals, taxes, shipping)
+ * - Used in order management and history
+ * - Important for price-based filtering and sorting
+ * 
+ * PRICING TYPES:
+ * - "default": Standard product pricing
+ * - "range": "From $X" pricing for variants
+ * - "discount": Shows discount percentage and savings
+ * 
+ * SIZE GUIDELINES:
+ * - "small": Product cards, cart items, order line items
+ * - "base": Product detail pages, checkout summary
+ * - "large": Hero sections, featured products
+ * - "xlarge": Promotional banners, sale announcements
+ * 
+ * EXAMPLES:
+ * - <Price price={29.99} currencyCode="USD" />
+ * - <Price price={19.99} originalPrice={{price: 29.99, percentage: "33%"}} />
+ * - <Price price={29.99} type="range" textSize="large" />
+ */
+
 export type PriceProps = {
   price: number | string;
   type?: "default" | "range" | "discount"

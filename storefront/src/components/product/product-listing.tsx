@@ -9,6 +9,53 @@ const Pagination = lazy(() => import("@/components/common/pagination"))
 
 const PRODUCTS_PER_PAGE = 12
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for product listing pages in the storefront
+ * - Product catalog pages: main product catalog and browsing
+ * - Category pages: product listings by category
+ * - Search results: filtered product listings
+ * - Mobile commerce: mobile-optimized product browsing
+ * - SEO pages: optimized product catalog for search engines
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for product discovery and browsing
+ * - Essential for conversion optimization and sales
+ * - Important for SEO and organic traffic
+ * - Required for product catalog management
+ * - Used in marketing campaigns and promotions
+ * - Important for mobile commerce experience
+ * 
+ * LISTING FEATURES:
+ * - Product grid with responsive layout
+ * - Pagination for large product catalogs
+ * - Loading states for better user experience
+ * - Empty state handling for no products
+ * - Product count display and information
+ * - Performance optimization with lazy loading
+ * 
+ * PRODUCT DISPLAY:
+ * - Responsive grid layout (1-4 columns)
+ * - Product cards with images, titles, and prices
+ * - Pagination for navigation through products
+ * - Loading states during data fetching
+ * - Empty state when no products available
+ * 
+ * COMMON PATTERNS:
+ * - Product catalog browsing
+ * - Category-based product listings
+ * - Search result pages
+ * - Mobile product browsing
+ * - SEO-optimized product pages
+ * 
+ * EXAMPLES:
+ * - <ProductListing region={region} title="All Products" />
+ * - <ProductListing region={region} title="Electronics" queryParams={{category_id: "electronics"}} />
+ * - <ProductListing region={region} title="Search Results" queryParams={{q: "laptop"}} />
+ */
+
 type ProductListProps = {
   region: HttpTypes.StoreRegion
   title: string

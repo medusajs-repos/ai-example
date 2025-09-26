@@ -3,6 +3,54 @@ import { useState } from "react"
 import { clx } from "@medusajs/ui"
 import ProductShippingInfo from "@/components/product/product-shipping-info"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for product information tabs in the storefront
+ * - Product detail pages: organize product information in tabs
+ * - Product showcases: display product details and specifications
+ * - Mobile commerce: mobile-optimized product information
+ * - Product comparisons: show detailed product information
+ * - SEO pages: organized product information for search engines
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for product information organization
+ * - Essential for user experience and product understanding
+ * - Important for SEO and search engine optimization
+ * - Required for product comparison and selection
+ * - Used in product recommendation systems
+ * - Important for mobile commerce experience
+ * 
+ * TAB FEATURES:
+ * - Product information organization in tabs
+ * - Tab navigation and switching
+ * - Product details and specifications
+ * - Shipping information and policies
+ * - Responsive design for mobile/desktop
+ * - Professional product presentation
+ * 
+ * TAB TYPES:
+ * - Details: product specifications and information
+ * - Shipping: shipping information and policies
+ * - Reviews: customer reviews and ratings
+ * - Specifications: technical specifications
+ * - Care: product care instructions
+ * 
+ * COMMON PATTERNS:
+ * - Product detail tabs
+ * - Mobile product tabs
+ * - Product information tabs
+ * - Product specification tabs
+ * - Product review tabs
+ * 
+ * EXAMPLES:
+ * - <ProductTabs product={product} />
+ * - Product detail page with tabs
+ * - Mobile product tabs
+ * - Product information tabs
+ */
+
 type ProductTabsProps = {
   product: HttpTypes.StoreProduct
 }

@@ -2,6 +2,54 @@ import { HttpTypes } from "@medusajs/types"
 import { Price } from "@/components/common/price"
 import Loading from "@/components/common/loading"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for displaying cart pricing breakdown in the storefront
+ * - Cart pages: show detailed cart pricing information
+ * - Checkout pages: display order summary and totals
+ * - Cart dropdowns: show cart subtotal and pricing
+ * - Mobile commerce: mobile-optimized cart summary
+ * - Order review: display final pricing before placing order
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for price transparency and trust
+ * - Essential for checkout flow and conversion
+ * - Important for user experience and decision making
+ * - Required for order confirmation and review
+ * - Used in cart management and updates
+ * - Important for mobile commerce experience
+ * 
+ * SUMMARY FEATURES:
+ * - Detailed pricing breakdown (subtotal, shipping, tax, discount)
+ * - Clear total calculation and display
+ * - Currency formatting and display
+ * - Loading states for price calculations
+ * - Responsive design for mobile/desktop
+ * - Professional pricing presentation
+ * 
+ * PRICING BREAKDOWN:
+ * - Subtotal: item prices before taxes and shipping
+ * - Shipping: delivery and handling costs
+ * - Discount: promotional discounts and savings
+ * - Tax: applicable taxes and fees
+ * - Total: final amount to be charged
+ * 
+ * COMMON PATTERNS:
+ * - Cart page pricing summary
+ * - Checkout order summary
+ * - Mobile cart pricing display
+ * - Order review pricing
+ * - Cart dropdown pricing
+ * 
+ * EXAMPLES:
+ * - <CartSummary cart={cart} />
+ * - Cart page with pricing breakdown
+ * - Checkout order summary
+ * - Mobile cart pricing display
+ */
+
 interface CartSummaryProps {
   cart: HttpTypes.StoreCart
 }

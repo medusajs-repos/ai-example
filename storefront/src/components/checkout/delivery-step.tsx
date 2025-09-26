@@ -8,6 +8,44 @@ import { Button } from "@/components/common/button"
 import { useEffect, useState } from "react"
 import ShippingItemSelector from "@/components/checkout/shipping-item-selector"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for shipping method selection in the checkout flow
+ * - Checkout pages: shipping method selection and configuration
+ * - Mobile commerce: mobile-optimized shipping selection
+ * - International commerce: shipping options for different regions
+ * - Shipping calculation: display shipping costs and options
+ * - Delivery options: express, standard, and economy shipping
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Essential in the checkout flow to choose a shipping method
+ * - Critical for shipping cost calculation and display
+ * - Important for international shipping and compliance
+ * - Used in shipping cost optimization
+ * - Important for mobile commerce experience
+ * 
+ * DELIVERY STEP FEATURES:
+ * - Shipping method selection and display
+ * - Shipping cost calculation and display
+ * - Shipping method validation and error handling
+ * - Responsive design for mobile/desktop
+ * 
+ * COMMON PATTERNS:
+ * - Checkout shipping selection
+ * - Mobile shipping selection
+ * - International shipping options
+ * - Shipping cost display
+ * - Delivery time estimation
+ * 
+ * EXAMPLES:
+ * - <DeliveryStep cart={cart} onNext={handleNext} onBack={handleBack} />
+ * - Checkout shipping selection
+ * - Mobile shipping options
+ * - International shipping handling
+ */
+
 interface DeliveryStepProps {
   cart: HttpTypes.StoreCart;
   onNext: () => void;

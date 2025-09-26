@@ -9,6 +9,54 @@ import { lazy } from "react"
 const PaymentMethodInfo = lazy(() => import("../common/payment-method-info"))
 const Address = lazy(() => import("@/components/common/address"))
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for checkout review step in the storefront
+ * - Checkout pages: final order review before payment
+ * - Order confirmation: review order details and information
+ * - Mobile commerce: mobile-optimized order review
+ * - User experience: final order verification
+ * - Checkout completion: order review and confirmation
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for checkout completion and conversion
+ * - Essential for order review and verification
+ * - Important for user confidence and trust
+ * - Required for final order confirmation
+ * - Used in checkout optimization and conversion
+ * - Important for mobile commerce experience
+ * 
+ * REVIEW STEP FEATURES:
+ * - Order details review and display
+ * - Shipping address and method confirmation
+ * - Billing address and payment method confirmation
+ * - Order summary and pricing review
+ * - Final order placement and payment
+ * - Responsive design for mobile/desktop
+ * 
+ * ORDER REVIEW:
+ * - Shipping address: delivery information
+ * - Shipping method: delivery method and cost
+ * - Billing address: payment information
+ * - Payment method: payment provider and details
+ * - Order summary: final pricing and totals
+ * 
+ * COMMON PATTERNS:
+ * - Checkout order review
+ * - Mobile order review
+ * - Order confirmation review
+ * - Final order verification
+ * - Checkout completion review
+ * 
+ * EXAMPLES:
+ * - <ReviewStep cart={cart} onBack={handleBack} />
+ * - Checkout order review
+ * - Mobile order review
+ * - Order confirmation review
+ */
+
 interface ReviewStepProps {
   cart: HttpTypes.StoreCart
   onBack: () => void

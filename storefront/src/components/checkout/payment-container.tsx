@@ -2,6 +2,47 @@ import React from "react"
 import Radio from "@/components/common/radio"
 import { paymentMethodsData } from "@/lib/constants/payment-methods"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for payment method selection in the storefront
+ * - Checkout pages: payment method selection and configuration
+ * - Payment processing: secure payment method handling
+ * - Mobile commerce: mobile-optimized payment selection
+ * - International commerce: region-specific payment methods
+ * - Payment security: secure payment method display
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for payment processing and security
+ * - Essential for order completion and conversion
+ * - Important for payment method compliance and regulations
+ * - Required for international payment processing
+ * - Used in payment security and fraud prevention
+ * - Important for mobile commerce experience
+ * 
+ * PAYMENT CONTAINER FEATURES:
+ * - Payment method display and selection
+ * - Payment provider information and icons
+ * - Secure payment method handling
+ * - Payment method validation and error handling
+ * - International payment method support
+ * - Responsive design for mobile/desktop
+ * 
+ * COMMON PATTERNS:
+ * - Checkout payment selection
+ * - Mobile payment processing
+ * - International payment methods
+ * - Payment security and validation
+ * - Payment method display
+ * 
+ * EXAMPLES:
+ * - <PaymentContainer paymentProviderId="stripe" selectedPaymentOptionId={selected} onClick={handleSelect} />
+ * - Checkout payment selection
+ * - Mobile payment processing
+ * - International payment handling
+ */
+
 type PaymentContainerProps = {
   paymentProviderId: string
   selectedPaymentOptionId: string | null

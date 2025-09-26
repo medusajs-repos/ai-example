@@ -25,6 +25,7 @@ export function createRouter() {
     context: { queryClient },
     defaultPreload: "intent", // Good for SSG - preloads on hover/focus
     defaultNotFoundComponent: NotFound,
+    scrollRestoration: true,
   })
   setupRouterSsrQueryIntegration({
     router,

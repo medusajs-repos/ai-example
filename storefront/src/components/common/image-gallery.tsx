@@ -3,6 +3,54 @@ import { HttpTypes } from "@medusajs/types"
 import { useState, useCallback } from "react"
 import { Button } from "@/components/common/button"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for displaying product images in the storefront
+ * - Product detail pages: show multiple product images with navigation
+ * - Product galleries: image browsing with zoom and navigation
+ * - Mobile commerce: mobile-optimized image viewing
+ * - Product showcases: highlight product features and details
+ * - Image carousels: rotating product image displays
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for product visualization and conversion
+ * - Essential for product detail and information
+ * - Important for user experience and engagement
+ * - Required for product comparison and selection
+ * - Used in product recommendation systems
+ * - Important for mobile commerce experience
+ * 
+ * GALLERY FEATURES:
+ * - Multiple image display with navigation
+ * - Previous/next navigation arrows
+ * - Smooth transitions between images
+ * - Responsive design for mobile/desktop
+ * - Lazy loading for performance
+ * - Accessibility support for navigation
+ * 
+ * IMAGE HANDLING:
+ * - Supports multiple product images
+ * - Handles missing or broken images gracefully
+ * - Optimized loading for performance
+ * - Responsive image sizing
+ * - Aspect ratio maintenance
+ * 
+ * COMMON PATTERNS:
+ * - Product detail image galleries
+ * - Mobile product image browsing
+ * - Product showcase galleries
+ * - Image carousel displays
+ * - Product comparison galleries
+ * 
+ * EXAMPLES:
+ * - <ImageGallery images={product.images} />
+ * - Product detail page with image gallery
+ * - Mobile product image browsing
+ * - Product showcase with multiple angles
+ */
+
 type ImageGalleryProps = {
   images: HttpTypes.StoreProductImage[]
 }

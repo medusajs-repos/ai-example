@@ -1,5 +1,31 @@
 import { clx } from "@medusajs/ui"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for all interactive buttons in the storefront
+ * - Primary buttons: "Add to Cart", "Buy Now", "Checkout", "Place Order"
+ * - Secondary buttons: "View Details", "Continue Shopping", "Back to Cart"
+ * - Danger buttons: "Remove from Cart", "Delete Address", "Cancel Order"
+ * - Transparent buttons: "Learn More", "View All", navigation links styled as buttons
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Primary variant: Main call-to-action buttons that drive conversions
+ * - Secondary variant: Supporting actions that don't interrupt the main flow
+ * - Danger variant: Destructive actions that require user confirmation
+ * - Transparent variant: Subtle actions or links that look like buttons
+ * 
+ * SIZE GUIDELINES:
+ * - "full": Use for checkout buttons, add to cart in product pages, form submissions
+ * - "fit": Use for inline actions, quantity selectors, small action buttons
+ * 
+ * EXAMPLES:
+ * - <Button variant="primary" size="full">Add to Cart</Button>
+ * - <Button variant="secondary" size="fit">View Details</Button>
+ * - <Button variant="danger" size="fit">Remove</Button>
+ */
+
 type ButtonProps = React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement
 > & {

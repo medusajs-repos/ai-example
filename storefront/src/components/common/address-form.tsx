@@ -6,6 +6,42 @@ import { countries } from "@/lib/constants/countries"
 import { Input } from "@/components/common/input"
 import { Select } from "@/components/common/select"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for collecting customer address information in storefront
+ * - Checkout flow: shipping and billing address collection
+ * - Account management: adding/editing customer addresses
+ * - Guest checkout: address collection for non-registered users
+ * - Address book: managing multiple saved addresses
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for shipping calculation and delivery
+ * - Required for tax calculation based on location
+ * - Used in customer account management
+ * - Important for international shipping compliance
+ * - Required for address validation and verification
+ * 
+ * FORM VALIDATION:
+ * - Validates required fields: first name, last name, address, city, postal code, country
+ * - Provides real-time validation feedback
+ * - Handles international address formats
+ * - Supports country-specific validation rules
+ * 
+ * COMMON PATTERNS:
+ * - Checkout shipping address form
+ * - Checkout billing address form
+ * - Account address book management
+ * - Guest checkout address collection
+ * - Order address updates
+ * 
+ * EXAMPLES:
+ * - <AddressForm addressFormData={shippingAddress} onSubmit={handleShippingSubmit} />
+ * - <AddressForm addressFormData={billingAddress} onSubmit={handleBillingSubmit} />
+ * - <AddressForm addressFormData={newAddress} shouldHandleSubmit={true} />
+ */
+
 interface AddressFormProps {
   addressFormData: HttpTypes.StoreCreateCustomerAddress | HttpTypes.StoreAddAddress
   setAddressFormData: React.Dispatch<React.SetStateAction<HttpTypes.StoreCreateCustomerAddress | HttpTypes.StoreAddAddress | Record<string, any>>>

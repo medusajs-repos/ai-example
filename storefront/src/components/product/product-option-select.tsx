@@ -2,6 +2,53 @@ import { HttpTypes } from "@medusajs/types"
 import { clx } from "@medusajs/ui"
 import React from "react"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for product variant selection in the storefront
+ * - Product detail pages: variant selection (size, color, material)
+ * - Product customization: product option selection
+ * - Mobile commerce: mobile-optimized variant selection
+ * - Product configuration: product option customization
+ * - Product comparison: variant comparison and selection
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for product customization and personalization
+ * - Essential for variant selection and inventory management
+ * - Important for user experience and product configuration
+ * - Required for product option management
+ * - Used in product recommendation systems
+ * - Important for mobile commerce experience
+ * 
+ * OPTION SELECT FEATURES:
+ * - Product option selection (size, color, material, etc.)
+ * - Visual option buttons with selection states
+ * - Disabled state handling for out-of-stock options
+ * - Responsive design for mobile/desktop
+ * - Clear option labeling and identification
+ * - Professional option presentation
+ * 
+ * OPTION TYPES:
+ * - Size options: Small, Medium, Large, etc.
+ * - Color options: Red, Blue, Green, etc.
+ * - Material options: Cotton, Polyester, etc.
+ * - Style options: Classic, Modern, etc.
+ * - Custom options: personalized selections
+ * 
+ * COMMON PATTERNS:
+ * - Product variant selection
+ * - Mobile option selection
+ * - Product customization
+ * - Option comparison
+ * - Product configuration
+ * 
+ * EXAMPLES:
+ * - <ProductOptionSelect option={sizeOption} current={selectedSize} updateOption={handleSizeChange} title="Size" />
+ * - <ProductOptionSelect option={colorOption} current={selectedColor} updateOption={handleColorChange} title="Color" />
+ * - <ProductOptionSelect option={materialOption} current={selectedMaterial} updateOption={handleMaterialChange} title="Material" />
+ */
+
 type ProductOptionSelectProps = {
   option: HttpTypes.StoreProductOption
   current: string | undefined

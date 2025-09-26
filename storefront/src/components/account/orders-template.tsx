@@ -7,6 +7,54 @@ import AccountContainer from "@/components/account/account-container"
 import { Price } from "@/components/common/price"
 import { Thumbnail } from "@/components/common/thumbnail"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ *
+ * WHEN TO USE:
+ * - Use for customer order history in the storefront
+ * - Account pages: customer order history and tracking
+ * - Order management: view and track customer orders
+ * - Mobile commerce: mobile-optimized order history
+ * - Order tracking: order status and fulfillment information
+ * - Customer service: order information for support
+ *
+ * ECOMMERCE CONTEXT:
+ * - Critical for customer account management
+ * - Essential for order tracking and status updates
+ * - Important for customer retention and loyalty
+ * - Required for order history and management
+ * - Used in customer service and support
+ * - Important for mobile commerce experience
+ *
+ * ORDER HISTORY FEATURES:
+ * - Order history display and management
+ * - Order status tracking and indication
+ * - Order details and item information
+ * - Order date and pricing information
+ * - Product thumbnails and quantity display
+ * - Responsive design for mobile/desktop
+ *
+ * ORDER INFORMATION:
+ * - Order ID and display information
+ * - Order date and creation time
+ * - Order status and fulfillment status
+ * - Order items and quantities
+ * - Order pricing and totals
+ * - Order tracking and details
+ *
+ * COMMON PATTERNS:
+ * - Customer order history
+ * - Mobile order tracking
+ * - Order status display
+ * - Order management interface
+ * - Customer service order info
+ *
+ * EXAMPLES:
+ * - <OrdersTemplate />
+ * - Mobile order history
+ * - Customer order tracking
+ * - Order management interface
+ */
 const OrdersTemplate = () => {
   const { data: orders, isLoading } = useCustomerOrders()
   const location = useLocation()

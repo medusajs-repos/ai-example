@@ -7,6 +7,53 @@ import Loading from "@/components/common/loading"
 import { Button } from "@/components/common/button"
 import { ChevronRight } from "@medusajs/icons"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for showcasing featured products on homepage and landing pages
+ * - Homepage sections: highlight latest products and new arrivals
+ * - Marketing campaigns: promote specific product collections
+ * - Category pages: show featured products within categories
+ * - Mobile commerce: mobile-optimized product showcases
+ * - SEO pages: featured products for search engine optimization
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for product discovery and conversion
+ * - Essential for marketing campaigns and promotions
+ * - Important for homepage engagement and retention
+ * - Required for new product launches and announcements
+ * - Used in recommendation systems and personalization
+ * - Important for mobile commerce experience
+ * 
+ * FEATURED PRODUCT FEATURES:
+ * - Latest products display with grid layout
+ * - Product cards with images, titles, and prices
+ * - Call-to-action button to view all products
+ * - Loading states for better user experience
+ * - Responsive design for mobile/desktop
+ * - Performance optimization with lazy loading
+ * 
+ * LAYOUT STRUCTURE:
+ * - Section header with title and description
+ * - Product grid (1-4 columns based on screen size)
+ * - Loading skeleton during data fetching
+ * - Call-to-action button for navigation
+ * 
+ * COMMON PATTERNS:
+ * - Homepage featured products section
+ * - Category featured products
+ * - New arrivals showcase
+ * - Mobile product browsing
+ * - Marketing campaign highlights
+ * 
+ * EXAMPLES:
+ * - Homepage with latest products
+ * - Category page with featured items
+ * - Mobile-optimized product showcase
+ * - Marketing campaign product highlights
+ */
+
 const FeaturedProducts = () => {
   const location = useLocation()
   const countryCode = getCountryCodeFromPath(location.pathname)

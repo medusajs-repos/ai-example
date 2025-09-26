@@ -1,6 +1,53 @@
 import { HttpTypes } from "@medusajs/types"
 import { Price } from "@/components/common/price"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for displaying order pricing summary in the storefront
+ * - Order confirmation pages: show final order totals
+ * - Order history pages: display past order pricing
+ * - Order tracking pages: show order cost breakdown
+ * - Mobile commerce: mobile-optimized order summary
+ * - Customer service: order pricing information for support
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for order confirmation and customer trust
+ * - Essential for order pricing transparency
+ * - Important for customer service and support
+ * - Required for order history and management
+ * - Important for mobile commerce experience
+ * 
+ * ORDER SUMMARY FEATURES:
+ * - Detailed pricing breakdown (subtotal, shipping, tax, discount)
+ * - Clear total calculation and display
+ * - Currency formatting and display
+ * - Professional order presentation
+ * - Responsive design for mobile/desktop
+ * - Order cost transparency
+ * 
+ * PRICING BREAKDOWN:
+ * - Subtotal: item prices before taxes and shipping
+ * - Shipping: delivery and handling costs
+ * - Discount: promotional discounts and savings
+ * - Tax: applicable taxes and fees
+ * - Total: final amount charged
+ * 
+ * COMMON PATTERNS:
+ * - Order confirmation pricing
+ * - Order history pricing
+ * - Mobile order summary
+ * - Order tracking pricing
+ * - Customer service order pricing
+ * 
+ * EXAMPLES:
+ * - <OrderSummary order={order} />
+ * - Order confirmation pricing
+ * - Mobile order summary
+ * - Order tracking pricing
+ */
+
 type OrderSummaryProps = {
   order: HttpTypes.StoreOrder;
 }

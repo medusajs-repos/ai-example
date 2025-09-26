@@ -5,6 +5,53 @@ import { clx } from "@medusajs/ui"
 import { Link, useLocation, useNavigate } from "@tanstack/react-router"
 import { useState } from "react"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ *
+ * WHEN TO USE:
+ * - Use for account navigation in the storefront
+ * - Account pages: sidebar navigation for account sections
+ * - Customer dashboard: navigation between account sections
+ * - Mobile commerce: mobile-optimized account navigation
+ * - Account management: navigation between account features
+ * - User experience: clear account section navigation
+ *
+ * ECOMMERCE CONTEXT:
+ * - Critical for customer account navigation
+ * - Essential for user experience and orientation
+ * - Important for customer retention and loyalty
+ * - Required for account section navigation
+ * - Used in customer service and support
+ * - Important for mobile commerce experience
+ *
+ * ACCOUNT NAV FEATURES:
+ * - Account section navigation links
+ * - Current page highlighting and indication
+ * - Mobile-responsive navigation
+ * - Logout functionality
+ * - Professional navigation presentation
+ * - Responsive design for mobile/desktop
+ *
+ * NAVIGATION SECTIONS:
+ * - Overview: account dashboard and summary
+ * - Profile: customer profile management
+ * - Addresses: address book management
+ * - Orders: order history and tracking
+ * - Logout: account logout functionality
+ *
+ * COMMON PATTERNS:
+ * - Customer account navigation
+ * - Mobile account navigation
+ * - Account section navigation
+ * - Customer dashboard navigation
+ * - Account management navigation
+ *
+ * EXAMPLES:
+ * - <AccountNav /> // In account layout
+ * - Mobile account navigation
+ * - Customer dashboard navigation
+ * - Account section navigation
+ */
 const AccountNav = () => {
   const location = useLocation()
   const logout = useLogout()

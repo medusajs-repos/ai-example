@@ -5,6 +5,54 @@ import { Link, useLocation } from "@tanstack/react-router"
 import AccountContainer from "@/components/account/account-container"
 import { Price } from "@/components/common/price"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for customer account overview in the storefront
+ * - Account dashboard: main customer account information and stats
+ * - Customer profile: profile completion and account summary
+ * - Order history: recent orders and order management
+ * - Mobile commerce: mobile-optimized account overview
+ * - Customer engagement: encourage profile completion and engagement
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for customer account management
+ * - Essential for customer engagement and retention
+ * - Important for order history and tracking
+ * - Required for profile completion and data collection
+ * - Used in customer service and support
+ * - Important for mobile commerce experience
+ * 
+ * OVERVIEW FEATURES:
+ * - Account summary with profile completion
+ * - Saved addresses count and management
+ * - Recent orders display and tracking
+ * - Order status and fulfillment information
+ * - Quick access to account sections
+ * - Responsive design for mobile/desktop
+ * 
+ * ACCOUNT STATS:
+ * - Profile completion percentage
+ * - Saved addresses count
+ * - Recent orders display
+ * - Order status tracking
+ * - Quick navigation to account sections
+ * 
+ * COMMON PATTERNS:
+ * - Customer account dashboard
+ * - Mobile account overview
+ * - Order history display
+ * - Profile completion tracking
+ * - Account management interface
+ * 
+ * EXAMPLES:
+ * - <Overview customer={customer} />
+ * - Mobile account dashboard
+ * - Customer profile overview
+ * - Order history dashboard
+ */
+
 interface OverviewProps {
   customer: HttpTypes.StoreCustomer;
 }

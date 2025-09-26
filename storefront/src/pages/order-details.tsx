@@ -5,6 +5,52 @@ import { Navigate, useLoaderData } from "@tanstack/react-router"
 import AccountContainer from "@/components/account/account-container"
 import Loading from "@/components/common/loading"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ *
+ * WHEN TO USE:
+ * - Use for detailed order information pages in the storefront
+ * - Order details: comprehensive order information and tracking
+ * - Order management: detailed order view and status
+ * - Mobile commerce: mobile-optimized order details
+ * - Customer service: order information for support
+ * - Order tracking: detailed order status and fulfillment
+ *
+ * ECOMMERCE CONTEXT:
+ * - Critical for order tracking and customer satisfaction
+ * - Essential for order details and status updates
+ * - Important for customer service and support
+ * - Required for order history and management
+ * - Used in order fulfillment and tracking
+ * - Important for mobile commerce experience
+ *
+ * ORDER DETAILS FEATURES:
+ * - Complete order information display
+ * - Order status and fulfillment tracking
+ * - Order items and pricing details
+ * - Shipping and billing information
+ * - Professional order presentation
+ * - Responsive design for mobile/desktop
+ *
+ * PAGE STRUCTURE:
+ * - Authentication check and redirect
+ * - Loading states during data fetching
+ * - Account layout with order details
+ * - Complete order information display
+ *
+ * COMMON PATTERNS:
+ * - Order details pages
+ * - Mobile order tracking
+ * - Order management interface
+ * - Customer service order info
+ * - Order fulfillment tracking
+ *
+ * EXAMPLES:
+ * - Order details page
+ * - Mobile order tracking
+ * - Order management interface
+ * - Customer service order info
+ */
 const OrderDetailsPage = () => {
   const { countryCode, order } = useLoaderData({
     from: "/$countryCode/account/orders/details/$id"

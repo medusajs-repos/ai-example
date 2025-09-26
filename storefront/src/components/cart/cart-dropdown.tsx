@@ -12,6 +12,54 @@ import { sortCartItems } from "@/lib/utils/cart/sort-cart-items"
 
 export const DEFAULT_CART_DROPDOWN_FIELDS = "id, *items, total, currency_code, item_subtotal"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for cart dropdown in the storefront navigation
+ * - Header navigation: quick cart preview and access
+ * - Mobile commerce: mobile cart dropdown interface
+ * - Desktop navigation: hover cart preview
+ * - Quick cart access: without leaving current page
+ * - Cart item management: quick cart operations
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for cart visibility and access
+ * - Essential for quick cart management
+ * - Important for user experience and conversion
+ * - Required for cart abandonment prevention
+ * - Used in navigation and header components
+ * - Important for mobile commerce experience
+ * 
+ * DROPDOWN FEATURES:
+ * - Hover-triggered cart preview
+ * - Cart item count display
+ * - Quick cart item viewing
+ * - Subtotal display
+ * - Direct navigation to full cart
+ * - Empty cart state handling
+ * 
+ * CART DISPLAY:
+ * - Shows cart item count in navigation
+ * - Displays cart items in compact format
+ * - Shows subtotal and pricing
+ * - Provides quick access to full cart
+ * - Handles empty cart gracefully
+ * 
+ * COMMON PATTERNS:
+ * - Header cart dropdown
+ * - Mobile cart preview
+ * - Desktop hover cart
+ * - Quick cart access
+ * - Cart item management
+ * 
+ * EXAMPLES:
+ * - <CartDropdown /> // In header navigation
+ * - Mobile cart dropdown
+ * - Desktop hover cart preview
+ * - Quick cart access from any page
+ */
+
 const CartDropdown = () => {
   const { data: cart } = useCart({
     fields: DEFAULT_CART_DROPDOWN_FIELDS

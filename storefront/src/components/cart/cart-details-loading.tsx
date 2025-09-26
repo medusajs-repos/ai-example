@@ -1,6 +1,54 @@
 import Loading from "@/components/common/loading"
 
 /**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for loading states in cart pages in the storefront
+ * - Cart pages: show loading while fetching cart data
+ * - Cart management: display loading during cart operations
+ * - Mobile commerce: mobile-optimized cart loading
+ * - Performance optimization: improve perceived performance
+ * - User experience: better loading state management
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for user experience during cart loading
+ * - Essential for perceived performance and engagement
+ * - Important for cart state management
+ * - Required for cart data loading
+ * - Used in cart operations and updates
+ * - Important for mobile commerce experience
+ * 
+ * LOADING FEATURES:
+ * - Cart page skeleton layout
+ * - Cart item skeleton placeholders
+ * - Cart summary skeleton placeholders
+ * - Responsive design for mobile/desktop
+ * - Professional loading presentation
+ * - Consistent loading state management
+ * 
+ * SKELETON LAYOUT:
+ * - Cart items: product images, details, quantities, prices
+ * - Cart summary: totals, taxes, shipping, discounts
+ * - Promo section: promotional code placeholders
+ * - Checkout button: call-to-action placeholder
+ * - Responsive: mobile-optimized layout
+ * 
+ * COMMON PATTERNS:
+ * - Cart page loading
+ * - Mobile cart loading
+ * - Cart management loading
+ * - Cart operation loading
+ * - Cart state loading
+ * 
+ * EXAMPLES:
+ * - <CartDetailsLoading />
+ * - Cart page loading
+ * - Mobile cart loading
+ * - Cart management loading
+ */
+
+/**
  * Loading component that matches the cart page layout
  * Shows skeleton placeholders for all sections of the cart page
  */

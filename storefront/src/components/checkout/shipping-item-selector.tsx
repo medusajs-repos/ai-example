@@ -5,6 +5,54 @@ import { useEffect, useState } from "react"
 import { calculatePriceForShippingOption } from "@/lib/data/checkout/shipping"
 import Radio from "@/components/common/radio"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for shipping method selection in the storefront
+ * - Checkout pages: shipping method selection and configuration
+ * - Delivery options: shipping method display and selection
+ * - Mobile commerce: mobile-optimized shipping selection
+ * - Shipping calculation: display shipping costs and options
+ * - International commerce: shipping options for different regions
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for shipping cost calculation and display
+ * - Essential for delivery time estimation and communication
+ * - Important for international shipping and compliance
+ * - Required for order fulfillment and tracking
+ * - Used in shipping cost optimization
+ * - Important for mobile commerce experience
+ * 
+ * SHIPPING SELECTOR FEATURES:
+ * - Shipping method display and selection
+ * - Shipping cost calculation and display
+ * - Delivery time estimation and communication
+ * - International shipping options
+ * - Shipping method validation and error handling
+ * - Responsive design for mobile/desktop
+ * 
+ * SHIPPING OPTIONS:
+ * - Standard shipping: regular delivery times
+ * - Express shipping: faster delivery options
+ * - Economy shipping: cost-effective delivery
+ * - International shipping: cross-border delivery
+ * - Free shipping: promotional shipping options
+ * 
+ * COMMON PATTERNS:
+ * - Checkout shipping selection
+ * - Mobile shipping selection
+ * - International shipping options
+ * - Shipping cost display
+ * - Delivery time estimation
+ * 
+ * EXAMPLES:
+ * - <ShippingItemSelector shippingOption={option} cart={cart} isSelected={selected} handleSelect={handleSelect} />
+ * - Checkout shipping selection
+ * - Mobile shipping options
+ * - International shipping handling
+ */
+
 type ShippingItemSelectorProps = {
   shippingOption: HttpTypes.StoreCartShippingOption
   cart: HttpTypes.StoreCart

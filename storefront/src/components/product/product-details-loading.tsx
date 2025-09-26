@@ -1,6 +1,54 @@
 import Loading from "@/components/common/loading"
 
 /**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for loading states in product detail pages in the storefront
+ * - Product pages: show loading while fetching product information
+ * - Product showcases: display loading during product data loading
+ * - Mobile commerce: mobile-optimized product detail loading
+ * - Performance optimization: improve perceived performance
+ * - SEO pages: loading states for product pages
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for user experience during product loading
+ * - Essential for perceived performance and engagement
+ * - Important for product information loading
+ * - Required for product detail page loading
+ * - Used in product recommendation systems
+ * - Important for mobile commerce experience
+ * 
+ * LOADING FEATURES:
+ * - Product detail skeleton layout
+ * - Product information skeleton placeholders
+ * - Product image skeleton placeholders
+ * - Product actions skeleton placeholders
+ * - Related products skeleton placeholders
+ * - Responsive design for mobile/desktop
+ * 
+ * SKELETON LAYOUT:
+ * - Product info: title, description, price placeholders
+ * - Product image: main image placeholder
+ * - Product actions: add to cart, variant selection placeholders
+ * - Related products: 4 product placeholders
+ * - Responsive: mobile-optimized layout
+ * 
+ * COMMON PATTERNS:
+ * - Product detail loading
+ * - Mobile product loading
+ * - Product showcase loading
+ * - Product information loading
+ * - Product page loading
+ * 
+ * EXAMPLES:
+ * - <ProductDetailsLoading />
+ * - Product detail page loading
+ * - Mobile product loading
+ * - Product showcase loading
+ */
+
+/**
  * Loading component that matches the product details layout
  * Shows skeleton placeholders for all sections of the product details page
  */

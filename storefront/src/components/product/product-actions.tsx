@@ -16,6 +16,46 @@ import { DEFAULT_CART_DROPDOWN_FIELDS } from "@/components/cart/cart-dropdown"
 const ProductPrice = lazy(() => import("@/components/product/product-price"))
 const ProductOptionSelect = lazy(() => import("@/components/product/product-option-select"))
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use on product detail pages for the main product interaction area
+ * - Product pages: display variant selection and add-to-cart functionality
+ * - Quick shop modals: show product actions in popup windows
+ * - Product comparison: display actions for compared products
+ * - Mobile product views: compact product interaction interface
+ * - Featured products: show actions for highlighted products
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for product conversion and sales
+ * - Essential for variant selection and customization
+ * - Important for inventory management and stock checking
+ * - Required for cart functionality and checkout flow
+ * - Used in product recommendation systems
+ * - Critical for mobile commerce experience
+ * 
+ * KEY FEATURES:
+ * - Variant selection (size, color, material, etc.)
+ * - Stock availability checking
+ * - Price display with variant-specific pricing
+ * - Add to cart functionality with validation
+ * - Loading states and error handling
+ * - Toast notifications for user feedback
+ * 
+ * VARIANT HANDLING:
+ * - Automatically selects single variants
+ * - Validates variant combinations
+ * - Checks stock availability
+ * - Updates pricing based on selection
+ * - Handles out-of-stock scenarios
+ * 
+ * EXAMPLES:
+ * - <ProductActions handle="product-handle" region={region} />
+ * - <ProductActions handle="featured-product" region={region} disabled={isLoading} />
+ * - <ProductActions handle="quick-shop-item" region={region} />
+ */
+
 type ProductActionsProps = {
   handle: string;
   region: HttpTypes.StoreRegion;

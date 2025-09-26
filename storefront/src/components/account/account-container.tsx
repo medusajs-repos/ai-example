@@ -1,5 +1,51 @@
 import { type ReactNode } from "react"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ *
+ * WHEN TO USE:
+ * - Use for account page containers in the storefront
+ * - Account pages: consistent layout for customer account sections
+ * - Customer dashboard: structured layout for account management
+ * - Mobile commerce: mobile-optimized account layout
+ * - Account navigation: provides consistent account page structure
+ * - Customer service: includes customer service information and links
+ *
+ * ECOMMERCE CONTEXT:
+ * - Critical for customer account management
+ * - Essential for user experience and navigation
+ * - Important for customer retention and loyalty
+ * - Required for account security and access
+ * - Used in customer service and support
+ * - Important for mobile commerce experience
+ *
+ * ACCOUNT CONTAINER FEATURES:
+ * - Consistent account page layout
+ * - Page title and description display
+ * - Back navigation link support
+ * - Responsive design for mobile/desktop
+ * - Professional account presentation
+ * - Consistent branding and styling
+ *
+ * CONTAINER STRUCTURE:
+ * - Header: title, description, and back link
+ * - Content: main account information and forms
+ * - Layout: consistent spacing and structure
+ * - Responsive: mobile-optimized layout
+ *
+ * COMMON PATTERNS:
+ * - Customer account pages
+ * - Mobile account layout
+ * - Account navigation layout
+ * - Customer service layout
+ * - Account management interface
+ *
+ * EXAMPLES:
+ * - <AccountContainer title="Profile" description="Manage your profile information"><ProfileForm /></AccountContainer>
+ * - Mobile account layout
+ * - Customer dashboard layout
+ * - Account navigation layout
+ */
 interface AccountContainerProps {
   title: string;
   description: string;

@@ -9,6 +9,52 @@ import { setStoredCountryCode } from "@/lib/utils/region/stored-country-code"
 import { useUpdateCart } from "@/lib/hooks/dynamic/use-cart"
 import { buildPathWithCountryCode } from "@/lib/utils/region/build-path-with-country-code"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for country/region selection in the storefront
+ * - Header navigation: allow users to switch countries/regions
+ * - Checkout pages: country selection for shipping and billing
+ * - Account settings: user's preferred country/region
+ * - Product pages: show region-specific pricing and availability
+ * - Mobile commerce: mobile-optimized country selection
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for international commerce and localization
+ * - Essential for region-specific pricing and shipping
+ * - Important for currency and tax calculation
+ * - Required for compliance with local regulations
+ * - Used in cart management and checkout flow
+ * - Important for user experience and conversion
+ * 
+ * COUNTRY SELECT FEATURES:
+ * - Dropdown with country flags and names
+ * - Automatic cart region updates
+ * - URL path updates for country-specific routing
+ * - Smart dropdown positioning (above/below)
+ * - Country code persistence
+ * - Responsive design for mobile/desktop
+ * 
+ * REGION HANDLING:
+ * - Updates cart region when country changes
+ * - Maintains URL structure with country codes
+ * - Handles region-specific pricing and availability
+ * - Manages currency and tax calculations
+ * 
+ * COMMON PATTERNS:
+ * - Header country selector
+ * - Checkout country selection
+ * - Mobile country picker
+ * - Region-specific product display
+ * - International shipping selection
+ * 
+ * EXAMPLES:
+ * - <CountrySelect regions={availableRegions} />
+ * - <CountrySelect regions={regions} className="w-48" />
+ * - Header country selector for international stores
+ */
+
 type CountryOption = {
   country_code: string
   region_id: string

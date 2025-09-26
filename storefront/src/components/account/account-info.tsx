@@ -1,6 +1,53 @@
 import { ReactNode, useState } from "react"
 import { Button } from "@/components/common/button"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ *
+ * WHEN TO USE:
+ * - Use for account information display and editing in the storefront
+ * - Account pages: display and edit customer information
+ * - Profile management: customer profile information display
+ * - Mobile commerce: mobile-optimized account information
+ * - Account editing: inline editing of account information
+ * - User experience: clear account information management
+ *
+ * ECOMMERCE CONTEXT:
+ * - Critical for customer account management
+ * - Essential for user experience and data management
+ * - Important for customer retention and loyalty
+ * - Required for account information display and editing
+ * - Used in customer service and support
+ * - Important for mobile commerce experience
+ *
+ * ACCOUNT INFO FEATURES:
+ * - Account information display and editing
+ * - Inline editing with edit/cancel functionality
+ * - Success/error message display
+ * - Form validation and error handling
+ * - Responsive design for mobile/desktop
+ * - Professional account presentation
+ *
+ * INFO MANAGEMENT:
+ * - Display current account information
+ * - Edit mode with form fields
+ * - Success/error feedback
+ * - Clear state management
+ * - Professional information presentation
+ *
+ * COMMON PATTERNS:
+ * - Customer account information
+ * - Mobile account info display
+ * - Account editing interface
+ * - Profile information management
+ * - Account data display
+ *
+ * EXAMPLES:
+ * - <AccountInfo label="Email" currentInfo={customer.email}><EmailForm /></AccountInfo>
+ * - <AccountInfo label="Name" currentInfo={customer.name}><NameForm /></AccountInfo>
+ * - Mobile account information
+ * - Account editing interface
+ */
 interface AccountInfoProps {
   label: string
   currentInfo: ReactNode

@@ -1,7 +1,26 @@
 import { clx } from "@medusajs/ui"
 
 /**
- * A simple skeleton loading component that shows rows of pulsing divs
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use during data loading states in storefront
+ * - Checkout pages: while processing payment information
+ * - Search results: while filtering and searching products
+ * - Account pages: while loading user data and order history
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Essential for improving perceived performance during API calls
+ * - Prevents layout shifts while content loads
+ * - Provides visual feedback during slow network requests
+ * - Critical for user experience during checkout flow
+ * - Used in product discovery and browsing
+ * - Important for account management and order history
+ * 
+ * EXAMPLES:
+ * - <Loading rows={3} columns={4} /> // Product grid
+ * - <Loading rows={2} columns={1} /> // Product card
+ * - <Loading rows={1} columns={1} /> // Single item
  * 
  * @example
  * // Basic skeleton with 3 rows and 1 column

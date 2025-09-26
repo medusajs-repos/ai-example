@@ -1,5 +1,52 @@
 import { HttpTypes } from "@medusajs/types"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for displaying product information in the storefront
+ * - Product detail pages: show product title and description
+ * - Product showcases: highlight product features and benefits
+ * - Mobile commerce: mobile-optimized product information
+ * - SEO pages: optimized product information for search engines
+ * - Product comparisons: display product details for comparison
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for product information and specifications
+ * - Essential for SEO and search engine optimization
+ * - Important for user experience and product understanding
+ * - Required for product comparison and selection
+ * - Used in product recommendation systems
+ * - Important for mobile commerce experience
+ * 
+ * PRODUCT INFO FEATURES:
+ * - Product title display and formatting
+ * - Product description with proper formatting
+ * - SEO-friendly product information
+ * - Responsive design for mobile/desktop
+ * - Professional product presentation
+ * - Clear product identification
+ * 
+ * PRODUCT INFORMATION:
+ * - Product title: clear and descriptive
+ * - Product description: detailed product information
+ * - SEO optimization: search engine friendly
+ * - Mobile optimization: responsive design
+ * 
+ * COMMON PATTERNS:
+ * - Product detail information
+ * - Mobile product information
+ * - SEO product pages
+ * - Product comparison information
+ * - Product showcase information
+ * 
+ * EXAMPLES:
+ * - <ProductInfo product={product} />
+ * - Product detail page information
+ * - Mobile product information
+ * - SEO-optimized product pages
+ */
+
 type ProductInfoProps = {
   product: HttpTypes.StoreProduct
 }

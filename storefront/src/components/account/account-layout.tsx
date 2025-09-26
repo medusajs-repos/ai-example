@@ -2,6 +2,53 @@ import { HttpTypes } from "@medusajs/types"
 import { ReactNode } from "react"
 import AccountNav from "@/components/account/account-nav"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for account page layouts in the storefront
+ * - Account pages: provides consistent layout for customer account sections
+ * - Customer dashboard: structured layout for account management
+ * - Mobile commerce: mobile-optimized account layout
+ * - Account navigation: provides sidebar navigation for account sections
+ * - Customer service: includes customer service information and links
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for customer account management
+ * - Essential for user experience and navigation
+ * - Important for customer retention and loyalty
+ * - Required for account security and access
+ * - Used in customer service and support
+ * - Important for mobile commerce experience
+ * 
+ * LAYOUT FEATURES:
+ * - Sidebar navigation for account sections
+ * - Main content area for account information
+ * - Customer service footer with support links
+ * - Responsive design for mobile/desktop
+ * - Professional account presentation
+ * - Consistent branding and styling
+ * 
+ * ACCOUNT STRUCTURE:
+ * - Navigation: sidebar with account sections
+ * - Content: main account information and forms
+ * - Footer: customer service and support information
+ * - Responsive: mobile-optimized layout
+ * 
+ * COMMON PATTERNS:
+ * - Customer account dashboard
+ * - Mobile account layout
+ * - Account navigation layout
+ * - Customer service layout
+ * - Account management interface
+ * 
+ * EXAMPLES:
+ * - <AccountLayout customer={customer}><AccountContent /></AccountLayout>
+ * - Mobile account layout
+ * - Customer dashboard layout
+ * - Account navigation layout
+ */
+
 interface AccountLayoutProps {
   children: ReactNode
   customer?: HttpTypes.StoreCustomer | null

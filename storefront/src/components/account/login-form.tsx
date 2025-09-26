@@ -5,6 +5,52 @@ import { useState } from "react"
 import { Button } from "@/components/common/button"
 import { Input } from "@/components/common/input"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for customer authentication in the storefront
+ * - Login pages: customer account access and authentication
+ * - Checkout flow: guest checkout with optional login
+ * - Account management: secure access to customer accounts
+ * - Mobile commerce: mobile-optimized login experience
+ * - Social commerce: integration with social login providers
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for customer account management
+ * - Essential for personalized shopping experiences
+ * - Important for order history and tracking
+ * - Required for saved addresses and preferences
+ * - Used in checkout flow optimization
+ * - Important for customer retention and loyalty
+ * 
+ * AUTHENTICATION FEATURES:
+ * - Email and password authentication
+ * - Form validation and error handling
+ * - Loading states during authentication
+ * - Success/error feedback to users
+ * - Redirect to account page after login
+ * - Link to registration for new users
+ * 
+ * FORM VALIDATION:
+ * - Required field validation
+ * - Email format validation
+ * - Password requirements
+ * - Error message display
+ * - Form submission handling
+ * 
+ * COMMON PATTERNS:
+ * - Customer login forms
+ * - Checkout login integration
+ * - Mobile login optimization
+ * - Social login integration
+ * 
+ * EXAMPLES:
+ * - <LoginForm onSuccess={() => navigate('/account')} />
+ * - <LoginForm /> // Basic login form
+ * - <LoginForm onSuccess={handleLoginSuccess} />
+ */
+
 interface LoginFormProps {
   onSuccess?: () => void;
 }

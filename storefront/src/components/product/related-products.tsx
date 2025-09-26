@@ -3,6 +3,54 @@ import ProductCard from "@/components/product/product-card"
 import Loading from "@/components/common/loading"
 import { useRelatedProducts } from "@/lib/hooks/static/use-products"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for displaying related products in the storefront
+ * - Product detail pages: show similar or complementary products
+ * - Product recommendations: suggest products based on current product
+ * - Cross-selling: display products that go well together
+ * - Mobile commerce: mobile-optimized product recommendations
+ * - Product discovery: help users find related products
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for cross-selling and upselling
+ * - Essential for product discovery and browsing
+ * - Important for conversion optimization and sales
+ * - Required for product recommendation systems
+ * - Used in personalization and user engagement
+ * - Important for mobile commerce experience
+ * 
+ * RELATED PRODUCTS FEATURES:
+ * - Product recommendations based on current product
+ * - Cross-selling and upselling opportunities
+ * - Product discovery and browsing
+ * - Loading states for better user experience
+ * - Responsive design for mobile/desktop
+ * - Professional product presentation
+ * 
+ * RECOMMENDATION TYPES:
+ * - Similar products: same category or type
+ * - Complementary products: products that go together
+ * - Popular products: trending or popular items
+ * - Recently viewed: customer's browsing history
+ * - Cross-selling: products that enhance the purchase
+ * 
+ * COMMON PATTERNS:
+ * - Product detail page recommendations
+ * - Mobile product recommendations
+ * - Cross-selling product displays
+ * - Product discovery sections
+ * - Recommendation carousels
+ * 
+ * EXAMPLES:
+ * - <RelatedProducts product={currentProduct} region={region} />
+ * - Product detail page with recommendations
+ * - Mobile product recommendations
+ * - Cross-selling product display
+ */
+
 type RelatedProductsProps = {
   product: HttpTypes.StoreProduct
   region: HttpTypes.StoreRegion

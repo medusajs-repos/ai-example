@@ -4,6 +4,54 @@ import { useCategories } from "@/lib/hooks/static/use-categories"
 import { useRegions } from "@/lib/hooks/static/use-region"
 import CountrySelect from "@/components/common/country-select"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for site footer in the storefront
+ * - Site footer: navigation links and company information
+ * - Mobile commerce: mobile-optimized footer navigation
+ * - SEO pages: footer links for search engine optimization
+ * - Legal pages: terms of service and privacy policy links
+ * - Contact information: company details and support
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for site navigation and user experience
+ * - Essential for SEO and search engine optimization
+ * - Important for legal compliance and trust
+ * - Required for company information and contact
+ * - Used in international commerce and localization
+ * - Important for mobile commerce experience
+ * 
+ * FOOTER FEATURES:
+ * - Company branding and information
+ * - Navigation links to key sections
+ * - Category links for product discovery
+ * - Country/region selection for international stores
+ * - Legal links (privacy, terms)
+ * - Responsive design for mobile/desktop
+ * 
+ * NAVIGATION:
+ * - Category links for product discovery
+ * - Resource links for documentation
+ * - Legal and compliance links
+ * - Country selection for international stores
+ * - Company information and branding
+ * 
+ * COMMON PATTERNS:
+ * - Ecommerce site footer
+ * - Mobile footer navigation
+ * - International store footer
+ * - Legal compliance footer
+ * - Company information footer
+ * 
+ * EXAMPLES:
+ * - <Footer /> // Site footer
+ * - Mobile-optimized footer
+ * - International store footer
+ * - Legal compliance footer
+ */
+
 const Footer = () => {
   const location = useLocation()
   const countryCode = getCountryCodeFromPath(location.pathname)

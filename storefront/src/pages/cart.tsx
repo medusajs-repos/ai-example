@@ -12,6 +12,60 @@ const CartPromo = lazy(() => import("@/components/cart/cart-promo"))
 
 const DEFAULT_CART_FIELDS = "id, *items, total, currency_code, subtotal, shipping_total, discount_total, tax_total, *promotions"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for shopping cart pages in the storefront
+ * - Cart pages: display and manage customer cart contents
+ * - Checkout flow: cart review before proceeding to checkout
+ * - Mobile commerce: mobile-optimized cart experience
+ * - Cart abandonment: cart recovery and re-engagement
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for cart management and user experience
+ * - Essential for checkout flow and order processing
+ * - Important for cart abandonment recovery
+ * - Required for inventory management and stock checking
+ * - Used in promotional campaigns and discounts
+ * - Critical for mobile commerce experience
+ * 
+ * PAGE LAYOUT:
+ * - Two-column responsive layout
+ * - Left: Cart items with quantity controls and remove options
+ * - Right: Cart summary with totals, promotions, and checkout button
+ * - Empty state: encouraging message to continue shopping
+ * 
+ * KEY FEATURES:
+ * - Cart item management (quantity, remove)
+ * - Price calculation and totals
+ * - Promotional code application
+ * - Shipping and tax calculation
+ * - Checkout button and flow initiation
+ * - Continue shopping functionality
+ * - Responsive design for mobile/desktop
+ * 
+ * CART FUNCTIONALITY:
+ * - Auto-create cart if none exists
+ * - Sort cart items for consistent display
+ * - Real-time price updates
+ * - Promotional code handling
+ * - Stock validation
+ * 
+ * COMMON PATTERNS:
+ * - Shopping cart with multiple items
+ * - Empty cart state with recommendations
+ * - Mobile cart optimization
+ * - Cart abandonment recovery
+ * - Promotional cart experiences
+ * 
+ * EXAMPLES:
+ * - Full shopping cart with multiple items
+ * - Empty cart with product recommendations
+ * - Mobile-optimized cart experience
+ * - Cart with promotional discounts
+ */
+
 const Cart = () => {
   const { region, countryCode } = useLoaderData({
     from: "/$countryCode/cart"

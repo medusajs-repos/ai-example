@@ -6,6 +6,55 @@ import { useApplyPromoCode, useRemovePromoCode } from "@/lib/hooks/dynamic/use-c
 import { XMark } from "@medusajs/icons"
 import { Input } from "@/components/common/input"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for promotional code management in the storefront
+ * - Cart pages: apply and manage promotional codes
+ * - Checkout pages: promotional code application
+ * - Mobile commerce: mobile-optimized promo code handling
+ * - Cart management: promotional code control
+ * - User experience: easy promo code application
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for promotional campaigns and marketing
+ * - Essential for discount application and management
+ * - Important for customer engagement and retention
+ * - Required for promotional code validation
+ * - Used in marketing campaigns and promotions
+ * - Important for mobile commerce experience
+ * 
+ * PROMO CODE FEATURES:
+ * - Promotional code application and validation
+ * - Applied promo code display and management
+ * - Promo code removal and cleanup
+ * - Success/error feedback and notifications
+ * - Responsive design for mobile/desktop
+ * - Professional promo code presentation
+ * 
+ * PROMO CODE FUNCTIONALITY:
+ * - Apply promotional codes to cart
+ * - Display applied promo codes
+ * - Remove applied promo codes
+ * - Validate promo code eligibility
+ * - Handle promo code errors gracefully
+ * - Update cart totals with discounts
+ * 
+ * COMMON PATTERNS:
+ * - Cart promo code application
+ * - Mobile promo code handling
+ * - Checkout promo code application
+ * - Promotional campaign integration
+ * - Discount code management
+ * 
+ * EXAMPLES:
+ * - <CartPromo cart={cart} />
+ * - Cart page promo code application
+ * - Mobile promo code handling
+ * - Checkout promo code application
+ */
+
 type CartPromoProps = {
   cart: HttpTypes.StoreCart
 }

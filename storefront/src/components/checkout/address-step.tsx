@@ -7,6 +7,54 @@ import { getStoredCountryCode } from "@/lib/utils/region/stored-country-code"
 import { Input } from "@/components/common/input"
 import { Checkbox } from "@/components/common/checkbox"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for address collection in the checkout flow
+ * - Checkout pages: shipping and billing address collection
+ * - Guest checkout: address collection for non-registered users
+ * - Mobile commerce: mobile-optimized address collection
+ * - Address validation: ensure valid addresses for shipping
+ * - International commerce: country-specific address handling
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for shipping calculation and delivery
+ * - Essential for tax calculation based on location
+ * - Important for order fulfillment and tracking
+ * - Required for international shipping compliance
+ * - Used in address validation and verification
+ * - Important for mobile commerce experience
+ * 
+ * ADDRESS STEP FEATURES:
+ * - Shipping address collection and validation
+ * - Billing address collection (optional)
+ * - Email address collection for order updates
+ * - Country-specific address validation
+ * - Same billing/shipping address option
+ * - Form validation and error handling
+ * 
+ * ADDRESS COLLECTION:
+ * - Shipping address: required for delivery
+ * - Billing address: optional, can be same as shipping
+ * - Email address: for order updates and confirmation
+ * - Country validation: ensures valid shipping countries
+ * - Address validation: ensures complete address information
+ * 
+ * COMMON PATTERNS:
+ * - Checkout address collection
+ * - Guest checkout address handling
+ * - Mobile address collection
+ * - International address handling
+ * - Address validation and verification
+ * 
+ * EXAMPLES:
+ * - <AddressStep cart={cart} onNext={handleNext} />
+ * - Checkout address collection
+ * - Mobile address collection
+ * - International address handling
+ */
+
 interface AddressStepProps {
   cart: HttpTypes.StoreCart
   onNext: () => void

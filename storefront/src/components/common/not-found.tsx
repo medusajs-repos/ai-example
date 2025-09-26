@@ -2,6 +2,53 @@ import { Heading } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
 import { Link, useLocation } from "@tanstack/react-router"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for 404 error pages in the storefront
+ * - Missing pages: display when users navigate to non-existent URLs
+ * - Product pages: show when products are not found or removed
+ * - Category pages: display when categories don't exist
+ * - Search results: show when no results are found
+ * - Account pages: display when account sections are not found
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for user experience and navigation
+ * - Essential for SEO and search engine optimization
+ * - Important for maintaining user engagement
+ * - Required for proper error handling
+ * - Used in product catalog management
+ * - Important for customer retention
+ * 
+ * 404 PAGE FEATURES:
+ * - Clear 404 error indication
+ * - User-friendly error messaging
+ * - Navigation back to homepage
+ * - Current path display for debugging
+ * - Professional error presentation
+ * - Responsive design for mobile/desktop
+ * 
+ * ERROR HANDLING:
+ * - Displays current path for reference
+ * - Provides clear navigation options
+ * - Maintains brand consistency
+ * - Offers alternative navigation paths
+ * 
+ * COMMON PATTERNS:
+ * - Product not found pages
+ * - Category not found pages
+ * - Search no results pages
+ * - Account section not found
+ * - General 404 error pages
+ * 
+ * EXAMPLES:
+ * - <NotFound /> // Generic 404 page
+ * - Product not found with search suggestions
+ * - Category not found with similar categories
+ * - Search no results with alternative suggestions
+ */
+
 const NotFound = () => {
   const location = useLocation()
 

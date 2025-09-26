@@ -6,6 +6,47 @@ import { Thumbnail } from "@/components/common/thumbnail"
 import CartItemQuantitySelector from "@/components/cart/cart-item-quantity-selector"
 import CartDeleteItem from "@/components/cart/cart-delete-item"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for displaying cart items in the storefront
+ * - Cart pages: show full cart item details with controls
+ * - Cart dropdowns: display compact cart item information
+ * - Checkout pages: show cart items in checkout summary
+ * - Mobile cart views: compact cart item display
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Essential for cart management and user experience
+ * - Critical for checkout flow and order processing
+ * - Important for inventory tracking and quantity management
+ * - Required for price calculation and totals
+ * - Important for cart abandonment recovery
+ * 
+ * DISPLAY TYPES:
+ * - "default": Full cart item with image, title, variant, quantity controls, price, delete
+ * - "compact": Condensed view for dropdowns and mobile
+ * - "display": Read-only view for order confirmations and history
+ * 
+ * KEY FEATURES:
+ * - Product thumbnail display
+ * - Product title and variant information
+ * - Quantity selector with increment/decrement
+ * - Price display with currency formatting
+ * - Delete/remove item functionality
+ * - Responsive design for different screen sizes
+ * 
+ * COMMON PATTERNS:
+ * - Shopping cart page items
+ * - Cart dropdown items
+ * - Checkout summary items
+ * 
+ * EXAMPLES:
+ * - <CartLineItem item={item} cart={cart} />
+ * - <CartLineItem item={item} cart={cart} type="compact" />
+ * - <CartLineItem item={item} cart={cart} type="display" />
+ */
+
 interface CartLineItemProps {
   item: HttpTypes.StoreCartLineItem;
   cart: HttpTypes.StoreCart;

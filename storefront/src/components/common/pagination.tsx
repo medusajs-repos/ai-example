@@ -1,5 +1,42 @@
 import { Button } from "@/components/common/button"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for navigating through paginated content in storefront
+ * - Product listings: browse through multiple pages of products
+ * - Search results: navigate through filtered product results
+ * - Order history: browse through customer order history
+ * - Category pages: navigate through product categories
+ * - Blog/content: navigate through articles and content
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Essential for product discovery and browsing
+ * - Critical for search result navigation
+ * - Important for order history management
+ * - Required for large product catalogs
+ * - Important for user experience in content-heavy sections
+ * 
+ * NAVIGATION FEATURES:
+ * - Previous/Next buttons for sequential navigation
+ * - Page number buttons for direct navigation
+ * - Ellipsis (...) for large page ranges
+ * - Disabled states for boundary conditions
+ * - Responsive design for mobile/desktop
+ * 
+ * COMMON PATTERNS:
+ * - Product grid pagination (12-24 items per page)
+ * - Search result pagination (10-20 items per page)
+ * - Order history pagination (10-50 orders per page)
+ * - Category browsing pagination
+ * 
+ * EXAMPLES:
+ * - <Pagination page={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+ * - <Pagination page={1} totalPages={5} onPageChange={setPage} />
+ * - <Pagination page={3} totalPages={10} onPageChange={handlePageChange} data-testid="product-pagination" />
+ */
+
 type PaginationProps = {
   page: number
   totalPages: number

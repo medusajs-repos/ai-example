@@ -1,6 +1,29 @@
 import { clx } from "@medusajs/ui"
 import { ChevronDown } from "@medusajs/icons"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for dropdown selections in ecommerce forms
+ * - Country/region selection for shipping and billing
+ * - Sort options for product listings
+ * - Filter options for product categories
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for international shipping (country selection)
+ * - Important for product discovery (sorting/filtering)
+ * 
+ * COMMON PATTERNS:
+ * - Country selection in address forms
+ * - Sort options (price, popularity, newest)
+ * - Filter options (category, brand, price range)
+ * 
+ * EXAMPLES:
+ * - <Select><option>United States</option></Select>
+ * - <Select><option>Sort by Price</option></Select>
+ */
+
 type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement>
 
 export const Select = ({

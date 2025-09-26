@@ -5,6 +5,54 @@ import { Link, useLocation, useNavigate } from "@tanstack/react-router"
 import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
 import { Input } from "@/components/common/input"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for customer registration in the storefront
+ * - Registration pages: customer account creation and signup
+ * - Checkout flow: optional registration during checkout
+ * - Mobile commerce: mobile-optimized registration experience
+ * - Account creation: new customer onboarding
+ * - User acquisition: customer acquisition and conversion
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Critical for customer acquisition and conversion
+ * - Essential for user onboarding and engagement
+ * - Important for customer data collection and profiling
+ * - Required for personalized shopping experiences
+ * - Used in customer retention and loyalty programs
+ * - Important for mobile commerce experience
+ * 
+ * REGISTRATION FEATURES:
+ * - Customer information collection (name, email, password)
+ * - Form validation and error handling
+ * - Password confirmation and security
+ * - Success/error feedback to users
+ * - Redirect to account page after registration
+ * - Link to login for existing users
+ * 
+ * FORM VALIDATION:
+ * - Required field validation
+ * - Email format validation
+ * - Password strength requirements
+ * - Password confirmation matching
+ * - Error message display
+ * - Form submission handling
+ * 
+ * COMMON PATTERNS:
+ * - Customer registration forms
+ * - Checkout registration integration
+ * - Mobile registration optimization
+ * - Account creation flows
+ * - User onboarding processes
+ * 
+ * EXAMPLES:
+ * - <RegisterForm onSuccess={() => navigate('/account')} />
+ * - <RegisterForm /> // Basic registration form
+ * - <RegisterForm onSuccess={handleRegistrationSuccess} />
+ */
+
 interface RegisterFormProps {
   onSuccess?: () => void
 }

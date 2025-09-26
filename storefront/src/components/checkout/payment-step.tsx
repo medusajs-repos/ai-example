@@ -11,6 +11,46 @@ import { useCallback, useEffect, useState } from "react"
 import { getActivePaymentSession } from "@/lib/utils/checkout/get-active-payment-session"
 import { isPaidWithGiftCard } from "@/lib/utils/checkout/is-paid-with-gift-card"
 
+/**
+ * AI AGENT USAGE GUIDE:
+ * 
+ * WHEN TO USE:
+ * - Use for payment method selection in the checkout flow
+ * - Checkout pages: payment method selection and configuration
+ * - Mobile commerce: mobile-optimized payment selection
+ * - Payment processing: secure payment method handling
+ * - International commerce: region-specific payment methods
+ * - Gift card payments: gift card and promotional payment handling
+ * 
+ * ECOMMERCE CONTEXT:
+ * - Essential in the checkout flow to choose a payment method
+ * - Critical for payment processing and security
+ * - Important for payment method compliance and regulations
+ * - Required for international payment processing
+ * - Used in payment security and fraud prevention
+ * - Important for mobile commerce experience
+ * 
+ * PAYMENT STEP FEATURES:
+ * - Payment method selection and display
+ * - Secure payment processing integration
+ * - Payment method validation and error handling
+ * - International payment method support
+ * - Responsive design for mobile/desktop
+ * 
+ * COMMON PATTERNS:
+ * - Checkout payment selection
+ * - Mobile payment processing
+ * - International payment methods
+ * - Gift card payment handling
+ * - Payment security and validation
+ * 
+ * EXAMPLES:
+ * - <PaymentStep cart={cart} onNext={handleNext} onBack={handleBack} />
+ * - Checkout payment selection
+ * - Mobile payment processing
+ * - International payment handling
+ */
+
 interface PaymentStepProps {
   cart: HttpTypes.StoreCart;
   onNext: () => void;
