@@ -70,7 +70,7 @@ const PaymentStep = ({ cart, onNext, onBack }: PaymentStepProps) => {
 
   return (
     <div className="flex flex-col gap-8">
-      {!paidByGiftcard && availablePaymentMethods?.length && (
+      {!paidByGiftcard && (availablePaymentMethods?.length ?? 0) > 0 && (
         <>
           {availablePaymentMethods.length === 0 && (
             <Text className="txt-medium text-secondary-text">

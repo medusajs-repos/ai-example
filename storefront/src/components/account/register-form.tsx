@@ -127,6 +127,7 @@ const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
             type="password"
             value={formData.password}
             onChange={handleChange}
+            autoComplete="new-password"
           />
         </div>
 
@@ -140,6 +141,7 @@ const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
             type="password"
             value={formData.confirmPassword}
             onChange={handleChange}
+            autoComplete="new-password"
           />
         </div>
 

@@ -77,6 +77,7 @@ const LoginForm = ({ onSuccess }: LoginFormProps) => {
             type="password"
             value={formData.password}
             onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+            autoComplete="current-password"
           />
         </div>
 
