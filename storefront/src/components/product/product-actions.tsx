@@ -5,7 +5,7 @@ import { HttpTypes } from "@medusajs/types"
 import { toast } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
 import { useLocation } from "@tanstack/react-router"
-import { isEqual } from "lodash-es"
+import { isEqual, set } from "lodash-es"
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react"
 import { useProductDynamic } from "@/lib/hooks/dynamic/use-products"
 import Loading from "@/components/common/loading"
@@ -82,6 +82,10 @@ export default function ProductActions({
   })
 
   const actionsRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    setSelectedOptions({})
+  }, [product?.handle])
 
   // If there is only 1 variant, preselect the options
   useEffect(() => {
