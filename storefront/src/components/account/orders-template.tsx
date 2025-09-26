@@ -24,12 +24,12 @@ const OrdersTemplate = () => {
             key={i}
             className="border-b border-ui-border-base pb-8 animate-pulse"
           >
-            <div className="h-4 bg-ui-bg-subtle rounded w-32 mb-2"></div>
-            <div className="h-3 bg-ui-bg-subtle rounded w-24 mb-4"></div>
+            <div className="h-4 bg-ui-bg-subtle w-32 mb-2"></div>
+            <div className="h-3 bg-ui-bg-subtle w-24 mb-4"></div>
             <div className="flex gap-4">
-              <div className="w-12 h-12 bg-ui-bg-subtle rounded"></div>
-              <div className="w-12 h-12 bg-ui-bg-subtle rounded"></div>
-              <div className="w-12 h-12 bg-ui-bg-subtle rounded"></div>
+              <div className="w-12 h-12 bg-ui-bg-subtle"></div>
+              <div className="w-12 h-12 bg-ui-bg-subtle"></div>
+              <div className="w-12 h-12 bg-ui-bg-subtle"></div>
             </div>
           </div>
         ))}
@@ -48,7 +48,7 @@ const OrdersTemplate = () => {
         ))
       ) : (
         <div className="border-b border-primary-border pb-8 text-center py-12">
-          <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-ui-bg-subtle flex items-center justify-center">
+          <div className="w-16 h-16 mx-auto mb-6 bg-ui-bg-subtle flex items-center justify-center">
             <svg
               className="w-6 h-6 text-secondary-text"
               fill="none"
@@ -139,7 +139,7 @@ const OrderItem = ({ order, baseHref }: OrderCardProps) => {
                 <div key={item.id} className="relative">
                   <Thumbnail thumbnail={item.thumbnail} alt={item.title} />
                   {item.quantity > 1 && (
-                    <div className="absolute -top-1 -right-1 bg-primary-text text-white txt-xsmall rounded-full w-4 h-4 flex items-center justify-center">
+                    <div className="absolute -top-1 -right-1 bg-primary-text text-white txt-xsmall w-4 h-4 flex items-center justify-center">
                       {item.quantity}
                     </div>
                   )}
@@ -147,7 +147,7 @@ const OrderItem = ({ order, baseHref }: OrderCardProps) => {
               )
             })}
             {numberOfProducts > 5 && (
-              <div className="w-12 h-12 rounded-md border border-primary-border bg-secondary-bg flex items-center justify-center txt-xsmall text-secondary-text">
+              <div className="w-12 h-12 border border-primary-border bg-secondary-bg flex items-center justify-center txt-xsmall text-secondary-text">
                 +{numberOfProducts - 5}
               </div>
             )}

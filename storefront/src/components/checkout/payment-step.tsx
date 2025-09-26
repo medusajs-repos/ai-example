@@ -6,7 +6,6 @@ import {
   useCartPaymentMethods
 } from "@/lib/hooks/dynamic/checkout/use-payment"
 import { HttpTypes } from "@medusajs/types"
-import { Text } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
 import { useCallback, useEffect, useState } from "react"
 import { getActivePaymentSession } from "@/lib/utils/checkout/get-active-payment-session"
@@ -73,9 +72,9 @@ const PaymentStep = ({ cart, onNext, onBack }: PaymentStepProps) => {
       {!paidByGiftcard && (availablePaymentMethods?.length ?? 0) > 0 && (
         <>
           {availablePaymentMethods.length === 0 && (
-            <Text className="txt-medium text-secondary-text">
+            <p className="txt-medium text-secondary-text">
               No payment methods available
-            </Text>
+            </p>
           )}
           {availablePaymentMethods.map((paymentMethod) => (
             <div key={paymentMethod.id}>
@@ -105,15 +104,15 @@ const PaymentStep = ({ cart, onNext, onBack }: PaymentStepProps) => {
 
       {paidByGiftcard && (
         <div className="flex flex-col w-1/3">
-          <Text className="txt-medium-plus text-primary-text mb-1">
+          <p className="txt-medium-plus text-primary-text mb-1">
             Payment method
-          </Text>
-          <Text
-            className="txt-medium text-secondary-text"
+          </p>
+          <p
+            className="txt-medium-plus text-secondary-text"
             data-testid="payment-method-summary"
           >
             Gift card
-          </Text>
+          </p>
         </div>
       )}
 
@@ -137,7 +136,6 @@ const PaymentStep = ({ cart, onNext, onBack }: PaymentStepProps) => {
             (!selectedPaymentMethod && !paidByGiftcard) ||
             initiatePaymentSessionMutation.isPending
           }
-          isLoading={initiatePaymentSessionMutation.isPending}
           data-testid="submit-payment-button"
         >
           {!activeSession && isStripeFunc(selectedPaymentMethod) ? (

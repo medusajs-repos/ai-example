@@ -1,7 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router"
 import { HttpTypes } from "@medusajs/types"
 import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
-import { Text } from "@medusajs/ui"
 import ProductPrice from "@/components/product/product-price"
 import { Thumbnail } from "@/components/common/thumbnail"
 
@@ -19,14 +18,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
       to={`${baseHref}/products/${product.handle}` as any}
       className="group flex flex-col w-full"
     >
-      <div className="aspect-[29/34] w-full overflow-hidden bg-secondary-bg shadow-elevation-card-rest group-hover:shadow-elevation-card-hover transition-shadow ease-in-out duration-150 rounded relative">
-        <Thumbnail thumbnail={product.thumbnail} alt={product.title} className="absolute inset-0 object-cover object-center group-hover:scale-105 transition-transform duration-300 w-full h-full" />
+      <div className="aspect-[29/34] w-full overflow-hidden bg-secondary-bg relative">
+        <Thumbnail thumbnail={product.thumbnail} alt={product.title} className="absolute inset-0 object-cover object-center w-full h-full" />
       </div>
       
       <div className="flex txt-compact-medium mt-4 justify-between">
-        <Text className="text-primary-text">
+        <span className="text-primary-text">
           {product.title}
-        </Text>
+        </span>
         <ProductPrice 
           product={product} 
           variant={product.variants?.[0]} 

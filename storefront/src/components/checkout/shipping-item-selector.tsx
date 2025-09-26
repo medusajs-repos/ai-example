@@ -1,9 +1,9 @@
 import { HttpTypes } from "@medusajs/types"
-import { Badge, Text } from "@medusajs/ui"
 import { Price } from "@/components/common/price"
 import Loading from "@/components/common/loading"
 import { useEffect, useState } from "react"
 import { calculatePriceForShippingOption } from "@/lib/data/checkout/shipping"
+import Radio from "@/components/common/radio"
 
 type ShippingItemSelectorProps = {
   shippingOption: HttpTypes.StoreCartShippingOption
@@ -22,7 +22,6 @@ const ShippingItemSelector = ({
   const isDisabled = 
     shippingOption.price_type === "calculated" &&
     typeof calculatedPrice !== "number"
-  const isFree = shippingOption.price_type === "flat" && (shippingOption.amount || 0) === 0
   const price = shippingOption.price_type === "calculated" ? calculatedPrice : shippingOption.amount
 
   useEffect(() => {
@@ -39,56 +38,34 @@ const ShippingItemSelector = ({
 
   return (
     <label
-      className={`block transition-all duration-200 rounded-md ${
+      className={`block transition-all duration-200 ${
         isDisabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
       }`}
     >
       <div
-        className={`flex items-center justify-between p-5 border rounded-md transition-colors ${
+        className={`flex items-center justify-between p-5 border transition-colors ${
           isSelected
-            ? "border-accent-text bg-secondary-bg"
+            ? "border-primary-text bg-secondary-bg"
             : "border-primary-border hover:border-primary-border-strong"
         }`}
       >
         <div className="flex items-center gap-4">
-          <div className="relative">
-            <input
-              type="radio"
-              name="shipping_option"
-              value={shippingOption.id}
-              checked={isSelected}
-              onChange={() => handleSelect(shippingOption.id)}
-              disabled={isDisabled}
-              className="sr-only"
-            />
-            <div
-              className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
-                isSelected
-                  ? "border-accent-text bg-accent-text"
-                  : "border-primary-border bg-primary-bg"
-              }`}
-            >
-              {isSelected && (
-                <div className="w-2 h-2 bg-primary-bg rounded-full"></div>
-              )}
-            </div>
-          </div>  
+          <Radio 
+            checked={isSelected}
+            onChange={() => handleSelect(shippingOption.id)}
+            disabled={isDisabled}
+          />
 
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
-              <Text className="txt-medium-plus text-primary-text">
+              <p className="txt-medium-plus text-primary-text">
                 {shippingOption.name}
-              </Text>
-              {isFree && (
-                <Badge size="small" color="green">
-                  Free
-                </Badge>
-              )}
+              </p>
             </div>
             {shippingOption.data?.description !== undefined && (
-              <Text className="txt-xsmall text-secondary-text mt-1">
+              <p className="txt-xsmall text-secondary-text mt-1">
                 {shippingOption.data.description as string}
-              </Text>
+              </p>
             )}
           </div>
         </div>

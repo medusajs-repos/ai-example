@@ -1,5 +1,5 @@
 import { EllipseMiniSolid } from "@medusajs/icons"
-import { Label, RadioGroup, Text, clx } from "@medusajs/ui"
+import { clx } from "@medusajs/ui"
 
 type FilterRadioGroupProps = {
   title: string
@@ -8,7 +8,7 @@ type FilterRadioGroupProps = {
     label: string
   }[]
   value: any
-  handleChange: (...args: any[]) => void
+  onChange: (value: string) => void
   "data-testid"?: string
 }
 
@@ -16,13 +16,13 @@ const FilterRadioGroup = ({
   title,
   items,
   value,
-  handleChange,
+  onChange,
   "data-testid": dataTestId,
 }: FilterRadioGroupProps) => {
   return (
     <div className="flex gap-x-3 flex-col gap-y-3">
-      <Text className="txt-xsmall font-medium text-ui-fg-subtle">{title}</Text>
-      <RadioGroup data-testid={dataTestId} onValueChange={handleChange}>
+      <span className="txt-xsmall font-medium text-ui-fg-subtle">{title}</span>
+      <div data-testid={dataTestId} className="flex flex-col gap-y-1">
         {items?.map((i) => (
           <div
             key={i.value}
@@ -31,29 +31,31 @@ const FilterRadioGroup = ({
             })}
           >
             {i.value === value && <EllipseMiniSolid />}
-            <RadioGroup.Item
-              checked={i.value === value}
-              className="hidden peer"
-              id={i.value}
-              value={i.value}
-            />
-            <Label
+            <label
               htmlFor={i.value}
               className={clx(
                 "txt-small hover:cursor-pointer",
                 {
-                  "text-ui-fg-subtle font-medium": i.value === value,
-                  "text-ui-fg-subtle": i.value !== value,
+                  "text-primary-text font-medium": i.value === value,
+                  "text-secondary-text": i.value !== value,
                 }
               )}
               data-testid="radio-label"
               data-active={i.value === value}
             >
               {i.label}
-            </Label>
+            </label>
+            <input
+              checked={i.value === value}
+              className="hidden peer"
+              id={i.value}
+              value={i.value}
+              onChange={() => onChange(i.value)}
+              type="radio"
+            />
           </div>
         ))}
-      </RadioGroup>
+      </div>
     </div>
   )
 }

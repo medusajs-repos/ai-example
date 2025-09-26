@@ -62,12 +62,12 @@ const AccountInfo = ({
       {(isSuccess || isError) && (
         <div className="mb-4">
           {isSuccess && successMessage && (
-            <div className="bg-success-bg border border-success-border text-success-text px-4 py-3 rounded-md txt-small">
+            <div className="bg-success-bg border border-success-border text-success-text px-4 py-3 txt-small">
               {successMessage}
             </div>
           )}
           {isError && errorMessage && (
-            <div className="bg-error-bg border border-error-border text-error-text px-4 py-3 rounded-md txt-small">
+            <div className="bg-error-bg border border-error-border text-error-text px-4 py-3 txt-small">
               {errorMessage}
             </div>
           )}
@@ -76,7 +76,7 @@ const AccountInfo = ({
 
       {/* Edit Form */}
       {isEditing && (
-        <div className="mt-6 bg-secondary-bg p-6 rounded-xl border border-secondary-border">
+        <div className="mt-6 bg-secondary-bg p-6 border border-secondary-border">
           {children}
         </div>
       )}

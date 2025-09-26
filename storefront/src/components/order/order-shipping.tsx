@@ -1,5 +1,4 @@
 import { HttpTypes } from "@medusajs/types"
-import { Heading, Text } from "@medusajs/ui"
 import Address from "@/components/common/address"
 import { Price } from "@/components/common/price"
 
@@ -10,18 +9,18 @@ type OrderShippingProps = {
 const OrderShipping = ({ order }: OrderShippingProps) => {
   return (
     <div>
-      <Heading level="h3" className="mb-4">
+      <h3 className="mb-4 text-medium-plus">
         Delivery Information
-      </Heading>
+      </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <Text className="txt-medium-plus text-primary-text mb-2">Shipping Address</Text>
+          <span className="txt-medium-plus text-primary-text mb-2">Shipping Address</span>
           {order.shipping_address && <Address address={order.shipping_address} />}
         </div>
         
         {order.shipping_methods?.[0] && (
           <div>
-            <Text className="txt-medium-plus text-primary-text mb-2">Shipping Method</Text>
+            <span className="txt-medium-plus text-primary-text mb-2">Shipping Method</span>
             <div className="txt-small text-secondary-text flex items-center justify-between">
               <div>{order.shipping_methods[0].name}</div>
               <Price

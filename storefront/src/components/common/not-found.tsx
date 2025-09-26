@@ -26,7 +26,7 @@ const NotFound = () => {
           </div>
 
           {/* Current path */}
-          <div className="px-4 py-2 bg-secondary-bg rounded-md font-mono txt-small text-secondary-text">
+          <div className="px-4 py-2 bg-secondary-bg font-mono txt-small text-secondary-text">
             {location.pathname}
           </div>
 

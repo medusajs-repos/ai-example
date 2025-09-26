@@ -1,5 +1,5 @@
 import { HttpTypes } from "@medusajs/types"
-import { clx, Text } from "@medusajs/ui"
+import { clx } from "@medusajs/ui"
 
 type AddressProps = {
   address: HttpTypes.StoreCustomerAddress |
@@ -10,7 +10,7 @@ type AddressProps = {
 
 const Address = ({ address, className }: AddressProps) => {
   return (
-    <Text className={clx(
+    <p className={clx(
       "txt-small text-secondary-text",
       className
     )}>
@@ -23,7 +23,7 @@ const Address = ({ address, className }: AddressProps) => {
       {address.city}, {address.postal_code}
       <br />
       {address.country_code?.toUpperCase()}
-    </Text>
+    </p>
   )
 }
 

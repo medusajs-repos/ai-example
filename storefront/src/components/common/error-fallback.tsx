@@ -14,8 +14,8 @@ const ErrorFallback = ({ error, reset }: ErrorFallbackProps) => {
   return (
     <div className="content-container py-16">
       <div className="max-w-2xl mx-auto">
-        <div className="bg-primary-bg border border-primary-border rounded-md shadow-sm p-8">
-          <div className="w-16 h-16 mx-auto mb-6 bg-error-bg rounded-full flex items-center justify-center">
+        <div className="bg-primary-bg border border-primary-border shadow-sm p-8">
+          <div className="w-16 h-16 mx-auto mb-6 bg-error-bg flex items-center justify-center">
             <svg
               className="w-8 h-8 text-error-on-color"
               fill="none"
@@ -104,7 +104,7 @@ const ErrorFallback = ({ error, reset }: ErrorFallbackProps) => {
               </Button>
 
               {showDetails && (
-                <div className="mt-4 p-4 bg-secondary-bg rounded-md">
+                <div className="mt-4 p-4 bg-secondary-bg">
                   <div className="text-left space-y-3">
                     <div>
                       <p className="txt-xsmall-plus text-primary-text uppercase tracking-wide mb-1">
@@ -120,7 +120,7 @@ const ErrorFallback = ({ error, reset }: ErrorFallbackProps) => {
                         <p className="txt-xsmall-plus text-primary-text uppercase tracking-wide mb-1">
                           Stack Trace
                         </p>
-                        <pre className="txt-xsmall text-secondary-text bg-white border border-secondary-border rounded p-3 overflow-auto max-h-40">
+                        <pre className="txt-xsmall text-secondary-text bg-white border border-secondary-border p-3 overflow-auto max-h-40">
                           {error.stack}
                         </pre>
                       </div>

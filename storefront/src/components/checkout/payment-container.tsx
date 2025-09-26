@@ -1,7 +1,5 @@
-import { Text } from "@medusajs/ui"
 import React from "react"
 import Radio from "@/components/common/radio"
-import { isManual } from "@/lib/utils/checkout/check-payment-method"
 import { paymentMethodsData } from "@/lib/constants/payment-methods"
 
 type PaymentContainerProps = {
@@ -23,9 +21,9 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
 
   return (
     <div
-      className={`flex flex-col gap-y-2 txt-small cursor-pointer py-4 border rounded px-8 mb-2 hover:border-primary-border-strong transition-colors ${
+      className={`flex flex-col gap-y-2 txt-small cursor-pointer py-4 border px-8 mb-2 hover:border-primary-border-strong transition-colors ${
         isSelected
-          ? "border-accent-text bg-secondary-bg"
+          ? "border-primary-text bg-secondary-bg"
           : "border-primary-border"
       } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
       onClick={disabled ? undefined : onClick}
@@ -33,14 +31,9 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-x-4">
           <Radio checked={isSelected} readOnly />
-          <Text className="txt-medium">
+          <p className="txt-medium">
             {paymentMethodsData[paymentProviderId]?.title || paymentProviderId}
-          </Text>
-          {isManual(paymentProviderId) && (
-            <span className="txt-xsmall bg-orange-100 text-orange-400 px-2 py-1 rounded hidden sm:block">
-              Test Mode
-            </span>
-          )}
+          </p>
         </div>
         <span className="justify-self-end text-primary-text">
           {paymentMethodsData[paymentProviderId]?.icon}

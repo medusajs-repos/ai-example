@@ -28,13 +28,14 @@ const Pagination = ({
   return (
     <div className="flex items-center justify-center gap-2 mt-8" data-testid={dataTestId}>
       {/* Previous button */}
-      <button
+      <Button
         onClick={() => onPageChange(page - 1)}
         disabled={page <= 1}
-        className="px-3 py-2 txt-small-plus text-secondary-text bg-primary-bg border border-secondary-border rounded-md hover:bg-secondary-bg disabled:opacity-50 disabled:cursor-not-allowed"
+        variant="secondary"
+        size="fit"
       >
         Previous
-      </button>
+      </Button>
 
       {/* Page numbers */}
       <div className="flex gap-1">
@@ -42,7 +43,7 @@ const Pagination = ({
           <>
             <button
               onClick={() => onPageChange(1)}
-              className="px-3 py-2 txt-small-plus text-secondary-text bg-primary-bg border border-secondary-border rounded-md hover:bg-secondary-bg"
+              className="px-3 py-2 txt-small-plus text-secondary-text bg-primary-bg border border-secondary-border hover:bg-secondary-bg"
             >
               1
             </button>
@@ -74,13 +75,14 @@ const Pagination = ({
       </div>
 
       {/* Next button */}
-      <button
+      <Button
         onClick={() => onPageChange(page + 1)}
         disabled={page >= totalPages}
-        className="px-3 py-2 txt-small-plus text-secondary-text bg-primary-bg border border-secondary-border rounded-md hover:bg-secondary-bg disabled:opacity-50 disabled:cursor-not-allowed"
+        variant="secondary"
+        size="fit"
       >
         Next
-      </button>
+      </Button>
     </div>
   )
 }

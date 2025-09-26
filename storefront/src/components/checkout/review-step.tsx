@@ -1,5 +1,4 @@
 import { HttpTypes } from "@medusajs/types"
-import { Heading } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
 import PaymentButton from "@/components/checkout/payment-button"
 import { Price } from "@/components/common/price"
@@ -25,13 +24,13 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
       {cart.shipping_address && (
         <>
           <div className="flex flex-col gap-2">
-            <Heading level="h3" className="text-primary-text !txt-medium-plus">Shipping Address</Heading>
+            <h3 className="text-primary-text !txt-medium-plus">Shipping Address</h3>
             <Address address={cart.shipping_address} />
           </div>
             
           {cart.shipping_methods?.[0] && (
             <div className="flex flex-col gap-2">
-              <Heading level="h3" className="text-primary-text !txt-medium-plus">Shipping Method</Heading>
+              <h3 className="text-primary-text !txt-medium-plus">Shipping Method</h3>
               <div className="txt-small text-secondary-text flex items-center gap-2">
                 <div>{cart.shipping_methods[0].name}</div>
                 <Price
@@ -48,7 +47,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
 
       {/* Payment Information */}
       <div className="flex flex-col gap-2">
-        <Heading level="h3" className="text-primary-text !txt-medium-plus">Billing Address</Heading>
+        <h3 className="text-primary-text !txt-medium-plus">Billing Address</h3>
         <div className="txt-small text-secondary-text">
           {cart.billing_address ? (
             <Address address={cart.billing_address} />
@@ -58,7 +57,7 @@ const ReviewStep = ({ cart, onBack }: ReviewStepProps) => {
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <Heading level="h3" className="text-primary-text !txt-medium-plus">Payment Method</Heading>
+        <h3 className="text-primary-text !txt-medium-plus">Payment Method</h3>
         <div className="txt-small text-secondary-text flex items-center gap-2">
           {activeSession && (
             <PaymentMethodInfo provider_id={activeSession.provider_id} />

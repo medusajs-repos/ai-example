@@ -1,9 +1,9 @@
 import { useState } from "react"
 import { useRegister } from "@/lib/hooks/dynamic/use-auth"
-import { Input, Label } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
 import { Link, useLocation, useNavigate } from "@tanstack/react-router"
 import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
+import { Input } from "@/components/common/input"
 
 interface RegisterFormProps {
   onSuccess?: () => void
@@ -78,9 +78,9 @@ const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="firstName" className="block txt-small-plus text-secondary-text mb-2">
+            <label htmlFor="firstName" className="block txt-small-plus text-secondary-text mb-2">
               First Name
-            </Label>
+            </label>
             <Input
               id="firstName"
               name="firstName"
@@ -91,9 +91,9 @@ const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
           </div>
 
           <div>
-            <Label htmlFor="lastName" className="block txt-small-plus text-secondary-text mb-2">
+            <label htmlFor="lastName" className="block txt-small-plus text-secondary-text mb-2">
               Last Name
-            </Label>
+            </label>
             <Input
               id="lastName"
               name="lastName"
@@ -105,9 +105,9 @@ const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
         </div>
 
         <div>
-          <Label htmlFor="email" className="block txt-small-plus text-secondary-text mb-2">
+          <label htmlFor="email" className="block txt-small-plus text-secondary-text mb-2">
             Email
-          </Label>
+          </label>
           <Input
             id="email"
             name="email"
@@ -118,9 +118,9 @@ const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
         </div>
 
         <div>
-          <Label htmlFor="password" className="block txt-small-plus text-secondary-text mb-2">
+          <label htmlFor="password" className="block txt-small-plus text-secondary-text mb-2">
             Password
-          </Label>
+          </label>
           <Input
             id="password"
             name="password"
@@ -132,9 +132,9 @@ const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
         </div>
 
         <div>
-          <Label htmlFor="confirmPassword" className="block txt-small-plus text-secondary-text mb-2">
+          <label htmlFor="confirmPassword" className="block txt-small-plus text-secondary-text mb-2">
             Confirm Password
-          </Label>
+          </label>
           <Input
             id="confirmPassword"
             name="confirmPassword"
@@ -153,7 +153,6 @@ const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
           <Button
             type="submit"
             disabled={registerMutation.isPending}
-            isLoading={registerMutation.isPending}
             variant="primary"
           >
             Create Account

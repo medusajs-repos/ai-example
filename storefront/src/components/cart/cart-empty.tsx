@@ -7,15 +7,15 @@ const CartEmpty = () => {
   const countryCode = getCountryCodeFromPath(location.pathname)
 
   return (
-    <div className="text-center py-16">
-      <h2 className="txt-large-plus text-primary-text mb-2">
+    <div className="text-center py-16 flex flex-col items-center justify-center gap-4">
+      <h2 className="txt-large-plus text-primary-text">
         Your cart is empty
       </h2>
-      <p className="text-secondary-text mb-8">Start by adding some products</p>
+      <p className="text-secondary-text txt-medium">Start by adding some products</p>
       <Link
         to={`/${countryCode}/store` as any}
       >
-        <Button variant="primary">
+        <Button variant="primary" size="fit">
           Continue shopping
         </Button>
       </Link>

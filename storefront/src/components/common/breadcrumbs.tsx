@@ -1,5 +1,5 @@
 import { ChevronRight } from "@medusajs/icons"
-import { Text, clx } from "@medusajs/ui"
+import { clx } from "@medusajs/ui"
 import { Link } from "@tanstack/react-router"
 import { ReactNode } from "react"
 
@@ -80,10 +80,10 @@ const Breadcrumbs = ({
                   to={item.href}
                   className="text-secondary-text hover:text-secondary-text-hover transition-colors duration-200"
                 >
-                  <Text className="txt-small">{item.label}</Text>
+                  <span className="txt-small">{item.label}</span>
                 </Link>
               ) : (
-                <Text
+                <span
                   className={clx(
                     isCurrent
                       ? "text-primary-text txt-small-plus"
@@ -92,7 +92,7 @@ const Breadcrumbs = ({
                   aria-current={isCurrent ? "page" : undefined}
                 >
                   {item.label}
-                </Text>
+                </span>
               )}
             </li>
           )

@@ -1,6 +1,5 @@
 import { HttpTypes } from "@medusajs/types"
 import { Price } from "@/components/common/price"
-import { Heading } from "@medusajs/ui"
 
 type OrderSummaryProps = {
   order: HttpTypes.StoreOrder;
@@ -9,9 +8,9 @@ type OrderSummaryProps = {
 const OrderSummary = ({ order }: OrderSummaryProps) => {
   return (
     <div className="space-y-4">
-      <Heading level="h3" className="mb-4">
+      <h3 className="mb-4 text-medium-plus">
         Summary
-      </Heading>
+      </h3>
       <div className="space-y-2">
         <div className="flex justify-between txt-small">
           <span className="text-secondary-text">Subtotal</span>

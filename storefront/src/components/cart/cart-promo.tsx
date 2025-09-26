@@ -1,9 +1,10 @@
 import { HttpTypes } from "@medusajs/types"
-import { Badge, Input, toast } from "@medusajs/ui"
+import { toast } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
 import { useState } from "react"
 import { useApplyPromoCode, useRemovePromoCode } from "@/lib/hooks/dynamic/use-cart"
 import { XMark } from "@medusajs/icons"
+import { Input } from "@/components/common/input"
 
 type CartPromoProps = {
   cart: HttpTypes.StoreCart
@@ -44,13 +45,13 @@ const CartPromo = ({ cart }: CartPromoProps) => {
       {cart.promotions.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {cart.promotions.map((promotion) => (
-            <Badge key={promotion.code} color="grey" size="small">
+            <Button key={promotion.code} variant="secondary" size="fit">
               {promotion.code}
               <XMark 
                 onClick={() => handleRemove(promotion.code || "")} 
                 className="ml-2 text-secondary-text hover:text-secondary-text-hover cursor-pointer"
               />
-            </Badge>
+            </Button>
           ))}
         </div>
       )}
@@ -59,6 +60,7 @@ const CartPromo = ({ cart }: CartPromoProps) => {
           onClick={() => setShowInput(true)} 
           variant="transparent" 
           className="text-secondary-text p-0 underline hover:bg-transparent hover:text-secondary-text-hover"
+          size="fit"
         >
           Add promo code
         </Button>
@@ -72,12 +74,13 @@ const CartPromo = ({ cart }: CartPromoProps) => {
             value={promoCode}
             onChange={(e) => setPromoCode(e.target.value)}
           />
-          <Button onClick={handleApply} variant="primary">
+          <Button onClick={handleApply} variant="primary" size="fit">
             Apply
           </Button>
           <Button
             onClick={() => setShowInput(false)}
             variant="secondary"
+            size="fit"
           >
             Cancel
           </Button>

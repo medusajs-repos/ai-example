@@ -17,10 +17,10 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
             {...props}
           />
           <div
-            className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
+            className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${
               checked
-                ? "border-accent-text bg-accent-text"
-                : "border-primary-border bg-primary-bg"
+                ? "bg-primary-text border-transparent"
+                : "bg-primary-bg border-primary-border"
             } ${className || ""}`}
           >
             {checked && (

@@ -1,12 +1,10 @@
 import { HttpTypes } from "@medusajs/types"
-import { lazy, Suspense, useMemo, useState } from "react"
-import sortProducts, { type ProductSortOptions } from "@/lib/utils/product/sort-products"
+import { lazy, Suspense, useMemo } from "react"
 import { useProducts } from "@/lib/hooks/static/use-products"
 import Loading from "@/components/common/loading"
 import ProductCard from "@/components/product/product-card"
 import ProductListingLoading from "@/components/product/product-listing-loading"
 
-const RefinementList = lazy(() => import("@/components/product/product-list-refinement"))
 const Pagination = lazy(() => import("@/components/common/pagination"))
 
 const PRODUCTS_PER_PAGE = 12
@@ -17,9 +15,7 @@ type ProductListProps = {
   queryParams?: Record<string, string>
 }
 
-const ProductListing = ({ region, title, queryParams }: ProductListProps) => {
-  const [sortBy, setSortBy] = useState<ProductSortOptions>("created_at")
-   
+const ProductListing = ({ region, title, queryParams }: ProductListProps) => {   
   const { 
     data,
     isFetching,
@@ -35,12 +31,6 @@ const ProductListing = ({ region, title, queryParams }: ProductListProps) => {
     },
   })
 
-  const setQueryParams = (name: string, value: ProductSortOptions) => {
-    if (name === "sortBy") {
-      setSortBy(value)
-    }
-  }
-
   const handlePageChange = (page: number) => {
     if (page > (data?.pages.length || 0)) {
       fetchNextPage()
@@ -50,12 +40,9 @@ const ProductListing = ({ region, title, queryParams }: ProductListProps) => {
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
-  const sortedData = useMemo(() => {
-    return sortProducts({
-      products: data?.pages.flatMap((page) => page.products) || [],
-      sortBy,
-    })
-  }, [data?.pages, sortBy])
+  const products = useMemo(() => {
+    return data?.pages.flatMap((page) => page.products) || []
+  }, [data?.pages])
 
   if (isFetching) {
     return <ProductListingLoading />
@@ -66,14 +53,6 @@ const ProductListing = ({ region, title, queryParams }: ProductListProps) => {
       className="content-container flex flex-col lg:flex-row gap-6 py-6"
       data-testid="products-container"
     >
-      {/* Left Column - Filters & Refinements */}
-      <div className="w-full lg:w-64 xl:w-72 flex-shrink-0">
-        <Suspense fallback={<Loading />}>
-          <RefinementList sortBy={sortBy} setQueryParams={setQueryParams} />
-        </Suspense>
-      </div>
-
-      {/* Center Column - Product Grid */}
       <div className="flex-1">
         <div className="mb-8">
           <h1
@@ -82,9 +61,9 @@ const ProductListing = ({ region, title, queryParams }: ProductListProps) => {
           >
             {title}
           </h1>
-          <p className="text-secondary-text">{sortedData.length} items</p>
+          <p className="text-secondary-text">{products.length} items</p>
         </div>
-        {sortedData.length === 0 ? (
+        {products.length === 0 ? (
           <div className="flex items-center justify-center h-64">
             <div className="txt-xlarge text-secondary-text">No products available</div>
           </div>
@@ -94,7 +73,7 @@ const ProductListing = ({ region, title, queryParams }: ProductListProps) => {
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-x-6 gap-y-8"
               data-testid="products-list"
             >
-              {sortedData.map((product) => (
+              {products.map((product) => (
                 <div key={product.id}>
                   <ProductCard product={product} />
                 </div>
@@ -104,8 +83,8 @@ const ProductListing = ({ region, title, queryParams }: ProductListProps) => {
               <Suspense fallback={<Loading />}>
                 <Pagination
                   data-testid="products-pagination"
-                  page={sortedData.length || 1}
-                  totalPages={sortedData.length || 1}
+                  page={products.length || 1}
+                  totalPages={products.length || 1}
                   onPageChange={handlePageChange}
                 />
               </Suspense>

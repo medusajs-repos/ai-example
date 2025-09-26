@@ -14,13 +14,13 @@ export const Thumbnail = ({ thumbnail, alt, className }: ThumbnailProps) => {
           src={thumbnail}
           alt={alt}
           className={clx(
-            "w-20 h-20 object-cover rounded bg-secondary-bg",
+            "w-20 h-20 object-cover bg-secondary-bg",
             className
           )}
         />
       ) : (
         <div className={clx(
-          "w-20 h-20 bg-secondary-bg rounded flex items-center justify-center",
+          "w-20 h-20 bg-secondary-bg flex items-center justify-center",
           className
         )}>
           <span className="txt-xsmall text-secondary-text">No image</span>

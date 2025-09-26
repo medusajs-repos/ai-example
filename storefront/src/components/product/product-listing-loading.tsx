@@ -10,32 +10,6 @@ const ProductListingLoading = () => {
       className="content-container flex flex-col lg:flex-row gap-6 py-6"
       data-testid="products-container"
     >
-      {/* Left Column - Filters & Refinements */}
-      <div className="w-full lg:w-64 xl:w-72 flex-shrink-0">
-        <div className="space-y-6">
-          {/* Sort dropdown */}
-          <div className="space-y-2">
-            <Loading rows={1} height="h-4" width="w-16" />
-            <Loading rows={1} height="h-10" width="w-full" />
-          </div>
-          
-          {/* Filter sections */}
-          {Array.from({ length: 3 }, (_, index) => (
-            <div key={index} className="space-y-3">
-              <Loading rows={1} height="h-5" width="w-20" />
-              <div className="space-y-2">
-                {Array.from({ length: 4 }, (_, filterIndex) => (
-                  <div key={filterIndex} className="flex items-center gap-2">
-                    <Loading rows={1} height="h-4" width="w-4" />
-                    <Loading rows={1} height="h-4" width="w-24" />
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* Center Column - Product Grid */}
       <div className="flex-1">
         {/* Header Section */}
@@ -52,7 +26,7 @@ const ProductListingLoading = () => {
           {Array.from({ length: 12 }, (_, index) => (
             <div key={index} className="space-y-3">
               {/* Product Image */}
-              <div className="aspect-square bg-secondary-bg rounded-md flex items-center justify-center">
+              <div className="aspect-square bg-secondary-bg flex items-center justify-center">
                 <Loading rows={1} height="h-8" width="w-8" />
               </div>
               

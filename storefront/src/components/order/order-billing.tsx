@@ -1,5 +1,4 @@
 import { HttpTypes } from "@medusajs/types"
-import { Heading, Text } from "@medusajs/ui"
 import Address from "@/components/common/address"
 import PaymentMethodInfo from "@/components/common/payment-method-info"
 import { isPaidWithGiftCard } from "@/lib/utils/checkout/is-paid-with-gift-card"
@@ -13,12 +12,12 @@ const OrderBilling = ({ order }: OrderBillingProps) => {
 
   return (
     <div>
-      <Heading level="h3" className="mb-4">
+      <h3 className="mb-4">
         Billing Information
-      </Heading>
+      </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <Text className="txt-medium-plus text-primary-text mb-2">Billing Address</Text>
+          <span className="txt-medium-plus text-primary-text mb-2">Billing Address</span>
           <div className="txt-small text-secondary-text">
             {order.billing_address ? (
               <Address address={order.billing_address} />
@@ -28,7 +27,7 @@ const OrderBilling = ({ order }: OrderBillingProps) => {
           </div>
         </div>
         <div>
-          <Text className="txt-medium-plus text-primary-text mb-2">Payment Method</Text>
+          <span className="txt-medium-plus text-primary-text mb-2">Payment Method</span>
           <div className="txt-small text-secondary-text">
             {order.payment_collections?.[0].payment_sessions?.[0] && (
               <PaymentMethodInfo provider_id={order.payment_collections[0].payment_sessions[0].provider_id} />

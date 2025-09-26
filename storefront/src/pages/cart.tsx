@@ -4,7 +4,6 @@ import CartDetailsLoading from "@/components/cart/cart-details-loading"
 import { lazy, Suspense } from "react"
 import { Button } from "@/components/common/button"
 import { sortCartItems } from "@/lib/utils/cart/sort-cart-items"
-import { Heading } from "@medusajs/ui"
 
 const CartItem = lazy(() => import("@/components/cart/cart-line-item"))
 const CartSummary = lazy(() => import("@/components/cart/cart-summary"))
@@ -38,7 +37,7 @@ const Cart = () => {
           <div className="flex flex-col md:flex-row gap-8">
             <div className="space-y-6 w-full md:w-2/3">
               <div className="flex items-center justify-between mb-8">
-                <Heading level="h1">Cart</Heading>
+                <h1 className="text-primary-text !txt-xlarge">Cart</h1>
                 {cartItems.length > 0 && (
                   <Link
                     to={`/${countryCode}/store` as any}
@@ -61,7 +60,7 @@ const Cart = () => {
             {cart && (
               <div className="flex flex-col gap-y-8 w-full md:w-1/3">
                 <div>
-                  <Heading level="h2">Cart Summary</Heading>
+                  <h2 className="text-primary-text txt-xlarge">Cart Summary</h2>
                 </div>
                 
                 <div className="flex flex-col gap-y-4">
@@ -70,11 +69,11 @@ const Cart = () => {
                   <CartPromo cart={cart} />
                 </div>
 
-                <Button asChild className="w-full">
-                  <Link to={`/${countryCode}/checkout` as any}>
+                <Link to={`/${countryCode}/checkout` as any}>
+                  <Button className="w-full">
                     Checkout
-                  </Link>
-                </Button>
+                  </Button>
+                </Link>
               </div>
             )}
           </div>

@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState, useRef } from "react"
 import ReactCountryFlag from "react-country-flag"
 import { useNavigate, useLocation } from "@tanstack/react-router"
+import { ChevronDownMini } from "@medusajs/icons"
 
 import { HttpTypes } from "@medusajs/types"
 import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
 import { setStoredCountryCode } from "@/lib/utils/region/stored-country-code"
-import { Select } from "@medusajs/ui"
 import { useUpdateCart } from "@/lib/hooks/dynamic/use-cart"
 import { buildPathWithCountryCode } from "@/lib/utils/region/build-path-with-country-code"
 
@@ -24,6 +24,9 @@ const CountrySelect = ({ regions, className }: CountrySelectProps) => {
   const [currentCountry, setCurrentCountry] = useState<
     CountryOption | undefined
   >()
+  const [isOpen, setIsOpen] = useState(false)
+  const [dropdownPosition, setDropdownPosition] = useState<"below" | "above">("below")
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -58,6 +61,37 @@ const CountrySelect = ({ regions, className }: CountrySelectProps) => {
     }
   }, [countries, pathCountryCode])
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
+
+  const calculateDropdownPosition = () => {
+    if (!dropdownRef.current) return
+
+    const rect = dropdownRef.current.getBoundingClientRect()
+    const viewportHeight = window.innerHeight
+    const dropdownHeight = 240 // max-h-60 = 15rem = 240px
+    
+    // Check if there's enough space below
+    const spaceBelow = viewportHeight - rect.bottom
+    const spaceAbove = rect.top
+    
+    if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
+      setDropdownPosition("above")
+    } else {
+      setDropdownPosition("below")
+    }
+  }
+
   const handleChange = async (countryCode: string) => {
     const option = countries?.find((o) => o?.country_code === countryCode)
     if (!option) return
@@ -73,32 +107,62 @@ const CountrySelect = ({ regions, className }: CountrySelectProps) => {
         region_id: option.region_id
       })
     }
+    
+    setIsOpen(false)
   }
 
   return (
-    <div className={className}>
-      <Select onValueChange={handleChange} value={currentCountry?.country_code ?? ""}>
-        <Select.Trigger className="border-0 shadow-none gap-2">
-          <Select.Value placeholder="Select country" />
-        </Select.Trigger>
-        <Select.Content>
+    <div className={`relative ${className}`} ref={dropdownRef}>
+      <button
+        type="button"
+        onClick={() => {
+          calculateDropdownPosition()
+          setIsOpen(!isOpen)
+        }}
+        className="w-full px-4 py-2 text-left text-primary-text flex items-center justify-between gap-2 txt-medium"
+      >
+        <div className="flex items-center gap-2">
+          {currentCountry && (
+            <ReactCountryFlag
+              countryCode={currentCountry.country_code}
+              svg
+              style={{
+                width: "20px",
+                height: "15px",
+              }}
+            />
+          )}
+          <span>{currentCountry?.label || "Select country"}</span>
+        </div>
+        <ChevronDownMini className={`transition-transform ${isOpen ? "rotate-180" : ""}`} />
+      </button>
+      
+      {isOpen && (
+        <div className={`absolute left-0 right-0 z-50 bg-primary-bg border border-primary-border max-h-60 overflow-y-auto ${
+          dropdownPosition === "above" 
+            ? "bottom-full mb-1" 
+            : "top-full mt-1"
+        }`}>
           {countries?.map((country) => (
-            <Select.Item key={country.country_code} value={country.country_code}>
-              <span className="flex items-center gap-x-2">
-                <ReactCountryFlag
-                  svg
-                  style={{
-                    width: "16px",
-                    height: "16px",
-                  }}
-                  countryCode={country.country_code ?? ""}
-                />
-                {country.label}
-              </span>
-            </Select.Item>
+            <button
+              key={country.country_code}
+              type="button"
+              onClick={() => handleChange(country.country_code)}
+              className="w-full px-4 py-2 text-left hover:bg-primary-border flex items-center gap-2"
+            >
+              <ReactCountryFlag
+                countryCode={country.country_code}
+                svg
+                style={{
+                  width: "20px",
+                  height: "15px",
+                }}
+              />
+              <span>{country.label}</span>
+            </button>
           ))}
-        </Select.Content>
-      </Select>
+        </div>
+      )}
     </div>
   )
 }

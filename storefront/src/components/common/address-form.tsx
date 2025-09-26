@@ -1,8 +1,10 @@
 import { HttpTypes } from "@medusajs/types"
-import { Input, Label, Select, clx } from "@medusajs/ui"
+import { clx } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
 import { useEffect, useMemo, useState } from "react"
 import { countries } from "@/lib/constants/countries"
+import { Input } from "@/components/common/input"
+import { Select } from "@/components/common/select"
 
 interface AddressFormProps {
   addressFormData: HttpTypes.StoreCreateCustomerAddress | HttpTypes.StoreAddAddress
@@ -88,9 +90,9 @@ const AddressForm = ({
       {/* Name fields */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex flex-col gap-2">
-          <Label htmlFor="first_name" className="block txt-small-plus">
+          <label htmlFor="first_name" className="block txt-small-plus">
             First Name
-          </Label>
+          </label>
           <Input
             name="first_name"
             id="first_name"
@@ -105,9 +107,9 @@ const AddressForm = ({
           )}
         </div>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="last_name" className="block txt-small-plus">
+          <label htmlFor="last_name" className="block txt-small-plus">
             Last Name
-          </Label>
+          </label>
           <Input
             name="last_name"
             id="last_name"
@@ -125,9 +127,9 @@ const AddressForm = ({
 
       {/* Company */}
       <div className="flex flex-col gap-2">
-        <Label htmlFor="company" className="block txt-small-plus">
+        <label htmlFor="company" className="block txt-small-plus">
           Company
-        </Label>
+        </label>
         <Input
           name="company"
           id="company"
@@ -141,9 +143,9 @@ const AddressForm = ({
 
       {/* Address fields */}
       <div className="flex flex-col gap-2">
-        <Label htmlFor="address_1" className="block txt-small-plus">
+        <label htmlFor="address_1" className="block txt-small-plus">
           Address Line 1
-        </Label>
+        </label>
         <Input
           name="address_1"
           id="address_1"
@@ -159,9 +161,9 @@ const AddressForm = ({
       </div>
 
       <div className="flex flex-col gap-2">
-        <Label htmlFor="address_2" className="block txt-small-plus">
+        <label htmlFor="address_2" className="block txt-small-plus">
           Address Line 2
-        </Label>
+        </label>
         <Input
           name="address_2"
           id="address_2"
@@ -175,9 +177,9 @@ const AddressForm = ({
       {/* City, Province, Postal Code */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="flex flex-col gap-2">
-          <Label htmlFor="city" className="block txt-small-plus">
+          <label htmlFor="city" className="block txt-small-plus">
             City
-          </Label>
+          </label>
           <Input
             name="city"
             id="city"
@@ -192,9 +194,9 @@ const AddressForm = ({
           )}
         </div>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="province" className="block txt-small-plus">
+          <label htmlFor="province" className="block txt-small-plus">
             State / Province
-          </Label>
+          </label>
           <Input
             name="province"
             id="province"
@@ -206,9 +208,9 @@ const AddressForm = ({
           />
         </div>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="postal_code" className="block txt-small-plus">
+          <label htmlFor="postal_code" className="block txt-small-plus">
             Postal Code
-          </Label>
+          </label>
           <Input
             name="postal_code"
             id="postal_code"
@@ -226,24 +228,20 @@ const AddressForm = ({
 
       {/* Country */}
       <div className="flex flex-col gap-2">
-        <label className="block txt-small-plus text-primary-text mb-2">
+        <label htmlFor="country_code" className="block txt-small-plus text-primary-text mb-2">
           Country
         </label>
         <Select
           name="country_code"
           value={addressFormData.country_code}
-          onValueChange={(value) => handleChange("country_code", value)}
+          onChange={(e) => handleChange("country_code", e.target.value)}
         >
-          <Select.Trigger>
-            <Select.Value placeholder="Select country" />
-          </Select.Trigger>
-          <Select.Content>
-            {countriesInput.map((country) => (
-              <Select.Item key={country.code} value={country.code}>
+          <option value="Select country">Select country</option>
+          {countriesInput.map((country) => (
+            <option key={country.code} value={country.code}>
                 {country.name}
-              </Select.Item>
-            ))}
-          </Select.Content>
+            </option>
+          ))}
         </Select>
         {errors.country_code && touchedFields.country_code && (
           <div className="text-error-text txt-small mt-1">{errors.country_code}</div>
@@ -252,9 +250,9 @@ const AddressForm = ({
 
       {/* Phone */}
       <div className="flex flex-col gap-2">
-        <Label htmlFor="phone" className="block txt-small-plus">
+        <label htmlFor="phone" className="block txt-small-plus">
           Phone
-        </Label>
+        </label>
         <Input
           name="phone"
           id="phone"
@@ -279,7 +277,7 @@ const AddressForm = ({
           </Button>
           <Button
             onClick={handleSubmit}
-            isLoading={isLoading}
+            disabled={isLoading}
             variant="primary"
           >
             Save

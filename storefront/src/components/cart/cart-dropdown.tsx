@@ -33,7 +33,7 @@ const CartDropdown = () => {
       </NavbarLink>
 
       <div className="absolute top-full right-0 z-50 pt-2 group-hover:block hidden">
-        <div className="bg-primary-bg shadow-elevation-flyout rounded-md w-[420px] max-h-[402px] overflow-hidden">
+        <div className="bg-primary-bg shadow-elevation-flyout w-[420px] max-h-[402px] overflow-hidden">
           {(!cart || itemCount === 0) && (
             <div className="flex flex-col items-center justify-center py-8">
               <div className="text-secondary-text mb-4">
@@ -44,7 +44,7 @@ const CartDropdown = () => {
               </span>
               <div className="mt-4">
                 <Link to={`${baseHref}/store` as any}>
-                  <Button variant="secondary" size="base">
+                  <Button variant="secondary" size="fit">
                     Explore products
                   </Button>
                 </Link>

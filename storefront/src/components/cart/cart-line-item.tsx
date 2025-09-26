@@ -1,6 +1,6 @@
 import { HttpTypes } from "@medusajs/types"
 import LineItemPrice from "@/components/cart/line-item-price"
-import { clx, Text } from "@medusajs/ui"
+import { clx } from "@medusajs/ui"
 import { Price } from "@/components/common/price"
 import { Thumbnail } from "@/components/common/thumbnail"
 import CartItemQuantitySelector from "@/components/cart/cart-item-quantity-selector"
@@ -44,7 +44,6 @@ const CartLineItem = ({ item, cart, type = "default", fields, className }: CartL
       <div className="flex items-center gap-4">
         <CartItemQuantitySelector 
           item={item}
-          type={type}
           fields={fields}
         />
 
@@ -57,7 +56,6 @@ const CartLineItem = ({ item, cart, type = "default", fields, className }: CartL
 
         <CartDeleteItem
           item={item}
-          type={type}
           fields={fields}
         />
       </div>
@@ -84,7 +82,6 @@ const CompactCartLineItem = ({ item, cart, fields }: CartLineItemProps) => {
           </div>
           <CartDeleteItem
             item={item}
-            type="compact"
             fields={fields}
           />
         </div>
@@ -92,7 +89,6 @@ const CompactCartLineItem = ({ item, cart, fields }: CartLineItemProps) => {
         <div className="flex items-center justify-between mt-2">
           <CartItemQuantitySelector
             item={item}
-            type="compact"
             fields={fields}
           />
           <Price
@@ -111,15 +107,15 @@ const DisplayCartLineItem = ({ item, cart, className }: CartLineItemProps) => {
     <div className={clx("flex items-center gap-4 py-3 border-b border-secondary-border last:border-b-0", className)}>
       <Thumbnail thumbnail={item.thumbnail} alt={item.product_title || item.title} className="w-16 h-16" />
       <div className="flex-1">
-        <Text className="txt-medium-plus text-primary-text">{item.product_title}</Text>
+        <p className="txt-medium-plus text-primary-text">{item.product_title}</p>
         {item.variant_title && item.variant_title !== "Default Variant" && (
-          <Text className="txt-small text-secondary-text">
+          <p className="txt-small text-secondary-text">
             {item.variant_title}
-          </Text>
+          </p>
         )}
-        <Text className="txt-small text-secondary-text">
+        <p className="txt-small text-secondary-text">
           Quantity: {item.quantity}
-        </Text>
+        </p>
       </div>
       <div className="text-right">
         <Price

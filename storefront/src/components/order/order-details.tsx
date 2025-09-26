@@ -1,5 +1,4 @@
 import { HttpTypes } from "@medusajs/types"
-import { Heading } from "@medusajs/ui"
 import OrderLineItem from "@/components/order/order-line-item"
 import OrderShipping from "@/components/order/order-shipping"
 import OrderBilling from "@/components/order/order-billing"
@@ -20,7 +19,7 @@ const OrderDetails = ({ order }: OrderDetailsProps) => {
         <hr className="bg-primary-border" />
       
         <div className="flex flex-col gap-4">
-          <Heading level="h3" className="mb-4">Items</Heading>
+          <h3 className="mb-4 text-medium-plus">Items</h3>
           {order.items?.map((item) => (
             <OrderLineItem key={item.id} item={item} order={order} />
           ))}

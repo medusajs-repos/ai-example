@@ -1,10 +1,10 @@
 import { useUpdateCustomer } from "@/lib/hooks/dynamic/use-auth"
 import { HttpTypes } from "@medusajs/types"
-import { Input } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
 import { useState } from "react"
 import AccountInfo from "@/components/account/account-info"
 import AccountContainer from "@/components/account/account-container"
+import { Input } from "@/components/common/input"
 
 interface ProfileTemplateProps {
   customer: HttpTypes.StoreCustomer;
@@ -104,9 +104,8 @@ const ProfileName = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
         <div className="flex justify-end pt-2">
           <Button
             type="submit"
-            isLoading={updateCustomer.isPending}
             data-testid="save-button"
-            disabled={!firstName.trim() || !lastName.trim()}
+            disabled={!firstName.trim() || !lastName.trim() || updateCustomer.isPending}
             className="px-8"
           >
             Save changes
@@ -219,7 +218,7 @@ const ProfilePhone = ({ customer }: { customer: HttpTypes.StoreCustomer }) => {
         <div className="flex justify-end pt-2">
           <Button
             type="submit"
-            isLoading={updateCustomer.isPending}
+            disabled={updateCustomer.isPending}
             data-testid="save-button"
             className="px-8"
           >

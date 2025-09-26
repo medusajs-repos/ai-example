@@ -2,9 +2,8 @@ import { useEffect, lazy, Suspense, useMemo } from "react"
 import { useLoaderData, useNavigate, useLocation } from "@tanstack/react-router"
 import { useCart } from "@/lib/hooks/dynamic/use-cart"
 import Loading from "@/components/common/loading"
-import { CheckoutStep, CheckoutStepKey } from "@/lib/types/global"
+import { type CheckoutStep, CheckoutStepKey } from "@/lib/types/global"
 import CheckoutProgress from "@/components/checkout/checkout-progress"
-import { Heading } from "@medusajs/ui"
 
 const DeliveryStep = lazy(() => import("@/components/checkout/delivery-step"))
 const AddressStep = lazy(() => import("@/components/checkout/address-step"))
@@ -107,17 +106,17 @@ const Checkout = () => {
       />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-24">  
         <div className="flex flex-col gap-1 lg:col-span-2">
-          <Heading level="h2" className="text-primary-text !txt-xlarge">
+          <h2 className="text-primary-text txt-xlarge">
             {steps[currentStepIndex].title}
-          </Heading>
+          </h2>
           <p className="txt-medium text-secondary-text">
             {steps[currentStepIndex].description}
           </p>
         </div>
         <div className="flex flex-col gap-1">
-          <Heading level="h2" className="text-primary-text !txt-xlarge">
+          <h2 className="text-primary-text txt-xlarge">
             Order Summary
-          </Heading>
+          </h2>
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-24">

@@ -1,7 +1,8 @@
 import { HttpTypes } from "@medusajs/types"
 import { useDeleteLineItem, useUpdateLineItem } from "@/lib/hooks/dynamic/use-cart"
 import { Minus, Plus } from "@medusajs/icons"
-import { clx, IconButton } from "@medusajs/ui"
+import { clx } from "@medusajs/ui"
+import { Button } from "@/components/common/button"
 
 type CartItemQuantitySelectorProps = {
   item: HttpTypes.StoreCartLineItem;
@@ -30,29 +31,31 @@ const CartItemQuantitySelector = ({ item, type = "default", fields }: CartItemQu
 
   return (
     <div className="flex items-center">
-      <IconButton
+      <Button
         onClick={() => handleQuantityChange(item.quantity - 1)}
         className={clx(
           type === "compact" && "text-secondary-text hover:text-secondary-text-hover transition-colors p-1 ml-2"
         )}
-        variant={type === "compact" ? "transparent" : "primary"}
+        variant="transparent"
+        size="fit"
       >
         <Minus />
-      </IconButton>
+      </Button>
       <span className={clx(
         type === "compact" ? "txt-small text-primary-text text-center px-3" : "text-center txt-small px-6"
       )}>
         {item.quantity}
       </span>
-      <IconButton
+      <Button
         onClick={() => handleQuantityChange(item.quantity + 1)}
         className={clx(
           type === "compact" && "text-secondary-text hover:text-secondary-text-hover transition-colors p-1 ml-2"
         )}
-        variant={type === "compact" ? "transparent" : "primary"}
+        variant="transparent"
+        size="fit"
       >
         <Plus />
-      </IconButton>
+      </Button>
     </div>
   )
 }

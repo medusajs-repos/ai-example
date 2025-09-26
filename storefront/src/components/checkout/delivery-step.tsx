@@ -73,7 +73,6 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
         <Button
           onClick={handleSubmit}
           disabled={!selectedOptionId || isSubmitting}
-          isLoading={isSubmitting}
         >
           Next
         </Button>

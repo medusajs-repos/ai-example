@@ -29,7 +29,7 @@ const Overview = ({ customer }: OverviewProps) => {
           Account Summary
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div className="bg-secondary-bg rounded-md p-6 border border-primary-border">
+          <div className="bg-secondary-bg p-6 border border-primary-border">
             <div className="flex items-center justify-between">
               <div>
                 <h4 className="txt-small-plus text-secondary-text mb-1">
@@ -51,7 +51,7 @@ const Overview = ({ customer }: OverviewProps) => {
             </div>
           </div>
 
-          <div className="bg-secondary-bg rounded-md p-6 border border-primary-border">
+          <div className="bg-secondary-bg p-6 border border-primary-border">
             <div className="flex items-center justify-between">
               <div>
                 <h4 className="txt-small-plus text-secondary-text mb-1">
@@ -100,8 +100,8 @@ const Overview = ({ customer }: OverviewProps) => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-8 bg-secondary-bg rounded-md border border-primary-border">
-            <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-secondary-bg flex items-center justify-center">
+          <div className="text-center py-8 bg-secondary-bg border border-primary-border">
+            <div className="w-12 h-12 mx-auto mb-4 bg-secondary-bg flex items-center justify-center">
               <svg
                 className="w-5 h-5 text-secondary-text"
                 fill="none"
@@ -177,7 +177,7 @@ const RecentOrderItem = ({
   return (
     <Link
       to={`${baseHref}/account/orders/details/${order.id}` as any}
-      className="block bg-primary-bg border border-primary-border rounded-md p-4 hover:shadow-sm transition-shadow group"
+      className="block bg-primary-bg border border-primary-border p-4 hover:shadow-sm transition-shadow group"
     >
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-x-3">

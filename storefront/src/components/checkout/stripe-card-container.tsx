@@ -1,5 +1,5 @@
-import { Input, Label, Text } from "@medusajs/ui"
 import { useState } from "react"
+import { Input } from "@/components/common/input"
 
 type StripeCardContainerProps = {
   paymentProviderId: string
@@ -73,12 +73,12 @@ const StripeCardContainer: React.FC<StripeCardContainerProps> = ({
     <>
       {isSelected && (
         <div className="my-4 transition-all duration-150 ease-in-out">
-          <Text className="txt-medium-plus text-primary-text mb-4">
+          <p className="txt-medium-plus text-primary-text mb-4">
             Enter your card details:
-          </Text>
+          </p>
           <div className="space-y-4 flex flex-wrap">
             <div>
-              <Label htmlFor="card-number">Card number</Label>
+              <label htmlFor="card-number">Card number</label>
               <Input
                 id="card-number"
                 value={cardNumber}
@@ -87,14 +87,14 @@ const StripeCardContainer: React.FC<StripeCardContainerProps> = ({
                 maxLength={19}
               />
               {cardBrand && (
-                <Text className="txt-small text-primary-text">
+                <p className="txt-small text-primary-text">
                   {cardBrand}
-                </Text>
+                </p>
               )}
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="expiry-date">Expiry date</Label>
+                <label htmlFor="expiry-date">Expiry date</label>
                 <Input
                   id="expiry-date"
                   value={expiryDate}
@@ -104,7 +104,7 @@ const StripeCardContainer: React.FC<StripeCardContainerProps> = ({
                 />
               </div>
               <div>
-                <Label htmlFor="cvv">CVV</Label>
+                <label htmlFor="cvv">CVV</label>
                 <Input
                   id="cvv"
                   value={cvv}
@@ -115,7 +115,7 @@ const StripeCardContainer: React.FC<StripeCardContainerProps> = ({
               </div>
             </div>
             <div>
-              <Label htmlFor="cardholder-name">Cardholder name</Label>
+              <label htmlFor="cardholder-name">Cardholder name</label>
               <Input
                 id="cardholder-name"
                 value={cardholderName}

@@ -6,21 +6,22 @@ import Loading from "@/components/common/loading"
  */
 const CartDetailsLoading = () => {
   return (
-    <div className="content-container py-12 max-w-4xl">
-      {/* Header Section */}
-      <div className="flex items-center justify-between mb-8">
-        <Loading rows={1} height="h-8" width="w-16" />
-        <Loading rows={1} height="h-4" width="w-32" />
-      </div>
+    <div className="content-container py-12">
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Left side - Cart Items */}
+        <div className="space-y-6 w-full md:w-2/3">
+          {/* Header Section */}
+          <div className="flex items-center justify-between mb-8">
+            <Loading rows={1} height="h-8" width="w-16" />
+            <Loading rows={1} height="h-4" width="w-32" />
+          </div>
 
-      {/* Cart Items Section */}
-      <div className="space-y-8">
-        <div className="space-y-6">
-          {/* Cart Item 1 */}
-          <div className="space-y-4">
+          {/* Cart Items */}
+          <div className="space-y-6">
+            {/* Cart Item 1 */}
             <div className="flex gap-4">
               {/* Product Image */}
-              <div className="w-20 h-20 bg-secondary-bg rounded-md flex items-center justify-center">
+              <div className="w-20 h-20 bg-secondary-bg flex items-center justify-center">
                 <Loading rows={1} height="h-6" width="w-6" />
               </div>
               
@@ -37,16 +38,14 @@ const CartDetailsLoading = () => {
                 <Loading rows={1} height="h-5" width="w-16" />
               </div>
             </div>
-          </div>
 
-          {/* Divider */}
-          <hr className="bg-secondary-border" />
+            {/* Divider */}
+            <hr className="bg-primary-border" />
 
-          {/* Cart Item 2 */}
-          <div className="space-y-4">
+            {/* Cart Item 2 */}
             <div className="flex gap-4">
               {/* Product Image */}
-              <div className="w-20 h-20 bg-secondary-bg rounded-md flex items-center justify-center">
+              <div className="w-20 h-20 bg-secondary-bg flex items-center justify-center">
                 <Loading rows={1} height="h-6" width="w-6" />
               </div>
               
@@ -63,16 +62,14 @@ const CartDetailsLoading = () => {
                 <Loading rows={1} height="h-5" width="w-16" />
               </div>
             </div>
-          </div>
 
-          {/* Divider */}
-          <hr className="bg-secondary-border" />
+            {/* Divider */}
+            <hr className="bg-primary-border" />
 
-          {/* Cart Item 3 */}
-          <div className="space-y-4">
+            {/* Cart Item 3 */}
             <div className="flex gap-4">
               {/* Product Image */}
-              <div className="w-20 h-20 bg-secondary-bg rounded-md flex items-center justify-center">
+              <div className="w-20 h-20 bg-secondary-bg flex items-center justify-center">
                 <Loading rows={1} height="h-6" width="w-6" />
               </div>
               
@@ -92,28 +89,44 @@ const CartDetailsLoading = () => {
           </div>
         </div>
 
-        {/* Cart Summary Section */}
-        <div className="border-t border-secondary-border pt-8">
-          <div className="space-y-4">
-            <div className="flex justify-between">
-              <Loading rows={1} height="h-4" width="w-20" />
-              <Loading rows={1} height="h-4" width="w-16" />
-            </div>
-            <div className="flex justify-between">
-              <Loading rows={1} height="h-4" width="w-24" />
-              <Loading rows={1} height="h-4" width="w-16" />
-            </div>
-            <div className="flex justify-between">
-              <Loading rows={1} height="h-4" width="w-16" />
-              <Loading rows={1} height="h-4" width="w-16" />
-            </div>
-            <hr className="bg-secondary-border" />
-            <div className="flex justify-between">
-              <Loading rows={1} height="h-6" width="w-20" />
-              <Loading rows={1} height="h-6" width="w-20" />
-            </div>
-            <Loading rows={1} height="h-12" width="w-full" />
+        {/* Right side - Cart Summary */}
+        <div className="flex flex-col gap-y-8 w-full md:w-1/3">
+          {/* Cart Summary Header */}
+          <div>
+            <Loading rows={1} height="h-8" width="w-32" />
           </div>
+          
+          {/* Cart Summary Content */}
+          <div className="flex flex-col gap-y-4">
+            {/* Summary lines */}
+            <div className="space-y-4">
+              <div className="flex justify-between">
+                <Loading rows={1} height="h-4" width="w-20" />
+                <Loading rows={1} height="h-4" width="w-16" />
+              </div>
+              <div className="flex justify-between">
+                <Loading rows={1} height="h-4" width="w-24" />
+                <Loading rows={1} height="h-4" width="w-16" />
+              </div>
+              <div className="flex justify-between">
+                <Loading rows={1} height="h-4" width="w-16" />
+                <Loading rows={1} height="h-4" width="w-16" />
+              </div>
+              <hr className="bg-primary-border" />
+              <div className="flex justify-between">
+                <Loading rows={1} height="h-6" width="w-20" />
+                <Loading rows={1} height="h-6" width="w-20" />
+              </div>
+            </div>
+
+            {/* Promo section */}
+            <div className="space-y-2">
+              <Loading rows={1} height="h-4" width="w-24" />
+            </div>
+          </div>
+
+          {/* Checkout Button */}
+          <Loading rows={1} height="h-12" width="w-full" />
         </div>
       </div>
     </div>

@@ -1,29 +1,30 @@
 import { HttpTypes } from "@medusajs/types"
 import { useDeleteLineItem } from "@/lib/hooks/dynamic/use-cart"
-import { clx, IconButton } from "@medusajs/ui"
+import { clx } from "@medusajs/ui"
 import { Trash } from "@medusajs/icons"
+import { Button } from "@/components/common/button"
 
 type CartDeleteItemProps = {
   item: HttpTypes.StoreCartLineItem;
-  type?: "default" | "compact"
   fields?: string
 }
 
-const CartDeleteItem = ({ item, type = "default", fields }: CartDeleteItemProps) => {
+const CartDeleteItem = ({ item, fields }: CartDeleteItemProps) => {
   const deleteLineItemMutation = useDeleteLineItem({
     fields
   })
   return (
-    <IconButton
+    <Button
       onClick={() => deleteLineItemMutation.mutate({ line_id: item.id })}
       disabled={deleteLineItemMutation.isPending}
       className={clx(
-        type === "compact" && "text-secondary-text hover:text-secondary-text-hover transition-colors ml-2"
+        "text-secondary-text hover:text-secondary-text-hover transition-colors ml-2",
       )}
-      variant={type === "compact" ? "transparent" : "primary"}
+      variant="transparent"
+      size="fit"
     >
       <Trash />
-    </IconButton>
+    </Button>
   )
 }
 

@@ -23,7 +23,7 @@ const AddressesTemplate = ({ customer }: AddressesTemplateProps) => {
       <div className="flex items-center justify-between">
         <h2 className="txt-xlarge-plus text-primary-text">Address book</h2>
         <Button
-          size="small"
+          size="fit"
           onClick={() => setIsAdding(!isAdding)}
           className="flex items-center gap-x-2"
         >
@@ -33,7 +33,7 @@ const AddressesTemplate = ({ customer }: AddressesTemplateProps) => {
       </div>
 
       {isAdding && (
-        <div className="border border-secondary-border rounded-md p-8 bg-secondary-bg">
+        <div className="border border-secondary-border p-8 bg-secondary-bg">
           <h3 className="txt-large-plus text-primary-text mb-6">Add new address</h3>
           <AddAddressForm
             onSuccess={() => setIsAdding(false)}
@@ -43,7 +43,7 @@ const AddressesTemplate = ({ customer }: AddressesTemplateProps) => {
       )}
 
       {addresses.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 border border-secondary-border rounded-md bg-secondary-bg">
+        <div className="flex flex-col items-center justify-center py-20 border border-secondary-border bg-secondary-bg">
           <div className="text-center">
             <p className="txt-large text-secondary-text mb-2">You haven't saved any addresses yet.</p>
             <p className="txt-medium text-secondary-text">Add an address to make checkout faster.</p>
@@ -84,7 +84,7 @@ const AddressCard = ({ address, customer }: AddressCardProps) => {
   }
 
   return (
-    <div className="border border-secondary-border rounded-md p-8 bg-secondary-bg hover:shadow-md transition-shadow">
+    <div className="border border-secondary-border p-8 bg-secondary-bg hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between mb-6">
         <div className="flex flex-col gap-y-2">
           <div className="txt-large-plus text-primary-text">
@@ -104,7 +104,7 @@ const AddressCard = ({ address, customer }: AddressCardProps) => {
             <EllipsisHorizontal />
           </button>
           {showMenu && (
-            <div className="absolute right-0 top-full mt-1 bg-primary-bg border border-primary-border rounded-rounded shadow-elevation-modal z-10">
+            <div className="absolute right-0 top-full mt-1 bg-primary-bg border border-primary-border shadow-elevation-modal z-10">
               <Button
                 onClick={() => {
                   setIsEditing(true)
@@ -137,12 +137,12 @@ const AddressCard = ({ address, customer }: AddressCardProps) => {
           <Address address={address} />
           <div className="flex gap-x-3 mt-4">
             {isDefaultBilling && (
-              <div className="px-3 py-1.5 bg-secondary-bg border border-secondary-border text-secondary-text txt-small-plus rounded-md">
+              <div className="px-3 py-1.5 bg-secondary-bg border border-secondary-border text-secondary-text txt-small-plus">
                 Default billing
               </div>
             )}
             {isDefaultShipping && (
-              <div className="px-3 py-1.5 bg-secondary-bg border border-secondary-border text-secondary-text txt-small-plus rounded-md">
+              <div className="px-3 py-1.5 bg-secondary-bg border border-secondary-border text-secondary-text txt-small-plus">
                 Default shipping
               </div>
             )}

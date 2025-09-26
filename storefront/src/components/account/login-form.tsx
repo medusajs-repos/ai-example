@@ -2,8 +2,8 @@ import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from
 import { useLogin } from "@/lib/hooks/dynamic/use-auth"
 import { Link, useLocation, useNavigate } from "@tanstack/react-router"
 import { useState } from "react"
-import { Input, Label } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
+import { Input } from "@/components/common/input"
 
 interface LoginFormProps {
   onSuccess?: () => void;
@@ -51,33 +51,35 @@ const LoginForm = ({ onSuccess }: LoginFormProps) => {
     <div className="w-full max-w-md mx-auto">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <Label
+          <label
             htmlFor="email"
             className="block txt-small-plus text-secondary-text mb-2"
           >
             Email
-          </Label>
+          </label>
           <Input
             id="email"
             type="email"
             value={formData.email}
             onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+            placeholder="Email"
           />
         </div>
 
         <div>
-          <Label
+          <label
             htmlFor="password"
             className="block txt-small-plus text-secondary-text mb-2"
           >
             Password
-          </Label>
+          </label>
           <Input
             id="password"
             type="password"
             value={formData.password}
             onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
             autoComplete="current-password"
+            placeholder="Password"
           />
         </div>
 
@@ -88,7 +90,6 @@ const LoginForm = ({ onSuccess }: LoginFormProps) => {
             type="submit"
             disabled={loginMutation.isPending}
             variant="primary"
-            isLoading={loginMutation.isPending}
           >
             Sign In
           </Button>

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
-import { Input, Label, Checkbox, Heading } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
 import { HttpTypes } from "@medusajs/types"
 import { useSetCartAddresses } from "@/lib/hooks/dynamic/checkout/use-addresses"
 import AddressForm from "@/components/common/address-form"
 import { getStoredCountryCode } from "@/lib/utils/region/stored-country-code"
+import { Input } from "@/components/common/input"
+import { Checkbox } from "@/components/common/checkbox"
 
 interface AddressStepProps {
   cart: HttpTypes.StoreCart
@@ -113,9 +114,9 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
     <div className="flex flex-col gap-8">    
       <form onSubmit={handleSubmit} className="flex flex-col gap-8">
         <div className="flex flex-col gap-2">
-          <Heading level="h3" className="text-primary-text !txt-medium-plus">
+          <h3 className="text-primary-text !txt-medium-plus">
             Shipping Address
-          </Heading>
+          </h3>
           {/* Shipping Address */}
           <AddressForm
             addressFormData={shippingAddress}
@@ -129,20 +130,21 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
         <div className="flex items-center gap-x-2">
           <Checkbox
             id="same_as_billing"
+            type="checkbox"
             checked={sameAsBilling}
-            onCheckedChange={(checked) => setSameAsBilling(!!checked)}
+            onChange={(e) => setSameAsBilling(!!e.target.checked)}
           />
-          <Label htmlFor="same_as_billing" className="txt-small">
+          <label htmlFor="same_as_billing" className="txt-small">
             Billing address is the same as shipping address
-          </Label>
+          </label>
         </div>
 
         {/* Billing Address (if different) */}
         {!sameAsBilling && (
           <div className="flex flex-col gap-2">
-            <Heading level="h3" className="text-primary-text !txt-medium-plus">
+            <h3 className="text-primary-text !txt-medium-plus">
               Billing Address
-            </Heading>
+            </h3>
             <AddressForm
               addressFormData={billingAddress}
               setAddressFormData={setBillingAddress}
@@ -154,9 +156,9 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
 
         {/* Email */}
         <div className="flex flex-col gap-2">
-          <Label htmlFor="email" className="block txt-small-plus">
+          <label htmlFor="email" className="block txt-small-plus">
             Email Address
-          </Label>
+          </label>
           <Input
             id="email"
             type="email"
@@ -174,7 +176,6 @@ const AddressStep = ({ cart, onNext }: AddressStepProps) => {
           <Button
             type="submit"
             disabled={!isFormValid() || isSubmitting}
-            isLoading={isSubmitting}
           >
             Next
           </Button>

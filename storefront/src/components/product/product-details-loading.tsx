@@ -28,7 +28,7 @@ const ProductDetailsLoading = () => {
 
         {/* Center Column - Image Gallery */}
         <div className="flex-[2]">
-          <div className="aspect-[29/34] w-full bg-secondary-bg rounded-md flex items-center justify-center">
+          <div className="aspect-[29/34] w-full bg-secondary-bg flex items-center justify-center">
             <Loading rows={1} height="h-8" width="w-8" />
           </div>
         </div>
@@ -51,7 +51,7 @@ const ProductDetailsLoading = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {Array.from({ length: 4 }, (_, index) => (
               <div key={index} className="space-y-3">
-                <div className="aspect-square bg-secondary-bg rounded-md flex items-center justify-center">
+                <div className="aspect-square bg-secondary-bg flex items-center justify-center">
                   <Loading rows={1} height="h-6" width="w-6" />
                 </div>
                 <Loading rows={1} height="h-4" width="w-3/4" />

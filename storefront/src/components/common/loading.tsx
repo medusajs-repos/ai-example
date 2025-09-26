@@ -57,7 +57,7 @@ const Loading = ({
             <div
               key={`${rowIndex}-${colIndex}`}
               className={clx(
-                "animate-pulse rounded bg-loading-bg flex-1",
+                "animate-pulse bg-loading-bg flex-1",
                 height,
                 width
               )}

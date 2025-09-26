@@ -36,7 +36,7 @@ const ProductSort = ({
       title="Sort by"
       items={sortOptions}
       value={sortBy}
-      handleChange={handleChange}
+      onChange={handleChange}
       data-testid={dataTestId}
     />
   )
