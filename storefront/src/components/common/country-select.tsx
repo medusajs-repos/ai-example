@@ -8,6 +8,7 @@ import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from
 import { setStoredCountryCode } from "@/lib/utils/region/stored-country-code"
 import { useUpdateCart } from "@/lib/hooks/dynamic/use-cart"
 import { buildPathWithCountryCode } from "@/lib/utils/region/build-path-with-country-code"
+import { clx } from "@medusajs/ui"
 
 /**
  * AI AGENT USAGE GUIDE:
@@ -158,14 +159,14 @@ const CountrySelect = ({ regions, className }: CountrySelectProps) => {
   }
 
   return (
-    <div className={`relative ${className}`} ref={dropdownRef}>
+    <div className={clx("relative", className)} ref={dropdownRef}>
       <button
         type="button"
         onClick={() => {
           calculateDropdownPosition()
           setIsOpen(!isOpen)
         }}
-        className="w-full px-4 py-2 text-left text-primary-text flex items-center justify-between gap-2 txt-medium"
+        className="w-full text-left text-primary-text flex items-center gap-2 txt-medium w-fit"
       >
         <div className="flex items-center gap-2">
           {currentCountry && (

@@ -101,7 +101,7 @@ const Footer = () => {
             <p className="text-secondary-text max-w-md txt-medium">
               Your modern ecommerce solution built with cutting-edge technology for exceptional shopping experiences.
             </p>
-            <CountrySelect regions={regions ?? []} className="w-fit" />
+            <CountrySelect regions={regions ?? []} />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-12">
             <FooterColumn title="Categories" links={categories?.map((category) => ({
