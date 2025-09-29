@@ -5,7 +5,7 @@ import {
   Scripts,
   createRootRouteWithContext,
 } from "@tanstack/react-router"
-import appCss from "@/styles/app.css?url"
+import appCss from "../styles/app.css?url"
 import { listRegions } from "@/lib/data/regions"
 import { lazy } from "react"
 
