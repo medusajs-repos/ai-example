@@ -1,5 +1,5 @@
 [build]
-  base = "storefront/"
+  base = "apps/storefront/"
   command = "pnpm build"
   publish = "dist/"
 

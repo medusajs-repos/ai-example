@@ -51,7 +51,7 @@ const Home = () => {
     <>
       <Hero />
       <div className="lg:min-h-[50vh]">
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<Loading className="content-container py-20" />}>
           <FeaturedProducts />
         </Suspense>
       </div>
