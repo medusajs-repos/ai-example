@@ -1,4 +1,4 @@
-import { StaticRoute } from './scripts/generate-static-routes';
+import { StaticRoute } from "./scripts/generate-static-routes";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
@@ -8,6 +8,7 @@ import { defineConfig, HmrOptions, loadEnv } from "vite";
 import Terminal from "vite-plugin-terminal";
 import viteTsConfigPaths from "vite-tsconfig-paths";
 import { cachePurgerPlugin } from "./vite-plugins/cache-purger";
+import medusaAiTags from "@medusajs-ai/tags";
 
 function getHmrConfig(hmrPort: number, mode: string): HmrOptions {
   const env = loadEnv(mode, process.cwd());
@@ -47,22 +48,32 @@ export default defineConfig(({ mode }) => {
       viteTsConfigPaths({ projects: ["./tsconfig.json"] }),
       tailwindcss(),
       // Only enable cache purger in development
-      ...(mode === 'development' ? [cachePurgerPlugin()] : []),
-      tanstackStart({ 
-        customViteReactPlugin: true, 
+      ...(mode === "development"
+        ? [
+            cachePurgerPlugin(),
+            medusaAiTags({
+              enabled: true,
+              includeRuntime: true,
+            }),
+          ]
+        : []),
+      tanstackStart({
+        customViteReactPlugin: true,
         target: deploymentTarget,
         prerender: {
           enabled: true,
           autoSubfolderIndex: true,
           // Don't crawl links in pages
-          crawlLinks: false
+          crawlLinks: false,
         },
         // Load static routes from generated file if it exists
         pages: (() => {
-          const routesFile = path.join(process.cwd(), 'static-routes.json');
+          const routesFile = path.join(process.cwd(), "static-routes.json");
           if (existsSync(routesFile)) {
-            const routes = JSON.parse(readFileSync(routesFile, 'utf8'));
-            console.log(`Loaded ${routes.length} static routes from static-routes.json`);
+            const routes = JSON.parse(readFileSync(routesFile, "utf8"));
+            console.log(
+              `Loaded ${routes.length} static routes from static-routes.json`,
+            );
             return routes.map((route: StaticRoute) => ({
               path: route.path,
               prerender: {
@@ -70,11 +81,11 @@ export default defineConfig(({ mode }) => {
                 sitemap: {
                   priority: route.priority,
                   lastmod: route.lastModified,
-                }
-              }
-            }))
+                },
+              },
+            }));
           }
-        })()
+        })(),
       }),
       viteReact(),
     ],
@@ -83,23 +94,23 @@ export default defineConfig(({ mode }) => {
         output: {
           manualChunks: {
             // MedusaJS vendor chunk (only non-external modules)
-            'medusa-vendor': [
-              '@medusajs/js-sdk', 
-              '@medusajs/ui', 
-              '@medusajs/types',
-              '@medusajs/ui-preset'
+            "medusa-vendor": [
+              "@medusajs/js-sdk",
+              "@medusajs/ui",
+              "@medusajs/types",
+              "@medusajs/ui-preset",
             ],
-          }
-        }
+          },
+        },
       },
       // Optimize build performance
-      minify: 'terser',
+      minify: "terser",
       terserOptions: {
         compress: {
           drop_console: true,
-          drop_debugger: true
-        }
-      }
+          drop_debugger: true,
+        },
+      },
     },
     ssr: {
       noExternal: [
@@ -118,7 +129,7 @@ export default defineConfig(({ mode }) => {
       hmr: hmrConfig,
     },
     preview: {
-      port
-    }
+      port,
+    },
   };
 });
