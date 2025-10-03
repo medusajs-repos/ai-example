@@ -1,5 +1,5 @@
 {
-  "name": "sebs-store",
+  "name": "ai-template",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -15,7 +15,7 @@
     "turbo": "^2.0.14",
     "prettier": "^3.2.5"
   },
-  "packageManager": "pnpm@9.15.2",
+  "packageManager": "pnpm@10.12.3",
   "engines": {
     "node": ">=18"
   }
