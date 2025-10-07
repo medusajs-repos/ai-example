@@ -5,11 +5,24 @@ loadEnv(process.env.NODE_ENV || "development", process.cwd());
 module.exports = defineConfig({
   admin: {
     vite: () => {
+      let hmrServer;
+      if (process.env.HMR_BIND_HOST) {
+        const { createServer } = require("http");
+        hmrServer = createServer();
+        const hmrPort = parseInt(process.env.HMR_PORT || "9001");
+        hmrServer.listen(hmrPort, process.env.HMR_BIND_HOST);
+      }
+
+      let allowedHosts;
+      if (process.env.__MEDUSA_ADDITIONAL_ALLOWED_HOSTS) {
+        allowedHosts = [process.env.__MEDUSA_ADDITIONAL_ALLOWED_HOSTS];
+      }
+
       return {
         server: {
-          allowedHosts: true,
+          allowedHosts,
           hmr: {
-            timeout: 60000,
+            server: hmrServer,
           },
         },
       };

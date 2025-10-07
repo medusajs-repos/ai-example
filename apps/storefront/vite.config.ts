@@ -39,9 +39,6 @@ export default defineConfig(({ mode }) => {
   const hmrConfig = getHmrConfig(hmrPort, mode);
   const deploymentTarget = env.VITE_DEPLOYMENT_TARGET ?? "node-server";
 
-  console.log("hmrConfig", hmrConfig);
-  console.log("env", env);
-
   return {
     plugins: [
       Terminal({ console: "terminal", output: ["terminal"] }),
@@ -125,7 +122,6 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       port,
-      allowedHosts: true as const,
       hmr: hmrConfig,
     },
     preview: {
