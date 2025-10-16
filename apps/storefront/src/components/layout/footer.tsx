@@ -63,7 +63,7 @@ const Footer = () => {
     }
   })
   const { data: regions } = useRegions({
-    fields: "id, *countries",
+    fields: "id, currency_code, *countries",
   })
 
   const resourceLinks = [

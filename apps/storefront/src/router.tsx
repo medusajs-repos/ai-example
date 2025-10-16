@@ -10,12 +10,14 @@ export function createRouter() {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        // Optimize for SSG - longer stale time for static data
-        staleTime: 1000 * 60 * 5, // 5 minutes
-        // Don't refetch on window focus for SSG
-        refetchOnWindowFocus: false,
-        // Don't refetch on reconnect for SSG
-        refetchOnReconnect: false,
+        // Optimize for SSR - shorter stale time for fresh data
+        staleTime: 1000 * 60, // 1 minute
+        // Enable refetch on window focus for fresh data
+        refetchOnWindowFocus: true,
+        // Enable refetch on reconnect
+        refetchOnReconnect: true,
+        // Retry failed requests
+        retry: 1,
       },
     },
   })
@@ -23,7 +25,7 @@ export function createRouter() {
   const router = createTanStackRouter({
     routeTree,
     context: { queryClient },
-    defaultPreload: "intent", // Good for SSG - preloads on hover/focus
+    defaultPreload: false, // SSR handles data fetching on the server
     defaultNotFoundComponent: NotFound,
     scrollRestoration: true,
   })

@@ -4,9 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "pnpm generate:routes && pnpm vite build",
+    "build": "vite build",
     "build:prod": "pnpm build && pnpm preview",
-    "generate:routes": "tsx scripts/generate-static-routes.ts",
     "start": "node .netlify/functions-internal/server/server.mjs",
     "start:local": "PORT=8000 node .output/server/index.mjs",
     "preview": "vite preview",
@@ -53,7 +52,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
-    "@medusajs-ai/tags": "0.0.2-next-20251002191826",
+    "@medusajs-ai/tags": "0.0.2-next-20251016173844",
     "@tailwindcss/vite": "^4.1.4",
     "@tanstack/react-router-devtools": "1.131.27",
     "@tanstack/router-cli": "1.131.27",

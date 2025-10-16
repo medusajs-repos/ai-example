@@ -5,7 +5,7 @@ import { HttpTypes } from "@medusajs/types"
 import { toast } from "@medusajs/ui"
 import { Button } from "@/components/common/button"
 import { useLocation } from "@tanstack/react-router"
-import { isEqual, set } from "lodash-es"
+import { isEqual } from "lodash-es"
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react"
 import { useProductDynamic } from "@/lib/hooks/dynamic/use-products"
 import Loading from "@/components/common/loading"
@@ -67,10 +67,10 @@ export default function ProductActions({
   region,
   disabled,
 }: ProductActionsProps) {
-  const { data: product } = useProductDynamic({ 
+  const { data: product } = useProductDynamic({
     handle,
     region_id: region.id,
-   })
+  })
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string | undefined>>(
     {}
   )
@@ -197,9 +197,9 @@ export default function ProductActions({
       </div>
 
       <Suspense fallback={<Loading rows={1} />}>
-        <ProductPrice 
-          product={product as HttpTypes.StoreProduct} 
-          variant={selectedVariant} 
+        <ProductPrice
+          product={product as HttpTypes.StoreProduct}
+          variant={selectedVariant}
           priceProps={{
             textSize: "large",
           }}
@@ -221,8 +221,8 @@ export default function ProductActions({
         {!selectedVariant && !selectedOptions
           ? "Select variant"
           : !inStock || !isValidVariant
-          ? "Out of stock"
-          : "Add to cart"}
+            ? "Out of stock"
+            : "Add to cart"}
       </Button>
     </div>
   )

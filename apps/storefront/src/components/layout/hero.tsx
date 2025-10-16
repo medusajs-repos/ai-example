@@ -52,7 +52,7 @@ import { Link } from "@tanstack/react-router"
 const Hero = () => {
   return (
     <div className="h-[75vh] w-full border-b border-primary-border relative bg-secondary-bg">
-      <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center sm:p-32 gap-8">
+      <div className="w-full h-full flex flex-col justify-center items-center text-center sm:p-32 gap-8">
         <div>
           <h1
             className="text-3xl sm:text-4xl text-primary-text mb-4"

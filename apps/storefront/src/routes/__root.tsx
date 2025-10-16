@@ -20,7 +20,7 @@ export const Route = createRootRouteWithContext<{
     // Pre-populate regions cache
     await queryClient.ensureQueryData({
       queryKey: ["regions"],
-      queryFn: () => listRegions(),
+      queryFn: () => listRegions({ fields: "id, name, currency_code, *countries" }),
     })
     
     return {}

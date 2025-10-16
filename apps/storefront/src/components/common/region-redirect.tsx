@@ -16,7 +16,7 @@ interface RegionRedirectProps {
 const RegionRedirect = ({ children, isChecking404 = false }: RegionRedirectProps) => {
   const navigate = useNavigate()
   const location = useLocation()
-  const { data: regions } = useRegions()
+  const { data: regions } = useRegions({ fields: "id, currency_code, *countries" })
   const [is404, setIs404] = useState(false)
 
   useEffect(() => {

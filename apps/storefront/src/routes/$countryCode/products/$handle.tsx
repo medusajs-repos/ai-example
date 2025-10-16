@@ -2,29 +2,7 @@ import { createFileRoute, notFound } from "@tanstack/react-router"
 import { retrieveProduct } from "@/lib/data/products"
 import { getRegion } from "@/lib/data/regions"
 import ProductDetails from "@/pages/product"
-import { createServerFn } from "@tanstack/react-start"
 import { HttpTypes } from "@medusajs/types"
-
-const getProductStatic = createServerFn({
-  type: "static"
-})
-.validator((data: { handle: string; region_id: string }) => {
-  return data
-})
-.handler(async ({ data }) => {
-  const { handle, region_id } = data
-  try {
-    const product = await retrieveProduct({ 
-      handle, 
-      region_id,
-      fields: "*variants, *images, *options, *options.values, *collection, *tags"
-    })
-    // Use type assertion to bypass strict typing
-    return product as any
-  } catch {
-    throw notFound()
-  }
-})
 
 export const Route = createFileRoute("/$countryCode/products/$handle")({
   loader: async ({ params, context }) => {
@@ -42,12 +20,17 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
 
     const product = await queryClient.ensureQueryData({
       queryKey: ["product", handle, region.id],
-      queryFn: () => getProductStatic({
-        data: {
-          handle,
-          region_id: region.id
+      queryFn: async () => {
+        try {
+          return await retrieveProduct({
+            handle,
+            region_id: region.id,
+            fields: "*variants, *images, *options, *options.values, *collection, *tags"
+          })
+        } catch {
+          throw notFound()
         }
-      }),
+      },
     })
 
     return {

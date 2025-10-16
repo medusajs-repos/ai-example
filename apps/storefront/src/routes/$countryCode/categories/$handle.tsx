@@ -2,24 +2,7 @@ import { createFileRoute, notFound } from "@tanstack/react-router"
 import { retrieveCategory } from "@/lib/data/categories"
 import { getRegion } from "@/lib/data/regions"
 import Category from "@/pages/category"
-import { createServerFn } from "@tanstack/react-start"
 import { HttpTypes } from "@medusajs/types"
-
-const getCategoryStatic = createServerFn({
-  type: "static"
-})
-.validator((data: { handle: string }) => {
-  return data
-})
-.handler(async ({ data }) => {
-  const { handle } = data
-  try {
-    const category = await retrieveCategory({ handle })
-    return category as any
-  } catch {
-    throw notFound()
-  }
-})
 
 export const Route = createFileRoute("/$countryCode/categories/$handle")({
   loader: async ({ params, context }) => {
@@ -39,7 +22,13 @@ export const Route = createFileRoute("/$countryCode/categories/$handle")({
     // Fetch category by handle
     const category = await queryClient.ensureQueryData({
       queryKey: ["category", handle],
-      queryFn: () => getCategoryStatic({ data: { handle } }),
+      queryFn: async () => {
+        try {
+          return await retrieveCategory({ handle })
+        } catch {
+          throw notFound()
+        }
+      },
     })
 
     return {

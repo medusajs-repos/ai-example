@@ -54,7 +54,7 @@ import { Toaster } from "@medusajs/ui"
 const Layout = () => {
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <Navbar />
 
       <main className="relative flex-1">

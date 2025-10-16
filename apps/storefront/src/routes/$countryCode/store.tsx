@@ -2,26 +2,7 @@ import { createFileRoute, notFound } from "@tanstack/react-router"
 import { getRegion } from "@/lib/data/regions"
 import Store from "@/pages/store"
 import { listProducts } from "@/lib/data/products"
-import { createServerFn } from "@tanstack/react-start"
 import { HttpTypes } from "@medusajs/types"
-
-const getProductsStatic = createServerFn({
-  type: "static"
-})
-.validator((data: { region_id: string }) => {
-  return data
-})
-.handler(async ({ data }) => {
-  const { region_id } = data
-  const { products } = await listProducts({
-    query_params: { 
-      limit: 1000,
-      order: "-created_at"
-    },
-    region_id,
-  })
-  return products as any
-})
 
 export const Route = createFileRoute("/$countryCode/store")({
   loader: async ({ params, context }) => {
@@ -37,9 +18,15 @@ export const Route = createFileRoute("/$countryCode/store")({
       throw notFound()
     }
 
-    const products = await queryClient.ensureQueryData({
+    const { products } = await queryClient.ensureQueryData({
       queryKey: ["products", { region_id: region.id }],
-      queryFn: () => getProductsStatic({ data: { region_id: region.id } }),
+      queryFn: () => listProducts({
+        query_params: {
+          limit: 100, // Reduce limit for SSR performance
+          order: "-created_at"
+        },
+        region_id: region.id,
+      }),
     })
 
     return {

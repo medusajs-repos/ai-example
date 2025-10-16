@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState, useRef } from "react"
-import ReactCountryFlag from "react-country-flag"
 import { useNavigate, useLocation } from "@tanstack/react-router"
 import { ChevronDownMini } from "@medusajs/icons"
 
@@ -60,6 +59,7 @@ type CountryOption = {
   country_code: string
   region_id: string
   label: string
+  currency_code: string
 }
 
 type CountrySelectProps = {
@@ -84,7 +84,7 @@ const CountrySelect = ({ regions, className }: CountrySelectProps) => {
 
   const countries = useMemo(() => {
     const countryMap = new Map<string, CountryOption>()
-    
+
     regions?.forEach((region) => {
       region.countries?.forEach((country) => {
         if (country.iso_2 && !countryMap.has(country.iso_2)) {
@@ -92,11 +92,12 @@ const CountrySelect = ({ regions, className }: CountrySelectProps) => {
             country_code: country.iso_2,
             region_id: region.id,
             label: country.display_name ?? "",
+            currency_code: region.currency_code?.toUpperCase() ?? "",
           })
         }
       })
     })
-    
+
     return Array.from(countryMap.values())
       .sort((a, b) => (a?.label ?? "").localeCompare(b?.label ?? ""))
   }, [regions])
@@ -166,21 +167,14 @@ const CountrySelect = ({ regions, className }: CountrySelectProps) => {
           calculateDropdownPosition()
           setIsOpen(!isOpen)
         }}
-        className="w-full text-left text-primary-text flex items-center gap-2 txt-medium w-fit"
+        className="w-full text-left text-primary-text flex items-center gap-2 text-sm w-fit"
       >
-        <div className="flex items-center gap-2">
-          {currentCountry && (
-            <ReactCountryFlag
-              countryCode={currentCountry.country_code}
-              svg
-              style={{
-                width: "20px",
-                height: "15px",
-              }}
-            />
-          )}
-          <span>{currentCountry?.label || "Select country"}</span>
-        </div>
+        <span>
+          {currentCountry
+            ? `${currentCountry.label} (${currentCountry.currency_code})`
+            : "Select country"
+          }
+        </span>
         <ChevronDownMini className={`transition-transform ${isOpen ? "rotate-180" : ""}`} />
       </button>
       
@@ -195,17 +189,9 @@ const CountrySelect = ({ regions, className }: CountrySelectProps) => {
               key={country.country_code}
               type="button"
               onClick={() => handleChange(country.country_code)}
-              className="w-full px-4 py-2 text-left hover:bg-primary-border flex items-center gap-2"
+              className="w-full px-4 py-2 text-left hover:bg-primary-border text-sm"
             >
-              <ReactCountryFlag
-                countryCode={country.country_code}
-                svg
-                style={{
-                  width: "20px",
-                  height: "15px",
-                }}
-              />
-              <span>{country.label}</span>
+              {country.label} ({country.currency_code})
             </button>
           ))}
         </div>
