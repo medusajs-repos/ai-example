@@ -3,3 +3,5 @@ backend.log
 node_modules
 .turbo
 .vscode
+# Local Netlify folder
+.netlify

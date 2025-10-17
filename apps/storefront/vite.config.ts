@@ -1,10 +1,10 @@
+import medusaAiTags from "@medusajs-ai/tags";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import Terminal from "vite-plugin-terminal";
 import viteTsConfigPaths from "vite-tsconfig-paths";
-import medusaAiTags from "@medusajs-ai/tags";
 
 export default defineConfig(({ mode }) => {
   return {
@@ -23,10 +23,7 @@ export default defineConfig(({ mode }) => {
         : []),
       tanstackStart({
         customViteReactPlugin: true,
-        target: "node-server", // Force SSR mode
-        prerender: {
-          enabled: false, // Disable prerendering for SSR
-        },
+        target: "netlify",
       }),
       viteReact(),
     ],
