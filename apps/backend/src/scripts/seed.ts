@@ -50,6 +50,18 @@ export default async function seedDemoData({ container }: ExecArgs) {
     defaultSalesChannel = salesChannelResult;
   }
 
+  const query = container.resolve(ContainerRegistrationKeys.QUERY);
+  const { data: pricePreferences } = await query.graph({
+    entity: "price_preference",
+    fields: ["id"],
+  });
+
+  if (pricePreferences.length > 0) {
+    const ids = pricePreferences.map((pp) => pp.id);
+
+    await container.resolve(Modules.PRICING).deletePricePreferences(ids);
+  }
+
   await updateStoresWorkflow(container).run({
     input: {
       selector: { id: store.id },
@@ -67,6 +79,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
       },
     },
   });
+
   logger.info("Seeding region data...");
   const { result: regionResult } = await createRegionsWorkflow(container).run({
     input: {
@@ -87,7 +100,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
   await createTaxRegionsWorkflow(container).run({
     input: countries.map((country_code) => ({
       country_code,
-      provider_id: "tp_system"
+      provider_id: "tp_system",
     })),
   });
   logger.info("Finished seeding tax regions.");
