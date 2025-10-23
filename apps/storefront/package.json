@@ -28,7 +28,7 @@
   "devDependencies": {
     "vite-plugin-terminal": "1.3.0",
     "@eslint/js": "9.33.0",
-    "@medusajs-ai/tags": "0.0.2-next-20251016173844",
+    "@medusajs-ai/tags": "0.0.2-next-20251023120609",
     "@medusajs/types": "latest",
     "@tailwindcss/vite": "4.1.4",
     "@tanstack/react-router-devtools": "1.131.27",
