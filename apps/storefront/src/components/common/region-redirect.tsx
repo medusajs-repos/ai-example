@@ -1,73 +1,80 @@
-import getDefaultCountryCode from "@/lib/utils/region/get-default-country-code"
-import { useLocation, useNavigate } from "@tanstack/react-router"
-import { lazy, useEffect, useState } from "react"
-import { useRegions } from "@/lib/hooks/static/use-region"
-import { buildPathWithCountryCode } from "@/lib/utils/region/build-path-with-country-code"
-import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
-import { getStoredCountryCode, setStoredCountryCode } from "@/lib/utils/region/stored-country-code"
+import { useRegions } from "@/lib/hooks/static/use-region";
+import { buildPathWithCountryCode } from "@/lib/utils/region/build-path-with-country-code";
+import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path";
+import getDefaultCountryCode from "@/lib/utils/region/get-default-country-code";
+import {
+  getStoredCountryCode,
+  setStoredCountryCode,
+} from "@/lib/utils/region/stored-country-code";
+import { useLocation, useNavigate } from "@tanstack/react-router";
+import { lazy, useEffect, useState } from "react";
 
-const NotFound = lazy(() => import("./not-found"))
+const NotFound = lazy(() => import("./not-found"));
 
 interface RegionRedirectProps {
   children?: React.ReactNode;
   isChecking404?: boolean;
-} 
+}
 
-const RegionRedirect = ({ children, isChecking404 = false }: RegionRedirectProps) => {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const { data: regions } = useRegions({ fields: "id, currency_code, *countries" })
-  const [is404, setIs404] = useState(false)
+const RegionRedirect = ({
+  children,
+  isChecking404 = false,
+}: RegionRedirectProps) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { data: regions = [], isLoading: isLoadingRegions } = useRegions({
+    fields: "id, currency_code, *countries",
+  });
+  const [is404, setIs404] = useState(false);
 
   useEffect(() => {
-    if (!regions) return
+    if (isLoadingRegions) return;
 
     const handleRegionRedirect = async () => {
       try {
-        const currentPath = location.pathname
-        const urlCountryCode = getCountryCodeFromPath(currentPath)
-        let countryCode: string | undefined = urlCountryCode
+        const currentPath = location.pathname;
+        const urlCountryCode = getCountryCodeFromPath(currentPath);
+        let countryCode: string | undefined = urlCountryCode;
 
         // If URL has a country code, validate it
         if (countryCode) {
-          const isValidCountryCode = regions.some(
-            (r) => r.countries?.some((c) => c.iso_2 === countryCode)
-          )
+          const isValidCountryCode = regions.some((r) =>
+            r.countries?.some((c) => c.iso_2 === countryCode)
+          );
 
           if (isValidCountryCode) {
-            setStoredCountryCode(countryCode!)
-            setIs404(true)
-            return
+            setStoredCountryCode(countryCode!);
+            return;
           }
         }
 
-        countryCode = getStoredCountryCode() || getDefaultCountryCode(regions)
+        countryCode = getStoredCountryCode() || getDefaultCountryCode(regions);
 
         if (countryCode) {
-          setStoredCountryCode(countryCode)
+          setStoredCountryCode(countryCode);
           // Build the new path with country code
-          const newPath = buildPathWithCountryCode(currentPath, countryCode)
+          const newPath = buildPathWithCountryCode(currentPath, countryCode);
 
           // Redirect to the regionalized URL
-          navigate({ to: newPath as any, replace: true, reloadDocument: true })
+          navigate({ to: newPath as any, replace: true, reloadDocument: true });
         } else {
-          setIs404(true)
+          setIs404(true);
         }
       } catch (error) {
-        console.error("Region redirect error:", error)
+        console.error("Region redirect error:", error);
         // Continue rendering even if region detection fails
       }
-    }
+    };
 
-    handleRegionRedirect()
-  }, [location.pathname, location.search, navigate, regions])
+    handleRegionRedirect();
+  }, [location.pathname, location.search, navigate, regions, isLoadingRegions]);
 
   return (
     <>
       {children}
       {is404 && isChecking404 && <NotFound />}
     </>
-  )
-}
+  );
+};
 
-export default RegionRedirect
+export default RegionRedirect;
