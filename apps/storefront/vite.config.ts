@@ -14,8 +14,8 @@ export default defineConfig(({ mode }) => {
       Terminal({ console: "terminal", output: ["terminal"] }),
       viteTsConfigPaths({ projects: ["./tsconfig.json"] }),
       tailwindcss(),
-      // Only enable cache purger in development
-      ...(mode === "development"
+      // Only enable AI tags in development
+      ...(isDev
         ? [
             medusaAiTags({
               enabled: true,
@@ -26,7 +26,6 @@ export default defineConfig(({ mode }) => {
       tanstackStart({
         customViteReactPlugin: true,
         target: "netlify",
-        ssr: isDev ? false : true,
       }),
       viteReact(),
     ],
@@ -67,11 +66,35 @@ export default defineConfig(({ mode }) => {
     server: {
       // Enable compression for remote development
       cors: true,
-      compress: true,
       // Pre-transform known modules on server start
       warmup: {
-        clientFiles: ["./src/**/*.tsx", "./src/**/*.ts"],
+        clientFiles: [
+          "./src/routes/**/*.tsx",
+          "./src/components/**/*.tsx",
+          "./src/lib/**/*.{ts,tsx}",
+        ],
+      },
+      hmr: {
+        overlay: false,
       },
     },
+    // Critical: Pre-bundle dependencies to reduce module count
+    optimizeDeps: {
+      include: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "react/jsx-dev-runtime",
+        "@tanstack/react-query",
+        "@tanstack/react-router",
+        "@medusajs/js-sdk",
+        "@medusajs/ui",
+        "@medusajs/icons",
+        "lodash-es",
+      ],
+      exclude: ["@medusajs-ai/tags"],
+      entries: ["./src/app.tsx"],
+    },
+    cacheDir: ".vite",
   };
 });
