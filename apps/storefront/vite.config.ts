@@ -7,6 +7,8 @@ import Terminal from "vite-plugin-terminal";
 import viteTsConfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig(({ mode }) => {
+  const isDev = mode === "development";
+
   return {
     plugins: [
       Terminal({ console: "terminal", output: ["terminal"] }),
@@ -24,6 +26,7 @@ export default defineConfig(({ mode }) => {
       tanstackStart({
         customViteReactPlugin: true,
         target: "netlify",
+        ssr: isDev ? false : true,
       }),
       viteReact(),
     ],
