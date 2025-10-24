@@ -10,6 +10,10 @@ export default defineConfig(({ mode }) => {
   const isDev = mode === "development";
 
   return {
+    // Enable experimental features for better dev performance
+    experimental: {
+      hmrPartialAccept: true,
+    },
     plugins: [
       Terminal({ console: "terminal", output: ["terminal"] }),
       viteTsConfigPaths({ projects: ["./tsconfig.json"] }),
@@ -64,9 +68,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
-      // Enable compression for remote development
       cors: true,
-      // Pre-transform known modules on server start
       warmup: {
         clientFiles: [
           "./src/routes/**/*.tsx",
@@ -76,9 +78,14 @@ export default defineConfig(({ mode }) => {
       },
       hmr: {
         overlay: false,
+        protocol: "ws",
       },
+      proxy: {},
     },
-    // Critical: Pre-bundle dependencies to reduce module count
+    esbuild: {
+      logOverride: { "this-is-undefined-in-esm": "silent" },
+      jsx: "automatic",
+    },
     optimizeDeps: {
       include: [
         "react",
