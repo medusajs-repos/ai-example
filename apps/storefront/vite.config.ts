@@ -11,9 +11,9 @@ export default defineConfig(({ mode }) => {
 
   return {
     // Enable experimental features for better dev performance
-    experimental: {
-      hmrPartialAccept: true,
-    },
+    // experimental: {
+    //   hmrPartialAccept: true,
+    // },
     plugins: [
       Terminal({ console: "terminal", output: ["terminal"] }),
       viteTsConfigPaths({ projects: ["./tsconfig.json"] }),
@@ -33,29 +33,29 @@ export default defineConfig(({ mode }) => {
       }),
       viteReact(),
     ],
-    build: {
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            // MedusaJS vendor chunk (only non-external modules)
-            "medusa-vendor": [
-              "@medusajs/js-sdk",
-              "@medusajs/ui",
-              "@medusajs/types",
-              "@medusajs/ui-preset",
-            ],
-          },
-        },
-      },
-      // Optimize build performance
-      minify: "terser",
-      terserOptions: {
-        compress: {
-          drop_console: true,
-          drop_debugger: true,
-        },
-      },
-    },
+    // build: {
+    //   rollupOptions: {
+    //     output: {
+    //       manualChunks: {
+    //         // MedusaJS vendor chunk (only non-external modules)
+    //         "medusa-vendor": [
+    //           "@medusajs/js-sdk",
+    //           "@medusajs/ui",
+    //           "@medusajs/types",
+    //           "@medusajs/ui-preset",
+    //         ],
+    //       },
+    //     },
+    //   },
+    //   // Optimize build performance
+    //   minify: "terser",
+    //   terserOptions: {
+    //     compress: {
+    //       drop_console: true,
+    //       drop_debugger: true,
+    //     },
+    //   },
+    // },
     ssr: {
       noExternal: [
         "@medusajs/js-sdk",
@@ -67,41 +67,41 @@ export default defineConfig(({ mode }) => {
         include: ["@medusajs/js-sdk"],
       },
     },
-    server: {
-      cors: true,
-      warmup: {
-        clientFiles: [
-          "./src/routes/**/*.tsx",
-          "./src/components/**/*.tsx",
-          "./src/lib/**/*.{ts,tsx}",
-        ],
-      },
-      hmr: {
-        overlay: false,
-        protocol: "ws",
-      },
-      proxy: {},
-    },
-    esbuild: {
-      logOverride: { "this-is-undefined-in-esm": "silent" },
-      jsx: "automatic",
-    },
-    optimizeDeps: {
-      include: [
-        "react",
-        "react-dom",
-        "react/jsx-runtime",
-        "react/jsx-dev-runtime",
-        "@tanstack/react-query",
-        "@tanstack/react-router",
-        "@medusajs/js-sdk",
-        "@medusajs/ui",
-        "@medusajs/icons",
-        "lodash-es",
-      ],
-      exclude: ["@medusajs-ai/tags"],
-      entries: ["./src/app.tsx"],
-    },
-    cacheDir: ".vite",
+    // server: {
+    //   cors: true,
+    //   warmup: {
+    //     clientFiles: [
+    //       "./src/routes/**/*.tsx",
+    //       "./src/components/**/*.tsx",
+    //       "./src/lib/**/*.{ts,tsx}",
+    //     ],
+    //   },
+    //   hmr: {
+    //     overlay: false,
+    //     protocol: "ws",
+    //   },
+    //   proxy: {},
+    // },
+    // esbuild: {
+    //   logOverride: { "this-is-undefined-in-esm": "silent" },
+    //   jsx: "automatic",
+    // },
+    // optimizeDeps: {
+    //   include: [
+    //     "react",
+    //     "react-dom",
+    //     "react/jsx-runtime",
+    //     "react/jsx-dev-runtime",
+    //     "@tanstack/react-query",
+    //     "@tanstack/react-router",
+    //     "@medusajs/js-sdk",
+    //     "@medusajs/ui",
+    //     "@medusajs/icons",
+    //     "lodash-es",
+    //   ],
+    //   exclude: ["@medusajs-ai/tags"],
+    //   entries: ["./src/app.tsx"],
+    // },
+    // cacheDir: ".vite",
   };
 });
