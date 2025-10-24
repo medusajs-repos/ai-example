@@ -64,5 +64,14 @@ export default defineConfig(({ mode }) => {
         include: ["@medusajs/js-sdk"],
       },
     },
+    server: {
+      // Enable compression for remote development
+      cors: true,
+      compress: true,
+      // Pre-transform known modules on server start
+      warmup: {
+        clientFiles: ["./src/**/*.tsx", "./src/**/*.ts"],
+      },
+    },
   };
 });
