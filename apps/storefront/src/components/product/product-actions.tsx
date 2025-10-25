@@ -218,7 +218,7 @@ export default function ProductActions({
         className="w-full"
         data-testid="add-product-button"
       >
-        {!selectedVariant && !selectedOptions
+        {!selectedVariant
           ? "Select variant"
           : !inStock || !isValidVariant
             ? "Out of stock"
