@@ -56,7 +56,7 @@ const RegionRedirect = ({
           const newPath = buildPathWithCountryCode(currentPath, countryCode);
 
           // Redirect to the regionalized URL
-          navigate({ to: newPath as any, replace: true, reloadDocument: true });
+          navigate({ to: newPath as any, replace: true });
         } else {
           setIs404(true);
         }

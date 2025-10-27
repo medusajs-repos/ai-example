@@ -1,6 +1,14 @@
-import { createFileRoute } from "@tanstack/react-router"
-import RegionRedirect from "@/components/common/region-redirect"
+import { getStoredCountryCode } from "@/lib/data/country-code";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/checkout")({
-  component: () => <RegionRedirect />,
-})
+  loader: async () => {
+    const { countryCode } = await getStoredCountryCode();
+
+    throw redirect({
+      to: "/$countryCode/checkout",
+      search: { step: "addresses" },
+      params: { countryCode },
+    });
+  },
+});
