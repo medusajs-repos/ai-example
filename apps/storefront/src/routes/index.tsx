@@ -1,8 +1,8 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
 import { getStoredCountryCode } from "@/lib/data/country-code";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
-  loader: async () => {
+  beforeLoad: async () => {
     const { countryCode } = await getStoredCountryCode();
 
     throw redirect({
