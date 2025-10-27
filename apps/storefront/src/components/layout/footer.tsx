@@ -59,30 +59,13 @@ const Footer = () => {
   const { data: categories } = useCategories({
     fields: "name,handle",
     queryParams: {
+      parent_category_id: "null",
       limit: 3
     }
   })
   const { data: regions } = useRegions({
     fields: "id, currency_code, *countries",
   })
-
-  const resourceLinks = [
-    {
-      name: "GitHub",
-      url: "https://github.com/medusajs",
-      isExternal: true
-    },
-    {
-      name: "Documentation",
-      url: "https://docs.medusajs.com",
-      isExternal: true
-    },
-    {
-      name: "Source code",
-      url: "https://github.com/medusajs/nextjs-starter-medusa",
-      isExternal: true
-    }
-  ]
 
   return (
     <footer
@@ -104,12 +87,20 @@ const Footer = () => {
             <CountrySelect regions={regions ?? []} />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-12">
-            <FooterColumn title="Categories" links={categories?.map((category) => ({
-              name: category.name,
-              url: `${baseHref}/categories/${category.handle}`,
-              isExternal: false
-            })) || []} />
-            <FooterColumn title="Resources" links={resourceLinks} />
+            {categories && categories.length > 0 ? (
+              <FooterColumn title="Categories" links={categories.map((category) => ({
+                name: category.name,
+                url: `${baseHref}/categories/${category.handle}`,
+                isExternal: false
+              }))} />
+            ) : (
+              <div className="flex flex-col gap-y-4">
+                <h3 className="text-primary-text txt-small-plus uppercase tracking-wide">
+                  Categories
+                </h3>
+                <p className="txt-small text-secondary-text">No categories</p>
+              </div>
+            )}
           </div>
         </div>
         <div className="border-t border-secondary-border py-6">

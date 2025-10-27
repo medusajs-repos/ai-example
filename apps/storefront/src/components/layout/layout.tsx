@@ -1,8 +1,8 @@
 import { Outlet } from "@tanstack/react-router"
 import ErrorBoundary from "@/components/common/error-boundary"
 import Footer from "@/components/layout/footer"
-import { Navbar } from "@/components/layout/navbar"
-import { Toaster } from "@medusajs/ui"
+import { NavbarContent } from "./navbar"
+import { ToastProvider } from "@/lib/context/toast-context"
 
 /**
  * AI AGENT USAGE GUIDE:
@@ -54,18 +54,19 @@ import { Toaster } from "@medusajs/ui"
 const Layout = () => {
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
+    <ToastProvider>
+      <div className="min-h-screen flex flex-col">
+        <NavbarContent />
 
-      <main className="relative flex-1">
-        <ErrorBoundary>
-          <Outlet />
-        </ErrorBoundary>
-      </main>
+        <main className="relative flex-1">
+          <ErrorBoundary>
+            <Outlet />
+          </ErrorBoundary>
+        </main>
 
-      <Footer />
-      <Toaster />
-    </div>
+        <Footer />
+      </div>
+    </ToastProvider>
   )
 }
 

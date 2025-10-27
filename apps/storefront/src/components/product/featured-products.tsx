@@ -74,25 +74,33 @@ const FeaturedProducts = () => {
           </p>
         </div>
         {isLoading && <Loading rows={10} columns={4} />}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {latestProducts?.products.map((product) => (
-            <div
-              key={product.id}
-              className="transform transition-transform duration-300 w-full"
-            >
-              <ProductCard product={product} />
+        {!isLoading && (!latestProducts?.products || latestProducts.products.length === 0) ? (
+          <div className="flex items-center justify-center h-64">
+            <div className="txt-xlarge text-secondary-text">No products yet</div>
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {latestProducts?.products.map((product) => (
+                <div
+                  key={product.id}
+                  className="transform transition-transform duration-300 w-full"
+                >
+                  <ProductCard product={product} />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        <div className="text-center mt-12">
-          <Link to={`/${countryCode}/store` as any}>
-            <Button variant="transparent">
-              View All Products
-              <ChevronRight />
-            </Button>
-          </Link>
-        </div>
+            <div className="text-center mt-12">
+              <Link to={`/${countryCode}/store` as any}>
+                <Button variant="transparent">
+                  View All Products
+                  <ChevronRight />
+                </Button>
+              </Link>
+            </div>
+          </>
+        )}
       </div>
     </section>
   )
