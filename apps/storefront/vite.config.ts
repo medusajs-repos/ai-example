@@ -86,22 +86,23 @@ export default defineConfig(({ mode }) => {
     //   logOverride: { "this-is-undefined-in-esm": "silent" },
     //   jsx: "automatic",
     // },
-    // optimizeDeps: {
-    //   include: [
-    //     "react",
-    //     "react-dom",
-    //     "react/jsx-runtime",
-    //     "react/jsx-dev-runtime",
-    //     "@tanstack/react-query",
-    //     "@tanstack/react-router",
-    //     "@medusajs/js-sdk",
-    //     "@medusajs/ui",
-    //     "@medusajs/icons",
-    //     "lodash-es",
-    //   ],
-    //   exclude: ["@medusajs-ai/tags"],
-    //   entries: ["./src/app.tsx"],
-    // },
-    // cacheDir: ".vite",
+    optimizeDeps: {
+      include: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "react/jsx-dev-runtime",
+        "@tanstack/react-query",
+        "@tanstack/react-router",
+        "@medusajs/js-sdk",
+        "@medusajs/ui",
+        "@medusajs/icons",
+        "lodash-es",
+      ],
+      exclude: ["@medusajs-ai/tags"],
+    },
+    resolve: {
+      dedupe: ["react", "react-dom"],
+    },
   };
 });
