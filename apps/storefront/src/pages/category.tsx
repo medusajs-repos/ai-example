@@ -1,5 +1,10 @@
-import { useLoaderData } from "@tanstack/react-router"
+import { useLoaderData, useLocation } from "@tanstack/react-router"
 import ProductListing from "@/components/product/product-listing"
+import { useCategories } from "@/lib/hooks/static/use-categories"
+import { useProducts } from "@/lib/hooks/static/use-products"
+import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
+import ProductCard from "@/components/product/product-card"
+import { Link } from "@tanstack/react-router"
 
 /**
  * AI AGENT USAGE GUIDE:
@@ -47,6 +52,49 @@ import ProductListing from "@/components/product/product-listing"
  * - SEO-optimized category pages
  * - Product catalog by category
  */
+const SubcategorySection = ({
+  subcategory,
+  region,
+  baseHref
+}: {
+  subcategory: any
+  region: any
+  baseHref: string
+}) => {
+  const { data } = useProducts({
+    region_id: region.id,
+    query_params: {
+      category_id: subcategory.id,
+      limit: 4,
+    },
+  })
+
+  const products = data?.pages?.[0]?.products || []
+
+  if (products.length === 0) {
+    return null
+  }
+
+  return (
+    <div className="mb-12">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-primary-text txt-large">{subcategory.name}</h3>
+        <Link
+          to={`${baseHref}/categories/${subcategory.handle}` as any}
+          className="text-secondary-text hover:text-secondary-text-hover txt-medium transition-colors"
+        >
+          View all
+        </Link>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} region={region} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 const Category = () => {
   const {
     category,
@@ -55,18 +103,46 @@ const Category = () => {
     from: "/$countryCode/categories/$handle",
   })
 
+  const location = useLocation()
+  const countryCode = getCountryCodeFromPath(location.pathname)
+  const baseHref = countryCode ? `/${countryCode}` : ""
+
   const categoryDisplayName =
     category?.name ||
     "Category"
 
+  // Fetch child categories - only when we have a category ID
+  const { data: childCategories } = useCategories({
+    fields: "id,name,handle,parent_category_id",
+    queryParams: {
+      parent_category_id: category?.id,
+    },
+    enabled: !!category?.id,
+  })
+
   return (
-    <ProductListing 
-      region={region} 
-      title={categoryDisplayName} 
-      queryParams={{
-        category_id: category?.id,
-      }}
-    />
+    <div>
+      <ProductListing
+        region={region}
+        title={categoryDisplayName}
+        queryParams={{
+          category_id: category?.id,
+        }}
+      />
+
+      {childCategories && childCategories.length > 0 && (
+        <div className="content-container py-12">
+          {childCategories.map((subcategory) => (
+            <SubcategorySection
+              key={subcategory.id}
+              subcategory={subcategory}
+              region={region}
+              baseHref={baseHref}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
 

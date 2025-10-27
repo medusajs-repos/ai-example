@@ -71,9 +71,6 @@ const Hero = () => {
           <Link to={`${baseHref}/store` as string}>
             <Button variant="primary">View Products</Button>
           </Link>
-          <a href="https://medusajs.com" target="_blank">
-            <Button variant="secondary">Learn about Medusa</Button>
-          </a>
         </div>
       </div>
     </div>
