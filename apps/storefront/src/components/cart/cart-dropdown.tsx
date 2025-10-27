@@ -1,11 +1,11 @@
+import { useState } from "react"
 import {
   useCart,
 } from "@/lib/hooks/dynamic/use-cart"
 import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
-import { ShoppingCart } from "@medusajs/icons"
+import { ShoppingCart, XMarkMini } from "@medusajs/icons"
 import { Button } from "@/components/common/button"
 import { Link, useLocation } from "@tanstack/react-router"
-import { NavbarLink } from "@/components/layout/navbar-link"
 import { Price } from "@/components/common/price"
 import CartLineItem from "@/components/cart/cart-line-item"
 import { sortCartItems } from "@/lib/utils/cart/sort-cart-items"
@@ -61,6 +61,7 @@ export const DEFAULT_CART_DROPDOWN_FIELDS = "id, *items, total, currency_code, i
  */
 
 const CartDropdown = () => {
+  const [isOpen, setIsOpen] = useState(false)
   const { data: cart } = useCart({
     fields: DEFAULT_CART_DROPDOWN_FIELDS
   })
@@ -73,41 +74,73 @@ const CartDropdown = () => {
     sortedItems?.reduce((total, item) => total + item.quantity, 0) || 0
 
   return (
-    <div className="relative group">
-      <NavbarLink
-        to={`${baseHref}/cart`}
+    <>
+      {/* Cart Button */}
+      <button
+        onClick={() => setIsOpen(true)}
+        className="text-secondary-text hover:text-secondary-text-hover h-full"
       >
         Cart ({itemCount})
-      </NavbarLink>
+      </button>
 
-      <div className="absolute top-full right-0 z-50 pt-2 group-hover:block hidden">
-        <div className="bg-primary-bg shadow-elevation-flyout w-[420px] max-h-[402px] overflow-hidden">
+      {/* Backdrop */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-50 transition-opacity duration-300"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* Drawer */}
+      <div
+        className={`fixed top-0 right-0 h-full w-full sm:w-[420px] bg-primary-bg shadow-2xl z-50 transform transition-transform duration-300 ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex flex-col h-full">
+          {/* Header */}
+          <div className="flex items-center justify-between h-16 px-6 border-b border-primary-border">
+            <h2 className="txt-large text-primary-text">Shopping Cart</h2>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="text-secondary-text hover:text-secondary-text-hover"
+              aria-label="Close cart"
+            >
+              <XMarkMini />
+            </button>
+          </div>
+
+          {/* Empty Cart */}
           {(!cart || itemCount === 0) && (
-            <div className="flex flex-col items-center justify-center py-8">
-              <div className="text-secondary-text mb-4">
-                <ShoppingCart />
-              </div>
-              <span className="txt-smallall-regular text-secondary-text">
+            <div className="flex flex-col items-center justify-center flex-1 p-6">
+              <span className="txt-medium text-secondary-text mb-4">
                 Your cart is empty
               </span>
-              <div className="mt-4">
-                <Link to={`${baseHref}/store` as any}>
-                  <Button variant="secondary" size="fit">
-                    Explore products
-                  </Button>
-                </Link>
-              </div>
-            </div> 
+              <Link to={`${baseHref}/store` as any} onClick={() => setIsOpen(false)}>
+                <Button variant="secondary" size="fit">
+                  Explore products
+                </Button>
+              </Link>
+            </div>
           )}
+
+          {/* Cart Items */}
           {cart && itemCount > 0 && (
             <>
-              <div className="max-h-[250px] overflow-y-auto p-4 space-y-3">
+              <div className="flex-1 overflow-y-auto p-6 space-y-4">
                 {sortedItems?.map((item) => (
-                  <CartLineItem key={item.id} item={item} cart={cart} type="compact" fields={DEFAULT_CART_DROPDOWN_FIELDS} />
+                  <CartLineItem
+                    key={item.id}
+                    item={item}
+                    cart={cart}
+                    type="compact"
+                    fields={DEFAULT_CART_DROPDOWN_FIELDS}
+                  />
                 ))}
               </div>
 
-              <div className="p-4 border-t border-secondary-border">
+              {/* Footer */}
+              <div className="p-6 border-t border-primary-border">
                 <div className="flex items-center justify-between mb-4">
                   <span className="txt-medium text-secondary-text">Subtotal</span>
                   <Price
@@ -116,7 +149,7 @@ const CartDropdown = () => {
                   />
                 </div>
 
-                <Link to={`${baseHref}/cart` as any}>
+                <Link to={`${baseHref}/cart` as any} onClick={() => setIsOpen(false)}>
                   <Button className="w-full" variant="primary">
                     Go to cart
                   </Button>
@@ -126,7 +159,7 @@ const CartDropdown = () => {
           )}
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

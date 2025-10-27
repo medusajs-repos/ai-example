@@ -2,7 +2,7 @@
 import { useAddToCart } from "@/lib/hooks/dynamic/use-cart"
 import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
 import { HttpTypes } from "@medusajs/types"
-import { toast } from "@medusajs/ui"
+import { useToast } from "@/lib/context/toast-context"
 import { Button } from "@/components/common/button"
 import { useLocation } from "@tanstack/react-router"
 import { isEqual } from "lodash-es"
@@ -76,6 +76,7 @@ export default function ProductActions({
   )
   const location = useLocation()
   const countryCode = getCountryCodeFromPath(location.pathname) || "dk"
+  const { showToast } = useToast()
 
   const addToCartMutation = useAddToCart({
     fields: DEFAULT_CART_DROPDOWN_FIELDS
@@ -148,9 +149,6 @@ export default function ProductActions({
   const handleAddToCart = async () => {
     if (!selectedVariant?.id) return null
 
-    // optimistic success message
-    toast.success("Item added to cart")
-
     addToCartMutation.mutateAsync({
       variant_id: selectedVariant.id,
       quantity: 1,
@@ -159,8 +157,11 @@ export default function ProductActions({
       variant: selectedVariant,
       region,
     }, {
+      onSuccess: () => {
+        showToast("Item added to cart")
+      },
       onError: () => {
-        toast.error("Failed to add item to cart. Please try again.")
+        showToast("Failed to add item to cart")
       },
     })
   }

@@ -112,7 +112,7 @@ const ProductListing = ({ region, title, queryParams }: ProductListProps) => {
         </div>
         {products.length === 0 ? (
           <div className="flex items-center justify-center h-64">
-            <div className="txt-xlarge text-secondary-text">No products available</div>
+            <div className="txt-xlarge text-secondary-text">No products yet</div>
           </div>
         ) : (
           <>
