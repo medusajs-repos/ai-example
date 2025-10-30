@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@medusajs/admin-sdk": "2.11.2-snapshot-20251030163249",
+    "@medusajs/admin-shared": "2.11.2-snapshot-20251030163249",
     "@medusajs/cli": "2.11.2-snapshot-20251030163249",
     "@medusajs/dashboard": "2.11.2-snapshot-20251030163249",
     "@medusajs/draft-order": "2.11.2-snapshot-20251030163249",
