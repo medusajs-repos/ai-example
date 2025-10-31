@@ -20,7 +20,7 @@ export default async function resetPasswordHandler({
   const notificationModule = container.resolve("notification");
 
   await notificationModule.createNotifications({
-    to: "oli@medusajs.com",
+    to: email,
     channel: "email",
     template: "medusa-cloud-reset-password",
     data: {

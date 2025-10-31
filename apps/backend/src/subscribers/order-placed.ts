@@ -2,6 +2,7 @@ import { SubscriberArgs, SubscriberConfig } from "@medusajs/framework";
 
 const ORDER_FIELDS = process.env.ORDER_PLACED_FIELDS?.split(",") || [
   "id",
+  "email",
   "display_id",
   "created_at",
 
@@ -42,7 +43,9 @@ export default async function orderPlacedHandler({
 }: SubscriberArgs<OrderPlacedData>) {
   const query = container.resolve("query");
 
-  const order = await query.graph({
+  const {
+    data: [order],
+  } = await query.graph({
     entity: "order",
     fields: ORDER_FIELDS,
     filters: {
@@ -50,10 +53,14 @@ export default async function orderPlacedHandler({
     },
   });
 
+  if (!order) {
+    return;
+  }
+
   const notificationModule = container.resolve("notification");
 
   await notificationModule.createNotifications({
-    to: "oli@medusajs.com",
+    to: order.email,
     channel: "email",
     template: "medusa-cloud-order-placed",
     data: {

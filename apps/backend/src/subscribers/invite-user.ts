@@ -37,7 +37,7 @@ export default async function inviteUserHandler({
   const notificationModule = container.resolve("notification");
 
   await notificationModule.createNotifications({
-    to: "oli@medusajs.com",
+    to: invite.email,
     template: "medusa-cloud-invite-user",
     channel: "email",
     data: {
