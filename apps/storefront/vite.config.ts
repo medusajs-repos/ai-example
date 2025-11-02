@@ -1,7 +1,6 @@
 import medusaAiTags from "@medusajs-ai/tags";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
-import viteReact from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import Terminal from "vite-plugin-terminal";
 import viteTsConfigPaths from "vite-tsconfig-paths";
@@ -25,11 +24,8 @@ export default defineConfig(({ mode }) => {
         : []),
 
       tanstackStart({
-        customViteReactPlugin: true,
         target: "netlify",
       }),
-
-      viteReact(),
     ],
 
     ssr: {
@@ -55,7 +51,7 @@ export default defineConfig(({ mode }) => {
     },
 
     resolve: {
-      dedupe: ["react", "react-dom"],
+      dedupe: ["react", "react-dom", "@tanstack/react-router"],
     },
   };
 });
