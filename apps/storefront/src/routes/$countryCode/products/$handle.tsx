@@ -36,9 +36,9 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
       },
     });
 
-    // Prefetch related products for SSR (non-blocking - starts in background)
-    // The component will use cached data when available
-    queryClient.prefetchQuery({
+    // Ensure related products are loaded for SSR to prevent hydration mismatch
+    // This ensures consistent rendering between server and client
+    await queryClient.ensureQueryData({
       queryKey: queryKeys.products.related(product.id, region.id),
       queryFn: async () => {
         const params: Record<string, any> = {
