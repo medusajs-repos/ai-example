@@ -52,7 +52,7 @@ type ProductInfoProps = {
   product: HttpTypes.StoreProduct;
 };
 
-const ProductInfo = memo(({ product }: ProductInfoProps) => {
+const ProductInfo = memo(function ProductInfo({ product }: ProductInfoProps) {
   return (
     <div id="product-info">
       <div className="flex flex-col gap-y-4 lg:max-w-[500px] mx-auto">

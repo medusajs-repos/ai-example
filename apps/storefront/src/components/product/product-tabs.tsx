@@ -55,7 +55,7 @@ type ProductTabsProps = {
   product: HttpTypes.StoreProduct;
 };
 
-const ProductTabs = memo(({ product }: ProductTabsProps) => {
+const ProductTabs = memo(function ProductTabs({ product }: ProductTabsProps) {
   const [activeTab, setActiveTab] = useState<string>("details");
 
   const tabs = useMemo(
@@ -109,7 +109,7 @@ const ProductTabs = memo(({ product }: ProductTabsProps) => {
 
 ProductTabs.displayName = "ProductTabs";
 
-const ProductInfoTab = memo(({ product }: ProductTabsProps) => {
+const ProductInfoTab = memo(function ProductInfoTab({ product }: ProductTabsProps) {
   const details = [
     { label: "Material", value: product.material },
     { label: "Origin", value: product.origin_country },

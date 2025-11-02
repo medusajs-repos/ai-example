@@ -55,7 +55,7 @@ type ImageGalleryProps = {
   images: HttpTypes.StoreProductImage[]
 }
 
-const ImageGallery = memo(({ images }: ImageGalleryProps) => {
+const ImageGallery = memo(function ImageGallery({ images }: ImageGalleryProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const goToNext = useCallback(() => {

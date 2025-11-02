@@ -55,7 +55,7 @@ import { memo } from "react";
  * - Marketing campaign product highlights
  */
 
-const FeaturedProducts = memo(() => {
+const FeaturedProducts = memo(function FeaturedProducts() {
   const location = useLocation();
   const countryCode = getCountryCodeFromPath(location.pathname);
   const { data: region } = useRegion({ country_code: countryCode || "" });
