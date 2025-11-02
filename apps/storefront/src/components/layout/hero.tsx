@@ -63,7 +63,7 @@ const Hero = () => {
           <h1 className="text-3xl sm:text-4xl text-primary-text mb-4">
             Medusa Store
           </h1>
-          <h2 className="!text-xlarge sm:text-2xl text-secondary-text sm:max-w-sm text-pretty">
+          <h2 className="!text-xlarge sm:text-xl text-secondary-text sm:max-w-sm text-pretty">
             Your modern commerce solution for exceptional shopping experiences.
           </h2>
         </div>
