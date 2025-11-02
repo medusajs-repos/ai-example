@@ -1,24 +1,25 @@
+import { DEFAULT_CART_DROPDOWN_FIELDS } from "@/components/cart/cart-dropdown";
+import { Button } from "@/components/common/button";
+import Loading from "@/components/common/loading";
+import { useCartDrawer } from "@/lib/context/cart";
+import { useAddToCart } from "@/lib/hooks/dynamic/use-cart";
+import { useProductDynamic } from "@/lib/hooks/dynamic/use-products";
+import getVariantOptionsKeymap from "@/lib/utils/product/get-variant-options-keymap";
+import isVariantInStock from "@/lib/utils/product/is-variant-in-stock";
+import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path";
+import { HttpTypes } from "@medusajs/types";
+import { useLocation } from "@tanstack/react-router";
+import { isEqual } from "lodash-es";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 
-import { useAddToCart } from "@/lib/hooks/dynamic/use-cart"
-import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
-import { HttpTypes } from "@medusajs/types"
-import { useToast } from "@/lib/context/toast-context"
-import { Button } from "@/components/common/button"
-import { useLocation } from "@tanstack/react-router"
-import { isEqual } from "lodash-es"
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react"
-import { useProductDynamic } from "@/lib/hooks/dynamic/use-products"
-import Loading from "@/components/common/loading"
-import getVariantOptionsKeymap from "@/lib/utils/product/get-variant-options-keymap"
-import isVariantInStock from "@/lib/utils/product/is-variant-in-stock"
-import { DEFAULT_CART_DROPDOWN_FIELDS } from "@/components/cart/cart-dropdown"
-
-const ProductPrice = lazy(() => import("@/components/product/product-price"))
-const ProductOptionSelect = lazy(() => import("@/components/product/product-option-select"))
+const ProductPrice = lazy(() => import("@/components/product/product-price"));
+const ProductOptionSelect = lazy(
+  () => import("@/components/product/product-option-select")
+);
 
 /**
  * AI AGENT USAGE GUIDE:
- * 
+ *
  * WHEN TO USE:
  * - Use on product detail pages for the main product interaction area
  * - Product pages: display variant selection and add-to-cart functionality
@@ -26,7 +27,7 @@ const ProductOptionSelect = lazy(() => import("@/components/product/product-opti
  * - Product comparison: display actions for compared products
  * - Mobile product views: compact product interaction interface
  * - Featured products: show actions for highlighted products
- * 
+ *
  * ECOMMERCE CONTEXT:
  * - Critical for product conversion and sales
  * - Essential for variant selection and customization
@@ -34,7 +35,7 @@ const ProductOptionSelect = lazy(() => import("@/components/product/product-opti
  * - Required for cart functionality and checkout flow
  * - Used in product recommendation systems
  * - Critical for mobile commerce experience
- * 
+ *
  * KEY FEATURES:
  * - Variant selection (size, color, material, etc.)
  * - Stock availability checking
@@ -42,14 +43,14 @@ const ProductOptionSelect = lazy(() => import("@/components/product/product-opti
  * - Add to cart functionality with validation
  * - Loading states and error handling
  * - Toast notifications for user feedback
- * 
+ *
  * VARIANT HANDLING:
  * - Automatically selects single variants
  * - Validates variant combinations
  * - Checks stock availability
  * - Updates pricing based on selection
  * - Handles out-of-stock scenarios
- * 
+ *
  * EXAMPLES:
  * - <ProductActions handle="product-handle" region={region} />
  * - <ProductActions handle="featured-product" region={region} disabled={isLoading} />
@@ -70,35 +71,37 @@ export default function ProductActions({
   const { data: product } = useProductDynamic({
     handle,
     region_id: region.id,
-  })
-  const [selectedOptions, setSelectedOptions] = useState<Record<string, string | undefined>>(
-    {}
-  )
-  const location = useLocation()
-  const countryCode = getCountryCodeFromPath(location.pathname) || "dk"
-  const { showToast } = useToast()
+  });
+  const [selectedOptions, setSelectedOptions] = useState<
+    Record<string, string | undefined>
+  >({});
+  const location = useLocation();
+  const countryCode = getCountryCodeFromPath(location.pathname) || "dk";
 
   const addToCartMutation = useAddToCart({
-    fields: DEFAULT_CART_DROPDOWN_FIELDS
-  })
+    fields: DEFAULT_CART_DROPDOWN_FIELDS,
+  });
+  const { openCart } = useCartDrawer();
 
-  const actionsRef = useRef<HTMLDivElement>(null)
+  const actionsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setSelectedOptions({})
-  }, [product?.handle])
+    setSelectedOptions({});
+  }, [product?.handle]);
 
   // If there is only 1 variant, preselect the options
   useEffect(() => {
     if (product?.variants?.length === 1) {
-      const optionsKeymap = getVariantOptionsKeymap(product?.variants?.[0]?.options ?? [])
-      setSelectedOptions(optionsKeymap ?? {})
+      const optionsKeymap = getVariantOptionsKeymap(
+        product?.variants?.[0]?.options ?? []
+      );
+      setSelectedOptions(optionsKeymap ?? {});
     }
-  }, [product?.variants])
+  }, [product?.variants]);
 
   const selectedVariant = useMemo(() => {
     if (!product?.variants || product?.variants.length === 0) {
-      return
+      return;
     }
 
     // If there's only one variant and no options, select it directly
@@ -106,69 +109,72 @@ export default function ProductActions({
       product?.variants.length === 1 &&
       (!product?.options || product?.options.length === 0)
     ) {
-      return product?.variants[0]
+      return product?.variants[0];
     }
 
     const variant = product?.variants.find((v) => {
-      const optionsKeymap = getVariantOptionsKeymap(v?.options ?? [])
-      const matches = isEqual(optionsKeymap, selectedOptions)
+      const optionsKeymap = getVariantOptionsKeymap(v?.options ?? []);
+      const matches = isEqual(optionsKeymap, selectedOptions);
 
-      return matches
-    })
+      return matches;
+    });
 
-    return variant
-  }, [product?.variants, product?.options, selectedOptions])
+    return variant;
+  }, [product?.variants, product?.options, selectedOptions]);
 
   // update the options when a variant is selected
   const setOptionValue = (optionId: string, value: string) => {
     setSelectedOptions((prev) => ({
       ...prev,
       [optionId]: value,
-    }))
-  }
+    }));
+  };
 
   //check if the selected options produce a valid variant
   const isValidVariant = useMemo(() => {
     return product?.variants?.some((v) => {
-      const optionsKeymap = getVariantOptionsKeymap(v?.options ?? [])
-      return isEqual(optionsKeymap, selectedOptions)
-    })
-  }, [product?.variants, selectedOptions])
+      const optionsKeymap = getVariantOptionsKeymap(v?.options ?? []);
+      return isEqual(optionsKeymap, selectedOptions);
+    });
+  }, [product?.variants, selectedOptions]);
 
   // check if the selected variant is in stock
   const inStock = useMemo(() => {
     // If no variant is selected, we can't add to cart
     if (!selectedVariant) {
-      return false
+      return false;
     }
 
-    return isVariantInStock(selectedVariant)
-  }, [selectedVariant])
+    return isVariantInStock(selectedVariant);
+  }, [selectedVariant]);
 
   // add the selected variant to the cart
   const handleAddToCart = async () => {
-    if (!selectedVariant?.id) return null
+    if (!selectedVariant?.id) return null;
 
-    addToCartMutation.mutateAsync({
-      variant_id: selectedVariant.id,
-      quantity: 1,
-      country_code: countryCode,
-      product,
-      variant: selectedVariant,
-      region,
-    }, {
-      onSuccess: () => {
-        showToast("Item added to cart")
+    addToCartMutation.mutateAsync(
+      {
+        variant_id: selectedVariant.id,
+        quantity: 1,
+        country_code: countryCode,
+        product,
+        variant: selectedVariant,
+        region,
       },
-      onError: () => {
-        showToast("Failed to add item to cart")
-      },
-    })
-  }
-
+      {
+        onSuccess: () => {
+          console.log("Item added to cart");
+          openCart();
+        },
+        onError: () => {
+          console.error("Failed to add item to cart");
+        },
+      }
+    );
+  };
 
   if (!product) {
-    return <Loading />
+    return <Loading />;
   }
 
   return (
@@ -190,7 +196,7 @@ export default function ProductActions({
                     />
                   </Suspense>
                 </div>
-              )
+              );
             })}
             <hr className="bg-primary-border my-4" />
           </div>
@@ -209,12 +215,7 @@ export default function ProductActions({
 
       <Button
         onClick={handleAddToCart}
-        disabled={
-          !inStock ||
-          !selectedVariant ||
-          !!disabled ||
-          !isValidVariant
-        }
+        disabled={!inStock || !selectedVariant || !!disabled || !isValidVariant}
         variant="primary"
         className="w-full"
         data-testid="add-product-button"
@@ -226,5 +227,5 @@ export default function ProductActions({
             : "Add to cart"}
       </Button>
     </div>
-  )
+  );
 }

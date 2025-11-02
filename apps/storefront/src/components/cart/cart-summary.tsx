@@ -1,10 +1,10 @@
-import { HttpTypes } from "@medusajs/types"
-import { Price } from "@/components/common/price"
-import Loading from "@/components/common/loading"
+import Loading from "@/components/common/loading";
+import { Price } from "@/components/common/price";
+import { HttpTypes } from "@medusajs/types";
 
 /**
  * AI AGENT USAGE GUIDE:
- * 
+ *
  * WHEN TO USE:
  * - Use for displaying cart pricing breakdown in the storefront
  * - Cart pages: show detailed cart pricing information
@@ -12,7 +12,7 @@ import Loading from "@/components/common/loading"
  * - Cart dropdowns: show cart subtotal and pricing
  * - Mobile commerce: mobile-optimized cart summary
  * - Order review: display final pricing before placing order
- * 
+ *
  * ECOMMERCE CONTEXT:
  * - Critical for price transparency and trust
  * - Essential for checkout flow and conversion
@@ -20,7 +20,7 @@ import Loading from "@/components/common/loading"
  * - Required for order confirmation and review
  * - Used in cart management and updates
  * - Important for mobile commerce experience
- * 
+ *
  * SUMMARY FEATURES:
  * - Detailed pricing breakdown (subtotal, shipping, tax, discount)
  * - Clear total calculation and display
@@ -28,21 +28,21 @@ import Loading from "@/components/common/loading"
  * - Loading states for price calculations
  * - Responsive design for mobile/desktop
  * - Professional pricing presentation
- * 
+ *
  * PRICING BREAKDOWN:
  * - Subtotal: item prices before taxes and shipping
  * - Shipping: delivery and handling costs
  * - Discount: promotional discounts and savings
  * - Tax: applicable taxes and fees
  * - Total: final amount to be charged
- * 
+ *
  * COMMON PATTERNS:
  * - Cart page pricing summary
  * - Checkout order summary
  * - Mobile cart pricing display
  * - Order review pricing
  * - Cart dropdown pricing
- * 
+ *
  * EXAMPLES:
  * - <CartSummary cart={cart} />
  * - Cart page with pricing breakdown
@@ -51,17 +51,17 @@ import Loading from "@/components/common/loading"
  */
 
 interface CartSummaryProps {
-  cart: HttpTypes.StoreCart
+  cart: HttpTypes.StoreCart;
 }
 
 const CartSummary = ({ cart }: CartSummaryProps) => {
   if ("isOptimistic" in cart && cart.isOptimistic) {
-    return <Loading />
+    return <Loading />;
   }
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <div className="flex justify-between txt-small">
+        <div className="flex justify-between text-sm">
           <span className="text-secondary-text">Subtotal</span>
           <Price
             price={cart.subtotal}
@@ -69,8 +69,8 @@ const CartSummary = ({ cart }: CartSummaryProps) => {
             className="text-secondary-text"
           />
         </div>
-        
-        <div className="flex justify-between txt-small">
+
+        <div className="flex justify-between text-sm">
           <span className="text-secondary-text">Shipping</span>
           <Price
             price={cart.shipping_total}
@@ -79,7 +79,7 @@ const CartSummary = ({ cart }: CartSummaryProps) => {
           />
         </div>
 
-        <div className="flex justify-between txt-small">
+        <div className="flex justify-between text-sm">
           <span className="text-secondary-text">Discount</span>
           <Price
             price={cart.discount_total}
@@ -88,8 +88,8 @@ const CartSummary = ({ cart }: CartSummaryProps) => {
             className="text-secondary-text"
           />
         </div>
-        
-        <div className="flex justify-between txt-small">
+
+        <div className="flex justify-between text-sm">
           <span className="text-secondary-text">Tax</span>
           <Price
             price={cart.tax_total}
@@ -98,10 +98,10 @@ const CartSummary = ({ cart }: CartSummaryProps) => {
           />
         </div>
       </div>
-      
+
       <hr className="bg-primary-border" />
-      
-      <div className="flex justify-between txt-small">
+
+      <div className="flex justify-between text-sm">
         <span className="text-primary-text">Total</span>
         <Price
           price={cart.total}
@@ -110,7 +110,7 @@ const CartSummary = ({ cart }: CartSummaryProps) => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CartSummary
+export default CartSummary;

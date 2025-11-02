@@ -1,10 +1,9 @@
-import { Heading } from "@medusajs/ui"
-import { Button } from "@/components/common/button"
-import { Link, useLocation } from "@tanstack/react-router"
+import { Button } from "@/components/common/button";
+import { Link, useLocation } from "@tanstack/react-router";
 
 /**
  * AI AGENT USAGE GUIDE:
- * 
+ *
  * WHEN TO USE:
  * - Use for 404 error pages in the storefront
  * - Missing pages: display when users navigate to non-existent URLs
@@ -12,7 +11,7 @@ import { Link, useLocation } from "@tanstack/react-router"
  * - Category pages: display when categories don't exist
  * - Search results: show when no results are found
  * - Account pages: display when account sections are not found
- * 
+ *
  * ECOMMERCE CONTEXT:
  * - Critical for user experience and navigation
  * - Essential for SEO and search engine optimization
@@ -20,7 +19,7 @@ import { Link, useLocation } from "@tanstack/react-router"
  * - Required for proper error handling
  * - Used in product catalog management
  * - Important for customer retention
- * 
+ *
  * 404 PAGE FEATURES:
  * - Clear 404 error indication
  * - User-friendly error messaging
@@ -28,20 +27,20 @@ import { Link, useLocation } from "@tanstack/react-router"
  * - Current path display for debugging
  * - Professional error presentation
  * - Responsive design for mobile/desktop
- * 
+ *
  * ERROR HANDLING:
  * - Displays current path for reference
  * - Provides clear navigation options
  * - Maintains brand consistency
  * - Offers alternative navigation paths
- * 
+ *
  * COMMON PATTERNS:
  * - Product not found pages
  * - Category not found pages
  * - Search no results pages
  * - Account section not found
  * - General 404 error pages
- * 
+ *
  * EXAMPLES:
  * - <NotFound /> // Generic 404 page
  * - Product not found with search suggestions
@@ -50,7 +49,7 @@ import { Link, useLocation } from "@tanstack/react-router"
  */
 
 const NotFound = () => {
-  const location = useLocation()
+  const location = useLocation();
 
   return (
     <div className="content-container py-12">
@@ -58,22 +57,20 @@ const NotFound = () => {
         <div className="max-w-md space-y-6">
           {/* Large 404 */}
           <h1 className="text-8xl font-light text-primary-text">404</h1>
-          
+
           {/* Main message */}
           <div className="space-y-2">
-            <Heading
-              level="h1"
-              className="txt-xlarge-plus text-primary-text"
-            >
+            <h1 className="text-xlarge font-bold text-primary-text">
               Page not found
-            </Heading>
+            </h1>
+
             <p className="text-secondary-text">
               The page you're looking for doesn't exist or has been moved.
             </p>
           </div>
 
           {/* Current path */}
-          <div className="px-4 py-2 bg-secondary-bg font-mono txt-small text-secondary-text">
+          <div className="px-4 py-2 bg-secondary-bg font-mono text-sm text-secondary-text">
             {location.pathname}
           </div>
 
@@ -86,7 +83,7 @@ const NotFound = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default NotFound
+export default NotFound;

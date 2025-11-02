@@ -1,10 +1,10 @@
-import { CheckoutStep, CheckoutStepKey } from "@/lib/types/global"
-import { Button } from "@/components/common/button"
-import { clx } from "@medusajs/ui"
+import { Button } from "@/components/common/button";
+import { CheckoutStep, CheckoutStepKey } from "@/lib/types/global";
+import { clsx } from "clsx";
 
 /**
  * AI AGENT USAGE GUIDE:
- * 
+ *
  * WHEN TO USE:
  * - Use for checkout progress tracking in the storefront
  * - Checkout pages: show checkout step progress and navigation
@@ -12,7 +12,7 @@ import { clx } from "@medusajs/ui"
  * - Mobile commerce: mobile-optimized checkout progress
  * - User experience: clear checkout step indication
  * - Checkout navigation: allow users to navigate between steps
- * 
+ *
  * ECOMMERCE CONTEXT:
  * - Critical for checkout flow and user experience
  * - Essential for checkout step navigation and tracking
@@ -20,7 +20,7 @@ import { clx } from "@medusajs/ui"
  * - Required for multi-step checkout processes
  * - Used in checkout optimization and conversion
  * - Important for mobile commerce experience
- * 
+ *
  * PROGRESS FEATURES:
  * - Checkout step display and navigation
  * - Current step highlighting and indication
@@ -28,21 +28,21 @@ import { clx } from "@medusajs/ui"
  * - Step navigation and switching
  * - Responsive design for mobile/desktop
  * - Professional progress presentation
- * 
+ *
  * CHECKOUT STEPS:
  * - Address: shipping and billing address collection
  * - Delivery: shipping method selection
  * - Payment: payment method and billing
  * - Review: final order review and confirmation
  * - Progress: step completion and navigation
- * 
+ *
  * COMMON PATTERNS:
  * - Checkout progress tracking
  * - Mobile checkout progress
  * - Multi-step checkout navigation
  * - Checkout step indication
  * - Checkout flow optimization
- * 
+ *
  * EXAMPLES:
  * - <CheckoutProgress steps={checkoutSteps} currentStepIndex={currentStep} handleStepChange={handleStepChange} />
  * - Checkout page progress tracking
@@ -51,29 +51,31 @@ import { clx } from "@medusajs/ui"
  */
 
 type CheckoutProgressProps = {
-  steps: CheckoutStep[]
-  currentStepIndex: number
-  handleStepChange: (step: CheckoutStepKey) => void
-  className?: string
-}
+  steps: CheckoutStep[];
+  currentStepIndex: number;
+  handleStepChange: (step: CheckoutStepKey) => void;
+  className?: string;
+};
 
-const CheckoutProgress = ({ 
-  steps, 
-  currentStepIndex, 
+const CheckoutProgress = ({
+  steps,
+  currentStepIndex,
   handleStepChange,
-  className
+  className,
 }: CheckoutProgressProps) => {
   return (
-    <div className={clx("flex flex-wrap gap-4 items-center", className)}>
+    <div className={clsx("flex flex-wrap gap-4 items-center", className)}>
       {steps.map((step, index) => (
         <div key={step.key} className="flex items-center gap-4">
           <Button
             onClick={() => handleStepChange(step.key)}
             variant={"transparent"}
-            className={clx(
+            className={clsx(
               "p-0 hover:bg-transparent",
-              index !== currentStepIndex && "text-secondary-text hover:text-secondary-text-hover",
-              index === currentStepIndex && "text-primary-text hover:text-primary-text-hover"
+              index !== currentStepIndex &&
+                "text-secondary-text hover:text-secondary-text-hover",
+              index === currentStepIndex &&
+                "text-primary-text hover:text-primary-text-hover"
             )}
             disabled={index > currentStepIndex}
           >
@@ -85,7 +87,7 @@ const CheckoutProgress = ({
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default CheckoutProgress
+export default CheckoutProgress;

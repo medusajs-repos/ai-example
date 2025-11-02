@@ -1,8 +1,8 @@
-import { forwardRef } from "react"
+import { forwardRef } from "react";
 
 /**
  * AI AGENT USAGE GUIDE:
- * 
+ *
  * WHEN TO USE:
  * - Use for single-selection form inputs in the storefront
  * - Product filters: single option selection (size, color, brand)
@@ -10,7 +10,7 @@ import { forwardRef } from "react"
  * - Account settings: preference selection (notifications, privacy)
  * - Search filters: single filter option selection
  * - Survey forms: single choice questions
- * 
+ *
  * ECOMMERCE CONTEXT:
  * - Essential for form input and user selection
  * - Critical for product filtering and search
@@ -18,7 +18,7 @@ import { forwardRef } from "react"
  * - Required for account preferences and settings
  * - Used in product customization and options
  * - Important for user experience and conversion
- * 
+ *
  * RADIO FEATURES:
  * - Single selection from multiple options
  * - Custom styled radio button with visual feedback
@@ -26,14 +26,14 @@ import { forwardRef } from "react"
  * - Label support for better UX
  * - Consistent styling with design system
  * - Form integration and validation
- * 
+ *
  * COMMON PATTERNS:
  * - Product filter options (size, color, brand)
  * - Payment method selection
  * - Shipping option selection
  * - Account preference settings
  * - Survey and feedback forms
- * 
+ *
  * EXAMPLES:
  * - <Radio name="size" value="large" label="Large" />
  * - <Radio name="payment" value="card" label="Credit Card" />
@@ -41,7 +41,7 @@ import { forwardRef } from "react"
  */
 
 interface RadioProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string
+  label?: string;
 }
 
 const Radio = forwardRef<HTMLInputElement, RadioProps>(
@@ -71,16 +71,16 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
         {label && (
           <label
             htmlFor={props.id || props.name}
-            className="text-primary-text txt-medium cursor-pointer"
+            className="text-primary-text text-base font-medium cursor-pointer"
           >
             {label}
           </label>
         )}
       </div>
-    )
+    );
   }
-)
+);
 
-Radio.displayName = "Radio"
+Radio.displayName = "Radio";
 
-export default Radio
+export default Radio;

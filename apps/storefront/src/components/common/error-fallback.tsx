@@ -1,6 +1,6 @@
-import { Button } from "@/components/common/button"
-import { Link } from "@tanstack/react-router"
-import { useState } from "react"
+import { Button } from "@/components/common/button";
+import { Link } from "@tanstack/react-router";
+import { useState } from "react";
 
 interface ErrorFallbackProps {
   error: Error;
@@ -8,8 +8,8 @@ interface ErrorFallbackProps {
 }
 
 const ErrorFallback = ({ error, reset }: ErrorFallbackProps) => {
-  const isDev = import.meta.env.DEV
-  const [showDetails, setShowDetails] = useState(false)
+  const isDev = import.meta.env.DEV;
+  const [showDetails, setShowDetails] = useState(false);
 
   return (
     <div className="content-container py-16">
@@ -32,7 +32,7 @@ const ErrorFallback = ({ error, reset }: ErrorFallbackProps) => {
           </div>
 
           <div className="text-center mb-8">
-            <h2 className="txt-xlarge-plus text-primary-text mb-3">
+            <h2 className="text-xlarge font-bold text-primary-text mb-3">
               Oops! Something went wrong
             </h2>
             <p className="text-secondary-text text-lg">
@@ -107,20 +107,20 @@ const ErrorFallback = ({ error, reset }: ErrorFallbackProps) => {
                 <div className="mt-4 p-4 bg-secondary-bg">
                   <div className="text-left space-y-3">
                     <div>
-                      <p className="txt-xsmall-plus text-primary-text uppercase tracking-wide mb-1">
+                      <p className="text-xs font-medium text-primary-text uppercase tracking-wide mb-1">
                         Error Message
                       </p>
-                      <code className="txt-small text-error-text break-all">
+                      <code className="text-sm text-error-text break-all">
                         {error.message}
                       </code>
                     </div>
 
                     {error.stack && (
                       <div>
-                        <p className="txt-xsmall-plus text-primary-text uppercase tracking-wide mb-1">
+                        <p className="text-xs font-medium text-primary-text uppercase tracking-wide mb-1">
                           Stack Trace
                         </p>
-                        <pre className="txt-xsmall text-secondary-text bg-white border border-secondary-border p-3 overflow-auto max-h-40">
+                        <pre className="text-xs text-secondary-text bg-white border border-secondary-border p-3 overflow-auto max-h-40">
                           {error.stack}
                         </pre>
                       </div>
@@ -133,7 +133,7 @@ const ErrorFallback = ({ error, reset }: ErrorFallbackProps) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ErrorFallback
+export default ErrorFallback;

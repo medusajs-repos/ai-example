@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { Input } from "@/components/common/input"
+import { Input } from "@/components/common/input";
+import { useState } from "react";
 
 /**
  * AI AGENT USAGE GUIDE:
@@ -49,78 +49,87 @@ import { Input } from "@/components/common/input"
  * - Payment method collection
  */
 type StripeCardContainerProps = {
-  paymentProviderId: string
-  selectedPaymentOptionId: string | null
-  disabled?: boolean
-  setError?: (error: string | null) => void
-  onCardComplete?: () => void
-  onSelect?: () => void
-}
+  paymentProviderId: string;
+  selectedPaymentOptionId: string | null;
+  disabled?: boolean;
+  setError?: (error: string | null) => void;
+  onCardComplete?: () => void;
+  onSelect?: () => void;
+};
 
 const StripeCardContainer: React.FC<StripeCardContainerProps> = ({
   paymentProviderId,
   selectedPaymentOptionId,
   onCardComplete,
 }) => {
-  const [cardNumber, setCardNumber] = useState("")
-  const [cardBrand, setCardBrand] = useState("")
-  const [expiryDate, setExpiryDate] = useState("")
-  const [cvv, setCvv] = useState("")
-  const [cardholderName, setCardholderName] = useState("")
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardBrand, setCardBrand] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+  const [cvv, setCvv] = useState("");
+  const [cardholderName, setCardholderName] = useState("");
 
-  const isSelected = selectedPaymentOptionId === paymentProviderId
+  const isSelected = selectedPaymentOptionId === paymentProviderId;
 
   const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value.replace(/\D/g, "")
-    value = value.replace(/(\d{4})(?=\d)/g, "$1 ")
-    setCardNumber(value)
-    
+    let value = e.target.value.replace(/\D/g, "");
+    value = value.replace(/(\d{4})(?=\d)/g, "$1 ");
+    setCardNumber(value);
+
     // Simulate card brand detection
     if (value.startsWith("4")) {
-      setCardBrand("Visa")
+      setCardBrand("Visa");
     } else if (value.startsWith("5")) {
-      setCardBrand("Mastercard")
+      setCardBrand("Mastercard");
     } else {
-      setCardBrand("")
+      setCardBrand("");
     }
-    
+
     // Simulate validation
-    const isComplete = value.replace(/\s/g, "").length >= 16 && expiryDate.length >= 5 && cvv.length >= 3
+    const isComplete =
+      value.replace(/\s/g, "").length >= 16 &&
+      expiryDate.length >= 5 &&
+      cvv.length >= 3;
     if (isComplete) {
-      onCardComplete?.()
+      onCardComplete?.();
     }
-  }
+  };
 
   const handleExpiryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value.replace(/\D/g, "")
+    let value = e.target.value.replace(/\D/g, "");
     if (value.length >= 2) {
-      value = value.slice(0, 2) + "/" + value.slice(2, 4)
+      value = value.slice(0, 2) + "/" + value.slice(2, 4);
     }
-    setExpiryDate(value)
-    
+    setExpiryDate(value);
+
     // Simulate validation
-    const isComplete = cardNumber.replace(/\s/g, "").length >= 16 && value.length >= 5 && cvv.length >= 3
+    const isComplete =
+      cardNumber.replace(/\s/g, "").length >= 16 &&
+      value.length >= 5 &&
+      cvv.length >= 3;
     if (isComplete) {
-      onCardComplete?.()
+      onCardComplete?.();
     }
-  }
+  };
 
   const handleCvvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\D/g, "").slice(0, 4)
-    setCvv(value)
-    
+    const value = e.target.value.replace(/\D/g, "").slice(0, 4);
+    setCvv(value);
+
     // Simulate validation
-    const isComplete = cardNumber.replace(/\s/g, "").length >= 16 && expiryDate.length >= 5 && value.length >= 3
+    const isComplete =
+      cardNumber.replace(/\s/g, "").length >= 16 &&
+      expiryDate.length >= 5 &&
+      value.length >= 3;
     if (isComplete) {
-      onCardComplete?.()
+      onCardComplete?.();
     }
-  }
+  };
 
   return (
     <>
       {isSelected && (
         <div className="my-4 transition-all duration-150 ease-in-out">
-          <p className="txt-medium-plus text-primary-text mb-4">
+          <p className="text-base font-medium-plus text-primary-text mb-4">
             Enter your card details:
           </p>
           <div className="space-y-4 flex flex-wrap">
@@ -134,9 +143,7 @@ const StripeCardContainer: React.FC<StripeCardContainerProps> = ({
                 maxLength={19}
               />
               {cardBrand && (
-                <p className="txt-small text-primary-text">
-                  {cardBrand}
-                </p>
+                <p className="text-sm text-primary-text">{cardBrand}</p>
               )}
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -171,13 +178,14 @@ const StripeCardContainer: React.FC<StripeCardContainerProps> = ({
               />
             </div>
           </div>
-          <div className="mt-3 txt-xsmall text-secondary-text">
-            This is a demo form. In production, use Stripe Elements for secure card input.
+          <div className="mt-3 text-xs text-secondary-text">
+            This is a demo form. In production, use Stripe Elements for secure
+            card input.
           </div>
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
-export default StripeCardContainer
+export default StripeCardContainer;

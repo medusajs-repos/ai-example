@@ -1,41 +1,41 @@
-import { HttpTypes } from "@medusajs/types"
-import { clx } from "@medusajs/ui"
-import { Button } from "@/components/common/button"
-import { useEffect, useMemo, useState } from "react"
-import { countries } from "@/lib/constants/countries"
-import { Input } from "@/components/common/input"
-import { Select } from "@/components/common/select"
+import { Button } from "@/components/common/button";
+import { Input } from "@/components/common/input";
+import { Select } from "@/components/common/select";
+import { countries } from "@/lib/constants/countries";
+import { HttpTypes } from "@medusajs/types";
+import { clsx } from "clsx";
+import { useEffect, useMemo, useState } from "react";
 
 /**
  * AI AGENT USAGE GUIDE:
- * 
+ *
  * WHEN TO USE:
  * - Use for collecting customer address information in storefront
  * - Checkout flow: shipping and billing address collection
  * - Account management: adding/editing customer addresses
  * - Guest checkout: address collection for non-registered users
  * - Address book: managing multiple saved addresses
- * 
+ *
  * ECOMMERCE CONTEXT:
  * - Critical for shipping calculation and delivery
  * - Required for tax calculation based on location
  * - Used in customer account management
  * - Important for international shipping compliance
  * - Required for address validation and verification
- * 
+ *
  * FORM VALIDATION:
  * - Validates required fields: first name, last name, address, city, postal code, country
  * - Provides real-time validation feedback
  * - Handles international address formats
  * - Supports country-specific validation rules
- * 
+ *
  * COMMON PATTERNS:
  * - Checkout shipping address form
  * - Checkout billing address form
  * - Account address book management
  * - Guest checkout address collection
  * - Order address updates
- * 
+ *
  * EXAMPLES:
  * - <AddressForm addressFormData={shippingAddress} onSubmit={handleShippingSubmit} />
  * - <AddressForm addressFormData={billingAddress} onSubmit={handleBillingSubmit} />
@@ -43,90 +43,104 @@ import { Select } from "@/components/common/select"
  */
 
 interface AddressFormProps {
-  addressFormData: HttpTypes.StoreCreateCustomerAddress | HttpTypes.StoreAddAddress
-  setAddressFormData: React.Dispatch<React.SetStateAction<HttpTypes.StoreCreateCustomerAddress | HttpTypes.StoreAddAddress | Record<string, any>>>
-  shouldHandleSubmit?: boolean
-  setIsFormValid?: (isValid: boolean) => void
-  onSubmit?: ((
-    address: HttpTypes.StoreCreateCustomerAddress
-    ) => void) | ((
-      address: HttpTypes.StoreAddAddress
-    ) => void)
-  onCancel?: () => void
-  countries?: HttpTypes.StoreRegion["countries"]
-  isLoading?: boolean
-  className?: string
+  addressFormData:
+    | HttpTypes.StoreCreateCustomerAddress
+    | HttpTypes.StoreAddAddress;
+  setAddressFormData: React.Dispatch<
+    React.SetStateAction<
+      | HttpTypes.StoreCreateCustomerAddress
+      | HttpTypes.StoreAddAddress
+      | Record<string, any>
+    >
+  >;
+  shouldHandleSubmit?: boolean;
+  setIsFormValid?: (isValid: boolean) => void;
+  onSubmit?:
+    | ((address: HttpTypes.StoreCreateCustomerAddress) => void)
+    | ((address: HttpTypes.StoreAddAddress) => void);
+  onCancel?: () => void;
+  countries?: HttpTypes.StoreRegion["countries"];
+  isLoading?: boolean;
+  className?: string;
 }
 
 const AddressForm = ({
-  addressFormData, 
-  setAddressFormData, 
-  shouldHandleSubmit = false, 
+  addressFormData,
+  setAddressFormData,
+  shouldHandleSubmit = false,
   setIsFormValid,
-  onSubmit, 
-  onCancel, 
+  onSubmit,
+  onCancel,
   isLoading,
   countries: customCountries,
-  className
+  className,
 }: AddressFormProps) => {
-  const [errors, setErrors] = useState<Record<string, string>>({})
-  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>(
+    {}
+  );
 
   const handleChange = (field: string, value: string) => {
-    setAddressFormData(prev => ({ ...prev, [field]: value }))
+    setAddressFormData((prev) => ({ ...prev, [field]: value }));
     // Clear error when user starts typing
     if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: "" }))
+      setErrors((prev) => ({ ...prev, [field]: "" }));
     }
-    setTouchedFields(prev => ({ ...prev, [field]: true }))
-  }
+    setTouchedFields((prev) => ({ ...prev, [field]: true }));
+  };
 
   useEffect(() => {
-    validateForm()
-  }, [addressFormData])
+    validateForm();
+  }, [addressFormData]);
 
   const validateForm = () => {
-    const newErrors: Record<string, string> = {}
+    const newErrors: Record<string, string> = {};
 
-    if (!addressFormData.first_name?.trim()) newErrors.first_name = "First name is required"
-    if (!addressFormData.last_name?.trim()) newErrors.last_name = "Last name is required"
-    if (!addressFormData.address_1?.trim()) newErrors.address_1 = "Address is required"
-    if (!addressFormData.city?.trim()) newErrors.city = "City is required"
-    if (!addressFormData.postal_code?.trim()) newErrors.postal_code = "Postal code is required"
-    if (!addressFormData.country_code?.trim()) newErrors.country_code = "Country is required"
-    const countryCodeExists = countriesInput.some((country) => country.code === addressFormData.country_code)
-    if (!countryCodeExists) newErrors.country_code = "Country is invalid"
+    if (!addressFormData.first_name?.trim())
+      newErrors.first_name = "First name is required";
+    if (!addressFormData.last_name?.trim())
+      newErrors.last_name = "Last name is required";
+    if (!addressFormData.address_1?.trim())
+      newErrors.address_1 = "Address is required";
+    if (!addressFormData.city?.trim()) newErrors.city = "City is required";
+    if (!addressFormData.postal_code?.trim())
+      newErrors.postal_code = "Postal code is required";
+    if (!addressFormData.country_code?.trim())
+      newErrors.country_code = "Country is required";
+    const countryCodeExists = countriesInput.some(
+      (country) => country.code === addressFormData.country_code
+    );
+    if (!countryCodeExists) newErrors.country_code = "Country is invalid";
 
-    setErrors(newErrors)
-    const isValid = Object.keys(newErrors).length === 0
-    setIsFormValid?.(isValid)
-    return isValid
-  }
+    setErrors(newErrors);
+    const isValid = Object.keys(newErrors).length === 0;
+    setIsFormValid?.(isValid);
+    return isValid;
+  };
 
   const handleSubmit = () => {
-    
-    if (!validateForm() || !shouldHandleSubmit) return
+    if (!validateForm() || !shouldHandleSubmit) return;
 
-    onSubmit?.(addressFormData as any)
-  }
+    onSubmit?.(addressFormData as any);
+  };
 
   const countriesInput = useMemo(() => {
     if (!customCountries) {
-      return countries
+      return countries;
     }
 
     return customCountries.map((country) => ({
       code: country.iso_2 || "",
-      name: country.display_name || ""
-    }))
-  }, [customCountries])
+      name: country.display_name || "",
+    }));
+  }, [customCountries]);
 
   return (
-    <div className={clx("space-y-4", className)}>
+    <div className={clsx("space-y-4", className)}>
       {/* Name fields */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex flex-col gap-2">
-          <label htmlFor="first_name" className="block txt-small-plus">
+          <label htmlFor="first_name" className="block text-sm font-medium">
             First Name
           </label>
           <Input
@@ -139,11 +153,13 @@ const AddressForm = ({
             placeholder="First name"
           />
           {errors.first_name && touchedFields.first_name && (
-            <div className="text-error-text txt-small mt-1">{errors.first_name}</div>
+            <div className="text-error-text text-sm mt-1">
+              {errors.first_name}
+            </div>
           )}
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="last_name" className="block txt-small-plus">
+          <label htmlFor="last_name" className="block text-sm font-medium">
             Last Name
           </label>
           <Input
@@ -156,14 +172,16 @@ const AddressForm = ({
             placeholder="Last name"
           />
           {errors.last_name && touchedFields.last_name && (
-            <div className="text-error-text txt-small mt-1">{errors.last_name}</div>
+            <div className="text-error-text text-sm mt-1">
+              {errors.last_name}
+            </div>
           )}
         </div>
       </div>
 
       {/* Company */}
       <div className="flex flex-col gap-2">
-        <label htmlFor="company" className="block txt-small-plus">
+        <label htmlFor="company" className="block text-sm font-medium">
           Company
         </label>
         <Input
@@ -179,7 +197,7 @@ const AddressForm = ({
 
       {/* Address fields */}
       <div className="flex flex-col gap-2">
-        <label htmlFor="address_1" className="block txt-small-plus">
+        <label htmlFor="address_1" className="block text-sm font-medium">
           Address Line 1
         </label>
         <Input
@@ -192,12 +210,12 @@ const AddressForm = ({
           placeholder="Address line 1"
         />
         {errors.address_1 && touchedFields.address_1 && (
-          <div className="text-error-text txt-small mt-1">{errors.address_1}</div>
+          <div className="text-error-text text-sm mt-1">{errors.address_1}</div>
         )}
       </div>
 
       <div className="flex flex-col gap-2">
-        <label htmlFor="address_2" className="block txt-small-plus">
+        <label htmlFor="address_2" className="block text-sm font-medium">
           Address Line 2
         </label>
         <Input
@@ -213,7 +231,7 @@ const AddressForm = ({
       {/* City, Province, Postal Code */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="flex flex-col gap-2">
-          <label htmlFor="city" className="block txt-small-plus">
+          <label htmlFor="city" className="block text-sm font-medium">
             City
           </label>
           <Input
@@ -226,11 +244,11 @@ const AddressForm = ({
             placeholder="City"
           />
           {errors.city && touchedFields.city && (
-            <div className="text-error-text txt-small mt-1">{errors.city}</div>
+            <div className="text-error-text text-sm mt-1">{errors.city}</div>
           )}
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="province" className="block txt-small-plus">
+          <label htmlFor="province" className="block text-sm font-medium">
             State / Province
           </label>
           <Input
@@ -244,7 +262,7 @@ const AddressForm = ({
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="postal_code" className="block txt-small-plus">
+          <label htmlFor="postal_code" className="block text-sm font-medium">
             Postal Code
           </label>
           <Input
@@ -257,14 +275,19 @@ const AddressForm = ({
             placeholder="Postal code"
           />
           {errors.postal_code && touchedFields.postal_code && (
-            <div className="text-error-text txt-small mt-1">{errors.postal_code}</div>
+            <div className="text-error-text text-sm mt-1">
+              {errors.postal_code}
+            </div>
           )}
         </div>
       </div>
 
       {/* Country */}
       <div className="flex flex-col gap-2">
-        <label htmlFor="country_code" className="block txt-small-plus text-primary-text mb-2">
+        <label
+          htmlFor="country_code"
+          className="block text-sm font-medium text-primary-text mb-2"
+        >
           Country
         </label>
         <Select
@@ -275,18 +298,20 @@ const AddressForm = ({
           <option value="Select country">Select country</option>
           {countriesInput.map((country) => (
             <option key={country.code} value={country.code}>
-                {country.name}
+              {country.name}
             </option>
           ))}
         </Select>
         {errors.country_code && touchedFields.country_code && (
-          <div className="text-error-text txt-small mt-1">{errors.country_code}</div>
+          <div className="text-error-text text-sm mt-1">
+            {errors.country_code}
+          </div>
         )}
       </div>
 
       {/* Phone */}
       <div className="flex flex-col gap-2">
-        <label htmlFor="phone" className="block txt-small-plus">
+        <label htmlFor="phone" className="block text-sm font-medium">
           Phone
         </label>
         <Input
@@ -311,17 +336,13 @@ const AddressForm = ({
           >
             Cancel
           </Button>
-          <Button
-            onClick={handleSubmit}
-            disabled={isLoading}
-            variant="primary"
-          >
+          <Button onClick={handleSubmit} disabled={isLoading} variant="primary">
             Save
           </Button>
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default AddressForm
+export default AddressForm;

@@ -58,12 +58,12 @@ const Hero = () => {
 
   return (
     <div className="h-[75vh] w-full border-b border-primary-border relative bg-secondary-bg">
-      <div className="w-full h-full flex flex-col justify-center items-center text-center sm:p-32 gap-8">
+      <div className="w-full h-full flex flex-col justify-center items-center text-center gap-8">
         <div>
           <h1 className="text-3xl sm:text-4xl text-primary-text mb-4">
             Medusa Store
           </h1>
-          <h2 className="!txt-xlarge sm:text-2xl text-secondary-text sm:max-w-sm text-pretty">
+          <h2 className="!text-xlarge sm:text-2xl text-secondary-text sm:max-w-sm text-pretty">
             Your modern commerce solution for exceptional shopping experiences.
           </h2>
         </div>

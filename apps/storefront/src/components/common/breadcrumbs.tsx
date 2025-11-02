@@ -1,7 +1,7 @@
-import { ChevronRight } from "@medusajs/icons"
-import { clx } from "@medusajs/ui"
-import { Link } from "@tanstack/react-router"
-import { ReactNode } from "react"
+import { ChevronRight } from "@medusajs/icons";
+import { Link } from "@tanstack/react-router";
+import { clsx } from "clsx";
+import { ReactNode } from "react";
 
 export interface BreadcrumbItem {
   label: string;
@@ -11,7 +11,7 @@ export interface BreadcrumbItem {
 
 /**
  * AI AGENT USAGE GUIDE:
- * 
+ *
  * WHEN TO USE:
  * - Use for navigation breadcrumbs in the storefront
  * - Product pages: show navigation path to current product
@@ -19,7 +19,7 @@ export interface BreadcrumbItem {
  * - Search results: show search context and filters
  * - Account pages: indicate current account section
  * - Checkout pages: show checkout progress and steps
- * 
+ *
  * ECOMMERCE CONTEXT:
  * - Critical for user navigation and orientation
  * - Essential for SEO and search engine optimization
@@ -27,7 +27,7 @@ export interface BreadcrumbItem {
  * - Required for deep linking and bookmarking
  * - Used in product discovery and browsing
  * - Important for mobile commerce navigation
- * 
+ *
  * BREADCRUMB FEATURES:
  * - Hierarchical navigation display
  * - Clickable links for navigation
@@ -35,19 +35,19 @@ export interface BreadcrumbItem {
  * - Custom separators and styling
  * - Home link inclusion option
  * - Accessible navigation structure
- * 
+ *
  * COMMON PATTERNS:
  * - Product page breadcrumbs (Home > Category > Product)
  * - Category navigation (Home > Category > Subcategory)
  * - Search result breadcrumbs (Home > Search > Results)
  * - Account section navigation (Home > Account > Profile)
  * - Checkout progress breadcrumbs
- * 
+ *
  * EXAMPLES:
  * - <Breadcrumbs items={[{label: "Home", href: "/"}, {label: "Store", href: "/store"}, {label: "Product", current: true}]} />
  * - <Breadcrumbs items={categoryPath} showHome={false} />
  * - <Breadcrumbs items={searchBreadcrumbs} separator={<span>/</span>} />
- * 
+ *
  * @example
  * // Basic usage
  * <Breadcrumbs items={[
@@ -55,10 +55,10 @@ export interface BreadcrumbItem {
  *   { label: "Store", href: "/store" },
  *   { label: "Product Name", current: true }
  * ]} />
- * 
+ *
  * @example
  * // With custom separator
- * <Breadcrumbs 
+ * <Breadcrumbs
  *   items={breadcrumbItems}
  *   separator={<span>/</span>}
  *   showHome={false}
@@ -82,48 +82,41 @@ const Breadcrumbs = ({
   homeLabel = "Home",
   homeHref = "/",
 }: BreadcrumbsProps) => {
-  const defaultSeparator = (
-    <ChevronRight className="text-secondary-text" />
-  )
+  const defaultSeparator = <ChevronRight className="text-secondary-text" />;
 
   const allItems = showHome
     ? [{ label: homeLabel, href: homeHref }, ...items]
-    : items
+    : items;
 
   return (
     <nav
-      className={clx(
-        "flex items-center space-x-2 txt-small",
-        className
-      )}
+      className={clsx("flex items-center space-x-2 text-sm", className)}
       aria-label="Breadcrumb"
     >
       <ol className="flex items-center space-x-2">
         {allItems.map((item, index) => {
-          const isLast = index === allItems.length - 1
-          const isCurrent = item.current || isLast
+          const isLast = index === allItems.length - 1;
+          const isCurrent = item.current || isLast;
 
           return (
             <li key={index} className="flex items-center">
               {index > 0 && (
-                <span className="mx-2">
-                  {separator || defaultSeparator}
-                </span>
+                <span className="mx-2">{separator || defaultSeparator}</span>
               )}
-              
+
               {item.href && !isCurrent ? (
                 <Link
                   to={item.href}
                   className="text-secondary-text hover:text-secondary-text-hover transition-colors duration-200"
                 >
-                  <span className="txt-small">{item.label}</span>
+                  <span className="text-sm">{item.label}</span>
                 </Link>
               ) : (
                 <span
-                  className={clx(
+                  className={clsx(
                     isCurrent
-                      ? "text-primary-text txt-small-plus"
-                      : "text-secondary-text txt-small"
+                      ? "text-primary-text text-sm font-medium"
+                      : "text-secondary-text text-sm"
                   )}
                   aria-current={isCurrent ? "page" : undefined}
                 >
@@ -131,11 +124,11 @@ const Breadcrumbs = ({
                 </span>
               )}
             </li>
-          )
+          );
         })}
       </ol>
     </nav>
-  )
-}
+  );
+};
 
-export default Breadcrumbs
+export default Breadcrumbs;

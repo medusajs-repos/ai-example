@@ -1,6 +1,6 @@
-import { HttpTypes } from "@medusajs/types"
-import Address from "@/components/common/address"
-import { Price } from "@/components/common/price"
+import Address from "@/components/common/address";
+import { Price } from "@/components/common/price";
+import { HttpTypes } from "@medusajs/types";
 
 /**
  * AI AGENT USAGE GUIDE:
@@ -50,24 +50,28 @@ import { Price } from "@/components/common/price"
  */
 type OrderShippingProps = {
   order: HttpTypes.StoreOrder;
-}
+};
 
 const OrderShipping = ({ order }: OrderShippingProps) => {
   return (
     <div>
-      <h3 className="mb-4 text-medium-plus">
-        Delivery Information
-      </h3>
+      <h3 className="mb-4 text-medium-plus">Delivery Information</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <span className="txt-medium-plus text-primary-text mb-2">Shipping Address</span>
-          {order.shipping_address && <Address address={order.shipping_address} />}
+          <span className="text-base font-medium-plus text-primary-text mb-2">
+            Shipping Address
+          </span>
+          {order.shipping_address && (
+            <Address address={order.shipping_address} />
+          )}
         </div>
-        
+
         {order.shipping_methods?.[0] && (
           <div>
-            <span className="txt-medium-plus text-primary-text mb-2">Shipping Method</span>
-            <div className="txt-small text-secondary-text flex items-center justify-between">
+            <span className="text-base font-medium-plus text-primary-text mb-2">
+              Shipping Method
+            </span>
+            <div className="text-sm text-secondary-text flex items-center justify-between">
               <div>{order.shipping_methods[0].name}</div>
               <Price
                 price={order.shipping_methods[0].amount}
@@ -79,7 +83,7 @@ const OrderShipping = ({ order }: OrderShippingProps) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default OrderShipping
+export default OrderShipping;

@@ -1,13 +1,13 @@
-import { HttpTypes } from "@medusajs/types"
-import { Price } from "@/components/common/price"
-import Loading from "@/components/common/loading"
-import { useEffect, useState } from "react"
-import { calculatePriceForShippingOption } from "@/lib/data/checkout/shipping"
-import Radio from "@/components/common/radio"
+import Loading from "@/components/common/loading";
+import { Price } from "@/components/common/price";
+import Radio from "@/components/common/radio";
+import { calculatePriceForShippingOption } from "@/lib/data/checkout/shipping";
+import { HttpTypes } from "@medusajs/types";
+import { useEffect, useState } from "react";
 
 /**
  * AI AGENT USAGE GUIDE:
- * 
+ *
  * WHEN TO USE:
  * - Use for shipping method selection in the storefront
  * - Checkout pages: shipping method selection and configuration
@@ -15,7 +15,7 @@ import Radio from "@/components/common/radio"
  * - Mobile commerce: mobile-optimized shipping selection
  * - Shipping calculation: display shipping costs and options
  * - International commerce: shipping options for different regions
- * 
+ *
  * ECOMMERCE CONTEXT:
  * - Critical for shipping cost calculation and display
  * - Essential for delivery time estimation and communication
@@ -23,7 +23,7 @@ import Radio from "@/components/common/radio"
  * - Required for order fulfillment and tracking
  * - Used in shipping cost optimization
  * - Important for mobile commerce experience
- * 
+ *
  * SHIPPING SELECTOR FEATURES:
  * - Shipping method display and selection
  * - Shipping cost calculation and display
@@ -31,21 +31,21 @@ import Radio from "@/components/common/radio"
  * - International shipping options
  * - Shipping method validation and error handling
  * - Responsive design for mobile/desktop
- * 
+ *
  * SHIPPING OPTIONS:
  * - Standard shipping: regular delivery times
  * - Express shipping: faster delivery options
  * - Economy shipping: cost-effective delivery
  * - International shipping: cross-border delivery
  * - Free shipping: promotional shipping options
- * 
+ *
  * COMMON PATTERNS:
  * - Checkout shipping selection
  * - Mobile shipping selection
  * - International shipping options
  * - Shipping cost display
  * - Delivery time estimation
- * 
+ *
  * EXAMPLES:
  * - <ShippingItemSelector shippingOption={option} cart={cart} isSelected={selected} handleSelect={handleSelect} />
  * - Checkout shipping selection
@@ -54,35 +54,40 @@ import Radio from "@/components/common/radio"
  */
 
 type ShippingItemSelectorProps = {
-  shippingOption: HttpTypes.StoreCartShippingOption
-  cart: HttpTypes.StoreCart
-  isSelected: boolean
-  handleSelect: (optionId: string) => void
-}
+  shippingOption: HttpTypes.StoreCartShippingOption;
+  cart: HttpTypes.StoreCart;
+  isSelected: boolean;
+  handleSelect: (optionId: string) => void;
+};
 
-const ShippingItemSelector = ({ 
-  shippingOption, 
+const ShippingItemSelector = ({
+  shippingOption,
   cart,
-  isSelected, 
-  handleSelect, 
+  isSelected,
+  handleSelect,
 }: ShippingItemSelectorProps) => {
-  const [calculatedPrice, setCalculatedPrice] = useState<number | undefined>(undefined)
-  const isDisabled = 
+  const [calculatedPrice, setCalculatedPrice] = useState<number | undefined>(
+    undefined
+  );
+  const isDisabled =
     shippingOption.price_type === "calculated" &&
-    typeof calculatedPrice !== "number"
-  const price = shippingOption.price_type === "calculated" ? calculatedPrice : shippingOption.amount
+    typeof calculatedPrice !== "number";
+  const price =
+    shippingOption.price_type === "calculated"
+      ? calculatedPrice
+      : shippingOption.amount;
 
   useEffect(() => {
     if (shippingOption.price_type !== "calculated") {
-      return
+      return;
     }
 
-    calculatePriceForShippingOption({ 
-      option_id: shippingOption.id, 
+    calculatePriceForShippingOption({
+      option_id: shippingOption.id,
     }).then((option) => {
-      setCalculatedPrice(option.amount)
-    })
-  }, [shippingOption.price_type])
+      setCalculatedPrice(option.amount);
+    });
+  }, [shippingOption.price_type]);
 
   return (
     <label
@@ -98,7 +103,7 @@ const ShippingItemSelector = ({
         }`}
       >
         <div className="flex items-center gap-4">
-          <Radio 
+          <Radio
             checked={isSelected}
             onChange={() => handleSelect(shippingOption.id)}
             disabled={isDisabled}
@@ -106,12 +111,12 @@ const ShippingItemSelector = ({
 
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
-              <p className="txt-medium-plus text-primary-text">
+              <p className="text-base font-medium-plus text-primary-text">
                 {shippingOption.name}
               </p>
             </div>
             {shippingOption.data?.description !== undefined && (
-              <p className="txt-xsmall text-secondary-text mt-1">
+              <p className="text-xs text-secondary-text mt-1">
                 {shippingOption.data.description as string}
               </p>
             )}
@@ -119,16 +124,19 @@ const ShippingItemSelector = ({
         </div>
 
         <div className="text-right">
-          {price ? 
+          {price ? (
             <Price
-              price={price} 
-              currencyCode={cart.currency_code} 
+              price={price}
+              currencyCode={cart.currency_code}
               textWeight="plus"
-            /> : <Loading className="w-4 h-4" rows={1} />}
+            />
+          ) : (
+            <Loading className="w-4 h-4" rows={1} />
+          )}
         </div>
       </div>
     </label>
-  )
-}
+  );
+};
 
-export default ShippingItemSelector
+export default ShippingItemSelector;

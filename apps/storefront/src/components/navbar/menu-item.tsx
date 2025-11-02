@@ -1,43 +1,54 @@
-import { ReactNode, createContext, useContext, useState, useEffect, useId } from "react"
-import { Link } from "@tanstack/react-router"
-import { useNavbar } from "./navbar"
+import { useNavbar } from "@/lib/context/navbar";
+import { Link } from "@tanstack/react-router";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useId,
+  useState,
+} from "react";
 
 type MenuItemContextType = {
-  id: string
-  isDesktopOpen: boolean
-  setIsDesktopOpen: (open: boolean) => void
-  hasDropdown: boolean
-  setHasDropdown: (has: boolean) => void
-  dropdownContent: ReactNode | null
-  setDropdownContent: (content: ReactNode | null) => void
-  labelContent: ReactNode | null
-  setLabelContent: (content: ReactNode | null) => void
-}
+  id: string;
+  isDesktopOpen: boolean;
+  setIsDesktopOpen: (open: boolean) => void;
+  hasDropdown: boolean;
+  setHasDropdown: (has: boolean) => void;
+  dropdownContent: ReactNode | null;
+  setDropdownContent: (content: ReactNode | null) => void;
+  labelContent: ReactNode | null;
+  setLabelContent: (content: ReactNode | null) => void;
+};
 
-const MenuItemContext = createContext<MenuItemContextType | undefined>(undefined)
+const MenuItemContext = createContext<MenuItemContextType | undefined>(
+  undefined
+);
 
 const useMenuItem = () => {
-  const context = useContext(MenuItemContext)
+  const context = useContext(MenuItemContext);
   if (!context) {
-    throw new Error("MenuItem sub-components must be used within MenuItem")
+    throw new Error("MenuItem sub-components must be used within MenuItem");
   }
-  return context
-}
+  return context;
+};
 
 export const MenuItem = ({ children }: { children: ReactNode }) => {
-  const id = useId()
-  const [isDesktopOpen, setIsDesktopOpen] = useState(false)
-  const [hasDropdown, setHasDropdown] = useState(false)
-  const [dropdownContent, setDropdownContent] = useState<ReactNode | null>(null)
-  const [labelContent, setLabelContent] = useState<ReactNode | null>(null)
-  const { registerMenuItem, isMobileMenuOpen, activeSubmenuId } = useNavbar()
+  const id = useId();
+  const [isDesktopOpen, setIsDesktopOpen] = useState(false);
+  const [hasDropdown, setHasDropdown] = useState(false);
+  const [dropdownContent, setDropdownContent] = useState<ReactNode | null>(
+    null
+  );
+  const [labelContent, setLabelContent] = useState<ReactNode | null>(null);
+  const { registerMenuItem, isMobileMenuOpen, activeSubmenuId } = useNavbar();
 
   // Register this item with navbar for mobile rendering
   useEffect(() => {
     if (hasDropdown && labelContent && dropdownContent) {
-      registerMenuItem(id, labelContent, dropdownContent)
+      registerMenuItem(id, labelContent, dropdownContent);
     }
-  }, [id, hasDropdown, labelContent, dropdownContent, registerMenuItem])
+  }, [id, hasDropdown, labelContent, dropdownContent, registerMenuItem]);
 
   const contextValue: MenuItemContextType = {
     id,
@@ -49,7 +60,7 @@ export const MenuItem = ({ children }: { children: ReactNode }) => {
     setDropdownContent,
     labelContent,
     setLabelContent,
-  }
+  };
 
   return (
     <MenuItemContext.Provider value={contextValue}>
@@ -61,35 +72,31 @@ export const MenuItem = ({ children }: { children: ReactNode }) => {
         <div className="relative h-full">{children}</div>
       )}
     </MenuItemContext.Provider>
-  )
-}
+  );
+};
 
 // Label - button (with dropdown) or link (without dropdown)
 MenuItem.Label = ({ children, to }: { children: ReactNode; to?: string }) => {
-  const {
-    id,
-    setIsDesktopOpen,
-    hasDropdown,
-    setHasDropdown,
-    setLabelContent,
-  } = useMenuItem()
-  const { isMobileMenuOpen, activeSubmenuId, openSubmenu, closeMobileMenu } = useNavbar()
+  const { id, setIsDesktopOpen, hasDropdown, setHasDropdown, setLabelContent } =
+    useMenuItem();
+  const { isMobileMenuOpen, activeSubmenuId, openSubmenu, closeMobileMenu } =
+    useNavbar();
 
   // Register label content for mobile rendering
   useEffect(() => {
-    setLabelContent(children)
-  }, [children, setLabelContent])
+    setLabelContent(children);
+  }, [children, setLabelContent]);
 
   // Check if there's a sibling Dropdown
   useEffect(() => {
-    setHasDropdown(!to)
-  }, [to, setHasDropdown])
+    setHasDropdown(!to);
+  }, [to, setHasDropdown]);
 
   // Mobile view
   if (isMobileMenuOpen) {
     // Don't render label when ANY submenu is active
     if (activeSubmenuId !== null) {
-      return null
+      return null;
     }
 
     if (hasDropdown) {
@@ -97,7 +104,7 @@ MenuItem.Label = ({ children, to }: { children: ReactNode; to?: string }) => {
       return (
         <button
           onClick={() => openSubmenu(id)}
-          className="flex items-center justify-between px-6 py-4 w-full text-left text-primary-text hover:bg-secondary-bg txt-large transition-colors"
+          className="flex items-center justify-between px-6 py-4 w-full text-left text-primary-text hover:bg-secondary-bg text-large transition-colors"
         >
           {children}
           <svg
@@ -115,7 +122,7 @@ MenuItem.Label = ({ children, to }: { children: ReactNode; to?: string }) => {
             />
           </svg>
         </button>
-      )
+      );
     }
 
     // Mobile flat link
@@ -124,11 +131,11 @@ MenuItem.Label = ({ children, to }: { children: ReactNode; to?: string }) => {
         <Link
           to={to}
           onClick={closeMobileMenu}
-          className="flex items-center px-6 py-4 text-primary-text hover:bg-secondary-bg txt-large transition-colors"
+          className="flex items-center px-6 py-4 text-primary-text hover:bg-secondary-bg text-large transition-colors"
         >
           {children}
         </Link>
-      )
+      );
     }
   }
 
@@ -142,7 +149,7 @@ MenuItem.Label = ({ children, to }: { children: ReactNode; to?: string }) => {
       >
         {children}
       </button>
-    )
+    );
   }
 
   // Desktop flat link
@@ -154,28 +161,29 @@ MenuItem.Label = ({ children, to }: { children: ReactNode; to?: string }) => {
       >
         {children}
       </Link>
-    )
+    );
   }
 
-  return null
-}
+  return null;
+};
 
 // Dropdown - mega menu on desktop, submenu on mobile
 MenuItem.Dropdown = ({ children }: { children: ReactNode }) => {
-  const { id, isDesktopOpen, setIsDesktopOpen, setDropdownContent } = useMenuItem()
-  const { isMobileMenuOpen, activeSubmenuId } = useNavbar()
+  const { id, isDesktopOpen, setIsDesktopOpen, setDropdownContent } =
+    useMenuItem();
+  const { isMobileMenuOpen, activeSubmenuId } = useNavbar();
 
   // Register that this item has a dropdown
   useEffect(() => {
-    setDropdownContent(children)
-  }, [children, setDropdownContent])
+    setDropdownContent(children);
+  }, [children, setDropdownContent]);
 
   // Mobile submenu view - only render if THIS item is the active submenu
   if (isMobileMenuOpen) {
     if (activeSubmenuId === id) {
-      return <div className="flex flex-col">{children}</div>
+      return <div className="flex flex-col">{children}</div>;
     }
-    return null  // Hide if no submenu or different submenu is active
+    return null; // Hide if no submenu or different submenu is active
   }
 
   // Desktop mega menu
@@ -191,12 +199,12 @@ MenuItem.Dropdown = ({ children }: { children: ReactNode }) => {
     >
       <div className="content-container py-12">{children}</div>
     </div>
-  )
-}
+  );
+};
 
 // Link within dropdown - responsive styling
 MenuItem.Link = ({ to, children }: { to: string; children: ReactNode }) => {
-  const { isMobileMenuOpen, closeMobileMenu } = useNavbar()
+  const { isMobileMenuOpen, closeMobileMenu } = useNavbar();
 
   // Mobile dropdown link
   if (isMobileMenuOpen) {
@@ -204,20 +212,20 @@ MenuItem.Link = ({ to, children }: { to: string; children: ReactNode }) => {
       <Link
         to={to}
         onClick={closeMobileMenu}
-        className="text-primary-text hover:bg-secondary-bg txt-medium transition-colors"
+        className="text-primary-text hover:bg-secondary-bg text-base font-medium transition-colors"
       >
         {children}
       </Link>
-    )
+    );
   }
 
   // Desktop dropdown link
   return (
     <Link
       to={to}
-      className="text-secondary-text hover:text-secondary-text-hover txt-medium transition-colors"
+      className="text-secondary-text hover:text-secondary-text-hover text-base font-medium transition-colors"
     >
       {children}
     </Link>
-  )
-}
+  );
+};

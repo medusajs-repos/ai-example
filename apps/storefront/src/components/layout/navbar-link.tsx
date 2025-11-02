@@ -1,5 +1,5 @@
-import { clx } from "@medusajs/ui"
-import { Link } from "@tanstack/react-router"
+import { Link } from "@tanstack/react-router";
+import { clsx } from "clsx";
 
 /**
  * AI AGENT USAGE GUIDE:
@@ -55,8 +55,15 @@ type NavbarLinkProps = {
 };
 
 export const NavbarLink = ({ to, children, className }: NavbarLinkProps) => {
-  return <Link to={to} className={clx(
-    "text-secondary-text hover:text-secondary-text-hover",
-    className
-  )}>{children}</Link>
-}
+  return (
+    <Link
+      to={to}
+      className={clsx(
+        "text-secondary-text hover:text-secondary-text-hover",
+        className
+      )}
+    >
+      {children}
+    </Link>
+  );
+};

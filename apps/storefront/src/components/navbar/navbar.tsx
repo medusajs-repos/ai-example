@@ -1,66 +1,44 @@
-import { ReactNode, createContext, useContext, useState } from "react"
-import { Link, useLocation } from "@tanstack/react-router"
-import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path"
-import { XMarkMini } from "@medusajs/icons"
-
-type NavbarContextType = {
-  // Mobile state
-  isMobileMenuOpen: boolean
-  activeSubmenuId: string | null
-
-  // Actions
-  openMobileMenu: () => void
-  closeMobileMenu: () => void
-  openSubmenu: (id: string) => void
-  closeSubmenu: () => void
-
-  // Location
-  baseHref: string
-
-  // Item registration for mobile rendering
-  menuItems: Map<string, { label: ReactNode; dropdown: ReactNode }>
-  registerMenuItem: (id: string, label: ReactNode, dropdown: ReactNode | null) => void
-}
-
-const NavbarContext = createContext<NavbarContextType | undefined>(undefined)
-
-export const useNavbar = () => {
-  const context = useContext(NavbarContext)
-  if (!context) {
-    throw new Error("Navbar components must be used within Navbar")
-  }
-  return context
-}
+import { NavbarContext, useNavbar } from "@/lib/context/navbar";
+import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path";
+import { XMarkMini } from "@medusajs/icons";
+import { Link, useLocation } from "@tanstack/react-router";
+import { ReactNode, useState } from "react";
 
 export const Navbar = ({ children }: { children: ReactNode }) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [activeSubmenuId, setActiveSubmenuId] = useState<string | null>(null)
-  const [menuItems] = useState(new Map<string, { label: ReactNode; dropdown: ReactNode }>())
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSubmenuId, setActiveSubmenuId] = useState<string | null>(null);
+  const [menuItems] = useState(
+    new Map<string, { label: ReactNode; dropdown: ReactNode }>()
+  );
 
-  const location = useLocation()
-  const countryCode = getCountryCodeFromPath(location.pathname)
-  const baseHref = countryCode ? `/${countryCode}` : ""
+  const location = useLocation();
+  const countryCode = getCountryCodeFromPath(location.pathname);
+  const baseHref = countryCode ? `/${countryCode}` : "";
 
-  const openMobileMenu = () => setIsMobileMenuOpen(true)
+  const openMobileMenu = () => setIsMobileMenuOpen(true);
 
   const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false)
-    setActiveSubmenuId(null)
-  }
+    setIsMobileMenuOpen(false);
+    setActiveSubmenuId(null);
+  };
 
   const openSubmenu = (id: string) => {
-    setActiveSubmenuId(id)
-  }
+    setActiveSubmenuId(id);
+  };
 
   const closeSubmenu = () => {
-    setActiveSubmenuId(null)
-  }
+    setActiveSubmenuId(null);
+  };
 
-  const registerMenuItem = (id: string, label: ReactNode, dropdown: ReactNode | null) => {
+  const registerMenuItem = (
+    id: string,
+    label: ReactNode,
+    dropdown: ReactNode | null
+  ) => {
     if (dropdown) {
-      menuItems.set(id, { label, dropdown })
+      menuItems.set(id, { label, dropdown });
     }
-  }
+  };
 
   return (
     <NavbarContext.Provider
@@ -78,7 +56,7 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
     >
       <div className="sticky top-0 inset-x-0 z-50">
         <header className="relative h-16 mx-auto border-b duration-200 bg-primary-bg border-primary-border">
-          <nav className="content-container txt-xsmall-plus text-secondary-text flex items-center justify-between w-full h-full">
+          <nav className="content-container text-sm font-medium text-secondary-text flex items-center justify-between w-full h-full">
             {children}
           </nav>
         </header>
@@ -111,7 +89,9 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
                     Back
                   </button>
                 ) : (
-                  <span className="text-primary-text txt-large uppercase">Menu</span>
+                  <span className="text-primary-text text-large uppercase">
+                    Menu
+                  </span>
                 )}
                 <button
                   onClick={closeMobileMenu}
@@ -123,47 +103,45 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
               </div>
 
               {/* Mobile Menu Content - rendered by Navbar.Menu */}
-              <div className="flex-1 overflow-y-auto">
-                {children}
-              </div>
+              <div className="flex-1 overflow-y-auto">{children}</div>
             </div>
           </div>
         )}
       </div>
     </NavbarContext.Provider>
-  )
-}
+  );
+};
 
 // Logo component - centered (only in main navbar, not in mobile overlay)
-Navbar.Logo = ({ to, children }: { to: string; children: ReactNode }) => {
-  const { isMobileMenuOpen } = useNavbar()
+const NavbarLogo = ({ to, children }: { to: string; children: ReactNode }) => {
+  const { isMobileMenuOpen } = useNavbar();
 
   // Don't render in mobile overlay
   if (isMobileMenuOpen) {
-    return null
+    return null;
   }
 
   return (
     <div className="flex items-center h-full absolute left-1/2 transform -translate-x-1/2">
       <Link
         to={to}
-        className="txt-xlarge-plus hover:text-primary-text-hover uppercase"
+        className="text-xlarge font-bold hover:text-primary-text-hover uppercase"
         data-testid="nav-store-link"
       >
         {children}
       </Link>
     </div>
-  )
-}
+  );
+};
 
 // Menu container - left side on desktop, full screen on mobile
-Navbar.Menu = ({ children }: { children: ReactNode }) => {
-  const { isMobileMenuOpen, currentMobileView } = useNavbar()
+const NavbarMenu = ({ children }: { children: ReactNode }) => {
+  const { isMobileMenuOpen } = useNavbar();
 
   return (
     <>
       {/* Desktop Menu */}
-      <div className="hidden lg:flex items-center gap-x-6 h-full flex-1 basis-0">
+      <div className="hidden lg:flex items-center gap-x-6 h-full">
         {children}
       </div>
 
@@ -173,34 +151,36 @@ Navbar.Menu = ({ children }: { children: ReactNode }) => {
       {/* Mobile: Menu Items (rendered in overlay) */}
       {isMobileMenuOpen && (
         <div className="lg:hidden w-full">
-          <div className="flex flex-col py-6">
-            {children}
-          </div>
+          <div className="flex flex-col py-6">{children}</div>
         </div>
       )}
     </>
-  )
-}
+  );
+};
 
 // Actions container - right side (only in main navbar, not in mobile overlay)
-Navbar.Actions = ({ children }: { children: ReactNode }) => {
-  const { isMobileMenuOpen } = useNavbar()
+const NavbarActions = ({ children }: { children: ReactNode }) => {
+  const { isMobileMenuOpen } = useNavbar();
 
   // Don't render in mobile overlay
   if (isMobileMenuOpen) {
-    return null
+    return null;
   }
 
   return (
-    <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
+    <div className="flex items-center gap-x-6 h-full justify-end">
       {children}
     </div>
-  )
-}
+  );
+};
+
+Navbar.Logo = NavbarLogo;
+Navbar.Menu = NavbarMenu;
+Navbar.Actions = NavbarActions;
 
 // Mobile hamburger button
 const MobileHamburger = () => {
-  const { openMobileMenu } = useNavbar()
+  const { openMobileMenu } = useNavbar();
 
   return (
     <button
@@ -223,5 +203,5 @@ const MobileHamburger = () => {
         />
       </svg>
     </button>
-  )
-}
+  );
+};

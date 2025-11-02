@@ -1,10 +1,10 @@
-import React from "react"
-import Radio from "@/components/common/radio"
-import { paymentMethodsData } from "@/lib/constants/payment-methods"
+import Radio from "@/components/common/radio";
+import { paymentMethodsData } from "@/lib/constants/payment-methods";
+import React from "react";
 
 /**
  * AI AGENT USAGE GUIDE:
- * 
+ *
  * WHEN TO USE:
  * - Use for payment method selection in the storefront
  * - Checkout pages: payment method selection and configuration
@@ -12,7 +12,7 @@ import { paymentMethodsData } from "@/lib/constants/payment-methods"
  * - Mobile commerce: mobile-optimized payment selection
  * - International commerce: region-specific payment methods
  * - Payment security: secure payment method display
- * 
+ *
  * ECOMMERCE CONTEXT:
  * - Critical for payment processing and security
  * - Essential for order completion and conversion
@@ -20,7 +20,7 @@ import { paymentMethodsData } from "@/lib/constants/payment-methods"
  * - Required for international payment processing
  * - Used in payment security and fraud prevention
  * - Important for mobile commerce experience
- * 
+ *
  * PAYMENT CONTAINER FEATURES:
  * - Payment method display and selection
  * - Payment provider information and icons
@@ -28,14 +28,14 @@ import { paymentMethodsData } from "@/lib/constants/payment-methods"
  * - Payment method validation and error handling
  * - International payment method support
  * - Responsive design for mobile/desktop
- * 
+ *
  * COMMON PATTERNS:
  * - Checkout payment selection
  * - Mobile payment processing
  * - International payment methods
  * - Payment security and validation
  * - Payment method display
- * 
+ *
  * EXAMPLES:
  * - <PaymentContainer paymentProviderId="stripe" selectedPaymentOptionId={selected} onClick={handleSelect} />
  * - Checkout payment selection
@@ -44,12 +44,12 @@ import { paymentMethodsData } from "@/lib/constants/payment-methods"
  */
 
 type PaymentContainerProps = {
-  paymentProviderId: string
-  selectedPaymentOptionId: string | null
-  disabled?: boolean
-  children?: React.ReactNode
-  onClick?: () => void
-}
+  paymentProviderId: string;
+  selectedPaymentOptionId: string | null;
+  disabled?: boolean;
+  children?: React.ReactNode;
+  onClick?: () => void;
+};
 
 const PaymentContainer: React.FC<PaymentContainerProps> = ({
   paymentProviderId,
@@ -58,11 +58,11 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
   children,
   onClick,
 }) => {
-  const isSelected = selectedPaymentOptionId === paymentProviderId
+  const isSelected = selectedPaymentOptionId === paymentProviderId;
 
   return (
     <div
-      className={`flex flex-col gap-y-2 txt-small cursor-pointer py-4 border px-8 mb-2 hover:border-primary-border-strong transition-colors ${
+      className={`flex flex-col gap-y-2 text-sm cursor-pointer py-4 border px-8 mb-2 hover:border-primary-border-strong transition-colors ${
         isSelected
           ? "border-primary-text bg-secondary-bg"
           : "border-primary-border"
@@ -72,7 +72,7 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-x-4">
           <Radio checked={isSelected} readOnly />
-          <p className="txt-medium">
+          <p className="text-base font-medium">
             {paymentMethodsData[paymentProviderId]?.title || paymentProviderId}
           </p>
         </div>
@@ -82,7 +82,7 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
       </div>
       {children}
     </div>
-  )
-}
+  );
+};
 
-export default PaymentContainer
+export default PaymentContainer;

@@ -1,11 +1,11 @@
-import { HttpTypes } from "@medusajs/types"
-import ProductCard from "@/components/product/product-card"
-import Loading from "@/components/common/loading"
-import { useRelatedProducts } from "@/lib/hooks/static/use-products"
+import Loading from "@/components/common/loading";
+import ProductCard from "@/components/product/product-card";
+import { useRelatedProducts } from "@/lib/hooks/static/use-products";
+import { HttpTypes } from "@medusajs/types";
 
 /**
  * AI AGENT USAGE GUIDE:
- * 
+ *
  * WHEN TO USE:
  * - Use for displaying related products in the storefront
  * - Product detail pages: show similar or complementary products
@@ -13,7 +13,7 @@ import { useRelatedProducts } from "@/lib/hooks/static/use-products"
  * - Cross-selling: display products that go well together
  * - Mobile commerce: mobile-optimized product recommendations
  * - Product discovery: help users find related products
- * 
+ *
  * ECOMMERCE CONTEXT:
  * - Critical for cross-selling and upselling
  * - Essential for product discovery and browsing
@@ -21,7 +21,7 @@ import { useRelatedProducts } from "@/lib/hooks/static/use-products"
  * - Required for product recommendation systems
  * - Used in personalization and user engagement
  * - Important for mobile commerce experience
- * 
+ *
  * RELATED PRODUCTS FEATURES:
  * - Product recommendations based on current product
  * - Cross-selling and upselling opportunities
@@ -29,21 +29,21 @@ import { useRelatedProducts } from "@/lib/hooks/static/use-products"
  * - Loading states for better user experience
  * - Responsive design for mobile/desktop
  * - Professional product presentation
- * 
+ *
  * RECOMMENDATION TYPES:
  * - Similar products: same category or type
  * - Complementary products: products that go together
  * - Popular products: trending or popular items
  * - Recently viewed: customer's browsing history
  * - Cross-selling: products that enhance the purchase
- * 
+ *
  * COMMON PATTERNS:
  * - Product detail page recommendations
  * - Mobile product recommendations
  * - Cross-selling product displays
  * - Product discovery sections
  * - Recommendation carousels
- * 
+ *
  * EXAMPLES:
  * - <RelatedProducts product={currentProduct} region={region} />
  * - Product detail page with recommendations
@@ -52,9 +52,9 @@ import { useRelatedProducts } from "@/lib/hooks/static/use-products"
  */
 
 type RelatedProductsProps = {
-  product: HttpTypes.StoreProduct
-  region: HttpTypes.StoreRegion
-}
+  product: HttpTypes.StoreProduct;
+  region: HttpTypes.StoreRegion;
+};
 
 export default function RelatedProducts({
   product,
@@ -65,23 +65,23 @@ export default function RelatedProducts({
     collection_id: product.collection_id || undefined,
     tags: product.tags?.map((tag) => tag.id),
     region_id: region.id,
-  })
+  });
 
   if (isLoading) {
-    return <Loading />
+    return <Loading />;
   }
 
   if (!relatedProducts?.length) {
-    return null
+    return null;
   }
 
   return (
     <div className="product-page-constraint">
       <div className="flex flex-col items-center text-center mb-16">
-        <span className="txt-xlarge text-primary-text mb-6">
+        <span className="text-xlarge text-primary-text mb-6">
           Related products
         </span>
-        <p className="txt-medium text-secondary-text max-w-lg">
+        <p className="text-base font-medium text-secondary-text max-w-lg">
           You might also want to check out these products.
         </p>
       </div>
@@ -94,5 +94,5 @@ export default function RelatedProducts({
         ))}
       </ul>
     </div>
-  )
+  );
 }

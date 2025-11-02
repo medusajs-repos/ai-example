@@ -1,17 +1,17 @@
-import { HttpTypes } from "@medusajs/types"
-import { lazy, Suspense, useMemo } from "react"
-import { useProducts } from "@/lib/hooks/static/use-products"
-import Loading from "@/components/common/loading"
-import ProductCard from "@/components/product/product-card"
-import ProductListingLoading from "@/components/product/product-listing-loading"
+import Loading from "@/components/common/loading";
+import ProductCard from "@/components/product/product-card";
+import ProductListingLoading from "@/components/product/product-listing-loading";
+import { useProducts } from "@/lib/hooks/static/use-products";
+import { HttpTypes } from "@medusajs/types";
+import { lazy, Suspense, useMemo } from "react";
 
-const Pagination = lazy(() => import("@/components/common/pagination"))
+const Pagination = lazy(() => import("@/components/common/pagination"));
 
-const PRODUCTS_PER_PAGE = 12
+const PRODUCTS_PER_PAGE = 12;
 
 /**
  * AI AGENT USAGE GUIDE:
- * 
+ *
  * WHEN TO USE:
  * - Use for product listing pages in the storefront
  * - Product catalog pages: main product catalog and browsing
@@ -19,7 +19,7 @@ const PRODUCTS_PER_PAGE = 12
  * - Search results: filtered product listings
  * - Mobile commerce: mobile-optimized product browsing
  * - SEO pages: optimized product catalog for search engines
- * 
+ *
  * ECOMMERCE CONTEXT:
  * - Critical for product discovery and browsing
  * - Essential for conversion optimization and sales
@@ -27,7 +27,7 @@ const PRODUCTS_PER_PAGE = 12
  * - Required for product catalog management
  * - Used in marketing campaigns and promotions
  * - Important for mobile commerce experience
- * 
+ *
  * LISTING FEATURES:
  * - Product grid with responsive layout
  * - Pagination for large product catalogs
@@ -35,21 +35,21 @@ const PRODUCTS_PER_PAGE = 12
  * - Empty state handling for no products
  * - Product count display and information
  * - Performance optimization with lazy loading
- * 
+ *
  * PRODUCT DISPLAY:
  * - Responsive grid layout (1-4 columns)
  * - Product cards with images, titles, and prices
  * - Pagination for navigation through products
  * - Loading states during data fetching
  * - Empty state when no products available
- * 
+ *
  * COMMON PATTERNS:
  * - Product catalog browsing
  * - Category-based product listings
  * - Search result pages
  * - Mobile product browsing
  * - SEO-optimized product pages
- * 
+ *
  * EXAMPLES:
  * - <ProductListing region={region} title="All Products" />
  * - <ProductListing region={region} title="Electronics" queryParams={{category_id: "electronics"}} />
@@ -57,13 +57,13 @@ const PRODUCTS_PER_PAGE = 12
  */
 
 type ProductListProps = {
-  region: HttpTypes.StoreRegion
-  title: string
-  queryParams?: Record<string, string>
-}
+  region: HttpTypes.StoreRegion;
+  title: string;
+  queryParams?: Record<string, string>;
+};
 
-const ProductListing = ({ region, title, queryParams }: ProductListProps) => {   
-  const { 
+const ProductListing = ({ region, title, queryParams }: ProductListProps) => {
+  const {
     data,
     isFetching,
     fetchNextPage,
@@ -76,23 +76,23 @@ const ProductListing = ({ region, title, queryParams }: ProductListProps) => {
       ...queryParams,
       limit: PRODUCTS_PER_PAGE,
     },
-  })
+  });
 
   const handlePageChange = (page: number) => {
     if (page > (data?.pages.length || 0)) {
-      fetchNextPage()
+      fetchNextPage();
     } else if (page < (data?.pages.length || 0)) {
-      fetchPreviousPage()
+      fetchPreviousPage();
     }
-    window.scrollTo({ top: 0, behavior: "smooth" })
-  }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const products = useMemo(() => {
-    return data?.pages.flatMap((page) => page.products) || []
-  }, [data?.pages])
+    return data?.pages.flatMap((page) => page.products) || [];
+  }, [data?.pages]);
 
   if (isFetching) {
-    return <ProductListingLoading />
+    return <ProductListingLoading />;
   }
 
   return (
@@ -100,11 +100,11 @@ const ProductListing = ({ region, title, queryParams }: ProductListProps) => {
       className="content-container flex flex-col lg:flex-row gap-6 py-6"
       data-testid="products-container"
     >
-      <div className="flex-1">
-        <div className="mb-8">
+      <div className="flex flex-col flex-1 gap-y-8">
+        <div className="flex flex-col gap-2">
           <h1
             data-testid="products-page-title"
-            className="txt-xlarge-plus text-primary-text mb-1"
+            className="text-xlarge font-bold text-primary-text"
           >
             {title}
           </h1>
@@ -112,7 +112,9 @@ const ProductListing = ({ region, title, queryParams }: ProductListProps) => {
         </div>
         {products.length === 0 ? (
           <div className="flex items-center justify-center h-64">
-            <div className="txt-xlarge text-secondary-text">No products yet</div>
+            <div className="text-xlarge text-secondary-text">
+              No products yet
+            </div>
           </div>
         ) : (
           <>
@@ -140,7 +142,7 @@ const ProductListing = ({ region, title, queryParams }: ProductListProps) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductListing
+export default ProductListing;

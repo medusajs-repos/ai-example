@@ -3,6 +3,7 @@ import ErrorBoundary from "@/components/common/error-boundary"
 import Footer from "@/components/layout/footer"
 import { NavbarContent } from "./navbar"
 import { ToastProvider } from "@/lib/context/toast-context"
+import { CartProvider } from "@/lib/context/cart"
 
 /**
  * AI AGENT USAGE GUIDE:
@@ -55,17 +56,19 @@ const Layout = () => {
 
   return (
     <ToastProvider>
-      <div className="min-h-screen flex flex-col">
-        <NavbarContent />
+      <CartProvider>
+        <div className="min-h-screen flex flex-col">
+          <NavbarContent />
 
-        <main className="relative flex-1">
-          <ErrorBoundary>
-            <Outlet />
-          </ErrorBoundary>
-        </main>
+          <main className="relative flex-1">
+            <ErrorBoundary>
+              <Outlet />
+            </ErrorBoundary>
+          </main>
 
-        <Footer />
-      </div>
+          <Footer />
+        </div>
+      </CartProvider>
     </ToastProvider>
   )
 }
