@@ -6,6 +6,7 @@ import { useRegion } from "@/lib/hooks/static/use-region";
 import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path";
 import { ChevronRight } from "@medusajs/icons";
 import { Link, useLocation } from "@tanstack/react-router";
+import { memo } from "react";
 
 /**
  * AI AGENT USAGE GUIDE:
@@ -54,7 +55,7 @@ import { Link, useLocation } from "@tanstack/react-router";
  * - Marketing campaign product highlights
  */
 
-const FeaturedProducts = () => {
+const FeaturedProducts = memo(() => {
   const location = useLocation();
   const countryCode = getCountryCodeFromPath(location.pathname);
   const { data: region } = useRegion({ country_code: countryCode || "" });
@@ -106,6 +107,8 @@ const FeaturedProducts = () => {
       )}
     </section>
   );
-};
+});
+
+FeaturedProducts.displayName = "FeaturedProducts";
 
 export default FeaturedProducts;

@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from "@medusajs/icons"
 import { HttpTypes } from "@medusajs/types"
-import { useState, useCallback } from "react"
+import { useState, useCallback, memo } from "react"
 import { Button } from "@/components/common/button"
 
 /**
@@ -55,7 +55,7 @@ type ImageGalleryProps = {
   images: HttpTypes.StoreProductImage[]
 }
 
-const ImageGallery = ({ images }: ImageGalleryProps) => {
+const ImageGallery = memo(({ images }: ImageGalleryProps) => {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const goToNext = useCallback(() => {
@@ -77,6 +77,9 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
             {images.map((image, index) => {
+              const isFirstImage = index === 0
+              const isCriticalImage = index <= 1
+              
               return (
                 <div
                   key={image.id}
@@ -86,8 +89,10 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
                     <img
                       src={image.url}
                       className="absolute inset-0 w-full h-full object-cover"
-                      alt={`Product image ${index + 1}`}
-                      loading={index <= 2 ? "eager" : "lazy"}
+                      alt={isFirstImage ? "Main product image" : `Product image ${index + 1}`}
+                      loading={isCriticalImage ? "eager" : "lazy"}
+                      fetchPriority={isFirstImage ? "high" : undefined}
+                      decoding="async"
                     />
                   )}
                 </div>
@@ -123,6 +128,8 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
       </div>
     </div>
   )
-}
+})
+
+ImageGallery.displayName = "ImageGallery"
 
 export default ImageGallery

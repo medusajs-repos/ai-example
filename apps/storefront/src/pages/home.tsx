@@ -1,10 +1,5 @@
-import Loading from "@/components/common/loading";
 import Hero from "@/components/layout/hero";
-import { lazy, Suspense } from "react";
-
-const FeaturedProducts = lazy(
-  () => import("@/components/product/featured-products")
-);
+import FeaturedProducts from "@/components/product/featured-products";
 
 /**
  * AI AGENT USAGE GUIDE:
@@ -53,9 +48,7 @@ const Home = () => {
     <>
       <Hero />
       <div className="my-16">
-        <Suspense fallback={<Loading className="content-container" />}>
-          <FeaturedProducts />
-        </Suspense>
+        <FeaturedProducts />
       </div>
     </>
   );

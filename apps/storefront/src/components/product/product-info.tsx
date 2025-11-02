@@ -1,4 +1,5 @@
 import { HttpTypes } from "@medusajs/types";
+import { memo } from "react";
 
 /**
  * AI AGENT USAGE GUIDE:
@@ -51,7 +52,7 @@ type ProductInfoProps = {
   product: HttpTypes.StoreProduct;
 };
 
-const ProductInfo = ({ product }: ProductInfoProps) => {
+const ProductInfo = memo(({ product }: ProductInfoProps) => {
   return (
     <div id="product-info">
       <div className="flex flex-col gap-y-4 lg:max-w-[500px] mx-auto">
@@ -71,6 +72,8 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
       </div>
     </div>
   );
-};
+});
+
+ProductInfo.displayName = "ProductInfo";
 
 export default ProductInfo;

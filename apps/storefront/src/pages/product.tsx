@@ -3,12 +3,12 @@ import { useLoaderData } from "@tanstack/react-router"
 import Loading from "@/components/common/loading"
 import ProductDetailsLoading from "@/components/product/product-details-loading"
 import ErrorBoundary from "@/components/common/error-boundary"
+import ProductInfo from "@/components/product/product-info"
+import ProductTabs from "@/components/product/product-tabs"
+import ProductActions from "@/components/product/product-actions"
+import ImageGallery from "@/components/common/image-gallery"
 
-// Dynamic imports for heavy components
-const ImageGallery = lazy(() => import("@/components/common/image-gallery"))
-const ProductActions = lazy(() => import("@/components/product/product-actions"))
-const ProductInfo = lazy(() => import("@/components/product/product-info"))
-const ProductTabs = lazy(() => import("@/components/product/product-tabs"))
+// Dynamic imports for below-the-fold components only
 const RelatedProducts = lazy(() => import("@/components/product/related-products"))
 
 /**
@@ -82,14 +82,10 @@ const ProductDetails = () => {
           {/* Left Column - Product Info & Details */}
           <div className="flex-1 flex flex-col gap-y-6">
             <ErrorBoundary fallback={<div className="text-secondary-text">Failed to load product info</div>}>
-              <Suspense fallback={<Loading />}>
-                <ProductInfo product={product} />
-              </Suspense>
+              <ProductInfo product={product} />
             </ErrorBoundary>
             <ErrorBoundary fallback={<div className="text-secondary-text">Failed to load product details</div>}>
-              <Suspense fallback={<Loading />}>
-                <ProductTabs product={product} />
-              </Suspense>
+              <ProductTabs product={product} />
             </ErrorBoundary>
           </div>
 
@@ -102,13 +98,7 @@ const ProductDetails = () => {
                 </div>
               }
             >
-              <Suspense fallback={
-                <div className="aspect-[29/34] w-full bg-secondary-bg flex items-center justify-center">
-                  <Loading height="h-8" width="w-8" />
-                </div>
-              }>
-                <ImageGallery images={product?.images || []} />
-              </Suspense>
+              <ImageGallery images={product?.images || []} />
             </ErrorBoundary>
           </div>
 
@@ -121,9 +111,7 @@ const ProductDetails = () => {
                 </div>
               }
             >
-              <Suspense fallback={<Loading />}>
-                <ProductActions handle={product.handle} region={region} />
-              </Suspense>
+              <ProductActions product={product} region={region} />
             </ErrorBoundary>
           </div>
         </div>

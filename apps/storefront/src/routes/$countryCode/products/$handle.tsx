@@ -1,5 +1,6 @@
-import { retrieveProduct } from "@/lib/data/products";
+import { listProducts, retrieveProduct } from "@/lib/data/products";
 import { getRegion } from "@/lib/data/regions";
+import { queryKeys } from "@/lib/utils/common/query-keys";
 import ProductDetails from "@/pages/product";
 import { HttpTypes } from "@medusajs/types";
 import { createFileRoute, notFound } from "@tanstack/react-router";
@@ -18,38 +19,50 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
       throw notFound();
     }
 
-    const [product] = await Promise.all([
-      queryClient.ensureQueryData({
-        queryKey: ["product", handle, region.id],
-        queryFn: async () => {
-          try {
-            return await retrieveProduct({
-              handle,
-              region_id: region.id,
-              fields:
-                "*variants, *images, *options, *options.values, *collection, *tags",
-            });
-          } catch {
-            throw notFound();
-          }
-        },
-      }),
-      queryClient.ensureQueryData({
-        queryKey: ["product-dynamic", handle, region.id],
-        queryFn: async () => {
-          try {
-            return await retrieveProduct({
-              handle,
-              region_id: region.id,
-              fields:
-                "*variants, variants.inventory_quantity, variants.manage_inventory, variants.allow_backorder, *options, *options.values",
-            });
-          } catch {
-            throw notFound();
-          }
-        },
-      }),
-    ]);
+    // Single comprehensive product fetch with all needed fields
+    const product = await queryClient.ensureQueryData({
+      queryKey: ["product", handle, region.id],
+      queryFn: async () => {
+        try {
+          return await retrieveProduct({
+            handle,
+            region_id: region.id,
+            fields:
+              "*variants, +variants.inventory_quantity, +variants.manage_inventory, +variants.allow_backorder, +variants.calculated_price, *images, *options, *options.values, *collection, *tags",
+          });
+        } catch {
+          throw notFound();
+        }
+      },
+    });
+
+    // Prefetch related products for SSR (non-blocking - starts in background)
+    // The component will use cached data when available
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.products.related(product.id, region.id),
+      queryFn: async () => {
+        const params: Record<string, any> = {
+          fields: "title, handle, *thumbnail, *variants",
+          is_giftcard: false,
+          limit: 4,
+        };
+
+        if (product.collection_id) {
+          params.collection_id = [product.collection_id];
+        }
+
+        if (product.tags && product.tags.length > 0) {
+          params.tag_id = product.tags.map((tag) => tag.id);
+        }
+
+        const { products } = await listProducts({
+          query_params: params,
+          region_id: region.id,
+        });
+
+        return products.filter((p) => p.id !== product.id);
+      },
+    });
 
     return {
       countryCode,
@@ -91,6 +104,9 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
       },
     };
 
+    // Get first product image for preloading (critical for LCP)
+    const firstImageUrl = product.images?.[0]?.url || product.thumbnail;
+
     return {
       meta: [
         {
@@ -114,6 +130,16 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
           content: product.thumbnail || "",
         },
       ],
+      links: firstImageUrl
+        ? [
+            {
+              rel: "preload",
+              href: firstImageUrl,
+              as: "image",
+              fetchPriority: "high",
+            },
+          ]
+        : [],
       scripts: [
         {
           type: "application/ld+json",

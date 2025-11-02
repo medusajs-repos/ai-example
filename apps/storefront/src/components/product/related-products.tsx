@@ -60,6 +60,8 @@ export default function RelatedProducts({
   product,
   region,
 }: RelatedProductsProps) {
+  // TanStack Query will automatically use cached/prefetched data from SSR if available
+  // The prefetchQuery in the loader populates the cache, so this will use cached data
   const { data: relatedProducts, isLoading } = useRelatedProducts({
     product_id: product.id,
     collection_id: product.collection_id || undefined,

@@ -1,21 +1,16 @@
 import { DEFAULT_CART_DROPDOWN_FIELDS } from "@/components/cart/cart-dropdown";
 import { Button } from "@/components/common/button";
-import Loading from "@/components/common/loading";
 import { useCartDrawer } from "@/lib/context/cart";
 import { useAddToCart } from "@/lib/hooks/dynamic/use-cart";
-import { useProductDynamic } from "@/lib/hooks/dynamic/use-products";
 import getVariantOptionsKeymap from "@/lib/utils/product/get-variant-options-keymap";
 import isVariantInStock from "@/lib/utils/product/is-variant-in-stock";
 import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path";
 import { HttpTypes } from "@medusajs/types";
 import { useLocation } from "@tanstack/react-router";
 import { isEqual } from "lodash-es";
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
-
-const ProductPrice = lazy(() => import("@/components/product/product-price"));
-const ProductOptionSelect = lazy(
-  () => import("@/components/product/product-option-select")
-);
+import { useEffect, useMemo, useRef, useState, memo } from "react";
+import ProductPrice from "@/components/product/product-price";
+import ProductOptionSelect from "@/components/product/product-option-select";
 
 /**
  * AI AGENT USAGE GUIDE:
@@ -58,20 +53,16 @@ const ProductOptionSelect = lazy(
  */
 
 type ProductActionsProps = {
-  handle: string;
+  product: HttpTypes.StoreProduct;
   region: HttpTypes.StoreRegion;
   disabled?: boolean;
 };
 
-export default function ProductActions({
-  handle,
+const ProductActions = memo(function ProductActions({
+  product,
   region,
   disabled,
 }: ProductActionsProps) {
-  const { data: product } = useProductDynamic({
-    handle,
-    region_id: region.id,
-  });
   const [selectedOptions, setSelectedOptions] = useState<
     Record<string, string | undefined>
   >({});
@@ -173,10 +164,6 @@ export default function ProductActions({
     );
   };
 
-  if (!product) {
-    return <Loading />;
-  }
-
   return (
     <div className="flex flex-col gap-y-2" ref={actionsRef}>
       <div>
@@ -185,16 +172,14 @@ export default function ProductActions({
             {(product.options || []).map((option) => {
               return (
                 <div key={option.id}>
-                  <Suspense fallback={<Loading />}>
-                    <ProductOptionSelect
-                      option={option}
-                      current={selectedOptions[option.id]}
-                      updateOption={setOptionValue}
-                      title={option.title ?? ""}
-                      data-testid="product-options"
-                      disabled={!!disabled || addToCartMutation.isPending}
-                    />
-                  </Suspense>
+                  <ProductOptionSelect
+                    option={option}
+                    current={selectedOptions[option.id]}
+                    updateOption={setOptionValue}
+                    title={option.title ?? ""}
+                    data-testid="product-options"
+                    disabled={!!disabled || addToCartMutation.isPending}
+                  />
                 </div>
               );
             })}
@@ -203,15 +188,13 @@ export default function ProductActions({
         )}
       </div>
 
-      <Suspense fallback={<Loading rows={1} />}>
-        <ProductPrice
-          product={product as HttpTypes.StoreProduct}
-          variant={selectedVariant}
-          priceProps={{
-            textSize: "large",
-          }}
-        />
-      </Suspense>
+      <ProductPrice
+        product={product as HttpTypes.StoreProduct}
+        variant={selectedVariant}
+        priceProps={{
+          textSize: "large",
+        }}
+      />
 
       <Button
         onClick={handleAddToCart}
@@ -228,4 +211,6 @@ export default function ProductActions({
       </Button>
     </div>
   );
-}
+});
+
+export default ProductActions;

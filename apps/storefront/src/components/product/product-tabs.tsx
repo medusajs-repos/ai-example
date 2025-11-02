@@ -1,7 +1,7 @@
 import ProductShippingInfo from "@/components/product/product-shipping-info";
 import { HttpTypes } from "@medusajs/types";
 import { clsx } from "clsx";
-import { useState } from "react";
+import { useState, useMemo, memo } from "react";
 
 /**
  * AI AGENT USAGE GUIDE:
@@ -55,21 +55,24 @@ type ProductTabsProps = {
   product: HttpTypes.StoreProduct;
 };
 
-const ProductTabs = ({ product }: ProductTabsProps) => {
+const ProductTabs = memo(({ product }: ProductTabsProps) => {
   const [activeTab, setActiveTab] = useState<string>("details");
 
-  const tabs = [
-    {
-      id: "details",
-      label: "Details",
-      component: <ProductInfoTab product={product} />,
-    },
-    {
-      id: "shipping",
-      label: "Shipping",
-      component: <ProductShippingInfo />,
-    },
-  ];
+  const tabs = useMemo(
+    () => [
+      {
+        id: "details",
+        label: "Details",
+        component: <ProductInfoTab product={product} />,
+      },
+      {
+        id: "shipping",
+        label: "Shipping",
+        component: <ProductShippingInfo />,
+      },
+    ],
+    [product]
+  );
 
   return (
     <div className="w-full">
@@ -102,9 +105,11 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
       </div>
     </div>
   );
-};
+});
 
-const ProductInfoTab = ({ product }: ProductTabsProps) => {
+ProductTabs.displayName = "ProductTabs";
+
+const ProductInfoTab = memo(({ product }: ProductTabsProps) => {
   const details = [
     { label: "Material", value: product.material },
     { label: "Origin", value: product.origin_country },
@@ -137,6 +142,8 @@ const ProductInfoTab = ({ product }: ProductTabsProps) => {
       ))}
     </div>
   );
-};
+});
+
+ProductInfoTab.displayName = "ProductInfoTab";
 
 export default ProductTabs;
