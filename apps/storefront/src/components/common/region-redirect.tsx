@@ -1,4 +1,6 @@
+import { useCreateCart } from "@/lib/hooks/dynamic/use-cart";
 import { useRegions } from "@/lib/hooks/static/use-region";
+import { getStoredCart } from "@/lib/utils/cart/stored-cart";
 import { buildPathWithCountryCode } from "@/lib/utils/region/build-path-with-country-code";
 import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path";
 import getDefaultCountryCode from "@/lib/utils/region/get-default-country-code";
@@ -25,6 +27,7 @@ const RegionRedirect = ({
   const { data: regions = [], isLoading: isLoadingRegions } = useRegions({
     fields: "id, currency_code, *countries",
   });
+  const createCartMutation = useCreateCart();
   const [is404, setIs404] = useState(false);
 
   useEffect(() => {
@@ -36,7 +39,6 @@ const RegionRedirect = ({
         const urlCountryCode = getCountryCodeFromPath(currentPath);
         let countryCode: string | undefined = urlCountryCode;
 
-        // If URL has a country code, validate it
         if (countryCode) {
           const isValidCountryCode = regions.some((r) =>
             r.countries?.some((c) => c.iso_2 === countryCode)
@@ -44,6 +46,18 @@ const RegionRedirect = ({
 
           if (isValidCountryCode) {
             setStoredCountryCode(countryCode!);
+            const cartId = getStoredCart();
+
+            if (!cartId) {
+              const region = regions.find((r) =>
+                r.countries?.some((c) => c.iso_2 === countryCode)
+              );
+
+              if (region) {
+                createCartMutation.mutate({ region_id: region.id });
+              }
+            }
+
             return;
           }
         }
@@ -52,11 +66,21 @@ const RegionRedirect = ({
 
         if (countryCode) {
           setStoredCountryCode(countryCode);
-          // Build the new path with country code
           const newPath = buildPathWithCountryCode(currentPath, countryCode);
 
-          // Redirect to the regionalized URL
           navigate({ to: newPath as any, replace: true });
+
+          const cartId = getStoredCart();
+
+          if (!cartId) {
+            const region = regions.find((r) =>
+              r.countries?.some((c) => c.iso_2 === countryCode)
+            );
+
+            if (region) {
+              createCartMutation.mutate({ region_id: region.id });
+            }
+          }
         } else {
           setIs404(true);
         }
@@ -67,7 +91,14 @@ const RegionRedirect = ({
     };
 
     handleRegionRedirect();
-  }, [location.pathname, location.search, navigate, regions, isLoadingRegions]);
+  }, [
+    location.pathname,
+    location.search,
+    navigate,
+    regions,
+    isLoadingRegions,
+    createCartMutation,
+  ]);
 
   return (
     <>

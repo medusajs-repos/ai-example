@@ -2,7 +2,8 @@ import { ChevronDownMini } from "@medusajs/icons";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import { useUpdateCart } from "@/lib/hooks/dynamic/use-cart";
+import { useCreateCart, useUpdateCart } from "@/lib/hooks/dynamic/use-cart";
+import { getStoredCart } from "@/lib/utils/cart/stored-cart";
 import { buildPathWithCountryCode } from "@/lib/utils/region/build-path-with-country-code";
 import { getCountryCodeFromPath } from "@/lib/utils/region/get-country-code-from-path";
 import { setStoredCountryCode } from "@/lib/utils/region/stored-country-code";
@@ -84,6 +85,7 @@ const CountrySelect = ({ regions, className }: CountrySelectProps) => {
     location.pathname.replace(`/${pathCountryCode}`, "") || "/";
 
   const updateCartMutation = useUpdateCart();
+  const createCartMutation = useCreateCart();
 
   const countries = useMemo(() => {
     const countryMap = new Map<string, CountryOption>();
@@ -152,17 +154,24 @@ const CountrySelect = ({ regions, className }: CountrySelectProps) => {
   const handleChange = async (countryCode: string) => {
     const option = countries?.find((o) => o?.country_code === countryCode);
     if (!option) return;
-    // Update stored country code
+
     setStoredCountryCode(option.country_code);
 
-    // Navigate to the new country path
     const newPath = buildPathWithCountryCode(currentPath, option.country_code);
     navigate({ to: newPath as any });
 
     if (currentCountry?.region_id !== option.region_id) {
-      await updateCartMutation.mutateAsync({
-        region_id: option.region_id,
-      });
+      const cartId = getStoredCart();
+
+      if (cartId) {
+        await updateCartMutation.mutateAsync({
+          region_id: option.region_id,
+        });
+      } else {
+        await createCartMutation.mutateAsync({
+          region_id: option.region_id,
+        });
+      }
     }
 
     setIsOpen(false);
