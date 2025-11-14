@@ -150,8 +150,8 @@ importers:
         specifier: 9.33.0
         version: 9.33.0
       '@medusajs-ai/tags':
-        specifier: 0.0.2-next-20251023120609
-        version: 0.0.2-next-20251023120609(vite@7.1.2(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.29.2)(terser@5.44.0)(tsx@4.20.6))
+        specifier: next
+        version: 0.0.2-next-20251106114511(vite@7.1.2(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.29.2)(terser@5.44.0)(tsx@4.20.6))
       '@medusajs/types':
         specifier: 2.11.3-preview-20251103060142
         version: 2.11.3-preview-20251103060142(ioredis@5.8.2)(vite@7.1.2(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.29.2)(terser@5.44.0)(tsx@4.20.6))
@@ -1466,8 +1466,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@medusajs-ai/tags@0.0.2-next-20251023120609':
-    resolution: {integrity: sha512-YH8FUBIXFQvYKx4KUmg5M/Mb/TPTKyFg0Toy0hWiOTiEJU411Ub8QnzUdCR51rQLBHV58GA65pd6h5Mro45D9Q==}
+  '@medusajs-ai/tags@0.0.2-next-20251106114511':
+    resolution: {integrity: sha512-kluj4ZNYSWJElCYEKqLPvYZj08OGDv4kOvB2EzEXMZ/vVlRJI4kxpnP7kQ5jkTK655WUC/OWT16658G4wQfhrw==}
     peerDependencies:
       vite: '>=4.0.0'
 
@@ -10846,7 +10846,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@medusajs-ai/tags@0.0.2-next-20251023120609(vite@7.1.2(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.29.2)(terser@5.44.0)(tsx@4.20.6))':
+  '@medusajs-ai/tags@0.0.2-next-20251106114511(vite@7.1.2(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.29.2)(terser@5.44.0)(tsx@4.20.6))':
     dependencies:
       '@babel/parser': 7.28.5
       '@babel/types': 7.28.5

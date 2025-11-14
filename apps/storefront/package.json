@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@eslint/js": "9.33.0",
-    "@medusajs-ai/tags": "0.0.2-next-20251023120609",
+    "@medusajs-ai/tags": "next",
     "@medusajs/types": "2.11.3-preview-20251103060142",
     "@tailwindcss/vite": "4.1.4",
     "@tanstack/react-router-devtools": "1.131.32",
