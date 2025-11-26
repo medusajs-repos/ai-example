@@ -16,7 +16,6 @@ export const NavbarContent = () => {
     },
   });
 
-  // Combine "Shop all" with categories for single map
   const categoryLinks = [
     { id: "shop-all", name: "Shop all", to: `${baseHref}/store` },
     ...(topLevelCategories?.map((cat) => ({
@@ -33,7 +32,6 @@ export const NavbarContent = () => {
           <MenuItem.Label>Store</MenuItem.Label>
           <MenuItem.Dropdown>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 px-6 py-6 lg:px-0 lg:py-0">
-              {/* Categories Section */}
               <div className="flex flex-col gap-6">
                 <h3 className="text-primary-text text-base font-medium uppercase">
                   Categories
@@ -47,7 +45,6 @@ export const NavbarContent = () => {
                 </div>
               </div>
 
-              {/* Image Placeholders */}
               <div className="hidden lg:grid grid-cols-2 gap-6">
                 {Array.from({ length: 2 }, (_, i) => (
                   <div
