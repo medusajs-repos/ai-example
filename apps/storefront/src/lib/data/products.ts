@@ -1,4 +1,4 @@
-import { sdk } from "@/lib/utils/common/sdk"
+import { sdk } from "@/lib/utils/sdk"
 import { HttpTypes } from "@medusajs/types"
 
 /**

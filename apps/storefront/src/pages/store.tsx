@@ -1,55 +1,59 @@
+import ProductCard from "@/components/product-card"
+import { Button } from "@/components/ui/button"
+import { useProducts } from "@/lib/hooks/use-products"
 import { useLoaderData } from "@tanstack/react-router"
-import ProductListing from "@/components/product/product-listing"
 
 /**
- * AI AGENT USAGE GUIDE:
- * 
- * WHEN TO USE:
- * - Use for product catalog pages in the storefront
- * - Store pages: main product catalog and browsing
- * - Mobile commerce: mobile-optimized product browsing
- * - SEO pages: optimized product catalog for search engines
- * 
- * ECOMMERCE CONTEXT:
- * - Critical for product discovery and browsing
- * - Essential for conversion optimization and sales
- * - Important for SEO and organic traffic
- * - Used in marketing campaigns and promotions
- * - Important for mobile commerce experience
- * 
- * STORE FEATURES:
- * - Product listing with grid layout
- * - Filtering and sorting options
- * - Search functionality
- * - Pagination for large catalogs
- * - Responsive design for mobile/desktop
- * - Performance optimization for large catalogs
- * 
- * LAYOUT STRUCTURE:
- * - Product grid with filtering sidebar
- * - Search and sort controls
- * - Pagination navigation
- * - Responsive grid layout
- * 
- * COMMON PATTERNS:
- * - Product catalog browsing
- * - Search result pages
- * - Mobile product browsing
- * - SEO-optimized product pages
- * 
- * EXAMPLES:
- * - Main store catalog page
- * - Search result pages
- * - Mobile-optimized store browsing
- * - SEO-optimized product catalogs
+ * Store Page Pattern
+ *
+ * Demonstrates:
+ * - useLoaderData for SSR-loaded region
+ * - useProducts hook with region_id for pricing
+ * - Infinite scroll / pagination pattern
+ * - Rendering product cards with region context
  */
-
 const Store = () => {
-  const { region: defaultRegion } = useLoaderData({
-    from: "/$countryCode/store"
+  const { region } = useLoaderData({ from: "/$countryCode/store" })
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } = useProducts({
+    region_id: region.id,
+    query_params: { limit: 12 },
   })
 
-  return <ProductListing region={defaultRegion} title="All Products" />
+  const products = data?.pages.flatMap((page) => page.products) || []
+
+  return (
+    <div className="content-container py-6">
+      <h1 className="text-xl mb-6">All Products</h1>
+
+      {isFetching && products.length === 0 ? (
+        <div className="text-secondary-text">Loading...</div>
+      ) : products.length === 0 ? (
+        <div className="text-secondary-text">No products found</div>
+      ) : (
+        <>
+          {/* Product grid - minimal styling, AI agent will customize */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {products.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+
+          {/* Load more pattern */}
+          {hasNextPage && (
+            <Button
+              onClick={() => fetchNextPage()}
+              disabled={isFetchingNextPage}
+              variant="secondary"
+              className="mt-6"
+            >
+              {isFetchingNextPage ? "Loading..." : "Load More"}
+            </Button>
+          )}
+        </>
+      )}
+    </div>
+  )
 }
 
 export default Store

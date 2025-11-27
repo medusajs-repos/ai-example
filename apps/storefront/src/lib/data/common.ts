@@ -1,5 +1,5 @@
 import { FetchArgs } from "@medusajs/js-sdk"
-import { sdk } from "@/lib/utils/common/sdk"
+import { sdk } from "@/lib/utils/sdk"
 
 /**
  * Generic function to send HTTP requests using the Medusa SDK client.

@@ -1,6 +1,6 @@
 import { HttpTypes } from "@medusajs/types"
-import { sdk } from "@/lib/utils/common/sdk"
-import { getStoredCart } from "@/lib/utils/cart/stored-cart"
+import { sdk } from "@/lib/utils/sdk"
+import { getStoredCart } from "@/lib/utils/cart"
 
 /**
  * Retrieves available shipping options for the current cart.

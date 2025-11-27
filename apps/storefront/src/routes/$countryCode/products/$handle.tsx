@@ -1,6 +1,6 @@
 import { listProducts, retrieveProduct } from "@/lib/data/products";
 import { getRegion } from "@/lib/data/regions";
-import { queryKeys } from "@/lib/utils/common/query-keys";
+import { queryKeys } from "@/lib/utils/query-keys";
 import ProductDetails from "@/pages/product";
 import { HttpTypes } from "@medusajs/types";
 import { createFileRoute, notFound } from "@tanstack/react-router";

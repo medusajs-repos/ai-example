@@ -1,6 +1,5 @@
 import { listRegions } from "@/lib/data/regions";
-import getDefaultCountryCode from "@/lib/utils/region/get-default-country-code";
-import { COUNTRY_CODE_KEY } from "@/lib/utils/region/stored-country-code";
+import { getDefaultCountryCode, COUNTRY_CODE_KEY } from "@/lib/utils/region";
 import { createServerFn } from "@tanstack/react-start";
 import { getHeaders, setResponseHeader } from "@tanstack/react-start/server";
 

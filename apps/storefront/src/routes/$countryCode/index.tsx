@@ -2,7 +2,7 @@ import Home from "@/pages/home"
 import { createFileRoute } from "@tanstack/react-router"
 import { getRegion } from "@/lib/data/regions"
 import { listProducts } from "@/lib/data/products"
-import { queryKeys } from "@/lib/utils/common/query-keys"
+import { queryKeys } from "@/lib/utils/query-keys"
 
 export const Route = createFileRoute("/$countryCode/")({
   loader: async ({ params, context }) => {

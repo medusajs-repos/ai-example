@@ -1,10 +1,10 @@
+import { routeTree } from "@/routeTree.gen"
 import { QueryClient } from "@tanstack/react-query"
 import { createRouter as createTanStackRouter } from "@tanstack/react-router"
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query"
 import { lazy } from "react"
-import { routeTree } from "@/routeTree.gen"
 
-const NotFound = lazy(() => import("@/components/common/not-found"))
+const NotFound = lazy(() => import("@/components/not-found"))
 
 export function createRouter() {
   const queryClient = new QueryClient({

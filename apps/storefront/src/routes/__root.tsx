@@ -1,15 +1,15 @@
-import Layout from "@/components/layout/layout"
+import Layout from "@/components/layout"
+import { listRegions } from "@/lib/data/regions"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import {
   HeadContent,
   Scripts,
   createRootRouteWithContext,
 } from "@tanstack/react-router"
-import appCss from "../styles/app.css?url"
-import { listRegions } from "@/lib/data/regions"
 import { lazy } from "react"
+import appCss from "../styles/app.css?url"
 
-const NotFound = lazy(() => import("@/components/common/not-found"))
+const NotFound = lazy(() => import("@/components/not-found"))
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;

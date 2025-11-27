@@ -1,5 +1,5 @@
 import { HttpTypes } from "@medusajs/types"
-import { getStoredCart } from "@/lib/utils/cart/stored-cart"
+import { getStoredCart } from "@/lib/utils/cart"
 import { updateCart } from "@/lib/data/cart"
 
 /**

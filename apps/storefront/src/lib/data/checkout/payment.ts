@@ -1,7 +1,7 @@
 import { HttpTypes } from "@medusajs/types"
 import { retrieveCart } from "@/lib/data/cart"
-import { sdk } from "@/lib/utils/common/sdk"
-import { getStoredCart } from "@/lib/utils/cart/stored-cart"
+import { sdk } from "@/lib/utils/sdk"
+import { getStoredCart } from "@/lib/utils/cart"
 
 /**
  * Lists available payment methods for a specific region. This is typically used in the third step of the checkout process to list the payment methods, allowing the customer to select a payment method.

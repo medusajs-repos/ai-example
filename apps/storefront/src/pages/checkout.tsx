@@ -1,76 +1,20 @@
-import CheckoutProgress from "@/components/checkout/checkout-progress";
-import Loading from "@/components/common/loading";
-import { useCart } from "@/lib/hooks/dynamic/use-cart";
-import { type CheckoutStep, CheckoutStepKey } from "@/lib/types/global";
+import CheckoutProgress from "@/components/checkout-progress"
+import { CartEmpty } from "@/components/cart"
+import { Loading } from "@/components/ui/loading"
+import { useCart } from "@/lib/hooks/use-cart"
+import { type CheckoutStep, CheckoutStepKey } from "@/lib/types/global"
 import {
   useLoaderData,
   useLocation,
   useNavigate,
-} from "@tanstack/react-router";
-import { lazy, Suspense, useEffect, useMemo } from "react";
+} from "@tanstack/react-router"
+import { lazy, Suspense, useEffect, useMemo } from "react"
 
-const DeliveryStep = lazy(() => import("@/components/checkout/delivery-step"));
-const AddressStep = lazy(() => import("@/components/checkout/address-step"));
-const PaymentStep = lazy(() => import("@/components/checkout/payment-step"));
-const ReviewStep = lazy(() => import("@/components/checkout/review-step"));
-const CheckoutSummary = lazy(
-  () => import("@/components/checkout/checkout-summary")
-);
-const CartEmpty = lazy(() => import("@/components/cart/cart-empty"));
-
-/**
- * AI AGENT USAGE GUIDE:
- *
- * WHEN TO USE:
- * - Use for the main checkout flow in the storefront
- * - Checkout pages: multi-step checkout process
- * - Guest checkout: checkout for non-registered users
- * - Mobile checkout: mobile-optimized checkout experience
- * - Order processing: final step before order completion
- * - Payment processing: secure payment collection
- *
- * ECOMMERCE CONTEXT:
- * - Critical for order conversion and sales completion
- * - Essential for payment processing and security
- * - Important for customer experience and satisfaction
- * - Required for order fulfillment and tracking
- * - Used in cart abandonment recovery
- * - Critical for mobile commerce experience
- *
- * CHECKOUT STEPS:
- * - Addresses: shipping and billing address collection
- * - Delivery: shipping method selection
- * - Payment: payment method selection
- * - Review: final order review and confirmation
- *
- * KEY FEATURES:
- * - Multi-step checkout process
- * - Progress tracking and navigation
- * - Address validation and collection
- * - Shipping method selection
- * - Payment processing integration
- * - Order summary and review
- * - Error handling and validation
- *
- * LAYOUT STRUCTURE:
- * - Left: Checkout steps and forms
- * - Right: Order summary with cart items
- * - Progress indicator for step tracking
- * - Responsive design for mobile/desktop
- *
- * COMMON PATTERNS:
- * - Multi-step checkout flow
- * - Mobile checkout optimization
- * - Guest checkout experience
- * - Payment processing integration
- * - Order confirmation flow
- *
- * EXAMPLES:
- * - Standard checkout with all steps
- * - Mobile-optimized checkout
- * - Guest checkout flow
- * - Express checkout for returning customers
- */
+const DeliveryStep = lazy(() => import("@/components/checkout-delivery-step"))
+const AddressStep = lazy(() => import("@/components/checkout-address-step"))
+const PaymentStep = lazy(() => import("@/components/checkout-payment-step"))
+const ReviewStep = lazy(() => import("@/components/checkout-review-step"))
+const CheckoutSummary = lazy(() => import("@/components/checkout-summary"))
 
 const Checkout = () => {
   const { step } = useLoaderData({

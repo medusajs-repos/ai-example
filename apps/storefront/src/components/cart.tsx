@@ -1,0 +1,510 @@
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Loading } from "@/components/ui/loading"
+import { Price } from "@/components/ui/price"
+import { Thumbnail } from "@/components/ui/thumbnail"
+import {
+  useCart,
+  useDeleteLineItem,
+  useUpdateLineItem,
+  useApplyPromoCode,
+  useRemovePromoCode,
+} from "@/lib/hooks/use-cart"
+import { sortCartItems } from "@/lib/utils/cart"
+import { getCountryCodeFromPath } from "@/lib/utils/region"
+import { getPricePercentageDiff } from "@/lib/utils/price"
+import { useCartDrawer } from "@/lib/context/cart"
+import { Minus, Plus, Trash, XMark, XMarkMini } from "@medusajs/icons"
+import { HttpTypes } from "@medusajs/types"
+import { Link, useLocation } from "@tanstack/react-router"
+import { clsx } from "clsx"
+import { useState } from "react"
+
+
+type LineItemPriceProps = {
+  item: HttpTypes.StoreCartLineItem | HttpTypes.StoreOrderLineItem
+  currencyCode: string
+  className?: string
+}
+
+export const LineItemPrice = ({ item, currencyCode, className }: LineItemPriceProps) => {
+  const { total, original_total } = item
+  const originalPrice = original_total
+  const currentPrice = total
+  const hasReducedPrice = currentPrice && originalPrice && currentPrice < originalPrice
+
+  return (
+    <Price
+      price={currentPrice || 0}
+      currencyCode={currencyCode}
+      originalPrice={
+        hasReducedPrice
+          ? {
+              price: originalPrice || 0,
+              percentage: getPricePercentageDiff(originalPrice || 0, currentPrice || 0),
+            }
+          : undefined
+      }
+      className={className}
+    />
+  )
+}
+
+
+type CartDeleteItemProps = {
+  item: HttpTypes.StoreCartLineItem
+  fields?: string
+}
+
+export const CartDeleteItem = ({ item, fields }: CartDeleteItemProps) => {
+  const deleteLineItemMutation = useDeleteLineItem({ fields })
+  return (
+    <Button
+      onClick={() => deleteLineItemMutation.mutate({ line_id: item.id })}
+      disabled={deleteLineItemMutation.isPending}
+      className="text-secondary-text hover:text-secondary-text-hover transition-colors ml-2"
+      variant="transparent"
+      size="fit"
+    >
+      <Trash />
+    </Button>
+  )
+}
+
+
+type CartItemQuantitySelectorProps = {
+  item: HttpTypes.StoreCartLineItem
+  type?: "default" | "compact"
+  fields?: string
+}
+
+export const CartItemQuantitySelector = ({
+  item,
+  type = "default",
+  fields,
+}: CartItemQuantitySelectorProps) => {
+  const updateLineItemMutation = useUpdateLineItem({ fields })
+  const deleteLineItemMutation = useDeleteLineItem({ fields })
+
+  const handleQuantityChange = (newQuantity: number) => {
+    if (newQuantity === 0) {
+      deleteLineItemMutation.mutate({ line_id: item.id })
+    } else {
+      updateLineItemMutation.mutate({
+        line_id: item.id,
+        quantity: newQuantity,
+      })
+    }
+  }
+
+  return (
+    <div className="flex items-center">
+      <Button
+        onClick={() => handleQuantityChange(item.quantity - 1)}
+        className={clsx(
+          type === "compact" &&
+            "text-secondary-text hover:text-secondary-text-hover transition-colors p-1 ml-2"
+        )}
+        variant="transparent"
+        size="fit"
+      >
+        <Minus />
+      </Button>
+      <span
+        className={clsx(
+          type === "compact"
+            ? "text-sm text-primary-text text-center px-3"
+            : "text-center text-sm px-6"
+        )}
+      >
+        {item.quantity}
+      </span>
+      <Button
+        onClick={() => handleQuantityChange(item.quantity + 1)}
+        className={clsx(
+          type === "compact" &&
+            "text-secondary-text hover:text-secondary-text-hover transition-colors p-1 ml-2"
+        )}
+        variant="transparent"
+        size="fit"
+      >
+        <Plus />
+      </Button>
+    </div>
+  )
+}
+
+
+interface CartLineItemProps {
+  item: HttpTypes.StoreCartLineItem
+  cart: HttpTypes.StoreCart
+  type?: "default" | "compact" | "display"
+  fields?: string
+  className?: string
+}
+
+const CompactCartLineItem = ({ item, cart, fields }: CartLineItemProps) => {
+  return (
+    <div className="flex items-start gap-x-4" data-testid="cart-item">
+      <Thumbnail thumbnail={item.thumbnail} alt={item.product_title || item.title} />
+      <div className="flex-1 min-w-0">
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            <h4 className="text-base font-medium line-clamp-1 text-primary-text">
+              {item.product_title}
+            </h4>
+            <div className="text-sm text-secondary-text">
+              {item.variant_title && item.variant_title !== "Default Variant" && (
+                <span>{item.variant_title}</span>
+              )}
+            </div>
+          </div>
+          <CartDeleteItem item={item} fields={fields} />
+        </div>
+
+        <div className="flex items-center justify-between mt-2">
+          <CartItemQuantitySelector item={item} fields={fields} />
+          <Price price={item.total || 0} currencyCode={cart.currency_code} textSize="small" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const DisplayCartLineItem = ({ item, cart, className }: CartLineItemProps) => {
+  return (
+    <div
+      className={clsx(
+        "flex items-center gap-4 py-3 border-b border-secondary-border last:border-b-0",
+        className
+      )}
+    >
+      <Thumbnail
+        thumbnail={item.thumbnail}
+        alt={item.product_title || item.title}
+        className="w-16 h-16"
+      />
+      <div className="flex-1">
+        <p className="text-base font-medium-plus text-primary-text">{item.product_title}</p>
+        {item.variant_title && item.variant_title !== "Default Variant" && (
+          <p className="text-sm text-secondary-text">{item.variant_title}</p>
+        )}
+        <p className="text-sm text-secondary-text">Quantity: {item.quantity}</p>
+      </div>
+      <div className="text-right">
+        <Price price={item.total || 0} currencyCode={cart.currency_code} textWeight="plus" />
+      </div>
+    </div>
+  )
+}
+
+export const CartLineItem = ({
+  item,
+  cart,
+  type = "default",
+  fields,
+  className,
+}: CartLineItemProps) => {
+  if (type === "compact") {
+    return <CompactCartLineItem item={item} cart={cart} fields={fields} className={className} />
+  }
+
+  if (type === "display") {
+    return <DisplayCartLineItem item={item} cart={cart} className={className} />
+  }
+
+  return (
+    <div className="flex items-center gap-6 py-4">
+      <div className="flex-shrink-0">
+        <Thumbnail thumbnail={item.thumbnail} alt={item.product_title || item.title} />
+      </div>
+
+      <div className="flex-1 min-w-0 flex flex-col gap-y-1">
+        <span className="text-primary-text text-base font-medium-plus">{item.product_title}</span>
+        {item.variant_title && item.variant_title !== "Default Variant" && (
+          <span className="text-secondary-text text-sm">{item.variant_title}</span>
+        )}
+      </div>
+
+      <div className="flex items-center gap-4">
+        <CartItemQuantitySelector item={item} fields={fields} />
+
+        <div className="text-right">
+          <LineItemPrice item={item} currencyCode={cart.currency_code} />
+        </div>
+
+        <CartDeleteItem item={item} fields={fields} />
+      </div>
+    </div>
+  )
+}
+
+
+interface CartSummaryProps {
+  cart: HttpTypes.StoreCart
+}
+
+export const CartSummary = ({ cart }: CartSummaryProps) => {
+  if ("isOptimistic" in cart && cart.isOptimistic) {
+    return <Loading />
+  }
+  return (
+    <div className="space-y-4">
+      <div className="space-y-2">
+        <div className="flex justify-between text-sm">
+          <span className="text-secondary-text">Subtotal</span>
+          <Price
+            price={cart.subtotal}
+            currencyCode={cart.currency_code}
+            className="text-secondary-text"
+          />
+        </div>
+
+        <div className="flex justify-between text-sm">
+          <span className="text-secondary-text">Shipping</span>
+          <Price
+            price={cart.shipping_total}
+            currencyCode={cart.currency_code}
+            className="text-secondary-text"
+          />
+        </div>
+
+        <div className="flex justify-between text-sm">
+          <span className="text-secondary-text">Discount</span>
+          <Price
+            price={cart.discount_total}
+            currencyCode={cart.currency_code}
+            type="discount"
+            className="text-secondary-text"
+          />
+        </div>
+
+        <div className="flex justify-between text-sm">
+          <span className="text-secondary-text">Tax</span>
+          <Price
+            price={cart.tax_total}
+            currencyCode={cart.currency_code}
+            className="text-secondary-text"
+          />
+        </div>
+      </div>
+
+      <hr className="bg-primary-border" />
+
+      <div className="flex justify-between text-sm">
+        <span className="text-primary-text">Total</span>
+        <Price price={cart.total} currencyCode={cart.currency_code} className="text-primary-text" />
+      </div>
+    </div>
+  )
+}
+
+
+type CartPromoProps = {
+  cart: HttpTypes.StoreCart
+}
+
+export const CartPromo = ({ cart }: CartPromoProps) => {
+  const [showInput, setShowInput] = useState(false)
+  const [promoCode, setPromoCode] = useState("")
+  const applyPromoCodeMutation = useApplyPromoCode()
+  const removePromoCodeMutation = useRemovePromoCode()
+
+  const handleRemove = (code: string) => {
+    removePromoCodeMutation.mutate(
+      { code },
+      {
+        onSuccess: () => {
+          console.log("Promo code removed successfully")
+        },
+        onError: (error) => {
+          console.error("Failed to remove promo code:", error)
+        },
+      }
+    )
+  }
+
+  const handleApply = () => {
+    applyPromoCodeMutation.mutate(
+      { code: promoCode },
+      {
+        onSuccess: () => {
+          setShowInput(false)
+          setPromoCode("")
+        },
+        onError: () => {
+          console.error("Failed to apply promo code")
+        },
+      }
+    )
+  }
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      {cart.promotions.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {cart.promotions.map((promotion) => (
+            <Button key={promotion.code} variant="secondary" size="fit">
+              {promotion.code}
+              <XMark
+                onClick={() => handleRemove(promotion.code || "")}
+                className="ml-2 text-secondary-text hover:text-secondary-text-hover cursor-pointer"
+              />
+            </Button>
+          ))}
+        </div>
+      )}
+
+      {!showInput && (
+        <Button
+          onClick={() => setShowInput(true)}
+          variant="transparent"
+          className="text-secondary-text p-0 underline hover:bg-transparent hover:text-secondary-text-hover"
+          size="fit"
+        >
+          Add promo code
+        </Button>
+      )}
+
+      {showInput && (
+        <div className="flex gap-2">
+          <Input
+            placeholder="Enter promo code"
+            name="promoCode"
+            value={promoCode}
+            onChange={(e) => setPromoCode(e.target.value)}
+          />
+          <Button onClick={handleApply} variant="primary" size="fit">
+            Apply
+          </Button>
+          <Button onClick={() => setShowInput(false)} variant="secondary" size="fit">
+            Cancel
+          </Button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+
+export const CartEmpty = () => {
+  const location = useLocation()
+  const countryCode = getCountryCodeFromPath(location.pathname)
+
+  return (
+    <div className="text-center py-16 flex flex-col items-center justify-center gap-4">
+      <h2 className="text-large-plus font-bold text-primary-text">Your cart is empty</h2>
+      <p className="text-secondary-text text-base font-medium">Start by adding some products</p>
+      <Link to={`/${countryCode}/store` as any}>
+        <Button variant="primary" size="fit">
+          Continue shopping
+        </Button>
+      </Link>
+    </div>
+  )
+}
+
+
+export const DEFAULT_CART_DROPDOWN_FIELDS = "id, *items, total, currency_code, item_subtotal"
+
+export const CartDropdown = () => {
+  const { isOpen, openCart, closeCart } = useCartDrawer()
+  const { data: cart } = useCart({
+    fields: DEFAULT_CART_DROPDOWN_FIELDS,
+  })
+  const location = useLocation()
+  const countryCode = getCountryCodeFromPath(location.pathname)
+  const baseHref = countryCode ? `/${countryCode}` : ""
+
+  const sortedItems = sortCartItems(cart?.items || [])
+  const itemCount = sortedItems?.reduce((total, item) => total + item.quantity, 0) || 0
+
+  return (
+    <>
+      {/* Cart Button */}
+      <button
+        onClick={openCart}
+        className="text-secondary-text hover:text-secondary-text-hover h-full"
+      >
+        Cart ({itemCount})
+      </button>
+
+      {/* Backdrop */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-50 transition-opacity duration-300"
+          onClick={closeCart}
+        />
+      )}
+
+      {/* Drawer */}
+      <div
+        className={`fixed top-0 right-0 h-full w-full sm:w-[420px] bg-primary-bg shadow-2xl z-50 transform transition-transform duration-300 ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="flex flex-col h-full">
+          {/* Header */}
+          <div className="flex items-center justify-between h-16 px-6 border-b border-primary-border">
+            <h2 className="text-large text-primary-text">Shopping Cart</h2>
+            <button
+              onClick={closeCart}
+              className="text-secondary-text hover:text-secondary-text-hover"
+              aria-label="Close cart"
+            >
+              <XMarkMini />
+            </button>
+          </div>
+
+          {/* Empty Cart */}
+          {(!cart || itemCount === 0) && (
+            <div className="flex flex-col items-center justify-center flex-1 p-6">
+              <span className="text-base font-medium text-secondary-text mb-4">
+                Your cart is empty
+              </span>
+              <Link to={`${baseHref}/store` as any} onClick={closeCart}>
+                <Button variant="secondary" size="fit">
+                  Explore products
+                </Button>
+              </Link>
+            </div>
+          )}
+
+          {/* Cart Items */}
+          {cart && itemCount > 0 && (
+            <>
+              <div className="flex-1 overflow-y-auto p-6 space-y-4">
+                {sortedItems?.map((item) => (
+                  <CartLineItem
+                    key={item.id}
+                    item={item}
+                    cart={cart}
+                    type="compact"
+                    fields={DEFAULT_CART_DROPDOWN_FIELDS}
+                  />
+                ))}
+              </div>
+
+              {/* Footer */}
+              <div className="p-6 border-t border-primary-border">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-base font-medium text-secondary-text">Subtotal</span>
+                  <Price price={cart.item_subtotal} currencyCode={cart.currency_code} />
+                </div>
+
+                <Link to={`${baseHref}/cart` as any} onClick={closeCart}>
+                  <Button className="w-full" variant="primary">
+                    Go to cart
+                  </Button>
+                </Link>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </>
+  )
+}
+
+// Default export for backwards compatibility
+export default CartLineItem

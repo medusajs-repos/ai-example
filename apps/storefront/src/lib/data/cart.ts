@@ -1,6 +1,6 @@
-import { sdk } from "@/lib/utils/common/sdk"
+import { sdk } from "@/lib/utils/sdk"
 import { getRegion } from "@/lib/data/regions"
-import { getStoredCart, setStoredCart } from "@/lib/utils/cart/stored-cart"
+import { getStoredCart, setStoredCart } from "@/lib/utils/cart"
 import { HttpTypes } from "@medusajs/types"
 import { 
   sendPostRequest, 

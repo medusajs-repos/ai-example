@@ -1,57 +1,29 @@
-import Hero from "@/components/layout/hero";
-import FeaturedProducts from "@/components/product/featured-products";
+import { Link, useLocation } from "@tanstack/react-router"
+import { getCountryCodeFromPath } from "@/lib/utils/region"
 
 /**
- * AI AGENT USAGE GUIDE:
+ * Home Page Pattern
  *
- * WHEN TO USE:
- * - Use as the main landing page for the storefront
- * - Homepage: primary entry point for customers
- *
- * ECOMMERCE CONTEXT:
- * - Critical for first impressions and brand positioning
- * - Essential for conversion optimization and sales
- * - Important for SEO and organic traffic
- * - Used in marketing campaigns and promotions
- * - Required for customer engagement and retention
- * - Important for mobile commerce experience
- *
- * PAGE STRUCTURE:
- * - Hero section: main banner with call-to-action
- * - Featured products: curated product recommendations
- * - Lazy loading: performance optimization for heavy components
- * - Responsive design: mobile-first approach
- *
- * KEY FEATURES:
- * - Hero banner with marketing messaging
- * - Featured products section with lazy loading
- * - Performance optimization with Suspense
- * - Responsive layout for all devices
- * - SEO-friendly structure
- *
- * COMMON PATTERNS:
- * - Seasonal homepage variations
- * - A/B testing for conversion optimization
- * - Personalization based on user behavior
- * - Mobile commerce optimization
- * - Accessibility compliance
- *
- * EXAMPLES:
- * - Homepage with seasonal hero banner
- * - Featured products for new arrivals
- * - Marketing campaign landing page
- * - Mobile-optimized homepage
+ * Demonstrates:
+ * - Basic page structure
+ * - Navigation to store
  */
-
 const Home = () => {
-  return (
-    <>
-      <Hero />
-      <div className="my-16">
-        <FeaturedProducts />
-      </div>
-    </>
-  );
-};
+  const location = useLocation()
+  const countryCode = getCountryCodeFromPath(location.pathname)
+  const storeHref = countryCode ? `/${countryCode}/store` : "/store"
 
-export default Home;
+  return (
+    <div className="content-container py-12">
+      <h1 className="text-2xl mb-4">Welcome</h1>
+      <p className="text-secondary-text mb-6">
+        Browse our products in the store.
+      </p>
+      <Link to={storeHref as string} className="text-accent-text underline">
+        Go to Store →
+      </Link>
+    </div>
+  )
+}
+
+export default Home

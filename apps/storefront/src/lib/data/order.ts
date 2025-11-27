@@ -1,5 +1,5 @@
 import { HttpTypes } from "@medusajs/types"
-import { sdk } from "@/lib/utils/common/sdk"
+import { sdk } from "@/lib/utils/sdk"
 
 export const listCustomerOrders = async ({
   fields,
