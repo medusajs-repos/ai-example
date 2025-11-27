@@ -4,8 +4,8 @@ const createDomainKeys = (domain: string) => ({
   all: [domain] as const,
   list: (...params: any[]) => [domain, "list", ...params] as const,
   detail: (id: string, ...params: any[]) => [domain, "detail", id, ...params] as const,
-  predicate: (
-    query: Query,
+  predicate: <TData = unknown, TError = Error>(
+    query: Query<TData, TError, TData, readonly unknown[]>,
     excludeKeys?: string[],
   ): boolean => {
     let hasExcludedKeys = false
