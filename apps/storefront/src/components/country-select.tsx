@@ -1,12 +1,20 @@
-import { ChevronDownMini } from "@medusajs/icons";
-import { useLocation, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useCreateCart, useUpdateCart } from "@/lib/hooks/use-cart";
 import { getStoredCart } from "@/lib/utils/cart";
-import { buildPathWithCountryCode, getCountryCodeFromPath, setStoredCountryCode } from "@/lib/utils/region";
+import {
+  buildPathWithCountryCode,
+  getCountryCodeFromPath,
+  setStoredCountryCode,
+} from "@/lib/utils/region";
 import { HttpTypes } from "@medusajs/types";
-import { clsx } from "clsx";
+import { useLocation, useNavigate } from "@tanstack/react-router";
+import { useMemo } from "react";
 
 type CountryOption = {
   country_code: string;
@@ -21,15 +29,6 @@ type CountrySelectProps = {
 };
 
 const CountrySelect = ({ regions, className }: CountrySelectProps) => {
-  const [currentCountry, setCurrentCountry] = useState<
-    CountryOption | undefined
-  >();
-  const [isOpen, setIsOpen] = useState(false);
-  const [dropdownPosition, setDropdownPosition] = useState<"below" | "above">(
-    "below"
-  );
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
   const navigate = useNavigate();
   const location = useLocation();
   const pathCountryCode = getCountryCodeFromPath(location.pathname);
@@ -60,48 +59,9 @@ const CountrySelect = ({ regions, className }: CountrySelectProps) => {
     );
   }, [regions]);
 
-  useEffect(() => {
-    if (pathCountryCode) {
-      const option = countries?.find(
-        (o) => o?.country_code === pathCountryCode
-      );
-      setCurrentCountry(option);
-    }
+  const currentCountry = useMemo(() => {
+    return countries?.find((o) => o?.country_code === pathCountryCode);
   }, [countries, pathCountryCode]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  const calculateDropdownPosition = () => {
-    if (!dropdownRef.current) return;
-
-    const rect = dropdownRef.current.getBoundingClientRect();
-    const viewportHeight = window.innerHeight;
-    const dropdownHeight = 240; // max-h-60 = 15rem = 240px
-
-    // Check if there's enough space below
-    const spaceBelow = viewportHeight - rect.bottom;
-    const spaceAbove = rect.top;
-
-    if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
-      setDropdownPosition("above");
-    } else {
-      setDropdownPosition("below");
-    }
-  };
 
   const handleChange = async (countryCode: string) => {
     const option = countries?.find((o) => o?.country_code === countryCode);
@@ -125,49 +85,25 @@ const CountrySelect = ({ regions, className }: CountrySelectProps) => {
         });
       }
     }
-
-    setIsOpen(false);
   };
 
   return (
-    <div className={clsx("relative", className)} ref={dropdownRef}>
-      <button
-        type="button"
-        onClick={() => {
-          calculateDropdownPosition();
-          setIsOpen(!isOpen);
-        }}
-        className="w-full text-left text-zinc-900 flex items-center gap-2 text-sm w-fit"
-      >
-        <span>
+    <Select value={pathCountryCode} onValueChange={handleChange}>
+      <SelectTrigger variant="minimal" className={className}>
+        <SelectValue placeholder="Select country">
           {currentCountry
             ? `${currentCountry.label} (${currentCountry.currency_code})`
             : "Select country"}
-        </span>
-        <ChevronDownMini
-          className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
-        />
-      </button>
-
-      {isOpen && (
-        <div
-          className={`absolute left-0 right-0 z-50 bg-white border border-zinc-200 max-h-60 overflow-y-auto ${
-            dropdownPosition === "above" ? "bottom-full mb-1" : "top-full mt-1"
-          }`}
-        >
-          {countries?.map((country) => (
-            <button
-              key={country.country_code}
-              type="button"
-              onClick={() => handleChange(country.country_code)}
-              className="w-full px-4 py-2 text-left hover:bg-zinc-100 text-sm"
-            >
-              {country.label} ({country.currency_code})
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
+        </SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        {countries?.map((country) => (
+          <SelectItem key={country.country_code} value={country.country_code}>
+            {country.label} ({country.currency_code})
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 };
 

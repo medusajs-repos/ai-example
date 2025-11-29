@@ -1,4 +1,12 @@
 import { Button } from "@/components/ui/button"
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+  DrawerFooter,
+} from "@/components/ui/drawer"
 import { Input } from "@/components/ui/input"
 import { Loading } from "@/components/ui/loading"
 import { Price } from "@/components/ui/price"
@@ -14,7 +22,7 @@ import { sortCartItems } from "@/lib/utils/cart"
 import { getCountryCodeFromPath } from "@/lib/utils/region"
 import { getPricePercentageDiff } from "@/lib/utils/price"
 import { useCartDrawer } from "@/lib/context/cart"
-import { Minus, Plus, Trash, XMark, XMarkMini } from "@medusajs/icons"
+import { Minus, Plus, Trash, XMark } from "@medusajs/icons"
 import { HttpTypes } from "@medusajs/types"
 import { Link, useLocation } from "@tanstack/react-router"
 import { clsx } from "clsx"
@@ -420,89 +428,63 @@ export const CartDropdown = () => {
   const itemCount = sortedItems?.reduce((total, item) => total + item.quantity, 0) || 0
 
   return (
-    <>
-      {/* Cart Button */}
-      <button
-        onClick={openCart}
-        className="text-zinc-600 hover:text-zinc-500 h-full"
-      >
-        Cart ({itemCount})
-      </button>
+    <Drawer open={isOpen} onOpenChange={(open) => (open ? openCart() : closeCart())}>
+      <DrawerTrigger asChild>
+        <button className="text-zinc-600 hover:text-zinc-500 h-full">
+          Cart ({itemCount})
+        </button>
+      </DrawerTrigger>
 
-      {/* Backdrop */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-50 transition-opacity duration-300"
-          onClick={closeCart}
-        />
-      )}
+      <DrawerContent className="flex flex-col">
+        <DrawerHeader>
+          <DrawerTitle>Shopping Cart</DrawerTitle>
+        </DrawerHeader>
 
-      {/* Drawer */}
-      <div
-        className={`fixed top-0 right-0 h-full w-full sm:w-[420px] bg-white shadow-2xl z-50 transform transition-transform duration-300 ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        <div className="flex flex-col h-full">
-          {/* Header */}
-          <div className="flex items-center justify-between h-16 px-6 border-b border-zinc-200">
-            <h2 className="text-lg text-zinc-900">Shopping Cart</h2>
-            <button
-              onClick={closeCart}
-              className="text-zinc-600 hover:text-zinc-500"
-              aria-label="Close cart"
-            >
-              <XMarkMini />
-            </button>
+        {/* Empty Cart */}
+        {(!cart || itemCount === 0) && (
+          <div className="flex flex-col items-center justify-center flex-1 p-6">
+            <span className="text-base font-medium text-zinc-600 mb-4">
+              Your cart is empty
+            </span>
+            <Link to={`${baseHref}/store` as any} onClick={closeCart}>
+              <Button variant="secondary" size="fit">
+                Explore products
+              </Button>
+            </Link>
           </div>
+        )}
 
-          {/* Empty Cart */}
-          {(!cart || itemCount === 0) && (
-            <div className="flex flex-col items-center justify-center flex-1 p-6">
-              <span className="text-base font-medium text-zinc-600 mb-4">
-                Your cart is empty
-              </span>
-              <Link to={`${baseHref}/store` as any} onClick={closeCart}>
-                <Button variant="secondary" size="fit">
-                  Explore products
+        {/* Cart Items */}
+        {cart && itemCount > 0 && (
+          <>
+            <div className="flex-1 overflow-y-auto p-6 space-y-4">
+              {sortedItems?.map((item) => (
+                <CartLineItem
+                  key={item.id}
+                  item={item}
+                  cart={cart}
+                  type="compact"
+                  fields={DEFAULT_CART_DROPDOWN_FIELDS}
+                />
+              ))}
+            </div>
+
+            <DrawerFooter>
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-base font-medium text-zinc-600">Subtotal</span>
+                <Price price={cart.item_subtotal} currencyCode={cart.currency_code} />
+              </div>
+
+              <Link to={`${baseHref}/cart` as any} onClick={closeCart}>
+                <Button className="w-full" variant="primary">
+                  Go to cart
                 </Button>
               </Link>
-            </div>
-          )}
-
-          {/* Cart Items */}
-          {cart && itemCount > 0 && (
-            <>
-              <div className="flex-1 overflow-y-auto p-6 space-y-4">
-                {sortedItems?.map((item) => (
-                  <CartLineItem
-                    key={item.id}
-                    item={item}
-                    cart={cart}
-                    type="compact"
-                    fields={DEFAULT_CART_DROPDOWN_FIELDS}
-                  />
-                ))}
-              </div>
-
-              {/* Footer */}
-              <div className="p-6 border-t border-zinc-200">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-base font-medium text-zinc-600">Subtotal</span>
-                  <Price price={cart.item_subtotal} currencyCode={cart.currency_code} />
-                </div>
-
-                <Link to={`${baseHref}/cart` as any} onClick={closeCart}>
-                  <Button className="w-full" variant="primary">
-                    Go to cart
-                  </Button>
-                </Link>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-    </>
+            </DrawerFooter>
+          </>
+        )}
+      </DrawerContent>
+    </Drawer>
   )
 }
 

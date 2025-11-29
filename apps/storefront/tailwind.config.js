@@ -1,7 +1,10 @@
+import tailwindcssAnimate from "tailwindcss-animate";
+
 export default {
   darkMode: "class",
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   plugins: [
+    tailwindcssAnimate,
     function ({ addUtilities, theme }) {
       const opacityUtilities = {};
       const opacityValues = theme("opacity");

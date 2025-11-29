@@ -143,7 +143,7 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
         registerMenuItem,
       }}
     >
-      <div className="sticky top-0 inset-x-0 z-50">
+      <div className="sticky top-0 inset-x-0 z-40">
         <header className="relative h-16 mx-auto border-b duration-200 bg-white border-zinc-200">
           <nav className="content-container text-sm font-medium text-zinc-600 flex items-center justify-between w-full h-full">
             {children}
