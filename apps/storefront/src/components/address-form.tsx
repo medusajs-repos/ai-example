@@ -1,6 +1,12 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Select } from "@/components/ui/select"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { countries } from "@/lib/constants/countries"
 import { HttpTypes } from "@medusajs/types"
 import { clsx } from "clsx"
@@ -257,14 +263,18 @@ const AddressForm = ({
         <Select
           name="country_code"
           value={addressFormData.country_code}
-          onChange={(e) => handleChange("country_code", e.target.value)}
+          onValueChange={(value) => handleChange("country_code", value)}
         >
-          <option value="Select country">Select country</option>
-          {countriesInput.map((country) => (
-            <option key={country.code} value={country.code}>
-              {country.name}
-            </option>
-          ))}
+          <SelectTrigger className="!border-zinc-200 !rounded-none !text-base !font-medium !px-4 !py-2 !h-auto !shadow-none !ring-0 focus:!ring-0">
+            <SelectValue placeholder="Select country" />
+          </SelectTrigger>
+          <SelectContent>
+            {countriesInput.map((country) => (
+              <SelectItem key={country.code} value={country.code}>
+                {country.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
         </Select>
         {errors.country_code && touchedFields.country_code && (
           <div className="text-rose-900 text-sm mt-1">
