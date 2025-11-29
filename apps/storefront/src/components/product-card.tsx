@@ -18,7 +18,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       to={`${baseHref}/products/${product.handle}` as any}
       className="group flex flex-col w-full"
     >
-      <div className="aspect-[29/34] w-full overflow-hidden bg-secondary-bg relative">
+      <div className="aspect-[29/34] w-full overflow-hidden bg-zinc-50 relative">
         <Thumbnail
           thumbnail={product.thumbnail}
           alt={product.title}
@@ -27,11 +27,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
       </div>
 
       <div className="flex text-base font-medium mt-4 justify-between">
-        <span className="text-primary-text">{product.title}</span>
+        <span className="text-zinc-900">{product.title}</span>
         <ProductPrice
           product={product}
           variant={product.variants?.[0]}
-          className="text-secondary-text"
+          className="text-zinc-600"
         />
       </div>
     </Link>

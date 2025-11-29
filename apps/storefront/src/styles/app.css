@@ -5,7 +5,7 @@
 
 @layer base {
   :root {
-    @apply bg-primary-bg text-primary-text antialiased;
+    @apply bg-white text-zinc-900 antialiased;
     text-rendering: optimizeLegibility;
   }
 }

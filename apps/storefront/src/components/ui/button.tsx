@@ -26,13 +26,13 @@ export const Button = ({
         size === "full" && "w-full",
         size === "fit" && "w-fit",
         {
-          "bg-button-primary-bg text-button-primary-text hover:bg-button-primary-hover active:bg-button-primary-pressed border-button-primary-border":
+          "bg-zinc-800 text-white hover:bg-zinc-700 active:bg-zinc-600 border-transparent":
             variant === "primary",
-          "bg-button-secondary-bg text-button-secondary-text hover:bg-button-secondary-hover active:bg-button-secondary-pressed border-button-secondary-border":
+          "bg-white text-zinc-900 hover:bg-zinc-100 active:bg-zinc-200 border-zinc-900":
             variant === "secondary",
-          "bg-button-error-bg text-button-error-text hover:bg-button-error-hover active:bg-button-error-pressed border-button-error-border":
+          "bg-rose-500 text-white hover:bg-rose-600 active:bg-rose-900 border-transparent":
             variant === "danger",
-          "bg-transparent text-primary-text hover:bg-transparent active:bg-transparent border-transparent":
+          "bg-transparent text-zinc-900 hover:bg-transparent active:bg-transparent border-transparent":
             variant === "transparent",
         },
         className

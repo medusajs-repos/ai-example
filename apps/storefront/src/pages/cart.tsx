@@ -39,11 +39,11 @@ const Cart = () => {
         <div className="flex flex-col md:flex-row gap-8">
           <div className="space-y-6 w-full md:w-2/3">
             <div className="flex items-center justify-between mb-8">
-              <h1 className="text-primary-text !text-xlarge">Cart</h1>
+              <h1 className="text-zinc-900 text-xl">Cart</h1>
               {cartItems.length > 0 && (
                 <Link
                   to={`/${countryCode}/store` as any}
-                  className="text-secondary-text hover:text-secondary-text-hover text-sm underline"
+                  className="text-zinc-600 hover:text-zinc-500 text-sm underline"
                 >
                   Continue shopping
                 </Link>
@@ -57,7 +57,7 @@ const Cart = () => {
                   fields={DEFAULT_CART_FIELDS}
                 />
                 {index < cartItems.length - 1 && (
-                  <hr className="bg-primary-border mt-6" />
+                  <hr className="bg-zinc-200 mt-6" />
                 )}
               </div>
             ))}
@@ -66,7 +66,7 @@ const Cart = () => {
           {cart && (
             <div className="flex flex-col gap-y-8 w-full md:w-1/3">
               <div>
-                <h2 className="text-primary-text text-xlarge">
+                <h2 className="text-zinc-900 text-xl">
                   Cart Summary
                 </h2>
               </div>

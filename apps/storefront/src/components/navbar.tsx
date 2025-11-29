@@ -70,7 +70,7 @@ const MobileHamburger = () => {
 
   return (
     <button
-      className="lg:hidden text-secondary-text hover:text-secondary-text-hover"
+      className="lg:hidden text-zinc-600 hover:text-zinc-500"
       onClick={openMobileMenu}
       aria-label="Open menu"
     >
@@ -144,22 +144,22 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
       }}
     >
       <div className="sticky top-0 inset-x-0 z-50">
-        <header className="relative h-16 mx-auto border-b duration-200 bg-primary-bg border-primary-border">
-          <nav className="content-container text-sm font-medium text-secondary-text flex items-center justify-between w-full h-full">
+        <header className="relative h-16 mx-auto border-b duration-200 bg-white border-zinc-200">
+          <nav className="content-container text-sm font-medium text-zinc-600 flex items-center justify-between w-full h-full">
             {children}
           </nav>
         </header>
 
         {/* Mobile Fullscreen Overlay */}
         {isMobileMenuOpen && (
-          <div className="fixed inset-0 bg-primary-bg z-50 lg:hidden">
+          <div className="fixed inset-0 bg-white z-50 lg:hidden">
             <div className="flex flex-col h-full">
               {/* Header */}
-              <div className="flex items-center justify-between h-16 px-6 border-b border-primary-border">
+              <div className="flex items-center justify-between h-16 px-6 border-b border-zinc-200">
                 {activeSubmenuId ? (
                   <button
                     onClick={closeSubmenu}
-                    className="text-secondary-text hover:text-secondary-text-hover flex items-center gap-2"
+                    className="text-zinc-600 hover:text-zinc-500 flex items-center gap-2"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -178,13 +178,13 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
                     Back
                   </button>
                 ) : (
-                  <span className="text-primary-text text-large uppercase">
+                  <span className="text-zinc-900 text-lg uppercase">
                     Menu
                   </span>
                 )}
                 <button
                   onClick={closeMobileMenu}
-                  className="text-secondary-text hover:text-secondary-text-hover flex items-center"
+                  className="text-zinc-600 hover:text-zinc-500 flex items-center"
                   aria-label="Close menu"
                 >
                   <XMarkMini />
@@ -201,7 +201,6 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
   )
 }
 
-// Logo component - centered (only in main navbar, not in mobile overlay)
 const NavbarLogo = ({ to, children }: { to: string; children: ReactNode }) => {
   const { isMobileMenuOpen } = useNavbar()
 
@@ -213,7 +212,7 @@ const NavbarLogo = ({ to, children }: { to: string; children: ReactNode }) => {
     <div className="flex items-center h-full absolute left-1/2 transform -translate-x-1/2">
       <Link
         to={to}
-        className="text-xlarge font-bold hover:text-primary-text-hover uppercase"
+        className="text-xl font-bold hover:text-zinc-600 uppercase"
         data-testid="nav-store-link"
       >
         {children}
@@ -222,7 +221,6 @@ const NavbarLogo = ({ to, children }: { to: string; children: ReactNode }) => {
   )
 }
 
-// Menu container - left side on desktop, full screen on mobile
 const NavbarMenu = ({ children }: { children: ReactNode }) => {
   const { isMobileMenuOpen } = useNavbar()
 
@@ -246,7 +244,6 @@ const NavbarMenu = ({ children }: { children: ReactNode }) => {
   )
 }
 
-// Actions container - right side (only in main navbar, not in mobile overlay)
 const NavbarActions = ({ children }: { children: ReactNode }) => {
   const { isMobileMenuOpen } = useNavbar()
 
@@ -265,7 +262,6 @@ Navbar.Logo = NavbarLogo
 Navbar.Menu = NavbarMenu
 Navbar.Actions = NavbarActions
 
-// MenuItem component
 export const MenuItem = ({ children }: { children: ReactNode }) => {
   const id = useId()
   const [isDesktopOpen, setIsDesktopOpen] = useState(false)
@@ -329,7 +325,7 @@ MenuItem.Label = ({ children, to }: { children: ReactNode; to?: string }) => {
       return (
         <button
           onClick={() => openSubmenu(id)}
-          className="flex items-center justify-between px-6 py-4 w-full text-left text-primary-text hover:bg-secondary-bg text-large transition-colors"
+          className="flex items-center justify-between px-6 py-4 w-full text-left text-zinc-900 hover:bg-zinc-50 text-lg transition-colors"
         >
           {children}
           <svg
@@ -355,7 +351,7 @@ MenuItem.Label = ({ children, to }: { children: ReactNode; to?: string }) => {
         <Link
           to={to}
           onClick={closeMobileMenu}
-          className="flex items-center px-6 py-4 text-primary-text hover:bg-secondary-bg text-large transition-colors"
+          className="flex items-center px-6 py-4 text-zinc-900 hover:bg-zinc-50 text-lg transition-colors"
         >
           {children}
         </Link>
@@ -366,7 +362,7 @@ MenuItem.Label = ({ children, to }: { children: ReactNode; to?: string }) => {
   if (hasDropdown) {
     return (
       <button
-        className="text-secondary-text hover:text-secondary-text-hover h-full"
+        className="text-zinc-600 hover:text-zinc-500 h-full"
         onMouseEnter={() => setIsDesktopOpen(true)}
       >
         {children}
@@ -378,7 +374,7 @@ MenuItem.Label = ({ children, to }: { children: ReactNode; to?: string }) => {
     return (
       <Link
         to={to}
-        className="text-secondary-text hover:text-secondary-text-hover h-full flex items-center"
+        className="text-zinc-600 hover:text-zinc-500 h-full flex items-center"
       >
         {children}
       </Link>
@@ -407,11 +403,10 @@ MenuItem.Dropdown = ({ children }: { children: ReactNode }) => {
 
   return (
     <div
-      className={`fixed left-0 right-0 top-16 bg-primary-bg border-b border-primary-border shadow-lg z-40 transition-all duration-300 ${
-        isDesktopOpen
-          ? "translate-y-0 opacity-100 visible"
-          : "-translate-y-4 opacity-0 invisible pointer-events-none"
-      }`}
+      className={`fixed left-0 right-0 top-16 bg-white border-b border-zinc-200 shadow-lg z-40 transition-all duration-300 ${isDesktopOpen
+        ? "translate-y-0 opacity-100 visible"
+        : "-translate-y-4 opacity-0 invisible pointer-events-none"
+        }`}
       onMouseEnter={() => setIsDesktopOpen(true)}
       onMouseLeave={() => setIsDesktopOpen(false)}
     >
@@ -421,7 +416,7 @@ MenuItem.Dropdown = ({ children }: { children: ReactNode }) => {
 }
 
 // Link within dropdown - responsive styling
-MenuItem.Link = ({ to, children }: { to: string; children: ReactNode }) => {
+MenuItem.DropdownLink = ({ to, children }: { to: string; children: ReactNode }) => {
   const { isMobileMenuOpen, closeMobileMenu } = useNavbar()
 
   if (isMobileMenuOpen) {
@@ -429,7 +424,7 @@ MenuItem.Link = ({ to, children }: { to: string; children: ReactNode }) => {
       <Link
         to={to}
         onClick={closeMobileMenu}
-        className="text-primary-text hover:bg-secondary-bg text-base font-medium transition-colors"
+        className="text-zinc-900 hover:bg-zinc-50 text-base font-medium transition-colors"
       >
         {children}
       </Link>
@@ -439,14 +434,24 @@ MenuItem.Link = ({ to, children }: { to: string; children: ReactNode }) => {
   return (
     <Link
       to={to}
-      className="text-secondary-text hover:text-secondary-text-hover text-base font-medium transition-colors"
+      className="text-zinc-600 hover:text-zinc-500 text-base font-medium transition-colors"
     >
       {children}
     </Link>
   )
 }
 
-// NavbarContent - the main composition
+/**
+ * Usage:
+ * <Navbar /> for main navbar structure
+ *   <Navbar.Actions /> for action items (e.g., cart, search, account)
+ *   <Navbar.Logo /> for store logo
+ *   <Navbar.Menu /> for menu items
+ *     <MenuItem /> for individual menu items
+ *       <MenuItem.Label /> for menu item label use to={link} for direct links or omit for dropdowns
+ *       <MenuItem.Dropdown /> for menu item dropdown content
+   *       <MenuItem.DropdownLink to={link} /> for links within dropdowns
+ */
 export const NavbarContent = () => {
   const location = useLocation()
   const countryCode = getCountryCodeFromPath(location.pathname)
@@ -476,14 +481,14 @@ export const NavbarContent = () => {
           <MenuItem.Dropdown>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 px-6 py-6 lg:px-0 lg:py-0">
               <div className="flex flex-col gap-6">
-                <h3 className="text-primary-text text-base font-medium uppercase">
+                <h3 className="text-zinc-900 text-base font-medium uppercase">
                   Categories
                 </h3>
                 <div className="flex flex-col gap-3">
                   {categoryLinks.map((link) => (
-                    <MenuItem.Link key={link.id} to={link.to}>
+                    <MenuItem.DropdownLink key={link.id} to={link.to}>
                       {link.name}
-                    </MenuItem.Link>
+                    </MenuItem.DropdownLink>
                   ))}
                 </div>
               </div>
@@ -492,9 +497,9 @@ export const NavbarContent = () => {
                 {Array.from({ length: 2 }, (_, i) => (
                   <div
                     key={i}
-                    className="aspect-square bg-secondary-bg flex items-center justify-center"
+                    className="aspect-square bg-zinc-50 flex items-center justify-center"
                   >
-                    <span className="text-secondary-text text-sm">
+                    <span className="text-zinc-600 text-sm">
                       Image Placeholder
                     </span>
                   </div>

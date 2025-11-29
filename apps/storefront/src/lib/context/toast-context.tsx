@@ -41,8 +41,8 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
             animation: "slideDown 0.3s ease-out",
           }}
         >
-          <div className="bg-primary-bg shadow-elevation-tooltip px-6 py-3">
-            <p className="text-primary-text text-base font-medium">{message}</p>
+          <div className="bg-white shadow-lg px-6 py-3">
+            <p className="text-zinc-900 text-base font-medium">{message}</p>
           </div>
         </div>
       )}

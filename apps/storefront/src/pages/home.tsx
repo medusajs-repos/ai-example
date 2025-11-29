@@ -16,10 +16,10 @@ const Home = () => {
   return (
     <div className="content-container py-12">
       <h1 className="text-2xl mb-4">Welcome</h1>
-      <p className="text-secondary-text mb-6">
+      <p className="text-zinc-600 mb-6">
         Browse our products in the store.
       </p>
-      <Link to={storeHref as string} className="text-accent-text underline">
+      <Link to={storeHref as string} className="text-blue-500 underline">
         Go to Store →
       </Link>
     </div>

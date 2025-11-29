@@ -38,13 +38,13 @@ const ProductOptionSelect: React.FC<ProductOptionSelectProps> = ({
                 "border text-sm font-medium px-4 py-2.5 flex-1 rounded-base transition-all duration-200 ease-in-out",
                 {
                   // Active state
-                  "border-primary-text bg-secondary-bg text-primary-text shadow-sm":
+                  "border-zinc-900 bg-zinc-50 text-zinc-900 shadow-sm":
                     isActive,
                   // Default state
-                  "border-secondary-border bg-secondary-bg text-secondary-text":
+                  "border-zinc-300 bg-zinc-50 text-zinc-600":
                     !isActive,
                   // Hover states
-                  "hover:bg-secondary-hover hover:border-primary-border-strong hover:text-primary-text":
+                  "hover:bg-zinc-100 hover:border-zinc-300 hover:text-zinc-900":
                     !isActive && !disabled,
                   // Disabled state
                   "opacity-50 cursor-not-allowed": disabled,

@@ -62,7 +62,7 @@ export const CartDeleteItem = ({ item, fields }: CartDeleteItemProps) => {
     <Button
       onClick={() => deleteLineItemMutation.mutate({ line_id: item.id })}
       disabled={deleteLineItemMutation.isPending}
-      className="text-secondary-text hover:text-secondary-text-hover transition-colors ml-2"
+      className="text-zinc-600 hover:text-zinc-500 transition-colors ml-2"
       variant="transparent"
       size="fit"
     >
@@ -103,7 +103,7 @@ export const CartItemQuantitySelector = ({
         onClick={() => handleQuantityChange(item.quantity - 1)}
         className={clsx(
           type === "compact" &&
-            "text-secondary-text hover:text-secondary-text-hover transition-colors p-1 ml-2"
+            "text-zinc-600 hover:text-zinc-500 transition-colors p-1 ml-2"
         )}
         variant="transparent"
         size="fit"
@@ -113,7 +113,7 @@ export const CartItemQuantitySelector = ({
       <span
         className={clsx(
           type === "compact"
-            ? "text-sm text-primary-text text-center px-3"
+            ? "text-sm text-zinc-900 text-center px-3"
             : "text-center text-sm px-6"
         )}
       >
@@ -123,7 +123,7 @@ export const CartItemQuantitySelector = ({
         onClick={() => handleQuantityChange(item.quantity + 1)}
         className={clsx(
           type === "compact" &&
-            "text-secondary-text hover:text-secondary-text-hover transition-colors p-1 ml-2"
+            "text-zinc-600 hover:text-zinc-500 transition-colors p-1 ml-2"
         )}
         variant="transparent"
         size="fit"
@@ -150,10 +150,10 @@ const CompactCartLineItem = ({ item, cart, fields }: CartLineItemProps) => {
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <h4 className="text-base font-medium line-clamp-1 text-primary-text">
+            <h4 className="text-base font-medium line-clamp-1 text-zinc-900">
               {item.product_title}
             </h4>
-            <div className="text-sm text-secondary-text">
+            <div className="text-sm text-zinc-600">
               {item.variant_title && item.variant_title !== "Default Variant" && (
                 <span>{item.variant_title}</span>
               )}
@@ -175,7 +175,7 @@ const DisplayCartLineItem = ({ item, cart, className }: CartLineItemProps) => {
   return (
     <div
       className={clsx(
-        "flex items-center gap-4 py-3 border-b border-secondary-border last:border-b-0",
+        "flex items-center gap-4 py-3 border-b border-zinc-300 last:border-b-0",
         className
       )}
     >
@@ -185,11 +185,11 @@ const DisplayCartLineItem = ({ item, cart, className }: CartLineItemProps) => {
         className="w-16 h-16"
       />
       <div className="flex-1">
-        <p className="text-base font-medium-plus text-primary-text">{item.product_title}</p>
+        <p className="text-base font-semibold text-zinc-900">{item.product_title}</p>
         {item.variant_title && item.variant_title !== "Default Variant" && (
-          <p className="text-sm text-secondary-text">{item.variant_title}</p>
+          <p className="text-sm text-zinc-600">{item.variant_title}</p>
         )}
-        <p className="text-sm text-secondary-text">Quantity: {item.quantity}</p>
+        <p className="text-sm text-zinc-600">Quantity: {item.quantity}</p>
       </div>
       <div className="text-right">
         <Price price={item.total || 0} currencyCode={cart.currency_code} textWeight="plus" />
@@ -220,9 +220,9 @@ export const CartLineItem = ({
       </div>
 
       <div className="flex-1 min-w-0 flex flex-col gap-y-1">
-        <span className="text-primary-text text-base font-medium-plus">{item.product_title}</span>
+        <span className="text-zinc-900 text-base font-semibold">{item.product_title}</span>
         {item.variant_title && item.variant_title !== "Default Variant" && (
-          <span className="text-secondary-text text-sm">{item.variant_title}</span>
+          <span className="text-zinc-600 text-sm">{item.variant_title}</span>
         )}
       </div>
 
@@ -252,48 +252,48 @@ export const CartSummary = ({ cart }: CartSummaryProps) => {
     <div className="space-y-4">
       <div className="space-y-2">
         <div className="flex justify-between text-sm">
-          <span className="text-secondary-text">Subtotal</span>
+          <span className="text-zinc-600">Subtotal</span>
           <Price
             price={cart.subtotal}
             currencyCode={cart.currency_code}
-            className="text-secondary-text"
+            className="text-zinc-600"
           />
         </div>
 
         <div className="flex justify-between text-sm">
-          <span className="text-secondary-text">Shipping</span>
+          <span className="text-zinc-600">Shipping</span>
           <Price
             price={cart.shipping_total}
             currencyCode={cart.currency_code}
-            className="text-secondary-text"
+            className="text-zinc-600"
           />
         </div>
 
         <div className="flex justify-between text-sm">
-          <span className="text-secondary-text">Discount</span>
+          <span className="text-zinc-600">Discount</span>
           <Price
             price={cart.discount_total}
             currencyCode={cart.currency_code}
             type="discount"
-            className="text-secondary-text"
+            className="text-zinc-600"
           />
         </div>
 
         <div className="flex justify-between text-sm">
-          <span className="text-secondary-text">Tax</span>
+          <span className="text-zinc-600">Tax</span>
           <Price
             price={cart.tax_total}
             currencyCode={cart.currency_code}
-            className="text-secondary-text"
+            className="text-zinc-600"
           />
         </div>
       </div>
 
-      <hr className="bg-primary-border" />
+      <hr className="bg-zinc-200" />
 
       <div className="flex justify-between text-sm">
-        <span className="text-primary-text">Total</span>
-        <Price price={cart.total} currencyCode={cart.currency_code} className="text-primary-text" />
+        <span className="text-zinc-900">Total</span>
+        <Price price={cart.total} currencyCode={cart.currency_code} className="text-zinc-900" />
       </div>
     </div>
   )
@@ -348,7 +348,7 @@ export const CartPromo = ({ cart }: CartPromoProps) => {
               {promotion.code}
               <XMark
                 onClick={() => handleRemove(promotion.code || "")}
-                className="ml-2 text-secondary-text hover:text-secondary-text-hover cursor-pointer"
+                className="ml-2 text-zinc-600 hover:text-zinc-500 cursor-pointer"
               />
             </Button>
           ))}
@@ -359,7 +359,7 @@ export const CartPromo = ({ cart }: CartPromoProps) => {
         <Button
           onClick={() => setShowInput(true)}
           variant="transparent"
-          className="text-secondary-text p-0 underline hover:bg-transparent hover:text-secondary-text-hover"
+          className="text-zinc-600 p-0 underline hover:bg-transparent hover:text-zinc-500"
           size="fit"
         >
           Add promo code
@@ -393,8 +393,8 @@ export const CartEmpty = () => {
 
   return (
     <div className="text-center py-16 flex flex-col items-center justify-center gap-4">
-      <h2 className="text-large-plus font-bold text-primary-text">Your cart is empty</h2>
-      <p className="text-secondary-text text-base font-medium">Start by adding some products</p>
+      <h2 className="text-lg font-bold text-zinc-900">Your cart is empty</h2>
+      <p className="text-zinc-600 text-base font-medium">Start by adding some products</p>
       <Link to={`/${countryCode}/store` as any}>
         <Button variant="primary" size="fit">
           Continue shopping
@@ -424,7 +424,7 @@ export const CartDropdown = () => {
       {/* Cart Button */}
       <button
         onClick={openCart}
-        className="text-secondary-text hover:text-secondary-text-hover h-full"
+        className="text-zinc-600 hover:text-zinc-500 h-full"
       >
         Cart ({itemCount})
       </button>
@@ -439,17 +439,17 @@ export const CartDropdown = () => {
 
       {/* Drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-full sm:w-[420px] bg-primary-bg shadow-2xl z-50 transform transition-transform duration-300 ${
+        className={`fixed top-0 right-0 h-full w-full sm:w-[420px] bg-white shadow-2xl z-50 transform transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center justify-between h-16 px-6 border-b border-primary-border">
-            <h2 className="text-large text-primary-text">Shopping Cart</h2>
+          <div className="flex items-center justify-between h-16 px-6 border-b border-zinc-200">
+            <h2 className="text-lg text-zinc-900">Shopping Cart</h2>
             <button
               onClick={closeCart}
-              className="text-secondary-text hover:text-secondary-text-hover"
+              className="text-zinc-600 hover:text-zinc-500"
               aria-label="Close cart"
             >
               <XMarkMini />
@@ -459,7 +459,7 @@ export const CartDropdown = () => {
           {/* Empty Cart */}
           {(!cart || itemCount === 0) && (
             <div className="flex flex-col items-center justify-center flex-1 p-6">
-              <span className="text-base font-medium text-secondary-text mb-4">
+              <span className="text-base font-medium text-zinc-600 mb-4">
                 Your cart is empty
               </span>
               <Link to={`${baseHref}/store` as any} onClick={closeCart}>
@@ -486,9 +486,9 @@ export const CartDropdown = () => {
               </div>
 
               {/* Footer */}
-              <div className="p-6 border-t border-primary-border">
+              <div className="p-6 border-t border-zinc-200">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-base font-medium text-secondary-text">Subtotal</span>
+                  <span className="text-base font-medium text-zinc-600">Subtotal</span>
                   <Price price={cart.item_subtotal} currencyCode={cart.currency_code} />
                 </div>
 

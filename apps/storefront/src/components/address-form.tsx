@@ -117,7 +117,7 @@ const AddressForm = ({
             placeholder="First name"
           />
           {errors.first_name && touchedFields.first_name && (
-            <div className="text-error-text text-sm mt-1">
+            <div className="text-rose-900 text-sm mt-1">
               {errors.first_name}
             </div>
           )}
@@ -136,7 +136,7 @@ const AddressForm = ({
             placeholder="Last name"
           />
           {errors.last_name && touchedFields.last_name && (
-            <div className="text-error-text text-sm mt-1">
+            <div className="text-rose-900 text-sm mt-1">
               {errors.last_name}
             </div>
           )}
@@ -174,7 +174,7 @@ const AddressForm = ({
           placeholder="Address line 1"
         />
         {errors.address_1 && touchedFields.address_1 && (
-          <div className="text-error-text text-sm mt-1">{errors.address_1}</div>
+          <div className="text-rose-900 text-sm mt-1">{errors.address_1}</div>
         )}
       </div>
 
@@ -208,7 +208,7 @@ const AddressForm = ({
             placeholder="City"
           />
           {errors.city && touchedFields.city && (
-            <div className="text-error-text text-sm mt-1">{errors.city}</div>
+            <div className="text-rose-900 text-sm mt-1">{errors.city}</div>
           )}
         </div>
         <div className="flex flex-col gap-2">
@@ -239,7 +239,7 @@ const AddressForm = ({
             placeholder="Postal code"
           />
           {errors.postal_code && touchedFields.postal_code && (
-            <div className="text-error-text text-sm mt-1">
+            <div className="text-rose-900 text-sm mt-1">
               {errors.postal_code}
             </div>
           )}
@@ -250,7 +250,7 @@ const AddressForm = ({
       <div className="flex flex-col gap-2">
         <label
           htmlFor="country_code"
-          className="block text-sm font-medium text-primary-text mb-2"
+          className="block text-sm font-medium text-zinc-900 mb-2"
         >
           Country
         </label>
@@ -267,7 +267,7 @@ const AddressForm = ({
           ))}
         </Select>
         {errors.country_code && touchedFields.country_code && (
-          <div className="text-error-text text-sm mt-1">
+          <div className="text-rose-900 text-sm mt-1">
             {errors.country_code}
           </div>
         )}

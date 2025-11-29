@@ -19,19 +19,19 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
           <div
             className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${
               checked
-                ? "bg-primary-text border-transparent"
-                : "bg-primary-bg border-primary-border"
+                ? "bg-zinc-900 border-transparent"
+                : "bg-white border-zinc-200"
             } ${className || ""}`}
           >
             {checked && (
-              <div className="w-2 h-2 bg-primary-bg rounded-full"></div>
+              <div className="w-2 h-2 bg-white rounded-full"></div>
             )}
           </div>
         </div>
         {label && (
           <label
             htmlFor={props.id || props.name}
-            className="text-primary-text text-base font-medium cursor-pointer"
+            className="text-zinc-900 text-base font-medium cursor-pointer"
           >
             {label}
           </label>

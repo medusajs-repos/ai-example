@@ -27,9 +27,9 @@ const Store = () => {
       <h1 className="text-xl mb-6">All Products</h1>
 
       {isFetching && products.length === 0 ? (
-        <div className="text-secondary-text">Loading...</div>
+        <div className="text-zinc-600">Loading...</div>
       ) : products.length === 0 ? (
-        <div className="text-secondary-text">No products found</div>
+        <div className="text-zinc-600">No products found</div>
       ) : (
         <>
           {/* Product grid - minimal styling, AI agent will customize */}

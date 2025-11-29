@@ -137,7 +137,7 @@ const CountrySelect = ({ regions, className }: CountrySelectProps) => {
           calculateDropdownPosition();
           setIsOpen(!isOpen);
         }}
-        className="w-full text-left text-primary-text flex items-center gap-2 text-sm w-fit"
+        className="w-full text-left text-zinc-900 flex items-center gap-2 text-sm w-fit"
       >
         <span>
           {currentCountry
@@ -151,7 +151,7 @@ const CountrySelect = ({ regions, className }: CountrySelectProps) => {
 
       {isOpen && (
         <div
-          className={`absolute left-0 right-0 z-50 bg-primary-bg border border-primary-border max-h-60 overflow-y-auto ${
+          className={`absolute left-0 right-0 z-50 bg-white border border-zinc-200 max-h-60 overflow-y-auto ${
             dropdownPosition === "above" ? "bottom-full mb-1" : "top-full mt-1"
           }`}
         >
@@ -160,7 +160,7 @@ const CountrySelect = ({ regions, className }: CountrySelectProps) => {
               key={country.country_code}
               type="button"
               onClick={() => handleChange(country.country_code)}
-              className="w-full px-4 py-2 text-left hover:bg-primary-border text-sm"
+              className="w-full px-4 py-2 text-left hover:bg-zinc-100 text-sm"
             >
               {country.label} ({country.currency_code})
             </button>
