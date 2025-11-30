@@ -1,6 +1,6 @@
 import ErrorBoundary from "@/components/error-boundary"
 import Footer from "@/components/footer"
-import { NavbarContent } from "@/components/navbar"
+import { Navbar } from "@/components/navbar"
 import { CartProvider } from "@/lib/context/cart"
 import { ToastProvider } from "@/lib/context/toast-context"
 import { Outlet } from "@tanstack/react-router"
@@ -10,7 +10,7 @@ const Layout = () => {
     <ToastProvider>
       <CartProvider>
         <div className="min-h-screen flex flex-col">
-          <NavbarContent />
+          <Navbar />
 
           <main className="relative flex-1">
             <ErrorBoundary>
