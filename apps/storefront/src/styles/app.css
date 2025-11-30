@@ -56,3 +56,26 @@
     transition: background-color 5000s ease-in-out 0s;
   } */
 }
+
+/* Navigation menu dropdown animations */
+@keyframes dropdown-open {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes dropdown-close {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-1rem);
+  }
+}

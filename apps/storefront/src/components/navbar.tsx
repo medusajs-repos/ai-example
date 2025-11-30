@@ -1,72 +1,36 @@
 import { CartDropdown } from "@/components/cart"
 import { useCategories } from "@/lib/hooks/use-categories"
 import { getCountryCodeFromPath } from "@/lib/utils/region"
+import * as NavigationMenu from "@radix-ui/react-navigation-menu"
 import { XMarkMini } from "@medusajs/icons"
 import { Link, useLocation } from "@tanstack/react-router"
-import {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useId,
-  useState,
-} from "react"
+import { ReactNode, createContext, useContext, useState } from "react"
 
-// Navbar Context
-type NavbarContextType = {
+// Mobile menu context - only needed for mobile overlay behavior
+type MobileMenuContextType = {
   isMobileMenuOpen: boolean
   activeSubmenuId: string | null
   openMobileMenu: () => void
   closeMobileMenu: () => void
   openSubmenu: (id: string) => void
   closeSubmenu: () => void
-  baseHref: string
-  menuItems: Map<string, { label: ReactNode; dropdown: ReactNode }>
-  registerMenuItem: (
-    id: string,
-    label: ReactNode,
-    dropdown: ReactNode | null
-  ) => void
 }
 
-const NavbarContext = createContext<NavbarContextType | undefined>(undefined)
-
-export const useNavbar = () => {
-  const context = useContext(NavbarContext)
-  if (!context) {
-    throw new Error("Navbar components must be used within Navbar")
-  }
-  return context
-}
-
-// MenuItem Context
-type MenuItemContextType = {
-  id: string
-  isDesktopOpen: boolean
-  setIsDesktopOpen: (open: boolean) => void
-  hasDropdown: boolean
-  setHasDropdown: (has: boolean) => void
-  dropdownContent: ReactNode | null
-  setDropdownContent: (content: ReactNode | null) => void
-  labelContent: ReactNode | null
-  setLabelContent: (content: ReactNode | null) => void
-}
-
-const MenuItemContext = createContext<MenuItemContextType | undefined>(
+const MobileMenuContext = createContext<MobileMenuContextType | undefined>(
   undefined
 )
 
-const useMenuItem = () => {
-  const context = useContext(MenuItemContext)
+const useMobileMenu = () => {
+  const context = useContext(MobileMenuContext)
   if (!context) {
-    throw new Error("MenuItem sub-components must be used within MenuItem")
+    throw new Error("Mobile menu components must be used within Navbar")
   }
   return context
 }
 
 // Mobile hamburger button
 const MobileHamburger = () => {
-  const { openMobileMenu } = useNavbar()
+  const { openMobileMenu } = useMobileMenu()
 
   return (
     <button
@@ -92,45 +56,154 @@ const MobileHamburger = () => {
   )
 }
 
-// Navbar component
+// Mobile fullscreen overlay
+const MobileMenuOverlay = ({ children }: { children: ReactNode }) => {
+  const { isMobileMenuOpen, activeSubmenuId, closeMobileMenu, closeSubmenu } =
+    useMobileMenu()
+
+  if (!isMobileMenuOpen) {
+    return null
+  }
+
+  return (
+    <div className="fixed inset-0 bg-white z-50 lg:hidden">
+      <div className="flex flex-col h-full">
+        {/* Header */}
+        <div className="flex items-center justify-between h-16 px-6 border-b border-zinc-200">
+          {activeSubmenuId ? (
+            <button
+              onClick={closeSubmenu}
+              className="text-zinc-600 hover:text-zinc-500 flex items-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-5 h-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.75 19.5L8.25 12l7.5-7.5"
+                />
+              </svg>
+              Back
+            </button>
+          ) : (
+            <span className="text-zinc-900 text-lg uppercase">Menu</span>
+          )}
+          <button
+            onClick={closeMobileMenu}
+            className="text-zinc-600 hover:text-zinc-500 flex items-center"
+            aria-label="Close menu"
+          >
+            <XMarkMini />
+          </button>
+        </div>
+
+        {/* Mobile Menu Content */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="flex flex-col py-6">{children}</div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Mobile menu item with optional submenu
+const MobileMenuItem = ({
+  label,
+  to,
+  submenuId,
+  children,
+}: {
+  label: string
+  to?: string
+  submenuId?: string
+  children?: ReactNode
+}) => {
+  const { activeSubmenuId, openSubmenu, closeMobileMenu } = useMobileMenu()
+
+  // If we're viewing a submenu, only show that submenu's content
+  if (activeSubmenuId !== null) {
+    if (activeSubmenuId === submenuId && children) {
+      return <div className="flex flex-col">{children}</div>
+    }
+    return null
+  }
+
+  // Main menu view
+  if (submenuId && children) {
+    return (
+      <button
+        onClick={() => openSubmenu(submenuId)}
+        className="flex items-center justify-between px-6 py-4 w-full text-left text-zinc-900 hover:bg-zinc-50 text-lg transition-colors"
+      >
+        {label}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-5 h-5"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M8.25 4.5l7.5 7.5-7.5 7.5"
+          />
+        </svg>
+      </button>
+    )
+  }
+
+  if (to) {
+    return (
+      <Link
+        to={to}
+        onClick={closeMobileMenu}
+        className="flex items-center px-6 py-4 text-zinc-900 hover:bg-zinc-50 text-lg transition-colors"
+      >
+        {label}
+      </Link>
+    )
+  }
+
+  return null
+}
+
+const MobileMenuLink = ({ to, children }: { to: string; children: ReactNode }) => {
+  const { closeMobileMenu } = useMobileMenu()
+
+  return (
+    <Link
+      to={to}
+      onClick={closeMobileMenu}
+      className="text-zinc-900 hover:bg-zinc-50 px-6 py-3 text-base font-medium transition-colors"
+    >
+      {children}
+    </Link>
+  )
+}
+
+// Navbar component using Radix Navigation Menu
 export const Navbar = ({ children }: { children: ReactNode }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeSubmenuId, setActiveSubmenuId] = useState<string | null>(null)
-  const [menuItems] = useState(
-    new Map<string, { label: ReactNode; dropdown: ReactNode }>()
-  )
-
-  const location = useLocation()
-  const countryCode = getCountryCodeFromPath(location.pathname)
-  const baseHref = countryCode ? `/${countryCode}` : ""
 
   const openMobileMenu = () => setIsMobileMenuOpen(true)
-
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false)
     setActiveSubmenuId(null)
   }
-
-  const openSubmenu = (id: string) => {
-    setActiveSubmenuId(id)
-  }
-
-  const closeSubmenu = () => {
-    setActiveSubmenuId(null)
-  }
-
-  const registerMenuItem = (
-    id: string,
-    label: ReactNode,
-    dropdown: ReactNode | null
-  ) => {
-    if (dropdown) {
-      menuItems.set(id, { label, dropdown })
-    }
-  }
+  const openSubmenu = (id: string) => setActiveSubmenuId(id)
+  const closeSubmenu = () => setActiveSubmenuId(null)
 
   return (
-    <NavbarContext.Provider
+    <MobileMenuContext.Provider
       value={{
         isMobileMenuOpen,
         activeSubmenuId,
@@ -138,9 +211,6 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
         closeMobileMenu,
         openSubmenu,
         closeSubmenu,
-        baseHref,
-        menuItems,
-        registerMenuItem,
       }}
     >
       <div className="sticky top-0 inset-x-0 z-40">
@@ -149,60 +219,45 @@ export const Navbar = ({ children }: { children: ReactNode }) => {
             {children}
           </nav>
         </header>
-
-        {/* Mobile Fullscreen Overlay */}
-        {isMobileMenuOpen && (
-          <div className="fixed inset-0 bg-white z-50 lg:hidden">
-            <div className="flex flex-col h-full">
-              {/* Header */}
-              <div className="flex items-center justify-between h-16 px-6 border-b border-zinc-200">
-                {activeSubmenuId ? (
-                  <button
-                    onClick={closeSubmenu}
-                    className="text-zinc-600 hover:text-zinc-500 flex items-center gap-2"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-5 h-5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M15.75 19.5L8.25 12l7.5-7.5"
-                      />
-                    </svg>
-                    Back
-                  </button>
-                ) : (
-                  <span className="text-zinc-900 text-lg uppercase">
-                    Menu
-                  </span>
-                )}
-                <button
-                  onClick={closeMobileMenu}
-                  className="text-zinc-600 hover:text-zinc-500 flex items-center"
-                  aria-label="Close menu"
-                >
-                  <XMarkMini />
-                </button>
-              </div>
-
-              {/* Mobile Menu Content - rendered by Navbar.Menu */}
-              <div className="flex-1 overflow-y-auto">{children}</div>
-            </div>
-          </div>
-        )}
       </div>
-    </NavbarContext.Provider>
+    </MobileMenuContext.Provider>
+  )
+}
+
+// Desktop navigation using Radix
+const NavbarMenu = ({ children }: { children: ReactNode }) => {
+  const { isMobileMenuOpen } = useMobileMenu()
+
+  return (
+    <>
+      {/* Desktop: Radix Navigation Menu */}
+      <NavigationMenu.Root className="hidden lg:flex items-center h-full">
+        <NavigationMenu.List className="flex items-center gap-x-6 h-full">
+          {children}
+        </NavigationMenu.List>
+
+        {/* Viewport renders dropdown content - positioned relative to Root */}
+        <NavigationMenu.Viewport
+          className="absolute top-full bg-white border-b border-zinc-200 shadow-lg
+            overflow-hidden
+            data-[state=open]:animate-[dropdown-open_300ms_ease-out]
+            data-[state=closed]:animate-[dropdown-close_300ms_ease-out]"
+          style={{
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "100vw",
+          }}
+        />
+      </NavigationMenu.Root>
+
+      {/* Mobile: Hamburger Button */}
+      {!isMobileMenuOpen && <MobileHamburger />}
+    </>
   )
 }
 
 const NavbarLogo = ({ to, children }: { to: string; children: ReactNode }) => {
-  const { isMobileMenuOpen } = useNavbar()
+  const { isMobileMenuOpen } = useMobileMenu()
 
   if (isMobileMenuOpen) {
     return null
@@ -221,31 +276,8 @@ const NavbarLogo = ({ to, children }: { to: string; children: ReactNode }) => {
   )
 }
 
-const NavbarMenu = ({ children }: { children: ReactNode }) => {
-  const { isMobileMenuOpen } = useNavbar()
-
-  return (
-    <>
-      {/* Desktop Menu */}
-      <div className="hidden lg:flex items-center gap-x-6 h-full">
-        {children}
-      </div>
-
-      {/* Mobile: Hamburger Button */}
-      {!isMobileMenuOpen && <MobileHamburger />}
-
-      {/* Mobile: Menu Items (rendered in overlay) */}
-      {isMobileMenuOpen && (
-        <div className="lg:hidden w-full">
-          <div className="flex flex-col py-6">{children}</div>
-        </div>
-      )}
-    </>
-  )
-}
-
 const NavbarActions = ({ children }: { children: ReactNode }) => {
-  const { isMobileMenuOpen } = useNavbar()
+  const { isMobileMenuOpen } = useMobileMenu()
 
   if (isMobileMenuOpen) {
     return null
@@ -258,199 +290,88 @@ const NavbarActions = ({ children }: { children: ReactNode }) => {
   )
 }
 
-Navbar.Logo = NavbarLogo
 Navbar.Menu = NavbarMenu
+Navbar.Logo = NavbarLogo
 Navbar.Actions = NavbarActions
 
-export const MenuItem = ({ children }: { children: ReactNode }) => {
-  const id = useId()
-  const [isDesktopOpen, setIsDesktopOpen] = useState(false)
-  const [hasDropdown, setHasDropdown] = useState(false)
-  const [dropdownContent, setDropdownContent] = useState<ReactNode | null>(
-    null
-  )
-  const [labelContent, setLabelContent] = useState<ReactNode | null>(null)
-  const { registerMenuItem, isMobileMenuOpen } = useNavbar()
-
-  useEffect(() => {
-    if (hasDropdown && labelContent && dropdownContent) {
-      registerMenuItem(id, labelContent, dropdownContent)
-    }
-  }, [id, hasDropdown, labelContent, dropdownContent, registerMenuItem])
-
-  const contextValue: MenuItemContextType = {
-    id,
-    isDesktopOpen,
-    setIsDesktopOpen,
-    hasDropdown,
-    setHasDropdown,
-    dropdownContent,
-    setDropdownContent,
-    labelContent,
-    setLabelContent,
-  }
-
-  return (
-    <MenuItemContext.Provider value={contextValue}>
-      {isMobileMenuOpen ? (
-        <div className="w-full">{children}</div>
-      ) : (
-        <div className="relative h-full">{children}</div>
-      )}
-    </MenuItemContext.Provider>
-  )
-}
-
-// Label - button (with dropdown) or link (without dropdown)
-MenuItem.Label = ({ children, to }: { children: ReactNode; to?: string }) => {
-  const { id, setIsDesktopOpen, hasDropdown, setHasDropdown, setLabelContent } =
-    useMenuItem()
-  const { isMobileMenuOpen, activeSubmenuId, openSubmenu, closeMobileMenu } =
-    useNavbar()
-
-  useEffect(() => {
-    setLabelContent(children)
-  }, [children, setLabelContent])
-
-  useEffect(() => {
-    setHasDropdown(!to)
-  }, [to, setHasDropdown])
-
-  if (isMobileMenuOpen) {
-    if (activeSubmenuId !== null) {
-      return null
-    }
-
-    if (hasDropdown) {
-      return (
-        <button
-          onClick={() => openSubmenu(id)}
-          className="flex items-center justify-between px-6 py-4 w-full text-left text-zinc-900 hover:bg-zinc-50 text-lg transition-colors"
-        >
-          {children}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-5 h-5"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M8.25 4.5l7.5 7.5-7.5 7.5"
-            />
-          </svg>
-        </button>
-      )
-    }
-
-    if (to) {
-      return (
-        <Link
-          to={to}
-          onClick={closeMobileMenu}
-          className="flex items-center px-6 py-4 text-zinc-900 hover:bg-zinc-50 text-lg transition-colors"
-        >
-          {children}
-        </Link>
-      )
-    }
-  }
+// Menu item with optional dropdown (desktop uses Radix, mobile uses context)
+export const MenuItem = ({
+  children,
+  label,
+}: {
+  children?: ReactNode
+  label: string
+}) => {
+  const hasDropdown = !!children
 
   if (hasDropdown) {
     return (
-      <button
-        className="text-zinc-600 hover:text-zinc-500 h-full"
-        onMouseEnter={() => setIsDesktopOpen(true)}
-      >
-        {children}
-      </button>
+      <NavigationMenu.Item className="h-full flex items-center">
+        <NavigationMenu.Trigger className="text-zinc-600 hover:text-zinc-500 h-full flex items-center gap-1 select-none">
+          {label}
+        </NavigationMenu.Trigger>
+        <NavigationMenu.Content className="content-container py-12">
+          {children}
+        </NavigationMenu.Content>
+      </NavigationMenu.Item>
     )
-  }
-
-  if (to) {
-    return (
-      <Link
-        to={to}
-        className="text-zinc-600 hover:text-zinc-500 h-full flex items-center"
-      >
-        {children}
-      </Link>
-    )
-  }
-
-  return null
-}
-
-// Dropdown - mega menu on desktop, submenu on mobile
-MenuItem.Dropdown = ({ children }: { children: ReactNode }) => {
-  const { id, isDesktopOpen, setIsDesktopOpen, setDropdownContent } =
-    useMenuItem()
-  const { isMobileMenuOpen, activeSubmenuId } = useNavbar()
-
-  useEffect(() => {
-    setDropdownContent(children)
-  }, [children, setDropdownContent])
-
-  if (isMobileMenuOpen) {
-    if (activeSubmenuId === id) {
-      return <div className="flex flex-col">{children}</div>
-    }
-    return null
   }
 
   return (
-    <div
-      className={`fixed left-0 right-0 top-16 bg-white border-b border-zinc-200 shadow-lg z-40 transition-all duration-300 ${isDesktopOpen
-        ? "translate-y-0 opacity-100 visible"
-        : "-translate-y-4 opacity-0 invisible pointer-events-none"
-        }`}
-      onMouseEnter={() => setIsDesktopOpen(true)}
-      onMouseLeave={() => setIsDesktopOpen(false)}
-    >
-      <div className="content-container py-12">{children}</div>
-    </div>
+    <NavigationMenu.Item className="h-full flex items-center">
+      <NavigationMenu.Link asChild>
+        <span className="text-zinc-600 hover:text-zinc-500 h-full flex items-center">
+          {label}
+        </span>
+      </NavigationMenu.Link>
+    </NavigationMenu.Item>
   )
 }
 
-// Link within dropdown - responsive styling
-MenuItem.DropdownLink = ({ to, children }: { to: string; children: ReactNode }) => {
-  const { isMobileMenuOpen, closeMobileMenu } = useNavbar()
+// Link item (no dropdown)
+export const MenuItemLink = ({
+  to,
+  children,
+}: {
+  to: string
+  children: ReactNode
+}) => {
+  return (
+    <NavigationMenu.Item className="h-full flex items-center">
+      <NavigationMenu.Link asChild>
+        <Link
+          to={to}
+          className="text-zinc-600 hover:text-zinc-500 h-full flex items-center"
+        >
+          {children}
+        </Link>
+      </NavigationMenu.Link>
+    </NavigationMenu.Item>
+  )
+}
 
-  if (isMobileMenuOpen) {
-    return (
+// Link within dropdown
+export const DropdownLink = ({
+  to,
+  children,
+}: {
+  to: string
+  children: ReactNode
+}) => {
+  return (
+    <NavigationMenu.Link asChild>
       <Link
         to={to}
-        onClick={closeMobileMenu}
-        className="text-zinc-900 hover:bg-zinc-50 text-base font-medium transition-colors"
+        className="text-zinc-600 hover:text-zinc-500 text-base font-medium transition-colors"
       >
         {children}
       </Link>
-    )
-  }
-
-  return (
-    <Link
-      to={to}
-      className="text-zinc-600 hover:text-zinc-500 text-base font-medium transition-colors"
-    >
-      {children}
-    </Link>
+    </NavigationMenu.Link>
   )
 }
 
 /**
- * Usage:
- * <Navbar /> for main navbar structure
- *   <Navbar.Actions /> for action items (e.g., cart, search, account)
- *   <Navbar.Logo /> for store logo
- *   <Navbar.Menu /> for menu items
- *     <MenuItem /> for individual menu items
- *       <MenuItem.Label /> for menu item label use to={link} for direct links or omit for dropdowns
- *       <MenuItem.Dropdown /> for menu item dropdown content
-   *       <MenuItem.DropdownLink to={link} /> for links within dropdowns
+ * Full navbar content with categories
  */
 export const NavbarContent = () => {
   const location = useLocation()
@@ -476,45 +397,60 @@ export const NavbarContent = () => {
   return (
     <Navbar>
       <Navbar.Menu>
-        <MenuItem>
-          <MenuItem.Label>Store</MenuItem.Label>
-          <MenuItem.Dropdown>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 px-6 py-6 lg:px-0 lg:py-0">
-              <div className="flex flex-col gap-6">
-                <h3 className="text-zinc-900 text-base font-medium uppercase">
-                  Categories
-                </h3>
-                <div className="flex flex-col gap-3">
-                  {categoryLinks.map((link) => (
-                    <MenuItem.DropdownLink key={link.id} to={link.to}>
-                      {link.name}
-                    </MenuItem.DropdownLink>
-                  ))}
-                </div>
-              </div>
-
-              <div className="hidden lg:grid grid-cols-2 gap-6">
-                {Array.from({ length: 2 }, (_, i) => (
-                  <div
-                    key={i}
-                    className="aspect-square bg-zinc-50 flex items-center justify-center"
-                  >
-                    <span className="text-zinc-600 text-sm">
-                      Image Placeholder
-                    </span>
-                  </div>
+        <MenuItem label="Shop">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className="flex flex-col gap-6">
+              <h3 className="text-zinc-900 text-base font-medium uppercase">
+                Categories
+              </h3>
+              <div className="flex flex-col gap-3">
+                {categoryLinks.map((link) => (
+                  <DropdownLink key={link.id} to={link.to}>
+                    {link.name}
+                  </DropdownLink>
                 ))}
               </div>
             </div>
-          </MenuItem.Dropdown>
+
+            <div className="hidden lg:grid grid-cols-2 gap-6">
+              {Array.from({ length: 2 }, (_, i) => (
+                <div
+                  key={i}
+                  className="aspect-square bg-zinc-50 flex items-center justify-center"
+                >
+                  <span className="text-zinc-600 text-sm">
+                    Image Placeholder
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         </MenuItem>
       </Navbar.Menu>
 
-      <Navbar.Logo to={baseHref}>Medusa Store</Navbar.Logo>
+      <Navbar.Logo to={baseHref}>Bloom</Navbar.Logo>
 
       <Navbar.Actions>
         <CartDropdown />
       </Navbar.Actions>
+
+      {/* Mobile menu overlay */}
+      <MobileMenuOverlay>
+        <MobileMenuItem label="Shop" submenuId="shop">
+          <div className="flex flex-col gap-6 px-6 py-6">
+            <h3 className="text-zinc-900 text-base font-medium uppercase">
+              Categories
+            </h3>
+            <div className="flex flex-col">
+              {categoryLinks.map((link) => (
+                <MobileMenuLink key={link.id} to={link.to}>
+                  {link.name}
+                </MobileMenuLink>
+              ))}
+            </div>
+          </div>
+        </MobileMenuItem>
+      </MobileMenuOverlay>
     </Navbar>
   )
 }

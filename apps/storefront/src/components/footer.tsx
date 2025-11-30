@@ -33,11 +33,10 @@ const Footer = () => {
               to={baseHref || "/"}
               className="text-xl font-bold text-zinc-900 hover:text-zinc-600 transition-colors w-fit"
             >
-              Medusa Store
+              Bloom
             </Link>
             <p className="text-zinc-600 max-w-md text-base font-medium">
-              Your modern ecommerce solution built with cutting-edge technology
-              for exceptional shopping experiences.
+              Build Medusa based ecommerce stores with AI.
             </p>
             <CountrySelect regions={regions ?? []} />
           </div>
@@ -64,7 +63,7 @@ const Footer = () => {
         <div className="border-t border-zinc-300 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <span className="text-xs text-zinc-600">
-              © {new Date().getFullYear()} Medusa Store. All rights reserved.
+              © {new Date().getFullYear()} Bloom. All rights reserved.
             </span>
             <div className="flex gap-6">
               <Link
