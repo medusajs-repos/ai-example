@@ -175,19 +175,6 @@ const MobileMenuItem = ({
   return null
 }
 
-const MobileMenuLink = ({ to, children }: { to: string; children: ReactNode }) => {
-  const { closeMobileMenu } = useMobileMenu()
-
-  return (
-    <Link
-      to={to}
-      onClick={closeMobileMenu}
-      className="text-zinc-900 hover:bg-zinc-50 px-6 py-3 text-base font-medium transition-colors"
-    >
-      {children}
-    </Link>
-  )
-}
 
 // Navbar component using Radix Navigation Menu
 export const Navbar = ({ children }: { children: ReactNode }) => {
@@ -328,45 +315,33 @@ export const MenuItem = ({
   )
 }
 
-// Link item (no dropdown)
-export const MenuItemLink = ({
-  to,
-  children,
-}: {
-  to: string
-  children: ReactNode
-}) => {
-  return (
-    <NavigationMenu.Item className="h-full flex items-center">
-      <NavigationMenu.Link asChild>
-        <Link
-          to={to}
-          className="text-zinc-600 hover:text-zinc-500 h-full flex items-center"
-        >
-          {children}
-        </Link>
-      </NavigationMenu.Link>
-    </NavigationMenu.Item>
-  )
-}
 
-// Link within dropdown
-export const DropdownLink = ({
-  to,
-  children,
+// Internal component for mobile shop menu (needs context access)
+const MobileShopMenu = ({
+  categoryLinks,
 }: {
-  to: string
-  children: ReactNode
+  categoryLinks: { id: string; name: string; to: string }[]
 }) => {
+  const { closeMobileMenu } = useMobileMenu()
+
   return (
-    <NavigationMenu.Link asChild>
-      <Link
-        to={to}
-        className="text-zinc-600 hover:text-zinc-500 text-base font-medium transition-colors"
-      >
-        {children}
-      </Link>
-    </NavigationMenu.Link>
+    <div className="flex flex-col gap-6 px-6 py-6">
+      <h3 className="text-zinc-900 text-base font-medium uppercase">
+        Categories
+      </h3>
+      <div className="flex flex-col">
+        {categoryLinks.map((link) => (
+          <Link
+            key={link.id}
+            to={link.to}
+            onClick={closeMobileMenu}
+            className="text-zinc-900 hover:bg-zinc-50 px-6 py-3 text-base font-medium transition-colors"
+          >
+            {link.name}
+          </Link>
+        ))}
+      </div>
+    </div>
   )
 }
 
@@ -405,9 +380,14 @@ export const NavbarContent = () => {
               </h3>
               <div className="flex flex-col gap-3">
                 {categoryLinks.map((link) => (
-                  <DropdownLink key={link.id} to={link.to}>
-                    {link.name}
-                  </DropdownLink>
+                  <NavigationMenu.Link key={link.id} asChild>
+                    <Link
+                      to={link.to}
+                      className="text-zinc-600 hover:text-zinc-500 text-base font-medium transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  </NavigationMenu.Link>
                 ))}
               </div>
             </div>
@@ -437,18 +417,7 @@ export const NavbarContent = () => {
       {/* Mobile menu overlay */}
       <MobileMenuOverlay>
         <MobileMenuItem label="Shop" submenuId="shop">
-          <div className="flex flex-col gap-6 px-6 py-6">
-            <h3 className="text-zinc-900 text-base font-medium uppercase">
-              Categories
-            </h3>
-            <div className="flex flex-col">
-              {categoryLinks.map((link) => (
-                <MobileMenuLink key={link.id} to={link.to}>
-                  {link.name}
-                </MobileMenuLink>
-              ))}
-            </div>
-          </div>
+          <MobileShopMenu categoryLinks={categoryLinks} />
         </MobileMenuItem>
       </MobileMenuOverlay>
     </Navbar>
