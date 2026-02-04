@@ -14,22 +14,18 @@ import { Link, useLocation } from "@tanstack/react-router"
 
 export const Navbar = () => {
   const location = useLocation()
-  const countryCode = getCountryCodeFromPath(location.pathname)
-  const baseHref = countryCode ? `/${countryCode}` : ""
+  const countryCode = getCountryCodeFromPath(location.pathname) || "us"
 
   const { data: topLevelCategories } = useCategories({
     fields: "id,name,handle,parent_category_id",
     queryParams: { parent_category_id: "null" },
   })
 
-  const categoryLinks = [
-    { id: "shop-all", name: "Shop all", to: `${baseHref}/store` },
-    ...(topLevelCategories?.map((cat) => ({
-      id: cat.id,
-      name: cat.name,
-      to: `${baseHref}/categories/${cat.handle}`,
-    })) ?? []),
-  ]
+  const categoryLinks = topLevelCategories?.map((cat) => ({
+    id: cat.id,
+    name: cat.name,
+    handle: cat.handle,
+  })) ?? []
 
   return (
     <div className="sticky top-0 inset-x-0 z-40">
@@ -50,10 +46,20 @@ export const Navbar = () => {
                         Categories
                       </h3>
                       <div className="flex flex-col gap-3">
+                        <NavigationMenu.Link asChild>
+                          <Link
+                            to="/$countryCode/store"
+                            params={{ countryCode }}
+                            className="text-zinc-600 hover:text-zinc-500 text-base font-medium transition-colors"
+                          >
+                            Shop all
+                          </Link>
+                        </NavigationMenu.Link>
                         {categoryLinks.map((link) => (
                           <NavigationMenu.Link key={link.id} asChild>
                             <Link
-                              to={link.to}
+                              to="/$countryCode/categories/$handle"
+                              params={{ countryCode, handle: link.handle }}
                               className="text-zinc-600 hover:text-zinc-500 text-base font-medium transition-colors"
                             >
                               {link.name}
@@ -114,10 +120,20 @@ export const Navbar = () => {
                   Shop
                 </div>
                 <div className="flex flex-col">
+                  <DrawerClose asChild>
+                    <Link
+                      to="/$countryCode/store"
+                      params={{ countryCode }}
+                      className="px-10 py-3 text-zinc-600 hover:bg-zinc-50 transition-colors"
+                    >
+                      Shop all
+                    </Link>
+                  </DrawerClose>
                   {categoryLinks.map((link) => (
                     <DrawerClose key={link.id} asChild>
                       <Link
-                        to={link.to}
+                        to="/$countryCode/categories/$handle"
+                        params={{ countryCode, handle: link.handle }}
                         className="px-10 py-3 text-zinc-600 hover:bg-zinc-50 transition-colors"
                       >
                         {link.name}
@@ -132,7 +148,8 @@ export const Navbar = () => {
           {/* Logo */}
           <div className="flex items-center h-full absolute left-1/2 transform -translate-x-1/2">
             <Link
-              to={baseHref || "/"}
+              to="/$countryCode"
+              params={{ countryCode }}
               className="text-xl font-bold hover:text-zinc-600 uppercase"
             >
               Bloom

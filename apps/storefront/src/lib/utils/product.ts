@@ -5,8 +5,8 @@ import { HttpTypes } from "@medusajs/types"
 export default function getVariantOptionsKeymap(
   variantOptions: HttpTypes.StoreProductVariant["options"]
 ): Record<string, string> | undefined {
-  return variantOptions?.reduce((acc: Record<string, string>, varopt: any) => {
-    acc[varopt.option_id] = varopt.value
+  return variantOptions?.reduce((acc: Record<string, string>, varopt: HttpTypes.StoreProductOptionValue) => {
+    acc[varopt.option_id!] = varopt.value
     return acc
   }, {})
 }

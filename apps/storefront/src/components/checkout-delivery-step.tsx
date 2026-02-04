@@ -5,7 +5,7 @@ import {
   useShippingOptions,
 } from "@/lib/hooks/use-checkout"
 import { HttpTypes } from "@medusajs/types"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 interface DeliveryStepProps {
   cart: HttpTypes.StoreCart;
@@ -14,41 +14,43 @@ interface DeliveryStepProps {
 }
 
 const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
-  const { data: shippingOptions } = useShippingOptions({ cart_id: cart.id });
-  const setShippingMethodMutation = useSetCartShippingMethod();
+  const { data: shippingOptions } = useShippingOptions({ cart_id: cart.id })
+  const setShippingMethodMutation = useSetCartShippingMethod()
   const [selectedOptionId, setSelectedOptionId] = useState<string>(
     cart.shipping_methods?.[0]?.shipping_option_id || ""
-  );
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  )
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const hasAutoSelected = useRef(false)
 
   useEffect(() => {
     // Auto-select first option if none selected and options are available
-    if (!selectedOptionId && shippingOptions && shippingOptions.length > 0) {
-      setSelectedOptionId(shippingOptions[0].id);
+    if (!hasAutoSelected.current && !selectedOptionId && shippingOptions && shippingOptions.length > 0) {
+      hasAutoSelected.current = true
+      setSelectedOptionId(shippingOptions[0].id)
     }
-  }, [shippingOptions, selectedOptionId]);
+  }, [shippingOptions, selectedOptionId])
 
   const handleSubmit = async () => {
-    if (!selectedOptionId || isSubmitting) return;
+    if (!selectedOptionId || isSubmitting) return
 
-    setIsSubmitting(true);
+    setIsSubmitting(true)
     await setShippingMethodMutation.mutateAsync(
       {
         shipping_option_id: selectedOptionId,
       },
       {
         onSuccess: () => {
-          onNext();
+          onNext()
         },
         onSettled: () => {
-          setIsSubmitting(false);
+          setIsSubmitting(false)
         },
-        onError: (error) => {
-          console.error("Failed to set shipping method:", error);
+        onError: () => {
+          // Error is handled by mutation state
         },
       }
-    );
-  };
+    )
+  }
 
   return (
     <div className="flex flex-col gap-8">
@@ -76,7 +78,7 @@ const DeliveryStep = ({ cart, onNext, onBack }: DeliveryStepProps) => {
         </Button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DeliveryStep;
+export default DeliveryStep

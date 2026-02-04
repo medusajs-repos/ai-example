@@ -8,6 +8,7 @@ type CartContextType = {
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useCartDrawer = () => {
   const context = useContext(CartContext)
   if (!context) {

@@ -17,7 +17,7 @@ export const OrderInfo = ({ order }: OrderInfoProps) => {
       <div className="flex gap-2 items-center">
         <span className="text-base font-semibold text-zinc-900">Order ID:</span>
         <span className="text-sm text-zinc-600">
-          {formatOrderId(`${order.display_id || order.id}`)}
+          {formatOrderId(String(order.display_id ?? order.id ?? ""))}
         </span>
       </div>
       <div className="flex gap-2 items-center">
@@ -37,7 +37,7 @@ export const OrderInfo = ({ order }: OrderInfoProps) => {
       <div className="flex gap-2 items-center">
         <span className="text-base font-semibold text-zinc-900">Order Email:</span>
         <span className="text-sm text-zinc-600">
-          {order.customer?.email || order.email}
+          {order.customer?.email ?? order.email ?? "N/A"}
         </span>
       </div>
     </div>

@@ -17,7 +17,7 @@ const Category = () => {
   })
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } = useProducts({
-    region_id: region.id,
+    region_id: region?.id,
     query_params: {
       category_id: category?.id ? [category.id] : undefined,
       limit: 12,
