@@ -16,7 +16,7 @@ const Store = () => {
   const { region } = useLoaderData({ from: "/$countryCode/store" })
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } = useProducts({
-    region_id: region.id,
+    region_id: region?.id,
     query_params: { limit: 12 },
   })
 

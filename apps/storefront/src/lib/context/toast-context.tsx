@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "react"
 
 type ToastContextType = {
   message: string | null;
@@ -6,30 +6,31 @@ type ToastContextType = {
   hideToast: () => void;
 };
 
-const ToastContext = createContext<ToastContextType | undefined>(undefined);
+const ToastContext = createContext<ToastContextType | undefined>(undefined)
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useToast = () => {
-  const context = useContext(ToastContext);
+  const context = useContext(ToastContext)
   if (!context) {
-    throw new Error("useToast must be used within ToastProvider");
+    throw new Error("useToast must be used within ToastProvider")
   }
-  return context;
-};
+  return context
+}
 
 export const ToastProvider = ({ children }: { children: ReactNode }) => {
-  const [message, setMessage] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null)
 
   const showToast = (msg: string) => {
-    setMessage(msg);
+    setMessage(msg)
     // Auto-dismiss after 3 seconds
     setTimeout(() => {
-      setMessage(null);
-    }, 3000);
-  };
+      setMessage(null)
+    }, 3000)
+  }
 
   const hideToast = () => {
-    setMessage(null);
-  };
+    setMessage(null)
+  }
 
   return (
     <ToastContext.Provider value={{ message, showToast, hideToast }}>
@@ -59,5 +60,5 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
         }
       `}</style>
     </ToastContext.Provider>
-  );
-};
+  )
+}

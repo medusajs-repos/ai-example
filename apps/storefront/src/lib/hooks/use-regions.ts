@@ -1,7 +1,6 @@
-import { useQuery } from "@tanstack/react-query"
-import { HttpTypes } from "@medusajs/types"
 import { queryKeys } from "@/lib/utils/query-keys"
 import { sdk } from "@/lib/utils/sdk"
+import { useQuery } from "@tanstack/react-query"
 
 export const useRegions = ({ fields }: { fields?: string } = {}) => {
   return useQuery({

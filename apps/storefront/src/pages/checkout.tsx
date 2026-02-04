@@ -1,5 +1,5 @@
-import CheckoutProgress from "@/components/checkout-progress"
 import { CartEmpty } from "@/components/cart"
+import CheckoutProgress from "@/components/checkout-progress"
 import { Loading } from "@/components/ui/loading"
 import { useCart } from "@/lib/hooks/use-cart"
 import { type CheckoutStep, CheckoutStepKey } from "@/lib/types/global"
@@ -8,7 +8,7 @@ import {
   useLocation,
   useNavigate,
 } from "@tanstack/react-router"
-import { lazy, Suspense, useEffect, useMemo } from "react"
+import { lazy, Suspense, useCallback, useEffect, useMemo } from "react"
 
 const DeliveryStep = lazy(() => import("@/components/checkout-delivery-step"))
 const AddressStep = lazy(() => import("@/components/checkout-address-step"))
@@ -19,10 +19,10 @@ const CheckoutSummary = lazy(() => import("@/components/checkout-summary"))
 const Checkout = () => {
   const { step } = useLoaderData({
     from: "/$countryCode/checkout",
-  });
-  const { data: cart, isLoading: cartLoading } = useCart();
-  const location = useLocation();
-  const navigate = useNavigate();
+  })
+  const { data: cart, isLoading: cartLoading } = useCart()
+  const location = useLocation()
+  const navigate = useNavigate()
 
   const steps: CheckoutStep[] = useMemo(() => {
     return [
@@ -51,68 +51,71 @@ const Checkout = () => {
         description: "Review your order details before placing your order.",
         completed: false,
       },
-    ];
-  }, [cart]);
+    ]
+  }, [cart])
 
   const currentStepIndex = useMemo(
     () => steps.findIndex((s) => s.key === step),
     [step, steps]
-  );
+  )
 
-  const goToStep = (step: CheckoutStepKey) => {
+  const goToStep = useCallback((step: CheckoutStepKey) => {
     navigate({
       to: `${location.pathname}?step=${step}`,
       replace: true,
-    });
-  };
+    })
+  }, [location.pathname, navigate])
 
   useEffect(() => {
     // Determine which step to show based on cart state
     if (!cart) {
-      return;
+      return
     }
 
     if (
       step !== CheckoutStepKey.ADDRESSES &&
       currentStepIndex >= 0 &&
+      steps[0] &&
       !steps[0].completed
     ) {
-      goToStep(CheckoutStepKey.ADDRESSES);
-      return;
+      goToStep(CheckoutStepKey.ADDRESSES)
+      return
     }
 
     if (
       step !== CheckoutStepKey.DELIVERY &&
       currentStepIndex >= 1 &&
+      steps[1] &&
       !steps[1].completed
     ) {
-      goToStep(CheckoutStepKey.DELIVERY);
-      return;
+      goToStep(CheckoutStepKey.DELIVERY)
+      return
     }
 
     if (
       step !== CheckoutStepKey.PAYMENT &&
       currentStepIndex >= 2 &&
+      steps[2] &&
       !steps[2].completed
     ) {
-      goToStep(CheckoutStepKey.PAYMENT);
-      return;
+      goToStep(CheckoutStepKey.PAYMENT)
+      return
     }
-  }, [cart, steps, location]);
+  }, [cart, steps, location, currentStepIndex, step, goToStep])
 
   const handleNext = () => {
-    const nextIndex = currentStepIndex + 1;
+    const nextIndex = currentStepIndex + 1
     if (nextIndex < steps.length) {
-      goToStep(steps[nextIndex].key);
+      goToStep(steps[nextIndex].key)
     }
-  };
+  }
 
   const handleBack = () => {
-    const prevIndex = currentStepIndex - 1;
+    const prevIndex = currentStepIndex - 1
     if (prevIndex >= 0) {
-      goToStep(steps[prevIndex].key);
+      goToStep(steps[prevIndex].key)
     }
-  };
+  }
 
   return (
     <div className="content-container py-8 flex flex-col gap-8">
@@ -125,10 +128,10 @@ const Checkout = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-24">
         <div className="flex flex-col gap-1 lg:col-span-2">
           <h2 className="text-zinc-900 text-xl">
-            {steps[currentStepIndex].title}
+            {steps[currentStepIndex]?.title}
           </h2>
           <p className="text-base font-medium text-zinc-600">
-            {steps[currentStepIndex].description}
+            {steps[currentStepIndex]?.description}
           </p>
         </div>
         <div className="flex flex-col gap-1">
@@ -182,7 +185,7 @@ const Checkout = () => {
         </Suspense>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Checkout;
+export default Checkout

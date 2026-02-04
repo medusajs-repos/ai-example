@@ -1,5 +1,5 @@
 import Home from "@/pages/home"
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, notFound } from "@tanstack/react-router"
 import { getRegion } from "@/lib/data/regions"
 import { listProducts } from "@/lib/data/products"
 import { queryKeys } from "@/lib/utils/query-keys"
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/$countryCode/")({
     })
 
     if (!region) {
-      return { countryCode, region: null }
+      throw notFound()
     }
 
     // Prefetch latest products for SSR (non-blocking)

@@ -41,7 +41,7 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
     await queryClient.ensureQueryData({
       queryKey: queryKeys.products.related(product.id, region.id),
       queryFn: async () => {
-        const params: Record<string, any> = {
+        const params: HttpTypes.StoreProductListParams = {
           fields: "title, handle, *thumbnail, *variants",
           is_giftcard: false,
           limit: 4,
@@ -89,7 +89,7 @@ export const Route = createFileRoute("/$countryCode/products/$handle")({
       "@type": "Product",
       name: product.title,
       description: product.description,
-      image: product.images?.map((img: any) => img.url).filter(Boolean) || [],
+      image: product.images?.map((img) => img.url).filter(Boolean) || [],
       brand: {
         "@type": "Brand",
         name: "Medusa Store",

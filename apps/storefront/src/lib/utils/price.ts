@@ -39,7 +39,7 @@ export const getPricePercentageDiff = (original: number, calculated: number): st
 
 // ============ PRODUCT PRICE ============
 
-export const getPricesForVariant = (variant: any): {
+export const getPricesForVariant = (variant: HttpTypes.StoreProductVariant | undefined): {
   calculated_price_number: number;
   calculated_price: string;
   original_price_number: number;
@@ -48,26 +48,32 @@ export const getPricesForVariant = (variant: any): {
   price_type: string;
   percentage_diff: string;
 } | null => {
-  if (!variant?.calculated_price?.calculated_amount) {
+  const calculatedPrice = variant?.calculated_price
+  if (!calculatedPrice?.calculated_amount || !calculatedPrice.currency_code) {
     return null
   }
 
+  const calculatedAmount = calculatedPrice.calculated_amount
+  const originalAmount = calculatedPrice.original_amount ?? calculatedAmount
+  const currencyCode = calculatedPrice.currency_code
+  const priceListType = calculatedPrice.calculated_price?.price_list_type ?? ""
+
   return {
-    calculated_price_number: variant.calculated_price.calculated_amount,
+    calculated_price_number: calculatedAmount,
     calculated_price: formatPrice({
-      amount: variant.calculated_price.calculated_amount,
-      currency_code: variant.calculated_price.currency_code,
+      amount: calculatedAmount,
+      currency_code: currencyCode,
     }),
-    original_price_number: variant.calculated_price.original_amount,
+    original_price_number: originalAmount,
     original_price: formatPrice({
-      amount: variant.calculated_price.original_amount,
-      currency_code: variant.calculated_price.currency_code,
+      amount: originalAmount,
+      currency_code: currencyCode,
     }),
-    currency_code: variant.calculated_price.currency_code,
-    price_type: variant.calculated_price.calculated_price.price_list_type,
+    currency_code: currencyCode,
+    price_type: priceListType,
     percentage_diff: getPricePercentageDiff(
-      variant.calculated_price.original_amount,
-      variant.calculated_price.calculated_amount
+      originalAmount,
+      calculatedAmount
     ),
   }
 }
@@ -108,14 +114,16 @@ export function getProductPrice({
       return null
     }
 
-    const cheapestVariant: any = product.variants
-      .filter((v: any) => !!v.calculated_price)
-      .sort((a: any, b: any) => {
-        return (
-          a.calculated_price.calculated_amount -
-          b.calculated_price.calculated_amount
-        )
-      })[0]
+    const variantsWithPrice = product.variants.filter(
+      (v): v is HttpTypes.StoreProductVariant & { calculated_price: NonNullable<HttpTypes.StoreProductVariant["calculated_price"]> } =>
+        !!v.calculated_price
+    )
+    const cheapestVariant = variantsWithPrice.sort((a, b) => {
+      return (
+        (a.calculated_price.calculated_amount ?? 0) -
+        (b.calculated_price.calculated_amount ?? 0)
+      )
+    })[0]
 
     return getPricesForVariant(cheapestVariant)
   }
@@ -125,7 +133,7 @@ export function getProductPrice({
       return null
     }
 
-    const variant: any = product.variants?.find(
+    const variant = product.variants?.find(
       (v) => v.id === variant_id || v.sku === variant_id
     )
 

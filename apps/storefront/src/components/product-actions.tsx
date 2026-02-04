@@ -9,7 +9,7 @@ import { getCountryCodeFromPath } from "@/lib/utils/region"
 import { HttpTypes } from "@medusajs/types"
 import { useLocation } from "@tanstack/react-router"
 import { isEqual } from "lodash-es"
-import { useEffect, useMemo, useRef, useState, memo } from "react"
+import { memo, useEffect, useMemo, useState } from "react"
 
 type ProductActionsProps = {
   product: HttpTypes.StoreProduct;
@@ -24,34 +24,34 @@ const ProductActions = memo(function ProductActions({
 }: ProductActionsProps) {
   const [selectedOptions, setSelectedOptions] = useState<
     Record<string, string | undefined>
-  >({});
-  const location = useLocation();
-  const countryCode = getCountryCodeFromPath(location.pathname) || "dk";
+  >({})
+  const location = useLocation()
+  const countryCode = getCountryCodeFromPath(location.pathname) || "dk"
 
   const addToCartMutation = useAddToCart({
     fields: DEFAULT_CART_DROPDOWN_FIELDS,
-  });
-  const { openCart } = useCartDrawer();
-
-  const actionsRef = useRef<HTMLDivElement>(null);
+  })
+  const { openCart } = useCartDrawer()
 
   useEffect(() => {
-    setSelectedOptions({});
-  }, [product?.handle]);
+    setSelectedOptions({})
+  }, [product?.handle])
 
   // If there is only 1 variant, preselect the options
   useEffect(() => {
-    if (product?.variants?.length === 1) {
+    const variants = product?.variants
+    if (variants?.length === 1) {
+      const firstVariant = variants[0]
       const optionsKeymap = getVariantOptionsKeymap(
-        product?.variants?.[0]?.options ?? []
-      );
-      setSelectedOptions(optionsKeymap ?? {});
+        firstVariant?.options ?? []
+      )
+      setSelectedOptions(optionsKeymap ?? {})
     }
-  }, [product?.variants]);
+  }, [product?.variants])
 
   const selectedVariant = useMemo(() => {
     if (!product?.variants || product?.variants.length === 0) {
-      return;
+      return
     }
 
     // If there's only one variant and no options, select it directly
@@ -59,48 +59,51 @@ const ProductActions = memo(function ProductActions({
       product?.variants.length === 1 &&
       (!product?.options || product?.options.length === 0)
     ) {
-      return product?.variants[0];
+      return product?.variants[0]
     }
 
-    const variant = product?.variants.find((v) => {
-      const optionsKeymap = getVariantOptionsKeymap(v?.options ?? []);
-      const matches = isEqual(optionsKeymap, selectedOptions);
+    const variants = product?.variants
+    if (!variants) return
 
-      return matches;
-    });
+    const variant = variants.find((v) => {
+      const optionsKeymap = getVariantOptionsKeymap(v?.options ?? [])
+      const matches = isEqual(optionsKeymap, selectedOptions)
 
-    return variant;
-  }, [product?.variants, product?.options, selectedOptions]);
+      return matches
+    })
+
+    return variant
+  }, [product?.variants, product?.options, selectedOptions])
 
   // update the options when a variant is selected
   const setOptionValue = (optionId: string, value: string) => {
     setSelectedOptions((prev) => ({
       ...prev,
       [optionId]: value,
-    }));
-  };
+    }))
+  }
 
   //check if the selected options produce a valid variant
   const isValidVariant = useMemo(() => {
     return product?.variants?.some((v) => {
-      const optionsKeymap = getVariantOptionsKeymap(v?.options ?? []);
-      return isEqual(optionsKeymap, selectedOptions);
-    });
-  }, [product?.variants, selectedOptions]);
+      const optionsKeymap = getVariantOptionsKeymap(v?.options ?? [])
+      return isEqual(optionsKeymap, selectedOptions)
+    })
+  }, [product?.variants, selectedOptions])
 
   // check if the selected variant is in stock
   const inStock = useMemo(() => {
     // If no variant is selected, we can't add to cart
     if (!selectedVariant) {
-      return false;
+      return false
     }
 
-    return isVariantInStock(selectedVariant);
-  }, [selectedVariant]);
+    return isVariantInStock(selectedVariant)
+  }, [selectedVariant])
 
   // add the selected variant to the cart
   const handleAddToCart = async () => {
-    if (!selectedVariant?.id) return null;
+    if (!selectedVariant?.id) return null
 
     addToCartMutation.mutateAsync(
       {
@@ -113,20 +116,16 @@ const ProductActions = memo(function ProductActions({
       },
       {
         onSuccess: () => {
-          console.log("Item added to cart");
-          openCart();
-        },
-        onError: () => {
-          console.error("Failed to add item to cart");
+          openCart()
         },
       }
-    );
-  };
+    )
+  }
 
   return (
-    <div className="flex flex-col gap-y-4" ref={actionsRef}>
+    <div className="flex flex-col gap-y-4">
       <ProductPrice
-        product={product as HttpTypes.StoreProduct}
+        product={product}
         variant={selectedVariant}
         priceProps={{
           textSize: "large",
@@ -147,7 +146,7 @@ const ProductActions = memo(function ProductActions({
                   disabled={!!disabled || addToCartMutation.isPending}
                 />
               </div>
-            );
+            )
           })}
         </div>
       )}
@@ -166,7 +165,7 @@ const ProductActions = memo(function ProductActions({
             : "Add to cart"}
       </Button>
     </div>
-  );
-});
+  )
+})
 
-export default ProductActions;
+export default ProductActions

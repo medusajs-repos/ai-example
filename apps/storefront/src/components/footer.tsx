@@ -5,9 +5,9 @@ import { getCountryCodeFromPath } from "@/lib/utils/region"
 import { Link, useLocation } from "@tanstack/react-router"
 
 const Footer = () => {
-  const location = useLocation();
-  const countryCode = getCountryCodeFromPath(location.pathname);
-  const baseHref = countryCode ? `/${countryCode}` : "";
+  const location = useLocation()
+  const countryCode = getCountryCodeFromPath(location.pathname)
+  const baseHref = countryCode ? `/${countryCode}` : ""
 
   const { data: categories } = useCategories({
     fields: "name,handle",
@@ -15,11 +15,11 @@ const Footer = () => {
       parent_category_id: "null",
       limit: 3,
     },
-  });
+  })
 
   const { data: regions } = useRegions({
     fields: "id, currency_code, *countries",
-  });
+  })
 
   return (
     <footer
@@ -83,8 +83,8 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  );
-};
+  )
+}
 
 const FooterColumn = ({
   title,
@@ -126,7 +126,7 @@ const FooterColumn = ({
         ))}
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

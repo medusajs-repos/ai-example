@@ -3,7 +3,7 @@ import { Price } from "@/components/ui/price"
 import Radio from "@/components/ui/radio"
 import { calculatePriceForShippingOption } from "@/lib/utils/checkout"
 import { HttpTypes } from "@medusajs/types"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 type ShippingItemSelectorProps = {
   shippingOption: HttpTypes.StoreCartShippingOption;
@@ -20,26 +20,39 @@ const ShippingItemSelector = ({
 }: ShippingItemSelectorProps) => {
   const [calculatedPrice, setCalculatedPrice] = useState<number | undefined>(
     undefined
-  );
+  )
+  const isMounted = useRef(true)
   const isDisabled =
     shippingOption.price_type === "calculated" &&
-    typeof calculatedPrice !== "number";
+    typeof calculatedPrice !== "number"
   const price =
     shippingOption.price_type === "calculated"
       ? calculatedPrice
-      : shippingOption.amount;
+      : shippingOption.amount
 
   useEffect(() => {
+    isMounted.current = true
+
     if (shippingOption.price_type !== "calculated") {
-      return;
+      return
     }
 
     calculatePriceForShippingOption({
       option_id: shippingOption.id,
-    }).then((option) => {
-      setCalculatedPrice(option.amount);
-    });
-  }, [shippingOption.price_type]);
+    })
+      .then((option) => {
+        if (isMounted.current) {
+          setCalculatedPrice(option.amount)
+        }
+      })
+      .catch(() => {
+        // Error is handled silently - price will show loading state
+      })
+
+    return () => {
+      isMounted.current = false
+    }
+  }, [shippingOption.price_type, shippingOption.id])
 
   return (
     <label
@@ -67,9 +80,9 @@ const ShippingItemSelector = ({
                 {shippingOption.name}
               </p>
             </div>
-            {shippingOption.data?.description !== undefined && (
+            {typeof shippingOption.data?.description === "string" && (
               <p className="text-xs text-zinc-600 mt-1">
-                {shippingOption.data.description as string}
+                {shippingOption.data.description}
               </p>
             )}
           </div>
@@ -88,7 +101,7 @@ const ShippingItemSelector = ({
         </div>
       </div>
     </label>
-  );
-};
+  )
+}
 
-export default ShippingItemSelector;
+export default ShippingItemSelector

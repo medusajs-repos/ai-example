@@ -19,7 +19,7 @@ const Home = () => {
       <p className="text-zinc-600 mb-6">
         Browse our products in the store.
       </p>
-      <Link to={storeHref as string} className="text-blue-500 underline">
+      <Link to={storeHref} className="text-blue-500 underline">
         Go to Store →
       </Link>
     </div>

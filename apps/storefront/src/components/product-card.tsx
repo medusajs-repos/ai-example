@@ -9,13 +9,13 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const location = useLocation();
-  const countryCode = getCountryCodeFromPath(location.pathname);
-  const baseHref = countryCode ? `/${countryCode}` : "";
+  const location = useLocation()
+  const countryCode = getCountryCodeFromPath(location.pathname)
+  const baseHref = countryCode ? `/${countryCode}` : ""
 
   return (
     <Link
-      to={`${baseHref}/products/${product.handle}` as any}
+      to={`${baseHref}/products/${product.handle}` as string}
       className="group flex flex-col w-full"
     >
       <div className="aspect-[29/34] w-full overflow-hidden bg-zinc-50 relative">
@@ -35,7 +35,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         />
       </div>
     </Link>
-  );
-};
+  )
+}
 
-export default ProductCard;
+export default ProductCard

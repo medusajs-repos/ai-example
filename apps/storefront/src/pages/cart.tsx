@@ -11,23 +11,23 @@ import { sortCartItems } from "@/lib/utils/cart"
 import { Link, useLoaderData } from "@tanstack/react-router"
 
 const DEFAULT_CART_FIELDS =
-  "id, *items, total, currency_code, subtotal, shipping_total, discount_total, tax_total, *promotions";
+  "id, *items, total, currency_code, subtotal, shipping_total, discount_total, tax_total, *promotions"
 
 const Cart = () => {
   const { region, countryCode } = useLoaderData({
     from: "/$countryCode/cart",
-  });
+  })
   const { data: cart, isLoading: cartLoading } = useCart({
     fields: DEFAULT_CART_FIELDS,
-  });
-  const createCartMutation = useCreateCart();
+  })
+  const createCartMutation = useCreateCart()
 
   // Auto-create cart if none exists
   if (!cart && !cartLoading && !createCartMutation.isPending) {
-    createCartMutation.mutate({ region_id: region.id });
+    createCartMutation.mutate({ region_id: region.id })
   }
 
-  const cartItems = sortCartItems(cart?.items || []);
+  const cartItems = sortCartItems(cart?.items || [])
 
   return (
     <div className="content-container py-12">
@@ -42,7 +42,7 @@ const Cart = () => {
               <h1 className="text-zinc-900 text-xl">Cart</h1>
               {cartItems.length > 0 && (
                 <Link
-                  to={`/${countryCode}/store` as any}
+                  to={`/${countryCode}/store` as string}
                   className="text-zinc-600 hover:text-zinc-500 text-sm underline"
                 >
                   Continue shopping
@@ -77,7 +77,7 @@ const Cart = () => {
                 <CartPromo cart={cart} />
               </div>
 
-              <Link to={`/${countryCode}/checkout` as any}>
+              <Link to={`/${countryCode}/checkout` as string}>
                 <Button className="w-full">Checkout</Button>
               </Link>
             </div>
@@ -85,7 +85,7 @@ const Cart = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Cart;
+export default Cart
