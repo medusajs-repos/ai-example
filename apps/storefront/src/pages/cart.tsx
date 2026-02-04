@@ -42,7 +42,8 @@ const Cart = () => {
               <h1 className="text-zinc-900 text-xl">Cart</h1>
               {cartItems.length > 0 && (
                 <Link
-                  to={`/${countryCode}/store` as string}
+                  to="/$countryCode/store"
+                  params={{ countryCode }}
                   className="text-zinc-600 hover:text-zinc-500 text-sm underline"
                 >
                   Continue shopping
@@ -77,7 +78,7 @@ const Cart = () => {
                 <CartPromo cart={cart} />
               </div>
 
-              <Link to={`/${countryCode}/checkout` as string}>
+              <Link to="/$countryCode/checkout" params={{ countryCode }}>
                 <Button className="w-full">Checkout</Button>
               </Link>
             </div>

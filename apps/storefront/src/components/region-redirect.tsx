@@ -68,7 +68,7 @@ const RegionRedirect = ({
           setStoredCountryCode(countryCode)
           const newPath = buildPathWithCountryCode(currentPath, countryCode)
 
-          navigate({ to: newPath as string, replace: true })
+          navigate({ to: newPath, replace: true })
 
           const cartId = getStoredCart()
 

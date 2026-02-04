@@ -6,8 +6,7 @@ import { Link, useLocation } from "@tanstack/react-router"
 
 const Footer = () => {
   const location = useLocation()
-  const countryCode = getCountryCodeFromPath(location.pathname)
-  const baseHref = countryCode ? `/${countryCode}` : ""
+  const countryCode = getCountryCodeFromPath(location.pathname) || "us"
 
   const { data: categories } = useCategories({
     fields: "name,handle",
@@ -30,7 +29,8 @@ const Footer = () => {
         <div className="flex flex-col gap-y-12 lg:flex-row items-start justify-between py-16">
           <div className="lg:w-1/3 flex flex-col gap-y-4">
             <Link
-              to={baseHref || "/"}
+              to="/$countryCode"
+              params={{ countryCode }}
               className="text-xl font-bold text-zinc-900 hover:text-zinc-600 transition-colors w-fit"
             >
               Bloom
@@ -44,9 +44,10 @@ const Footer = () => {
             {categories && categories.length > 0 ? (
               <FooterColumn
                 title="Categories"
+                countryCode={countryCode}
                 links={categories.map((category) => ({
                   name: category.name,
-                  url: `${baseHref}/categories/${category.handle}`,
+                  handle: category.handle,
                   isExternal: false,
                 }))}
               />
@@ -88,12 +89,14 @@ const Footer = () => {
 
 const FooterColumn = ({
   title,
+  countryCode,
   links,
 }: {
   title: string;
+  countryCode: string;
   links: {
     name: string;
-    url: string;
+    handle: string;
     isExternal: boolean;
   }[];
 }) => {
@@ -104,10 +107,10 @@ const FooterColumn = ({
       </h3>
       <ul className="space-y-3">
         {links.map((link) => (
-          <li key={link.url} className="text-sm">
+          <li key={link.handle} className="text-sm">
             {link.isExternal ? (
               <a
-                href={link.url}
+                href={link.handle}
                 target="_blank"
                 rel="noreferrer"
                 className="text-zinc-600 hover:text-zinc-500 transition-colors"
@@ -116,7 +119,8 @@ const FooterColumn = ({
               </a>
             ) : (
               <Link
-                to={link.url}
+                to="/$countryCode/categories/$handle"
+                params={{ countryCode, handle: link.handle }}
                 className="text-zinc-600 hover:text-zinc-500 transition-colors"
               >
                 {link.name}

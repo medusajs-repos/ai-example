@@ -384,13 +384,13 @@ export const CartPromo = ({ cart }: CartPromoProps) => {
 
 export const CartEmpty = () => {
   const location = useLocation()
-  const countryCode = getCountryCodeFromPath(location.pathname)
+  const countryCode = getCountryCodeFromPath(location.pathname) || "us"
 
   return (
     <div className="text-center py-16 flex flex-col items-center justify-center gap-4">
       <h2 className="text-lg font-bold text-zinc-900">Your cart is empty</h2>
       <p className="text-zinc-600 text-base font-medium">Start by adding some products</p>
-      <Link to={`/${countryCode}/store` as string}>
+      <Link to="/$countryCode/store" params={{ countryCode }}>
         <Button variant="primary" size="fit">
           Continue shopping
         </Button>
@@ -408,8 +408,7 @@ export const CartDropdown = () => {
     fields: DEFAULT_CART_DROPDOWN_FIELDS,
   })
   const location = useLocation()
-  const countryCode = getCountryCodeFromPath(location.pathname)
-  const baseHref = countryCode ? `/${countryCode}` : ""
+  const countryCode = getCountryCodeFromPath(location.pathname) || "us"
 
   const sortedItems = sortCartItems(cart?.items || [])
   const itemCount = sortedItems?.reduce((total, item) => total + item.quantity, 0) || 0
@@ -433,7 +432,7 @@ export const CartDropdown = () => {
             <span className="text-base font-medium text-zinc-600 mb-4">
               Your cart is empty
             </span>
-            <Link to={`${baseHref}/store` as string} onClick={closeCart}>
+            <Link to="/$countryCode/store" params={{ countryCode }} onClick={closeCart}>
               <Button variant="secondary" size="fit">
                 Explore products
               </Button>
@@ -462,7 +461,7 @@ export const CartDropdown = () => {
                 <Price price={cart.item_subtotal} currencyCode={cart.currency_code} />
               </div>
 
-              <Link to={`${baseHref}/cart` as string} onClick={closeCart}>
+              <Link to="/$countryCode/cart" params={{ countryCode }} onClick={closeCart}>
                 <Button className="w-full" variant="primary">
                   Go to cart
                 </Button>

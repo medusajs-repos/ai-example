@@ -54,7 +54,7 @@ export { getDefaultCountryCode }
 export function buildPathWithCountryCode(currentPath: string, countryCode: string): string {
   const pathWithoutCountry = currentPath.replace(`/${countryCode}`, "") || "/"
   const searchParams = Object.keys(location.search || {}).length > 0
-    ? `?${new URLSearchParams(location.search as string).toString()}`
+    ? `?${new URLSearchParams(location.search).toString()}`
     : ""
   return `/${countryCode}${pathWithoutCountry === "/" ? "" : pathWithoutCountry}${searchParams}`
 }

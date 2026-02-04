@@ -10,8 +10,7 @@ import { getCountryCodeFromPath } from "@/lib/utils/region"
  */
 const Home = () => {
   const location = useLocation()
-  const countryCode = getCountryCodeFromPath(location.pathname)
-  const storeHref = countryCode ? `/${countryCode}/store` : "/store"
+  const countryCode = getCountryCodeFromPath(location.pathname) || "us"
 
   return (
     <div className="content-container py-12">
@@ -19,7 +18,7 @@ const Home = () => {
       <p className="text-zinc-600 mb-6">
         Browse our products in the store.
       </p>
-      <Link to={storeHref} className="text-blue-500 underline">
+      <Link to="/$countryCode/store" params={{ countryCode }} className="text-blue-500 underline">
         Go to Store →
       </Link>
     </div>

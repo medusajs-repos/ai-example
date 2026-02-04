@@ -10,12 +10,12 @@ interface ProductCardProps {
 
 const ProductCard = ({ product }: ProductCardProps) => {
   const location = useLocation()
-  const countryCode = getCountryCodeFromPath(location.pathname)
-  const baseHref = countryCode ? `/${countryCode}` : ""
+  const countryCode = getCountryCodeFromPath(location.pathname) || "us"
 
   return (
     <Link
-      to={`${baseHref}/products/${product.handle}` as string}
+      to="/$countryCode/products/$handle"
+      params={{ countryCode, handle: product.handle }}
       className="group flex flex-col w-full"
     >
       <div className="aspect-[29/34] w-full overflow-hidden bg-zinc-50 relative">

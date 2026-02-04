@@ -54,7 +54,7 @@ const StripePaymentButton = ({
 
       // Navigate to order confirmation
       navigate({
-        to: `/${countryCode}/order/${order.id}/confirmed` as string,
+        to: `/${countryCode}/order/${order.id}/confirmed`,
         replace: true,
       })
     } catch (error) {
@@ -104,7 +104,7 @@ const ManualPaymentButton = ({
 
       // Navigate to order confirmation
       navigate({
-        to: `/${countryCode}/order/${order.id}/confirmed` as string,
+        to: `/${countryCode}/order/${order.id}/confirmed`,
         replace: true,
       })
     } catch (error) {
