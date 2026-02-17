@@ -48,13 +48,23 @@ module.exports = defineConfig({
             id: "s3",
             resolve: "@medusajs/medusa/file-s3",
             is_default: true,
-            options: {
+            options: process.env.R2_FILE_URL ? {
+              file_url: process.env.R2_FILE_URL,
+              prefix: process.env.R2_PREFIX,
+              bucket: process.env.R2_BUCKET,
+              endpoint: process.env.R2_ENDPOINT,
+              region: "auto",
+              additional_client_config: {
+                forcePathStyle: false,
+                requestChecksumCalculation: "WHEN_REQUIRED",
+              },
+            } : {
               authentication_method: "s3-iam-role",
               file_url: process.env.S3_FILE_URL,
               prefix: process.env.S3_PREFIX,
-              region: process.env.S3_REGION,
               bucket: process.env.S3_BUCKET,
               endpoint: process.env.S3_ENDPOINT,
+              region: process.env.S3_REGION,
             },
           },
         ],
