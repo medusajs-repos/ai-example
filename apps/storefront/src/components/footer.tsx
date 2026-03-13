@@ -107,7 +107,7 @@ const FooterColumn = ({
       </h3>
       <ul className="space-y-3">
         {links.map((link) => (
-          <li key={link.handle} className="text-sm">
+          <li key={link.handle || link.name} className="text-sm">
             {link.isExternal ? (
               <a
                 href={link.handle}
