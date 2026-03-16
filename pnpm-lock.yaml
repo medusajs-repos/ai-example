@@ -37,8 +37,8 @@ importers:
         specifier: 2.13.4
         version: 2.13.4(@medusajs/admin-sdk@2.13.4)(@medusajs/cli@2.13.4(@types/node@20.0.0))(@medusajs/framework@2.13.4(@medusajs/cli@2.13.4(@types/node@20.0.0))(@types/node@20.0.0)(ioredis@5.8.2)(vite@5.2.11(@types/node@20.0.0)(lightningcss@1.30.2)(terser@5.44.0))(zod@4.1.12))(@medusajs/icons@2.13.4(react@19.1.1))(@medusajs/test-utils@2.13.4)(@medusajs/ui@4.1.0(@types/react-dom@19.1.1(@types/react@19.1.1))(@types/react@19.1.1)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.8.3))(@types/react-dom@19.1.1(@types/react@19.1.1))(@types/react@19.1.1)(react-dom@19.1.1(react@19.1.1))(react-router-dom@6.30.3(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(react@19.1.1)
       '@medusajs/email-preview-server':
-        specifier: ^0.0.9
-        version: 0.0.9(@opentelemetry/api@1.9.0)(@react-email/render@2.0.4(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@types/react-dom@19.1.1(@types/react@19.1.1))(@types/react@19.1.1)(typescript@5.8.3)
+        specifier: ^0.0.10
+        version: 0.0.10(@opentelemetry/api@1.9.0)(@react-email/render@2.0.4(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@types/react-dom@19.1.1(@types/react@19.1.1))(@types/react@19.1.1)(typescript@5.8.3)
       '@medusajs/framework':
         specifier: 2.13.4
         version: 2.13.4(@medusajs/cli@2.13.4(@types/node@20.0.0))(@types/node@20.0.0)(ioredis@5.8.2)(vite@5.2.11(@types/node@20.0.0)(lightningcss@1.30.2)(terser@5.44.0))(zod@4.1.12)
@@ -2034,8 +2034,8 @@ packages:
       react-router-dom:
         optional: true
 
-  '@medusajs/email-preview-server@0.0.9':
-    resolution: {integrity: sha512-UbosX3NSh5/N63O4zR8ONGKaQ2+vjUxClezVRG5dmTxWwhKMIhfmACXsuxlo+MFrtJFs5pupHbqwDMkzhDcHSA==}
+  '@medusajs/email-preview-server@0.0.10':
+    resolution: {integrity: sha512-lOlgs7pkh6DLHuGST69hggaYTg+h9k63qkhw+255OzkjQmzRoC0S5mMhXVh9u/lZmcpqH+p2VoZMuY3op3YJxg==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -12317,7 +12317,7 @@ snapshots:
       - '@types/react'
       - '@types/react-dom'
 
-  '@medusajs/email-preview-server@0.0.9(@opentelemetry/api@1.9.0)(@react-email/render@2.0.4(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@types/react-dom@19.1.1(@types/react@19.1.1))(@types/react@19.1.1)(typescript@5.8.3)':
+  '@medusajs/email-preview-server@0.0.10(@opentelemetry/api@1.9.0)(@react-email/render@2.0.4(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@types/react-dom@19.1.1(@types/react@19.1.1))(@types/react@19.1.1)(typescript@5.8.3)':
     dependencies:
       '@babel/core': 7.26.10
       '@babel/parser': 7.27.0
