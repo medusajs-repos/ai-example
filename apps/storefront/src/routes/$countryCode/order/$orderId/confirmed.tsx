@@ -1,3 +1,4 @@
+import { sanitize } from "@/lib/utils/sanitize"
 import { createFileRoute, notFound } from "@tanstack/react-router"
 import OrderConfirmationPage from "@/pages/order-confirmation"
 import { retrieveOrder } from "@/lib/data/order"
@@ -20,10 +21,10 @@ export const Route = createFileRoute("/$countryCode/order/$orderId/confirmed")({
       throw notFound()
     }
 
-    return {
+    return sanitize({
       countryCode,
       order,
-    }
+    })
   },
   component: OrderConfirmationPage,
 })

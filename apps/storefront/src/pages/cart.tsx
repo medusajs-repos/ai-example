@@ -7,6 +7,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Loading } from "@/components/ui/loading"
 import { useCart, useCreateCart } from "@/lib/hooks/use-cart"
+import { CheckoutStepKey } from "@/lib/types/global"
 import { sortCartItems } from "@/lib/utils/cart"
 import { Link, useLoaderData } from "@tanstack/react-router"
 
@@ -78,7 +79,7 @@ const Cart = () => {
                 <CartPromo cart={cart} />
               </div>
 
-              <Link to="/$countryCode/checkout" params={{ countryCode }}>
+              <Link to="/$countryCode/checkout" params={{ countryCode }} search={{ step: CheckoutStepKey.ADDRESSES }}>
                 <Button className="w-full">Checkout</Button>
               </Link>
             </div>
