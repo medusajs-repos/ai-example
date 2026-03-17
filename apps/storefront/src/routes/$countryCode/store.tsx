@@ -1,5 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router"
 import { getRegion } from "@/lib/data/regions"
+import { sanitize } from "@/lib/utils/sanitize"
 import Store from "@/pages/store"
 import { listProducts } from "@/lib/data/products"
 import { HttpTypes } from "@medusajs/types"
@@ -29,11 +30,11 @@ export const Route = createFileRoute("/$countryCode/store")({
       }),
     })
 
-    return {
+    return sanitize({
       countryCode,
       region,
       products: products as HttpTypes.StoreProduct[],
-    }
+    })
   },
   head: ({ loaderData }) => {
     const { region, countryCode } = loaderData || {}
