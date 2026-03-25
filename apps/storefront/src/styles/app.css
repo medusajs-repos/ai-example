@@ -1,7 +1,57 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Roboto+Mono:wght@400;500&display=swap");
 @import "tailwindcss";
-@config "../../tailwind.config.js";
 @import "./theme.css";
+@plugin "tailwindcss-animate";
+
+@variant dark (&:where(.dark, .dark *));
+
+@utility bg-opacity-* {
+  --tw-bg-opacity: calc(--value(integer) / 100);
+}
+
+@utility text-opacity-* {
+  --tw-text-opacity: calc(--value(integer) / 100);
+}
+
+@utility border-opacity-* {
+  --tw-border-opacity: calc(--value(integer) / 100);
+}
+
+@utility transition-width {
+  transition-property: width, margin;
+  transition-timing-function: var(--default-transition-timing-function);
+  transition-duration: var(--default-transition-duration);
+}
+
+@utility transition-height {
+  transition-property: height;
+  transition-timing-function: var(--default-transition-timing-function);
+  transition-duration: var(--default-transition-duration);
+}
+
+@utility transition-bg {
+  transition-property: background-color;
+  transition-timing-function: var(--default-transition-timing-function);
+  transition-duration: var(--default-transition-duration);
+}
+
+@utility transition-display {
+  transition-property: display, opacity;
+  transition-timing-function: var(--default-transition-timing-function);
+  transition-duration: var(--default-transition-duration);
+}
+
+@utility transition-visibility {
+  transition-property: visibility;
+  transition-timing-function: var(--default-transition-timing-function);
+  transition-duration: var(--default-transition-duration);
+}
+
+@utility transition-padding {
+  transition-property: padding-top, padding-right, padding-bottom, padding-left;
+  transition-timing-function: var(--default-transition-timing-function);
+  transition-duration: var(--default-transition-duration);
+}
 
 @layer base {
   :root {
