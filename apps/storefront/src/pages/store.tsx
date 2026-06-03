@@ -1,5 +1,6 @@
 import ProductCard from "@/components/product-card"
 import { Button } from "@/components/ui/button"
+import { FilterSidebar } from "@/components/filter-sidebar"
 import { useProducts } from "@/lib/hooks/use-products"
 import { useLoaderData } from "@tanstack/react-router"
 
@@ -11,14 +12,19 @@ import { useLoaderData } from "@tanstack/react-router"
  * - useProducts hook with region_id for pricing
  * - Infinite scroll / pagination pattern
  * - Rendering product cards with region context
+ * - Global product options filtering via FilterSidebar
  */
 const Store = () => {
-  const { region } = useLoaderData({ from: "/$countryCode/store" })
-
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } = useProducts({
-    region_id: region?.id,
-    query_params: { limit: 12 },
+  const { region, optionValueIds } = useLoaderData({
+    from: "/$countryCode/store",
   })
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } =
+    useProducts({
+      region_id: region?.id,
+      query_params: { limit: 12 },
+      optionValueIds,
+    })
 
   const products = data?.pages.flatMap((page) => page.products) || []
 
@@ -26,32 +32,38 @@ const Store = () => {
     <div className="content-container py-6">
       <h1 className="text-xl mb-6">All Products</h1>
 
-      {isFetching && products.length === 0 ? (
-        <div className="text-zinc-600">Loading...</div>
-      ) : products.length === 0 ? (
-        <div className="text-zinc-600">No products found</div>
-      ) : (
-        <>
-          {/* Product grid - minimal styling, AI agent will customize */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+      <div className="flex flex-col md:flex-row gap-8">
+        <FilterSidebar />
 
-          {/* Load more pattern */}
-          {hasNextPage && (
-            <Button
-              onClick={() => fetchNextPage()}
-              disabled={isFetchingNextPage}
-              variant="secondary"
-              className="mt-6"
-            >
-              {isFetchingNextPage ? "Loading..." : "Load More"}
-            </Button>
+        <div className="flex-1">
+          {isFetching && products.length === 0 ? (
+            <div className="text-zinc-600">Loading...</div>
+          ) : products.length === 0 ? (
+            <div className="text-zinc-600">No products found</div>
+          ) : (
+            <>
+              {/* Product grid - minimal styling, AI agent will customize */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {products.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+
+              {/* Load more pattern */}
+              {hasNextPage && (
+                <Button
+                  onClick={() => fetchNextPage()}
+                  disabled={isFetchingNextPage}
+                  variant="secondary"
+                  className="mt-6"
+                >
+                  {isFetchingNextPage ? "Loading..." : "Load More"}
+                </Button>
+              )}
+            </>
           )}
-        </>
-      )}
+        </div>
+      </div>
     </div>
   )
 }

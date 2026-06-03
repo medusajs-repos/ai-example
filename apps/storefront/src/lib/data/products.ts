@@ -1,6 +1,11 @@
 import { sdk } from "@/lib/utils/sdk"
 import { HttpTypes } from "@medusajs/types"
 
+export type StoreProductListParamsWithOptionValue =
+  HttpTypes.StoreProductListParams & {
+    option_value_id?: string | string[]
+  }
+
 /**
  * Lists products with pagination support and filtering options.
  * 
@@ -53,10 +58,12 @@ export const listProducts = async ({
   page_param = 1,
   query_params,
   region_id,
+  optionValueIds,
 }: {
   page_param?: number;
-  query_params?: HttpTypes.StoreProductListParams;
+  query_params?: StoreProductListParamsWithOptionValue;
   region_id?: string;
+  optionValueIds?: string[];
 }): Promise<{
   products: HttpTypes.StoreProduct[];
   count: number;
@@ -66,12 +73,37 @@ export const listProducts = async ({
   const _page_param = Math.max(page_param, 1)
   const offset = _page_param === 1 ? 0 : (_page_param - 1) * limit
 
+  // Merge option_value_id from explicit optionValueIds and query_params, dedupe
+  const fromQuery = query_params?.option_value_id
+  const queryIds = Array.isArray(fromQuery)
+    ? fromQuery
+    : typeof fromQuery === "string" && fromQuery.length > 0
+      ? [fromQuery]
+      : []
+  const mergedOptionValueIds = Array.from(
+    new Set([...(optionValueIds ?? []), ...queryIds])
+  )
+
+  const { option_value_id: _ignored, ...restQueryParams } = query_params ?? {}
+
+  // Ensure variants.options are present so option-value filtering UIs can match
+  const existingFields = restQueryParams.fields
+  const fields = existingFields
+    ? existingFields.includes("*variants.options")
+      ? existingFields
+      : `${existingFields}, *variants.options`
+    : "*variants.options"
+
   const response = await sdk.store.product.list({
     limit,
     offset,
     region_id,
-    ...query_params,
-  })
+    ...restQueryParams,
+    fields,
+    ...(mergedOptionValueIds.length > 0
+      ? { option_value_id: mergedOptionValueIds }
+      : {}),
+  } as HttpTypes.StoreProductListParams)
 
   const next_page = offset + limit < response.count ? _page_param + 1 : null
 

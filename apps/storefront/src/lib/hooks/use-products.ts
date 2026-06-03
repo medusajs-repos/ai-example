@@ -6,23 +6,44 @@ import { sdk } from "@/lib/utils/sdk"
 export const useProducts = ({
   query_params,
   region_id,
+  optionValueIds,
 }: {
   query_params?: HttpTypes.StoreProductListParams
   region_id?: string
+  optionValueIds?: string[]
 } = {}) => {
+  const dedupedOptionValueIds = optionValueIds
+    ? Array.from(new Set(optionValueIds))
+    : undefined
+
   return useInfiniteQuery({
-    queryKey: queryKeys.products.list(query_params, region_id),
+    queryKey: queryKeys.products.list(
+      query_params,
+      region_id,
+      dedupedOptionValueIds,
+    ),
     queryFn: async ({ pageParam }) => {
       const limit = query_params?.limit || 12
       const _page_param = Math.max(pageParam, 1)
       const offset = _page_param === 1 ? 0 : (_page_param - 1) * limit
+
+      const existingFields = query_params?.fields
+      const fields = existingFields
+        ? existingFields.includes("*variants.options")
+          ? existingFields
+          : `${existingFields}, *variants.options`
+        : "*variants.options"
 
       const response = await sdk.store.product.list({
         limit,
         offset,
         region_id,
         ...query_params,
-      })
+        fields,
+        ...(dedupedOptionValueIds && dedupedOptionValueIds.length > 0
+          ? { option_value_id: dedupedOptionValueIds }
+          : {}),
+      } as HttpTypes.StoreProductListParams)
 
       const next_page = offset + limit < response.count ? _page_param + 1 : null
 
