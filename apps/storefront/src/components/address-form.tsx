@@ -116,7 +116,7 @@ const AddressForm = ({
             id="first_name"
             type="text"
             autoComplete="given-name"
-            value={addressFormData.first_name}
+            value={addressFormData.first_name ?? ""}
             onChange={(e) => handleChange("first_name", e.target.value)}
             placeholder="First name"
           />
@@ -135,7 +135,7 @@ const AddressForm = ({
             id="last_name"
             type="text"
             autoComplete="family-name"
-            value={addressFormData.last_name}
+            value={addressFormData.last_name ?? ""}
             onChange={(e) => handleChange("last_name", e.target.value)}
             placeholder="Last name"
           />
@@ -157,7 +157,7 @@ const AddressForm = ({
           id="company"
           type="text"
           autoComplete="organization"
-          value={addressFormData.company}
+          value={addressFormData.company ?? ""}
           onChange={(e) => handleChange("company", e.target.value)}
           placeholder="Company name"
         />
@@ -173,7 +173,7 @@ const AddressForm = ({
           id="address_1"
           type="text"
           autoComplete="street-address"
-          value={addressFormData.address_1}
+          value={addressFormData.address_1 ?? ""}
           onChange={(e) => handleChange("address_1", e.target.value)}
           placeholder="Address line 1"
         />
@@ -190,7 +190,7 @@ const AddressForm = ({
           name="address_2"
           id="address_2"
           type="text"
-          value={addressFormData.address_2}
+          value={addressFormData.address_2 ?? ""}
           onChange={(e) => handleChange("address_2", e.target.value)}
           placeholder="Address line 2"
         />
@@ -207,7 +207,7 @@ const AddressForm = ({
             id="city"
             type="text"
             autoComplete="address-level2"
-            value={addressFormData.city}
+            value={addressFormData.city ?? ""}
             onChange={(e) => handleChange("city", e.target.value)}
             placeholder="City"
           />
@@ -224,7 +224,7 @@ const AddressForm = ({
             id="province"
             type="text"
             autoComplete="address-level1"
-            value={addressFormData.province}
+            value={addressFormData.province ?? ""}
             onChange={(e) => handleChange("province", e.target.value)}
             placeholder="State / Province"
           />
@@ -238,7 +238,7 @@ const AddressForm = ({
             id="postal_code"
             type="text"
             autoComplete="postal-code"
-            value={addressFormData.postal_code}
+            value={addressFormData.postal_code ?? ""}
             onChange={(e) => handleChange("postal_code", e.target.value)}
             placeholder="Postal code"
           />
@@ -260,7 +260,7 @@ const AddressForm = ({
         </label>
         <Select
           name="country_code"
-          value={addressFormData.country_code}
+          value={addressFormData.country_code ?? ""}
           onValueChange={(value) => handleChange("country_code", value)}
         >
           <SelectTrigger className="!border-zinc-200 !rounded-none !text-base !font-medium !px-4 !py-2 !h-auto !shadow-none !ring-0 focus:!ring-0">
@@ -291,7 +291,7 @@ const AddressForm = ({
           id="phone"
           type="tel"
           autoComplete="tel"
-          value={addressFormData.phone}
+          value={addressFormData.phone ?? ""}
           onChange={(e) => handleChange("phone", e.target.value)}
           placeholder="Phone number"
         />
